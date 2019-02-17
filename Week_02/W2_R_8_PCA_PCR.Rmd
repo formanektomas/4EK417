@@ -1,0 +1,245 @@
+---
+title: "Principal Components Regression"
+output:
+  html_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+set.seed(2)
+require(knitr)
+require(plotly)
+require(ggplot2)
+require(pls)
+require(ISLR)
+require(psych)
+```
+
+## Data
+
+```{r}
+Hitters <- Hitters
+str(Hitters)
+sum(is.na(Hitters$Salary))
+Hitters <- na.omit(Hitters)
+```
+
+## Model/task description
+
+We will use the data included in the Hitters dataset to predict players' **Salary** (our dependent variable) by means of PCR.
+
+
+## Dataset description
+
+
+| Variable   | Description                                                                         |   |
+|------------|-------------------------------------------------------------------------------------|---|
+| AtBat      |  Number of times at bat in 1986                                                     |   |
+| Hits       |  Number of hits in 1986                                                             |   |
+| HmRun      |  Number of home runs in 1986                                                        |   |
+| Runs       |  Number of runs in 1986                                                             |   |
+| RBI        |  Number of runs batted in in 1986                                                   |   |
+| Walks      |  Number of walks in 1986                                                            |   |
+| Years      |  Number of years in the major   leagues                                             |   |
+| CAtBat     |  Number of times at bat during his   career                                         |   |
+| CHits      |  Number of hits during his career                                                   |   |
+| CHmRun     |  Number of home runs during his   career                                            |   |
+| CRuns      |  Number of runs during his career                                                   |   |
+| CRBI       |  Number of runs batted in during   his career                                       |   |
+| Cwalks     |  Number of walks during his career                                                  |   |
+| League     |  A factor with levels A and N   indicating player's league at the end of 1986       |   |
+| Division   |  A factor with levels E and W   indicating player's division at the end of 1986     |   |
+| PutOuts    |  Number of put outs in 1986                                                         |   |
+| Assists    |  Number of assists in 1986                                                          |   |
+| Errors     |  Number of errors in 1986                                                           |   |
+| Salary     |  1987 annual salary on opening day   in thousands of dollars                        |   |
+| NewLeague  |  A factor with levels A and N   indicating player's league at the beginning of 1987 |   |
+
+
+### Encoding of factors into binary variables
+
+```{r}
+mat <- Hitters[,-19] # exclude salary
+unique(mat$Division) #E W
+unique(mat$NewLeague) #A N
+unique(mat$League) #A N
+# encoding factors 
+mat$Division <- as.numeric(mat$Division=="E")
+mat$NewLeague <- as.numeric(mat$NewLeague=="A")
+mat$League <- as.numeric(mat$League=="A")
+mat <- as.matrix(mat)
+dim(mat) # Matrix of regressors
+```
+
+
+## Principal Component Analysis
+
+
+
+### KMO test
+
+KMO 
+
+* KMO > .9 is marvelous, 
+* KMO in the .80s, mertitourious, 
+* KMO in the .70s, middling,  
+* KMO in the .60s, medicore, 
+* KMO in the 50s, miserable, and 
+* KMO less than .5, unacceptable... PCA not relevant.
+
+```{r}
+KMO(mat)
+```
+
+
+### PCA using the `{stats}` function `prcomp()`.
+
+Note the `center=T` (default) and  `scale = T` arguments 
+
+```{r}
+pca <- prcomp(mat, center = T, scale = T)
+summary(pca)
+names(pca) # see help for detailed information
+```
+Eigenvalues in the first four components are > 1.
+
+
+### Loading vectors phi_1 to phi_4
+```{r}
+pca$rotation[,1:4]
+```
+
+
+### The sum of all phi_{jm}^2 = 1 , phi vectors are orthogonal:
+
+
+(shown for principal components 1 - 10)
+```{r}
+round(t(pca$rotation[,1:10]) %*% pca$rotation[,1:10], 5)
+```
+
+
+### PCA plot
+```{r}
+screeplot(pca, type="lines")
+abline(h=1, col="red")
+```
+
+
+### Principal components 1 to 4, individuals 1 to 10 (*Z* vectors)
+```{r}
+pca$x[1:10,1:4]
+```
+
+
+### Supporting plot: shows Salary on the plain of the first two components
+```{r}
+gdta <- data.frame(Salary=Hitters$Salary,PC1=pca$x[,1],PC2=pca$x[,2])
+gdta$Name <- row.names(Hitters)
+ggplotly(
+  ggplot(gdta)+
+    geom_point(aes(PC1,PC2,color=Salary))+
+    scale_colour_gradient(low="red",high="green")+
+    xlab("PC1")+
+    ylab("PC2"),
+  tooltip = c("Salary")
+  )
+
+```
+
+
+
+
+# Principal Component Regression
+
+We may simply do OLS on the PCA-generated principal components:
+````{r}
+summary(lm(Hitters$Salary ~ pca$x[,1:4]))
+```
+
+
+## However, it is more convenient to use specialized PCR functions: 
+
+
+e.g. `pcr()` from the `{pls}` package.
+
+```{r}
+pcr.fit <- pcr(Salary~., data=Hitters, scale=TRUE,validation="CV")
+pcr.fit
+summary(pcr.fit)
+# pcr.cv <- crossval(pcr.fit, segments = 10)
+# plot(MSEP(pcr.cv), legendpos="topright")
+# summary(pcr.cv, what = "validation")
+```
+
+### We may perform the CV-based selection of components to be used in PCR as:
+
+```{r}
+selectNcomp(pcr.fit, method = "onesigma", plot = TRUE)
+```
+
+
+### For quick illustration of features of the PCR-estimated model, we use `ncomp = 4` 
+
+
+(although CV suggests only one PC for regression)
+```{r}
+pcr.fit.4 <- pcr(Salary~., data=Hitters, scale=TRUE, ncomp=4)
+summary(pcr.fit.4)
+loadings(pcr.fit.4)[,1:4] # compare with:  pca$rotation[,1:4] ...above
+```
+
+
+### Fitted values from PCR (regression on PC1 only)
+
+```{r}
+pcr.predictions <- predict(pcr.fit, Hitters[1:100,], ncomp=1, type="response")
+head(cbind(Hitters$Salary[1:100], pcr.predictions))
+predplot(pcr.fit, ncomp = 1, newdata = Hitters[1:100,], asp = 1, line = TRUE)
+```
+
+
+
+## "True" prediction efficiency of the PCR estimation
+
+
+To assess PCR vs OLS prediction efficiency, we shall split "Hitters" data.frame  into a train sample (model estimation) and test sample (to calculate and compare Salary predictions)
+
+
+### Split the data to train and test subsamples
+```{r}
+set.seed(1)
+train <- sample(c(TRUE,FALSE), nrow(Hitters),rep=TRUE)
+test <- (!train)
+```
+
+### Calculate test-sample MSE for OLS
+```{r}
+ols.fit <- lm(Salary~., data=Hitters, subset=train)
+summary(ols.fit)
+ols.fitted <- predict(ols.fit, newdata=Hitters[test==T,])
+MSE.ols <- mean((ols.fitted - Hitters$Salary[test==T])^2)
+```
+
+### Calculate test-sample MSE for PCR (1 and 4 components)
+```{r}
+set.seed(10)
+pcr.fit2 <- pcr(Salary~., data=Hitters, subset=train, scale=TRUE, validation="CV")
+pcr.pred2.1.comp <- predict(pcr.fit2, Hitters[test==T, ], ncomp=1, type="response")
+MSE.pcr.1.c <- mean((pcr.pred2.1.comp - Hitters$Salary[test==T])^2)
+pcr.pred2.4.comp <- predict(pcr.fit2, Hitters[test==T, ], ncomp=4, type="response")
+MSE.pcr.4.c <- mean((pcr.pred2.4.comp - Hitters$Salary[test==T])^2)
+```
+
+### Compare MSE values
+```{r}
+MSE.ols # Test MSE for the OLS model
+MSE.pcr.1.c # Test MSE for the PCR model, 1 component
+MSE.pcr.4.c # Test MSE for the PCR model, 4 components
+```
+
+
+
+----
+
+**Note:** The train sample / test sample setup as shown here is arbitrary and potentially not-representative. Better evaluation/comparison can be performed through k-Fold Cross Validation.

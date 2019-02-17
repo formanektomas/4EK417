@@ -3,9 +3,9 @@ title: "Eurostat database and package"
 output: html_document
 ---
 
-### `{eurostat}` R package
+### `{eurostat}` 
 
-R tools to access open data from [Eurostat](http://ec.europa.eu/eurostat). 
+`{eurostat}` R package provides tools to access open data from [Eurostat](http://ec.europa.eu/eurostat): 
 
 * data search, 
 * download, 
@@ -34,13 +34,13 @@ install.packages("eurostat")
 
 | Command              | Description                                          |
 |----------------------|------------------------------------------------------|
-| `get_eurostat_toc()` | Download Table of Contents of Eurostat Data Sets     |  
-| `search_eurostat()`  | Grep Datasets Titles from Eurostat                   |  
-| `get_eurostat()`     | Read Eurostat Data                                   |  
+| `get_eurostat_toc()` | Download table of contents of Eurostat datasets     |  
+| `search_eurostat()`  | Retrieve (grep) datasets titles from Eurostat                   |  
+| `get_eurostat()`     | Read Eurostat data                                   |  
 |                      |                                                      |
-| `label_eurostat()`   | Get Eurostat Codes                                   |  
+| `label_eurostat()`   | Get Eurostat code descriptions                       |  
 |                      |                                                      |
-| `get_eurostat_geospatial()`   | Download Geospatial Data from GISGO         |  
+| `get_eurostat_geospatial()`   | Download geospatial data from GISGO         |  
 
 
 --- 
@@ -67,11 +67,13 @@ str(toc,list.len = 10) # only few items listed
 
 With `search_eurostat()`, you can search the table of contents for particular patterns. 
 
-* e.g. for Unemployment at NUTS 2 level.
+* *regex*: R regular expression syntax is used
+
+* e.g. we search for Unemployment at NUTS 2 level.
 
 
 ```{r}
-# kable() generates tabular output in Rmd files
+# kable() generates tabular (formatted) output in Rmd files
 kable(search_eurostat(".*unemployment.*rates.*NUTS", fixed=F))
 kable(search_eurostat(".*Unemployment.*rates.*NUTS", fixed=F))
 ```
@@ -123,6 +125,12 @@ head(Un.DF.l,10)
 summary(Un.DF.l)
 ```
 
+Also, codes and their "descriptions" can be shown side-by-side:
+
+```{r}
+head(kable(cbind(as.character(unique(Un.DF$geo)),as.character(unique(Un.DF.l$geo)))),17)
+```
+
 ---
 
 ## Data handling
@@ -136,11 +144,11 @@ write.csv(Un.DF, "_dataW02/Unemployment.csv", row.names = F)
 
 ----
 
-We can use `{tidyverse}` functions to filter and plot data. 
+We can use `{tidyverse}` and `{ggplot2}` functions to filter and plot data. 
 
 **Example 1: **
 
-* `Y15-74` i.e.  *From 15 to 74 years*  
+* `Y15-74` i.e. age group *from 15 to 74 years*  
 * Select data 2010 and newer  
 * Total unemployment only (no M/F/T) structure  
 * Select only: Austria, Czech Republic, Germany, Hungary, Poland, Slovakia  
@@ -151,7 +159,7 @@ We can use `{tidyverse}` functions to filter and plot data.
 ```{r}
 Un.DF %>% 
   filter(age == "Y15-74", time >= 2010, sex == "T") %>%
-  subset(geo == "AT" | geo == "CZ" | geo == "DE" | geo == "HU" | geo == "PL" | geo == "SK") %>% 
+  subset(geo %in% c("AT","CZ","DE","HU","PL","SK")) %>% 
   ggplot(aes(x = time, y = values, colour = geo))+
     geom_line()+
     ggtitle("Unemployment rates")+
@@ -163,7 +171,7 @@ Un.DF %>%
 
 **Example 2: **
 
-* `Y15-74` i.e.  *From 15 to 74 years*  
+* `Y15-74` i.e. age group *from 15 to 74 years*  
 * Select data for 2017  
 * Total unemployment only (no M/F/T)  
 * NUTS 2  
@@ -178,7 +186,7 @@ Un.2016 <- Un.DF %>%
   filter(age == "Y15-74", time == 2017, sex == "T") %>% # filter variables, year, sex
   filter(nchar(as.character(geo)) == 4) %>% # NUTS2 regions have a 4-digit id
   mutate(NUTS0 = substr(as.character(geo), start=1, stop=2)) %>% # retrieve NUTS0 id from NUTS2
-  filter(NUTS0=="AT" | NUTS0=="CZ" | NUTS0=="DE" | NUTS0=="HU" | NUTS0=="PL" | NUTS0=="SK")
+  subset(NUTS0 %in% c("AT","CZ","DE","HU","PL","SK")) 
 # Join Unemployment data with "map data"
 map_data <- inner_join(geodata, Un.2016)
 # plot the data
