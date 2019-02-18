@@ -48,6 +48,7 @@ install.packages("eurostat")
 ## Search Eurostat for data
 
 ```{r, echo=T, message=F}
+options(readr.default_locale=readr::locale(tz="Europe/Berlin"))
 require(eurostat)
 require(knitr)
 require(tidyr)
