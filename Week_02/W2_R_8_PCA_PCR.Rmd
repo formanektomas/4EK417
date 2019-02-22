@@ -101,16 +101,18 @@ pca <- prcomp(mat, center = T, scale = T)
 summary(pca)
 names(pca) # see help for detailed information
 ```
-Eigenvalues in the first four components are > 1.
+
 
 
 ### Loading vectors phi_1 to phi_4
 ```{r}
 pca$rotation[,1:4]
+# Eigenvalues in the first four components are > 1.
+pca$sdev
 ```
 
 
-### The sum of all phi_{jm}^2 = 1 , phi vectors are orthogonal:
+### For each of the $z_m$ components, $\sum_{j=1}^p\phi_{jm}^2 = 1$ , and $\phi$ vectors are orthogonal:
 
 
 (shown for principal components 1 - 10)
@@ -126,7 +128,9 @@ abline(h=1, col="red")
 ```
 
 
-### Principal components 1 to 4, individuals 1 to 10 (*Z* vectors)
+### Principal components 1 to 4, individuals 1 to 10 (*Z* vectors)  
+
+
 ```{r}
 pca$x[1:10,1:4]
 ```
@@ -167,9 +171,9 @@ e.g. `pcr()` from the `{pls}` package.
 pcr.fit <- pcr(Salary~., data=Hitters, scale=TRUE,validation="CV")
 pcr.fit
 summary(pcr.fit)
-# pcr.cv <- crossval(pcr.fit, segments = 10)
-# plot(MSEP(pcr.cv), legendpos="topright")
-# summary(pcr.cv, what = "validation")
+pcr.cv <- crossval(pcr.fit, segments = 10)
+plot(MSEP(pcr.cv), legendpos="topright")
+summary(pcr.cv, what = "validation")
 ```
 
 ### We may perform the CV-based selection of components to be used in PCR as:
@@ -196,14 +200,16 @@ loadings(pcr.fit.4)[,1:4] # compare with:  pca$rotation[,1:4] ...above
 pcr.predictions <- predict(pcr.fit, Hitters[1:100,], ncomp=1, type="response")
 head(cbind(Hitters$Salary[1:100], pcr.predictions))
 predplot(pcr.fit, ncomp = 1, newdata = Hitters[1:100,], asp = 1, line = TRUE)
+# You can see that the benefit from adding 3 additional components is ver small:
+predplot(pcr.fit, ncomp = 4, newdata = Hitters[1:100,], asp = 1, line = TRUE)
 ```
 
 
 
-## "True" prediction efficiency of the PCR estimation
+## Illustration of prediction efficiency of the PCR estimation
 
 
-To assess PCR vs OLS prediction efficiency, we shall split "Hitters" data.frame  into a train sample (model estimation) and test sample (to calculate and compare Salary predictions)
+To assess PCR vs OLS prediction efficiency, we shall split "Hitters" data.frame  into a train sample (model estimation) and test sample (to calculate and compare Salary predictions) at random, approx. 50/50.
 
 
 ### Split the data to train and test subsamples

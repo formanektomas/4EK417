@@ -1,5 +1,5 @@
 ---
-title: "Ridge Regression"
+title: "Ridge/lasso/elastic net regression"
 output:
   html_document: default
 ---
@@ -21,7 +21,7 @@ Hitters <- Hitters
 str(Hitters)
 sum(is.na(Hitters$Salary))
 Hitters <- na.omit(Hitters) # here, complete cases analysis is performed 
-# N59 A values are in the dependent variable column (Salary) only.
+# NA values are in the dependent variable column (Salary) only.
 ```
 ## Model/task description
 
@@ -44,8 +44,8 @@ We will use the data included in the Hitters dataset to predict players' **Salar
 | CRuns      |  Number of runs during his career                                                   |   |
 | CRBI       |  Number of runs batted in during   his career                                       |   |
 | Cwalks     |  Number of walks during his career                                                  |   |
-| League     |  A factor with levels A and N   indicating player’s league at the end of 1986       |   |
-| Division   |  A factor with levels E and W   indicating player’s division at the end of 1986     |   |
+| League     |  A factor with levels A and N   indicating player's league at the end of 1986       |   |
+| Division   |  A factor with levels E and W   indicating player's division at the end of 1986     |   |
 | PutOuts    |  Number of put outs in 1986                                                         |   |
 | Assists    |  Number of assists in 1986                                                          |   |
 | Errors     |  Number of errors in 1986                                                           |   |
@@ -62,7 +62,9 @@ We will use the data included in the Hitters dataset to predict players' **Salar
 ## Data preparation (for ridge, lasso and elastic net penalties):
 
 
-`model.matrix()` is from the `{stats}` package,
+`model.matrix()` is from the `{stats}` package, 
+
+* Factors are expanded to a set of dummy variables.
 
 
 `glmnet()` function from the `{glmnet}` package needs regression input in matrix $\mathbf{X}$ and vector $\mathbf{y}$ form.
@@ -81,9 +83,9 @@ The function `glmnet()` performs the **elastic net** estimation.
 **Elastic net** is based on a general formula that encompasses both lasso and ridge regression
 
 
-* alpha = 0 - ridge regression
-* alpha = 1 - lasso regression
-* 0 < alpha < 1 - elastic net regression
+* alpha = 0 for ridge regression
+* alpha = 1 for lasso regression
+* 0 < alpha < 1 for elastic net regression
 
 
 For illustration, we estimate model for lambda < 0.001 , 10^7 > 
@@ -106,7 +108,7 @@ plot(ridge.mod, xvar="lambda", label=TRUE)
 Coefficient value plot as a function of log of lambda. `glmnet()` estimates multiple models on a grid of values of lambda.
 
 
-When log of lambda is 12, all the coefficients are essentially zero. Then as we relax the lambda restriction parameter, the coefficients grow away from zero in a nice smooth way, and the sum of squares of the coefficients is getting bigger and bigger until we reach a point where lambda is effectively zero, and the coefficients are unregularized (equal to OLS from `lm()`, up to rounding errors).
+When log of lambda is 12 ($\lambda$ is large), all the $\beta_j$ coefficients are essentially zero. Then as we relax the lambda restriction parameter, the coefficients grow away from zero in a smooth way, and the sum of squares of the coefficients is getting bigger and bigger until we reach a point where lambda is effectively zero, and the coefficients are unregularized (equal to OLS from `lm()`, up to rounding errors).
 
 ## Sample coefficients for different lambda values:
 
@@ -117,6 +119,9 @@ When log of lambda is 12, all the coefficients are essentially zero. Then as we 
 ridge.mod$lambda[3]
 log(ridge.mod$lambda[3])
 coef(ridge.mod)[,3]
+# Note that the intercept is not restricted and its estimated value
+# is very close to the sample mean of the dependent variable
+mean(Hitters$Salary)
 ```
 **Lower lambda**
 ```{r}
@@ -128,26 +133,28 @@ coef(ridge.mod)[,80]
 
 ## Model selection by cross-validation
 
-Ridge regression gives a whole *path of models* and we need to pick one. 
+* Ridge regression `glmnet()` gives a whole *path of models* and we need to pick one. 
 
-glmnet's got a built-in function, called `CV.glmnet`, that will do cross validation
+* `{glmnet}` has a built-in function `CV.glmnet()` that will do cross validation:
 
 
 ```{r}
-cv.ridge <- cv.glmnet(x,y,alpha=0)
+cv.ridge <- cv.glmnet(x,y,lambda=grid,alpha=0)
 plot(cv.ridge)
 ```
 
 With high lambda (right hand side of the plot), the mean squared error (*MSE*) is very high and the coefficients are restricted to be small. 
 
 
-For lower lambda values, at some point, the *MSE* kind of levels off. The plot seems to indicate that the full model is doing a good job.
+For lower lambda values, at some point, the *MSE* kind of levels off. The plot seems to indicate that the full model is doing a good job (we might go for the "full" OLS, instead of parameter shrinkage).
 
-* Note the two two vertical lines. One is at the minimum *MSE* and the other vertical line is within one standard error of the minimum. (for lambda with minimum MSE, use: `s=lambda.min`)
+* Note the two two vertical lines. One is at the minimum *MSE* and the other vertical line corresponds to a more restricted model (higher $\lambda$) that is within one standard error of the minimum. 
 
-* The second line is a more restricted model that does almost as well as the minimum, and sometimes we'll go for that - the model for the largest value of lambda such that error is within 1 standard error of the minimum. (for this lambda, use: `s=lambda.1se`)
+* To select model at lambda with minimum MSE, use: `s=lambda.min` (coefficient extraction)
 
-* At the top of the plot, you can see how many non-zero variables coefficients are in the model. There's all 20 variables in the model (19 variables plus the intercept) and no coefficient is zero (as we are doing ridge regression, regressors are not turned off).
+* For the largest value of $\lambda$ such that error is within 1 standard error of the minimum, use: `s=lambda.1se` (model is more restricted, hence less prediction variance)
+
+* At the top of the plot, you can see how many non-zero variables coefficients are in the model. Here, there's all 20 variables in the model (19 variables plus the intercept) and no coefficient is zero (as we are doing ridge regression, regressors are not turned off).
 
 ## Coefficient extraction
 
@@ -205,7 +212,9 @@ As lambda values increase, different coefficients are shrunken or turned off.
 ## Model selection by cross-validation
 
 ```{r}
-cv.lasso <- cv.glmnet(x,y,alpha=1)
+cv.lasso <- cv.glmnet(x,y,lambda=grid,alpha=1)
+# you can remove the `lambda=grid` argument and cv.glment() selects a restricted (reasonalbe) 
+# lambda range
 plot(cv.lasso)
 ```
 
@@ -254,7 +263,7 @@ plot(EN.mod, xvar="lambda", label=TRUE)
 ## Model selection by cross-validation
 
 ```{r}
-cv.EN <- cv.glmnet(x,y,alpha=0.5)
+cv.EN <- cv.glmnet(x,y,lambda=grid,alpha=0.5)
 plot(cv.EN)
 ```
 
