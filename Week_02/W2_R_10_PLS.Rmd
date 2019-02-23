@@ -1,0 +1,223 @@
+---
+title: "Partial Least Squares Regression"
+output:
+  html_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+set.seed(2)
+require(knitr)
+require(plotly)
+require(ggplot2)
+require(pls)
+require(ISLR)
+require(psych)
+```
+
+## Data
+
+```{r}
+Hitters <- Hitters
+str(Hitters)
+sum(is.na(Hitters$Salary))
+Hitters <- na.omit(Hitters)
+```
+
+## Model/task description
+
+We will use the data included in the Hitters dataset to predict players' **Salary** (our dependent variable) by means of PLS.
+
+
+## Dataset description
+
+
+| Variable   | Description                                                                         |   |
+|------------|-------------------------------------------------------------------------------------|---|
+| AtBat      |  Number of times at bat in 1986                                                     |   |
+| Hits       |  Number of hits in 1986                                                             |   |
+| HmRun      |  Number of home runs in 1986                                                        |   |
+| Runs       |  Number of runs in 1986                                                             |   |
+| RBI        |  Number of runs batted in in 1986                                                   |   |
+| Walks      |  Number of walks in 1986                                                            |   |
+| Years      |  Number of years in the major   leagues                                             |   |
+| CAtBat     |  Number of times at bat during his   career                                         |   |
+| CHits      |  Number of hits during his career                                                   |   |
+| CHmRun     |  Number of home runs during his   career                                            |   |
+| CRuns      |  Number of runs during his career                                                   |   |
+| CRBI       |  Number of runs batted in during   his career                                       |   |
+| Cwalks     |  Number of walks during his career                                                  |   |
+| League     |  A factor with levels A and N   indicating player's league at the end of 1986       |   |
+| Division   |  A factor with levels E and W   indicating player's division at the end of 1986     |   |
+| PutOuts    |  Number of put outs in 1986                                                         |   |
+| Assists    |  Number of assists in 1986                                                          |   |
+| Errors     |  Number of errors in 1986                                                           |   |
+| Salary     |  1987 annual salary on opening day   in thousands of dollars                        |   |
+| NewLeague  |  A factor with levels A and N   indicating player's league at the beginning of 1987 |   |
+
+
+## Data preparation (for PLS regression):
+
+
+`model.matrix()` is from the `{stats}` package, 
+
+* Factors are expanded to a set of dummy variables.
+
+
+`plsr()` function from the `{pls}` package needs regression input in matrix $\mathbf{X}$ and vector $\mathbf{y}$ form.
+
+```{r}
+X <-  model.matrix(Salary~., Hitters)[ , -1]
+y <- Hitters$Salary
+```
+
+
+## Partial least squares regression
+
+* regression formula is provided `y ~ X`  
+* number of components used in the regression  
+* $k$FCV validation (`CV` or `LOO` may be used)  
+* classical orthogonal scores algorithm (`method = "oscorespls"`) is chosen (other methods are available).
+* use scaling of the variables
+
+
+#### The number of components used in PLS may be established as follows
+
+```{r}
+PLS1 <- plsr(y ~ X, ncomp = 10, validation = "CV", method = "oscorespls", scale=T)
+summary(PLS1)
+```
+
+
+* The validation results here are **Root Mean Squared Error of Prediction (RMSEP)**. 
+
+* `CV` is the ordinary CV estimate, 
+* `adjCV` is a [bias-corrected CV estimate.](https://onlinelibrary.wiley.com/doi/abs/10.1002/cem.887) 
+
+--- 
+
+It is often simpler to judge the RMSEPs by plotting them:
+
+```{r}
+plot(RMSEP(PLS1), legendpos = "topright")
+```
+
+---
+
+Once the number of components has been chosen, one can inspect different aspects of the fit by plotting predictions, scores, loadings, etc.
+
+```{r}
+# Prediction plot:
+plot(PLS1, ncomp = 1, asp = 1, line = TRUE)
+# For comparison, if predictions are based on 4 components
+plot(PLS1, ncomp = 4, asp = 1, line = TRUE)
+#
+# Other summarizing/informative plots may be shown using the "plottype" argument
+# 
+# Score plots are often used to look for patterns, groups or outliers in the data:
+#    The numbers in parentheses are the relative amount of X matrix
+#    variance explained by each component. 
+plot(PLS1, plottype = "scores", comps = 1:4)
+#
+#The explained variances in X can be extracted explicitly:
+explvar(PLS1)[1:4]
+#
+# The loading plot is used for interpretation purposes, 
+# for instance to look for known spectral peaks or profiles
+plot(PLS1, "loadings", comps = 1:4, legendpos = "bottomleft",xlab = "X-matrix variables (column id)")
+abline(h = 0)
+```
+
+--- 
+
+### Predictions from PLS-estimated models are available:
+
+```{r}
+Pred1<- predict(PLS1, ncomp = 1)
+# Note: if you increase "ncomp", variability of predictions increases.
+cbind(Hitters$Salary,Pred1)[1:10,]
+```
+
+--- 
+
+### Componet selection through CV may be performed using a summary plot 
+
+(Almost the same way as in PCR):
+
+
+```{r}
+Data1 <- data.frame(y1 = I(matrix(y,nrow = 263)), X1=I(matrix(X,nrow = 263)))
+str(Data1)
+PLS2 <- plsr(y1 ~ X1, ncomp = 10, validation = "CV", method = "oscorespls", scale=T, data = Data1)
+# note that selectNcomp() requires "data=Data.Frame.Name" argument in the plsr() 
+# ... and note how the matrix X is part of the Data1 dataframe
+selectNcomp(PLS2, method = "onesigma", plot = TRUE)
+```
+---- 
+
+## Quick exercise:
+
+* Use PLS to predict **house prices** using the `Hedonic` dataset from `{Ecdat}` package:
+
+```{r, echo=F, warning=F, include=F}
+require(Ecdat)
+```
+
+#### Dataset preparation
+
+```{r}
+mydataset <- Hedonic
+# ?Hedonic
+# mv (median value of owner–occupied homes) is our dependent variable
+X.train <-  model.matrix(mv~., mydataset)[1:500 , -1]
+y.train <- mydataset$mv[1:500]
+X.test  <- model.matrix(mv~., mydataset)[501:506 , -1]
+y.test  <- mydataset$mv[501:506]
+#
+# Combine y and X into a data.frame object
+DF.train <- data.frame(y = I(matrix(y.train,nrow = 500)), X=I(matrix(X.train,nrow = 500)))
+DF.test  <- data.frame(y = I(matrix(y.test,nrow = 6)), X=I(matrix(X.test,nrow = 6)))
+str(DF.train)
+str(DF.test)
+```
+
+#### Task 1 
+
+* Estimate the `pslr()` object, use a maximum of 8 components
+* Use the `data=DF.train` argument
+
+```{r}
+# HousePLS <- pslr()
+```
+
+
+#### Task 2 
+
+* Use the `selectNcomp()` to choose an optimal number of components
+
+```{r}
+# 
+```
+
+
+#### Task 3 
+
+* Plot loading for the first 3 components
+
+```{r}
+# 
+```
+
+
+#### Task 4 
+
+* Use the estimated model to predict house prices ("mv") for the test sample
+* .. You need to use the `newdata=` argument
+* Use cbind to show actual and predicted values 
+
+```{r}
+# Pred.mv <- 
+# cbind()
+```
+
+
