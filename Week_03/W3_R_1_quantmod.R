@@ -4,7 +4,8 @@
 require("dplyr")
 require("quantmod") # install.packages("quantmod")
 help(package="quantmod")
-#
+# http://www.quantmod.com/
+# .. for additional documentation and examples
 #
 #
 ## Example 1: load and describe Apple market data from Yahoo 

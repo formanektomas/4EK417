@@ -157,14 +157,18 @@ LRM.mice <- with(imputed.data, lm(lwage~educ+tenure+female+south))
 LRM.mice
 ?pool
 pool(LRM.mice)
+# estimate	 Pooled complete data estimate
+# ubar	     Within-imputation variance of estimate
+# b	         Between-imputation variance of estimate
+# t	         Total variance, of estimate (used for st. error and t-values)
+# dfcom	     Degrees of freedom in complete data
+# df	       Degrees of freedom of $t$-statistic
+# riv	       Relative increase in variance
+# lambda	   Proportion of the total variance attributable to the missingness
+# fmi	       Fraction of missing information, defined in Rubin (1987)
+# ?mipo      #..for additional information on the output
 LRM.MI <- summary(pool(LRM.mice)) 
 LRM.MI
-# .. fmi - fraction of missing information as defined in Rubin (1987)
-#    .. Rubin (1987). Multiple Imputation for Nonresponse in Surveys. 
-#       John Wiley & Sons, New York.
-# .. lambda - proportion of the total variance that is attributable to the missing data.
-# .. riv - Relative increase in variance
-# ?mipo # for additional information on the output
 # 
 #
 #
