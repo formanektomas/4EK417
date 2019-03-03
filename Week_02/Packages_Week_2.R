@@ -26,8 +26,6 @@ install.packages("cvTools", dependencies = T)
 #
 install.packages("leaps", dependencies = T)
 #
-install.packages(c("MASS", "glmpath"), dependencies = T)
-#
 install.packages(c("dyn","lmtest","tseries","urca"), dependencies = T)
 #
 install.packages("flexdashboard", dependencies = T)
@@ -41,4 +39,6 @@ install.packages("pls", dependencies = T)
 install.packages("psych", dependencies = T)
 #
 install.packages(c("quantreg", "rqPen"), dependencies = T)
+#
+install.packages(c("MASS", "glmpath"), dependencies = T)
 #
