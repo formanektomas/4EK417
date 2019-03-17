@@ -36,30 +36,45 @@ ggplot(U.sf) +
 ## To perform spatial dependency test
 ## and clustering analysis, we need a geo-coded data frame, e.g.:
 #
-#       | Unemployment | long | lat |
+#       | Unemployment | long | lat | geo_ID |
 #
 # Step 1: store long/lat coordinates of centroids
-Centroids1 <- st_centroid(U.sf)
-Centroids2 <- as.data.frame(st_coordinates(Centroids1))
-colnames(Centroids2) <- c("lon","lat")
-Centroids <- cbind(as.data.frame(Centroids1[,"NUTS_ID"]),Centroids2)
-head(Centroids,10)
-# Merge with GDP data
-U.data <- merge(U.CE,Centroids, by.x="geo", by.y="NUTS_ID")
-head(U.data)
+#
+# Centroids are calculated
+U.sp <- as_Spatial(U.sf) # properly calculated from {sp} only
+# .. cannot use {sf} package here:  Centroids1 <- st_centroid(U.sf)
+# https://r-spatial.github.io/sf/articles/sf6.html
+Centroids1 <- as.data.frame(coordinates(U.sp))
+colnames(Centroids1) <- c("lon","lat")
+Centroids1$NUTS_ID <- U.sp$NUTS_ID
+# Join centroid "geometry" with the unemployment dataframe
+# .. row ordering of DF with observed variables has to match 
+# .. coordinates and ID objects provided to different {spdep} functions
+U.data <- merge(U.CE,Centroids1, by.x="geo", by.y="NUTS_ID")
+# Store Centroid coordinates and IDs in separate objects for {spdep}
+coords <- as.matrix(U.data[,c("lon","lat")])
+rownames(coords) <- U.data$geo
+# check the data
+head(coords,10)
+head(U.data[,c("geo","lon","lat")],10)
+# separately provided IDs
+IDs <- U.data$geo 
 #
 #
-# Getis's clustering analysis is only valid for positive spatial autocorelation
-coords <- U.data[,c("lon", "lat")] # spdep works with sp features and objects
-coords <- coordinates(coords) # sp coordinates
-IDs <- U.data$geo # separately provided IDs
+# Step 2: Getis's clustering analysis is only valid for positive spatial autocorelation
 #
+# Identify neighbours of region points by Euclidean distance
+?dnearneigh
 nb200km <- dnearneigh(coords, d1=0, d2=200, longlat=T, row.names = IDs)
+# Add spatial weights to neighbours list 
+?nb2listw # "listw" objects enter spatial tests and regression models
 W.matrix <- nb2listw(nb200km) # style = "W" (row standardization) is the default
+# Spatial dependency test by Moran's I
 moran.test(U.data$values, W.matrix, na.action=na.omit)
 #
 #
-# Cluster identification G*
+# Step 3:  Cluster identification using G*
+#
 # .. Ord, J. K. and Getis, A. 1995
 ?localG # returns a z-score (not the underlying G statistic)
 #
@@ -77,7 +92,7 @@ U.data$LocG
 # We may want to plot cluster data for "significant" z-scores only
 #
 U.data$lG <- 0
-U.data[U.data$LocG < -3.289, "lG"] <- -1 # significant cold-spot
+U.data[U.data$LocG < -3.289, "lG"] <- -1 # significant cold-spot (approx)
 U.data[U.data$LocG > 3.289, "lG"] <- 1 # significant hot-spot
 hist(U.data$lG)
 UlG.sf <- U.data[,c("lG","geo")] %>% 
@@ -97,7 +112,7 @@ ggplot(UlG.sf) +
 ## Quick exercise
 ## Evaluate stability of the results with respect to
 ## changing spatial structure (neighbor-distance threshold)
-## set tau to 170, 300 and 400 km
+## -> set tau to 170, 300 and 400 km and re-cast the plot.
 #
 #
 #
