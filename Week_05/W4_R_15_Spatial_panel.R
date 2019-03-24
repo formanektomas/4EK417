@@ -65,7 +65,7 @@ fm1 <- U_pc ~ EUR_HAB_EU + HTC +HUClstr +I(HTC*HUClstr) + EUR_HAB_EU_bar + HTC_b
 ?spml
 mod.1 <- spml(formula = fm1, data = Pdata, index = c("NUTS_ID","time"),
               listw = CE_data.listw, model = "pooling",
-              lag = F, spatial.error = "b")
+              lag = F, spatial.error = "none")
 summary(mod.1)
 #
 #
