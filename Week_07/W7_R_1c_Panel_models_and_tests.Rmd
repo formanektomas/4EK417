@@ -1,0 +1,321 @@
+---
+title: "Panel data models and tests"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(plm)
+library(lmtest)
+library(sandwich)
+library(car)
+library(ggplot2)
+```
+
+## Illustrative dataset
+
+* Cornwell and Rupert, Labor Market Data, 595 Individuals, 7 years, balanced panel  
+* Analysis focuses on returns to schooling and work experience
+* Heads of households form the sample
+* For additional description, see Greene, Econometric Analysis, ch. 11.
+
+| Variable | Description                                                          |
+|----------|----------------------------------------------------------------------|
+| EXP |  Work experience  |
+| WKS |  Weeks worked  |
+| OCC |  Occupation: 1 if blue collar  |
+| IND |  1 if manufacturing industry  |
+| SOUTH |  1 if resides in south  |
+| SMSA |  1 if resides in a city (SMSA)  |
+| MS |  1 if married  |
+| FEM |  1 if female  |
+| UNION |  1 if wage set by union contract  |
+| ED |  Years of education - time invariant (no students in sample) |
+| BLK |  1 if individual is black  |
+| LWAGE|  Log of wage |
+
+```{r}
+WageDF <- read.csv("_dataW07/TableF81.csv")
+# Create cross-sectional and time IDs
+WageDF$CSID <- rep(1:595,each=7)
+WageDF$CSID <- as.factor(WageDF$CSID)
+WageDF$YEAR <- rep(1976:1982,595)
+str(WageDF)
+```
+
+--- 
+
+## Testing individual effects by F-test
+
+* Null hypothesis of common intercept is tested against the alternative of individual-specific intercepts.
+
+* Common slopes are assumed (not tested)
+
+* Unrestricted model: $y_{it} = \beta_{0} + {\mathbf d'\delta}_{0} + \beta_1 x_{it1} + \beta_2 x_{it2} + u_{it}$  
+where $\mathbf{d}$ is a vector of CSID-based dummy variables and $\mathbf{\delta}_{0}$ is a vector of regression coefficients.
+
+* Restricted model: $~~y_{it} = \beta_{0}~ \, + \beta_1 x_{it1} + \beta_2 x_{it2} + u_{it}$.
+
+
+* Can be implemented as an $F$-test for linear (zero) restrictions: Pooled regression vs LSDV model
+
+* Illustrative example model:  `LWAGE` $\leftarrow$  `ED`,`EXP`
+
+```{r}
+Pooled.mod <- lm(LWAGE~ED+EXP,WageDF)
+summary(Pooled.mod)$coefficients
+LSDV.mod <- lm(LWAGE~ED+EXP+CSID,WageDF)
+# Show only first few a_i estimates
+summary(LSDV.mod)$coefficients[1:10,]
+```
+
+* Now, we perform the $F$-test
+
+```{r}
+anova(Pooled.mod, LSDV.mod)
+```
+
+--- 
+
+## Testing for poolability - Chow test for identical slopes
+
+
+* Chow tes for identical slopes
+
+* Allow for different intercepts & test for equal slopes in all CS-units
+
+  + Estimate model separately for each CS unit (alt: time period). 
+
+  + Compare with "FE" model (individual intercept, common slopes on regressors) using an $F$-test -- are the slopes identical among CS-units?
+
+
+* Drawback: test does not work with time-invariant regressors -- as model is estimated individually for each CS-unit, such regressors are perfectly correlated with the intercept; also time-invariant regressors are not compatible with FE estimation.
+
+* `pooltest()` from the `{plm}` package  
+
+* The following "poolability test" is illustrative only (we drop `ED` from regression, as it is time-invariant in our dataset).
+
+* Unrestricted model: $y_{it} = \beta_{0} + \beta_{i1} x_{it} + \mu_i + \nu_{it}$
+
+* Restricted model: $~~y_{it} = \beta_{0}~ \, + \beta_1 x_{it} + \mu_i + \nu_{it}$
+
+    + $H_0:~\beta_{11}=\beta_{21}=\dots=\beta_{N1}$  
+    + $H_1:~\neg H_0$
+
+
+```{r}
+# 1 Unrestricted model with variable slopes 
+# .. and intercepts for each CS unit
+pvcm1 <- pvcm(LWAGE~EXP, data=WageDF, index = c("CSID","YEAR"), model = "within")
+summary(pvcm1)
+# 2 FE model (individual intercepts, common slopes)
+FE.1 <- plm(LWAGE~EXP, data=WageDF, index = c("CSID","YEAR"), model = "within")
+summary(FE.1)
+#
+# Test 1: Null hypothesis is that the dataset is poolable 
+#         ..(i.e. individuals have the same slope coefficients)
+pooltest(FE.1,pvcm1)
+```
+
+
+  * Alternatively, compare with a "pooling" model -- are all coefficients identical among CS-units (i.e. intercept and slopes)
+  
+* Unrestricted model: $y_{it} = \beta_{0} + \beta_{i1} x_{it} + \mu_i + \nu_{it}$
+
+* Restricted model: $~~y_{it} = \beta_{0}~ \, + \beta_1 x_{it} ~~~~~~~+ \nu_{it}$ 
+
+    + $H_0:~\beta_{11}=\beta_{21}=\dots=\beta_{N1}$ and $\mu_i = 0, \forall i$
+    + $H_1:~ \neg H_0$
+
+
+
+```{r}
+# 3 Pooled model (common intercept & common slopes)
+Pool.1 <- plm(LWAGE~EXP, data=WageDF, index = c("CSID","YEAR"), model = "pooling")
+summary(Pool.1)
+# Test 2: Null hypothesis is that the dataset is poolable 
+#         ..(i.e. individuals have the same intercept and slope coefficients)
+pooltest(Pool.1,pvcm1)
+```
+
+
+--- 
+
+
+## Testing for individual and time effects (Honda, 1985)
+
+* Using OLS-based ("pooling") residuals, we test the null hypothesis of redundant individual $(\mu_i)$ and/or time $\lambda_t$ effects.
+
+    + Individual effects: $y_{it} = \beta_{0} + \beta_{1} x_{it1} + \dots + \beta_k x_{itk} + \mu_i + \nu_{it}$  
+    + Time effects: $~~~~~\, y_{it} = \beta_{0} + \beta_{1} x_{it1} + \dots + \beta_k x_{itk} + \lambda_t + \nu_{it}$  
+    + Twoways effects: $y_{it} = \beta_{0} + \beta_{1} x_{it1} + \dots + \beta_k x_{itk} + \mu_i + \lambda_t + \nu_{it}$  
+
+
+* `plmtest()` from the `{plm}` package  
+
+* LM-based tests, use only the residuals of the pooling model (if performed on RE of FE model ("within","random"), corresponding pooling model is calculated internally first).  
+
+```{r}
+# Start by estimating a "pooling" model
+plm.pool <- plm(LWAGE~ED+EXP, data=WageDF, 
+                index = c("CSID","YEAR"), model = "pooling")
+summary(plm.pool)
+```
+
+* Honda (1985) LM test
+
+```{r}
+# individual
+plmtest(plm.pool, effect= "individual", type="honda")
+# time
+plmtest(plm.pool, effect= "time", type="honda")
+# twoways
+plmtest(plm.pool, effect= "twoways", type="honda")
+```
+
+
+--- 
+
+
+## F-test of individual and time effects: FE vs pooling
+
+* By comparing residuals from the FE (`within`) model and pooled (OLS-estimated) model, we test the null hypothesis of redundant individual $\mu_i$ and/or time $\lambda_t$ effects (given the specification of the `within` model).
+
+    + Individual effects: $y_{it} = \beta_{0} + \beta_{1} x_{it1} + \dots + \beta_k x_{itk} + \mu_i + \nu_{it}$  
+    + Time effects: $~~~~~\, y_{it} = \beta_{0} + \beta_{1} x_{it1} + \dots + \beta_k x_{itk} + \lambda_t + \nu_{it}$  
+    + Twoways effects: $y_{it} = \beta_{0} + \beta_{1} x_{it1} + \dots + \beta_k x_{itk} + \mu_i + \lambda_t + \nu_{it}$  
+    + Pooling: $~~~~~~~~~~~y_{it} = \beta_{0} + \beta_{1} x_{it1} + \dots + \beta_k x_{itk} +  \nu_{it}$  
+    
+    
+* Test for individual effects    
+
+```{r}
+# Pooled specification, interaction ED*EXP used
+WageDF$ED_EXP <- WageDF$ED * WageDF$EXP
+plm.pooling <- plm(LWAGE~EXP+ED_EXP, data=WageDF, 
+                index = c("CSID","YEAR"), model = "pooling")
+summary(plm.pooling)$coefficients
+# FE model, individual effects, interaction ED*EXP used
+plm.FE.ind <- plm(LWAGE~EXP+ED_EXP, data=WageDF, 
+                index = c("CSID","YEAR"), model = "within", effect = "individual")
+summary(plm.FE.ind)$coefficients
+# F-test for individual effects
+pFtest(plm.FE.ind,plm.pooling)
+``` 
+
+* Tests for time and twoways effects    
+
+```{r}
+# FE model, time effects, interaction ED*EXP used
+plm.FE.time <- plm(LWAGE~EXP+ED_EXP, data=WageDF, 
+                index = c("CSID","YEAR"), model = "within", effect = "time")
+# FE model, twoways effects, interaction ED*EXP used
+plm.FE.twoways <- plm(LWAGE~EXP+ED_EXP, data=WageDF, 
+                index = c("CSID","YEAR"), model = "within", effect = "twoways")
+#
+# F-test for time effects
+pFtest(plm.FE.time,plm.pooling)
+# F-test for twoways effects
+pFtest(plm.FE.twoways,plm.pooling)
+``` 
+
+
+---
+
+
+## Hausman test FE vs RE estimator
+
+*  Hausman test is based on the comparison of two sets of estimates 
+
+* `phtest()` from the `{plm}` package  
+
+  + Two main arguments to the test: FE-estimated and RE-estimated models
+
+```{r}
+# FE-estimated model, individual effects, interaction ED*EXP used
+FE.mod <- plm(LWAGE~EXP+ED_EXP, data=WageDF, 
+                index = c("CSID","YEAR"), model = "within", effect = "individual")
+# RE-estimated model, individual effects, interaction ED*EXP used
+RE.mod <- plm(LWAGE~EXP+ED_EXP, data=WageDF, 
+                index = c("CSID","YEAR"), model = "random", effect = "individual")
+#
+summary(FE.mod)$coefficients
+summary(RE.mod)$coefficients
+# Hausman test
+phtest(FE.mod,RE.mod)
+```
+
+
+--- 
+
+## Wooldridge test: FD vs FE
+
+* $y_{it} = \alpha + \beta_1 + x_{it1} + \dots + \beta_k x_{itk} + \mu_i + \nu_{it}$
+
+* Serial correlation test that can be used as a specification test to choose the most efficient estimator -- FD vs FE.
+
+* If $\nu_{it}$ are not serially correlated,  
+  + FE is more efficient than FD  
+  + Residuals in the FD model: $e_{it} \equiv \nu_{it}-\nu_{i,t-1}$ are correlated
+  
+* If $\nu_{it}$ follow a unit root:  
+  + FD is more efficient than FE  
+  + Residuals in the FD model: $e_{it} = \nu_{it}-\nu_{i,t-1}$ are not serially correlated  
+
+
+```{r}
+# H0 of no serial correlation in FD residuals - default "h0"
+pwfdtest(LWAGE~EXP+ED_EXP, data=WageDF, index = c("CSID","YEAR"))
+# H0 of no serial correlation in FE residuals
+pwfdtest(LWAGE~EXP+ED_EXP, data=WageDF, 
+         index = c("CSID","YEAR"),h0="fe")
+```
+
+* If both rejected, whichever estimator is chosen will have serially correlated errors: use the autocorrelation-robust covariance estimators.
+
+---
+
+## Autocorrelation-robust covariance estimators  
+`
+* The main use of `vcovHC` is together with testing functions from the `{lmtest}` and `{car}` packages.
+
+* Robust estimators of the covariance matrix of coefficients are provided
+
+* All types assume no correlation between errors of different CS-units (groups) while allowing for heteroskedasticity across CS-units (groups)
+
+* `"white1"` allows for general heteroskedasticity but no serial correlation.
+
+* `"white2"` is `"white1"` restricted to a common variance inside every CS-unit (group).
+
+* `"arellano"` allows a fully general structure w.r.t. heteroskedasticity and serial correlation.
+
+```{r}
+# FE model
+FE.mod <- plm(LWAGE~EXP+ED_EXP, data=WageDF, 
+                index = c("CSID","YEAR"), model = "within", effect = "individual")
+coeftest(FE.mod, vcov = vcovHC(FE.mod, method = "arellano"))
+```
+
+
+--- 
+
+## Tests for cross-sectional dependence (XSD)
+
+* Analogous yet distinct to the more familiar issue of serial correlation.
+
+* Can arise, e.g., if individuals respond to common shocks or if spatial diffusion processes are present, relating individuals in a way depending on a measure of distance (spatial models)
+    
+* If XSD is present, the consequence is, at a minimum, inefficiency of the
+usual estimators and invalid inference when using the standard covariance matrix.
+
+* In `{plm}`, only misspeciffication tests to detect XSD are available -- no robust method to perform valid inference in its presence.
+
+```{r}
+# FE model
+FE.mod <- plm(LWAGE~WKS+EXP+ED_EXP+MS, data=WageDF, 
+                index = c("CSID","YEAR"), model = "within", effect = "twoways")
+pcdtest(FE.mod)
+```
+
+---
+
