@@ -13,21 +13,17 @@ summary(Sweden)
 plot(Sweden[,-1])
 #
 # Assignment:
+#
+# Do the poolability tests from pages 25-27 of 
+# "Week07_panel_data_models.pdf"
+# ... Bonus task: do the Honda 1985 test
+# interpret test results
+#
 #-------------------------------------------------------
 # LM
 #
-# 1 Estimate a LM model: EXPEND <- REVENUE+GRANTS
+# 1 Estimate a pooled model: EXPEND <- REVENUE+GRANTS
 #
-# 2 Add year dummies to the LM model (1)
+# 2 Use FD/FE/RE estimators
+#   Perform basic tests (significant effects, FE/RE Hasuman test)
 #
-# 3 Add fixed effects (municipality-based interpcets) to model (2)
-#-------------------------------------------------------
-# LME models   ....  use either lme()  or lmer()
-#
-# 4 Add random intercept (for each municipality)
-#
-# 5 Add crossed random effects (municipality, year)
-#
-# 6 Use fixed time effects, random intercept and random slope on REVENUE
-#
-# 7 Assess the generalization from model (4) to model (6)
