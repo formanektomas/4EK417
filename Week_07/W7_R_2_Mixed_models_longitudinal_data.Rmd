@@ -19,7 +19,12 @@ require(gridExtra)
 
 **Definition**: A longitudinal study refers to an investigation where participant outcomes and possibly treatments or exposures are collected at multiple follow-up times.
 
-Repeated measurements and longitudinal data can be viewed as multilevel models nested among individuals where for example with 2 levels, the lowest level (Level 1) are the repeated measurements nested within individuals (Level 2).
+Repeated measurements and longitudinal data can be viewed as multilevel models:
+
+* repeated observations (e.g. weightings) are grouped 
+
+* by individuals (children) -- for each children, we have multiple weightings.
+
 
 **Data example** Weight measuments of asian childern in the UK. Each child was weighted 1-5 times. 
 
@@ -63,8 +68,8 @@ Looking at the figure, we can try to estimate
 ## Model with random intercept
 
 
-$$\textit{weight}_{ij} = \beta_0 + \beta_1 \textit{age}_{ij} + \beta_2 \textit{age}^2_{ij} + u_i + \varepsilon_{ij}$$
-where we observe $i=1, \dots, n$ individuals/children at their $j$-th weighting.
+$$\textit{weight}_{ij} = \beta_0 + \beta_1 \textit{age}_{ij} + \beta_2 \textit{age}^2_{ij} + u_j + \varepsilon_{ij}$$
+where we observe $i$-th weightings for $j=1, \dots, n$ individuals/children. 
 
 ### Syntax example: `lme()` from the `{nlme}` package
 
@@ -72,9 +77,9 @@ where we observe $i=1, \dots, n$ individuals/children at their $j$-th weighting.
 (child.mod1 <- lme(weight~age+I(age^2),random=~1|id,data=child))
 ```
 
-* Note how variability (st. dev.) of $u_i$ and $\varepsilon_{it}$ are reported.  
+* Note how variability (st. dev.) of $u_j$ and $\varepsilon_{it}$ are reported.  
 
-* st. dev. of $u_i$ `(Intercept)` describes variability among individuals.
+* st. dev. of $u_j$ `(Intercept)` describes variability among individuals.
 
 
 
@@ -104,8 +109,8 @@ A way to explain this is to allow for a difference bewteen the global trajectory
 Trajectory for each child would be represented by a separate line and the slope of that line varies from child to child.
 
 
-$$\textit{weight}_{ij} = (\beta_0 + u_{0i}) + (\beta_1 + u_{1i}) \textit{age}_{ij} + \beta_2 \textit{age}^2_{ij} + \varepsilon_{ij}$$
-$$\textit{weight}_{ij} = \underbrace{\beta_0 + \beta_1 \textit{age}_{ij} + \beta_2 \textit{age}^2_{ij}}_{fixed} + \underbrace{u_{0i} +u_{1i}\,\textit{age}_{ij} }_{random} + \varepsilon_{ij}$$
+$$\textit{weight}_{ij} = (\beta_0 + u_{0j}) + (\beta_1 + u_{1j}) \textit{age}_{ij} + \beta_2 \textit{age}^2_{ij} + \varepsilon_{ij}$$
+$$\textit{weight}_{ij} = \underbrace{\beta_0 + \beta_1 \textit{age}_{ij} + \beta_2 \textit{age}^2_{ij}}_{fixed} + \underbrace{u_{0j} +u_{1j}\,\textit{age}_{ij} }_{random} + \varepsilon_{ij}$$
 
 
 
@@ -126,9 +131,9 @@ summary(child.mod2)$tTable
 
 #### We can test $H_0$ of the two random effects $u$ being uncorrelated: 
 
-* Note that independence between $\varepsilon_{ij}$ and $u_i$ is assumed.
+* Note that independence between $\varepsilon_{ij}$ and $u_j$ is assumed.
 
-* We test if the correlation between $u_{0i}$ and $u_{1i} is equal to zero or not. 
+* We test if the correlation between $u_{0j}$ and $u_{1j}$ is equal to zero or not. 
 
 * We do this by establishing a new model with uncorrelated errors (additional restriction imposed) & comparing the two models:
 
@@ -138,7 +143,7 @@ summary(child.mod2a)$tTable # Estimated fixed effects do not differ much from "m
 anova(child.mod2a, child.mod2) # Compare the two models using F-test
 ```
 
-The p-value shows that we do not reject the null hypothesis, i.e. correlation is assumed zero. 
+The $p$-value shows that we do not reject the null hypothesis, i.e. correlation is assumed zero. 
 
 --- 
 
@@ -186,8 +191,8 @@ A first step is to include the child sex and its interaction with age as a fixed
 
 
 
-$$\textit{weight}_{ij} = (\beta_0  + u_{0i}) + \delta_0 \textit{sex}_i + (\beta_1 + u_{1i}) \textit{age}_{ij} + \beta_2 \textit{age}^2_{ij} +\beta_3 (\textit{sex}_i \times \textit{age}_{ij}) + \varepsilon_{ij}$$
-$$\textit{weight}_{ij} = \underbrace{\beta_0 + \delta_0 \textit{sex}_i + \beta_1 \textit{age}_{ij} + \beta_2 \textit{age}^2_{ij}+\beta_3 (\textit{sex}_i \times \textit{age}_{ij})}_{fixed} + \underbrace{u_{0i} +u_{1i}\,\textit{age}_{ij} }_{random} + \varepsilon_{ij}$$
+$$\textit{weight}_{ij} = (\beta_0  + u_{0j}) + \delta_0 \textit{sex}_j + (\beta_1 + u_{1j}) \textit{age}_{ij} + \beta_2 \textit{age}^2_{ij} +\beta_3 (\textit{sex}_j \times \textit{age}_{ij}) + \varepsilon_{ij}$$
+$$\textit{weight}_{ij} = \underbrace{\beta_0 + \delta_0 \textit{sex}_j + \beta_1 \textit{age}_{ij} + \beta_2 \textit{age}^2_{ij}+\beta_3 (\textit{sex}_j \times \textit{age}_{ij})}_{fixed} + \underbrace{u_{0j} +u_{1j}\,\textit{age}_{ij} }_{random} + \varepsilon_{ij}$$
 
 ```{r}
 (child.mod3<-lme(weight~age+sex+age:sex+I(age^2),random=list(id=pdDiag(~age)),

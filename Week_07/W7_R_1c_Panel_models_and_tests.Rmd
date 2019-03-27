@@ -273,9 +273,45 @@ pwfdtest(LWAGE~EXP+ED_EXP, data=WageDF,
 
 * If both rejected, whichever estimator is chosen will have serially correlated errors: use the autocorrelation-robust covariance estimators.
 
----
+---- 
 
-## Autocorrelation-robust covariance estimators  
+## Breusch-Godfrey test for panels 
+
+* Mainly for RE (and pooling) models.  
+
+* Applicable to FE models only if $T$ is large
+
+* `pbgtest()` is a wrapper for `bgtest()` from the `{lmtest}` package.  
+
+```{r}
+# The following example serves for pbgtest() illustration only 
+# .. RE assumptions not really met.
+# RE-estimated model
+RE2.mod <- plm(LWAGE~WKS+EXP+ED+MS, data=WageDF,
+              index = c("CSID","YEAR"), 
+              model = "random", effect = "individual")
+#
+pbgtest(RE2.mod)
+# We can test for ar(2) serial correlation in residuals
+pbgtest(RE2.mod, order=2)
+```
+
+---- 
+
+## Wooldridge test for short FE panel models 
+
+```{r}
+# FE-estimated model
+FE2.mod <- plm(LWAGE~WKS+EXP+ED_EXP, data=WageDF,
+              index = c("CSID","YEAR"), 
+              model = "within", effect = "twoways")
+#
+pwartest(FE2.mod)
+```
+
+---- 
+
+## Autocorrelation-robust (and HAC) covariance estimators  
 `
 * The main use of `vcovHC` is together with testing functions from the `{lmtest}` and `{car}` packages.
 
@@ -291,9 +327,11 @@ pwfdtest(LWAGE~EXP+ED_EXP, data=WageDF,
 
 ```{r}
 # FE model
-FE.mod <- plm(LWAGE~EXP+ED_EXP, data=WageDF, 
+FE3.mod <- plm(LWAGE~WKS+EXP+ED_EXP, data=WageDF, 
                 index = c("CSID","YEAR"), model = "within", effect = "individual")
-coeftest(FE.mod, vcov = vcovHC(FE.mod, method = "arellano"))
+# compare non-robust and robust estimates
+coeftest(FE3.mod)
+coeftest(FE3.mod, vcov = vcovHC(FE3.mod, method = "arellano"))
 ```
 
 
@@ -312,9 +350,9 @@ usual estimators and invalid inference when using the standard covariance matrix
 
 ```{r}
 # FE model
-FE.mod <- plm(LWAGE~WKS+EXP+ED_EXP+MS, data=WageDF, 
+FE4.mod <- plm(LWAGE~WKS+EXP+ED_EXP+MS, data=WageDF, 
                 index = c("CSID","YEAR"), model = "within", effect = "twoways")
-pcdtest(FE.mod)
+pcdtest(FE4.mod)
 ```
 
 ---
