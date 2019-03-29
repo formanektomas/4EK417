@@ -32,3 +32,5 @@ install.packages("RLRsim", dependencies = T)
 install.packages("dplyr", dependencies = T)
 #
 install.packages("Ecdat", dependencies = T)
+#
+install.packages("sjstats", dependencies = T)

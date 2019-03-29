@@ -12,6 +12,7 @@ require(dplyr)
 require(nlme)
 require(lme4)
 require(gridExtra)
+library(sjstats)
 ```
 
 
@@ -21,9 +22,9 @@ require(gridExtra)
 
 Repeated measurements and longitudinal data can be viewed as multilevel models:
 
-* repeated observations (e.g. weightings) are grouped 
+* repeated observations (weightings - Level 1) are grouped 
 
-* by individuals (children) -- for each children, we have multiple weightings.
+* by individuals (children - Level 2) -- for each children, we have multiple weightings.
 
 
 **Data example** Weight measuments of asian childern in the UK. Each child was weighted 1-5 times. 
@@ -74,18 +75,24 @@ where we observe $i$-th weightings for $j=1, \dots, n$ individuals/children.
 ### Syntax example: `lme()` from the `{nlme}` package
 
 ```{r}
-(child.mod1 <- lme(weight~age+I(age^2),random=~1|id,data=child))
+child.mod1 <- lme(weight~age+I(age^2),random=~1|id,data=child)
+summary(child.mod1)
 ```
 
 * Note how variability (st. dev.) of $u_j$ and $\varepsilon_{it}$ are reported.  
 
-* st. dev. of $u_j$ `(Intercept)` describes variability among individuals.
+* st. dev. of $u_j$ `(Intercept)` describes sq.root of variance among individuals.
 
 
 
 ### Syntax example: `lmer()` from the `{lme4}` package
 ```{r}
-(child.mod1a <-lmer(weight~age+I(age^2)+(1|id),data=child))
+child.mod1a <-lmer(weight~age+I(age^2)+(1|id),data=child)
+summary(child.mod1a)
+# ICC
+# Intercept Variance / (Intercept Variance + Residual Variance)
+(ICC<- 0.8571/(0.8571+0.5478))
+icc(child.mod1a)
 ```
 
 
@@ -102,9 +109,9 @@ ggplot(child, aes(age, fitted(child.mod1), group=as.factor(id), color=as.factor(
 
 ## Model with random slopes
 
-We observed a greater variability among individuals than within individuals. 
+We observe greater variability among individuals than within individuals. 
 
-A way to explain this is to allow for a difference bewteen the global trajectory and the trajectory for each child.
+We can allow for differences bewteen the global trajectory and the trajectories for each child.
 
 Trajectory for each child would be represented by a separate line and the slope of that line varies from child to child.
 
@@ -227,7 +234,7 @@ In those situations, a better option is to model the variance as a functions of 
 
 **Example: ** 
 
-Because the fitted values are bounded away from zero, we can use the `varPower()` variance function to model the heteroscedasticity:
+For a flexible FGLS-type approach where fitted values are used for weighting, we can use the `varPower()` variance function to model the heteroscedasticity:
 
 ```{r}
 (child.mod5<-lme(weight~sex+age+I(age^2),
