@@ -99,19 +99,30 @@ dotplot(ranef(G2.me, which = "year", condVar=T))
 coef(G2.me)
 #
 #
+## Accounting for serial correlation in error terms:
 #
-## Assignment 2
-## Amend model G1.me (firm-specific random slope) 
-## by allowing for random slopes in value & capital
-## .. 1st Allow for correlated random errors
-G3.me <- lmer()
-## .. 2nd Force uncorrelated random errors
-G4.me <- lmer()
-## Compare models to G1.me using F-test (anova)
-## 
-
-
-
-
-
-
+# We use the {nlme} package
+#
+# corAR1()     ..for ar(1) processes and fixed intervals
+# corARMA()    ..incorporates both ar() and ma() processes
+# corCAR1()    ..used with varying intervals
+#
+library(nlme)
+#
+#
+Gr.lme <- lme(inv~value+capital, random=~1|firm, Grunfeld)
+summary(Gr.lme)
+#
+Gr.lme.ar <- lme(inv~value+capital, random=~1|firm, cor=corAR1(), Grunfeld)
+summary(Gr.lme.ar)
+#
+# Do we need to account for temporal autocorrelation?
+#
+anova(Gr.lme.ar,Gr.lme)
+#
+#
+#
+#
+#
+#
+#
