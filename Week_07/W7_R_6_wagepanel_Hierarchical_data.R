@@ -39,7 +39,8 @@ lme.w.2 <-
 ## 4
 #  Test for redundancy of the generalization of lme.w.1 into lme.w.2
 #  .. interpret the results
-#  .. Note: remember the method "ML" estimation with {nlme}
+#  ..
+# lme.w.1a <- update(lme.w.1, method="ML")
 lme.w.1a <- 
 lme.w.2a <- 
   

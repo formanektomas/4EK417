@@ -143,3 +143,5 @@ M5 <- lme(geread~gevocab+clenroll+gender, random = ~1+gender|school/class, data 
 summary(M5)
 ```
 
+
+* By comparing random effects for `gender`, we can see that gender-based reading score differences are relatively prominent at the school level (school-by-school differences), while they are relatively negligible at the class level (within a given school).
