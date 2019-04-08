@@ -102,9 +102,9 @@ $~~$
 6. FGLS estimate $\hat{\beta}$ and $\hat{\alpha}$ parameters
 
 
-    + Calculate $\mathbf{W}^{*} = [\mathbf{x}_{1},\mathbf{x}_{2},\mathbf{z}_{1},\mathbf{z}_{2}] - \hat{\theta} [\mathbf{x}_{1},\mathbf{x}_{2},\mathbf{z}_{1},\mathbf{z}_{2}]$  
+    + Calculate $\mathbf{W}^{*} = [\mathbf{X}_{1},\mathbf{X}_{2},\mathbf{Z}_{1},\mathbf{Z}_{2}] - \hat{\theta} [\overline{\mathbf{X}}_{1},\overline{\mathbf{X}}_{2},\mathbf{Z}_{1},\mathbf{Z}_{2}]$  where $\overline{\mathbf{X}}_{1}$ and $\overline{\mathbf{X}}_{1}$ contain within means
     
-    + Calculate $y_{it}^{*} = y_{it} - \hat{\theta} y_{it}$
+    + Calculate $y_{it}^{*} = y_{it} - \hat{\theta} \overline{y}_{i}$
 
     + Calculate $\mathbf{V} = [(\mathbf{X}_{1} - \overline{\mathbf{X}}_{1})^{\prime}, (\mathbf{X}_{2} - \overline{\mathbf{X}}_{2})^{\prime}, \mathbf{Z}_1, \overline{\mathbf{X}}_{1} ]$  
     
