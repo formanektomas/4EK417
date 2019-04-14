@@ -136,14 +136,14 @@ arrows(0,0,1,1,lty=2, code=0)
 # a)
 # The ROC curve always starts at the point (0, 0) 
 # i.e threshold of value 1.This means at this threshold we 
-# will not catch any poor care cases(sensitivity of 0) 
-# but will correctly label of all the good care cases(FP = 0)
+# will not catch any defaults (sensitivity of 0) 
+# but will correctly label of all the non-defaulting clients (FP = 0)
 #
 # b)
 # The ROC curve always ends at the point (1,1) 
 # i.e threshold of value 0. This means at this threshold we will 
-# catch all the poor care cases(sensitivity of 1) but will 
-# incorrectly label of all the good care case as poor cases(FP = 1)
+# catch all the default cases (sensitivity of 1) but will 
+# incorrectly label of all the non-defaults as defaulting clients (FP = 1)
 #
 # c)
 # The ROC curve captures all thresholds simultaneously.
@@ -155,7 +155,7 @@ arrows(0,0,1,1,lty=2, code=0)
 # d)
 # So which threshold value one should pick?
 # No general answer... select the best threshold for the trade-off you want to make.
-# A threshold around 0.2 - i.e point approx (0.05, 0.6) on this ROC curve - looks like a good choice.
+# A threshold around 0.1 - i.e point approx (0.1, 0.7) on this ROC curve - looks like a good choice.
 # .. On the other hand, if one is more concerned with having 
 # .. a high sensitivity (TPR), one should pick a lower threshold.
 # .. at the expense of higher false positive rate (FPR).

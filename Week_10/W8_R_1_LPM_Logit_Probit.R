@@ -76,7 +76,7 @@ hhat <- yhat*(1-yhat)
 #
 wls.fit<-lm(inlf ~ nwifeinc + educ + exper + expersq + age + kidslt6 + kidsge6,
             weights=I(1/hhat), data=mroz)
-summary(wls.fit)
+summary(wls.fit, vcov=vcovHC(ols.fit,type='HC0'))
 #
 # Confusion matrix
 pred.wls <- predict(wls.fit, type="response") 
@@ -112,7 +112,7 @@ hhat2 <- exp(aux.fit$fitted.values)
 #
 fgls.fit<-lm(inlf ~ nwifeinc + educ + exper + expersq + age + kidslt6 + kidsge6,
             weights=I(1/hhat2), data=mroz)
-summary(fgls.fit)
+summary(fgls.fit, vcov=vcovHC(ols.fit,type='HC0'))
 #
 # Confusion matrix
 pred.fgls <- predict(fgls.fit, type="response") 
@@ -263,6 +263,7 @@ probit.PEAs
 ## OfficeVisits is the number of times the patient visited any doctor's office.
 ## MedicalClaims is the number of days on which the patient had a medical claim
 ## ERVisits is the number of times the patient visited the emergency room.
+## StartedOnCombination is a binary variable: patient started treatment with multiple medication
 ##
 ##
 ## 2) Generate fitted values of the dependent variable (on the response-scale, probabilitites)
