@@ -54,6 +54,7 @@ BDHS <- read.table("_dataW08/BDHS.txt", header = TRUE)
 BDHS$comm <- factor(BDHS$comm)
 str(BDHS)
 mean(BDHS$antemed) # Overall proportion of antenatal care indicator
+mean(BDHS$islam)
 ``` 
  
  
@@ -238,6 +239,8 @@ levels(BDHS$urban) <- c("rural","urban")
 fit5 <- glmer(antemed~magec+meduc+wealthc+urban+(1|comm), 
               data = BDHS, family=binomial("logit"))
 summary(fit5)
+plot(allEffects(fit5), type="response")
+plot(effect("magec*meduc*urban",fit5),type="response")
 ```
 
 There exists significant differences between rural and urban regions of residence.
@@ -282,7 +285,7 @@ Estimate the following models, print & interpret the summary.
 * Estimate model:  infect ~ Fixed (1+Lenghtc+Farm)
 
 ```{r}
-
+#
 ```
 
 
@@ -291,7 +294,7 @@ Estimate the following models, print & interpret the summary.
 * infect ~ Fixed (1+Lenghtc) + Random (intercept, changing along Farm)
 
 ```{r}
-
+#
 ```
 
 
@@ -300,30 +303,6 @@ Estimate the following models, print & interpret the summary.
 * infect ~ Fixed (1+Lenghtc) + Random (intercept+Lenghtc, changing along Farm)
 
 ```{r}
-
+#
 ```
 
-
-
-### Plot of predicted probabilities of parasitic infection. 
-
-The thick line in the middle represents the predicted values for the ‘population of farms’
-(approx. validity only)
-
-```{r, warning=FALSE}
-deer.glmm <- glmer(infect~Length+(1|Farm),data=deer,family=binomial)
-deer.glm <- glm(infect~Length,data=deer,family=binomial)
-ggplot(deer) + 
-  geom_smooth(aes(Length,fitted(deer.glmm), group=Farm, color=Farm),
-              method="loess")+
-  geom_smooth(aes(Length,fitted(deer.glm)),
-              size=2, 
-              color="black")+
-  theme_bw()
-```
-
-
-
-
-
-Based on lecture by [Dae-Jin Lee](http://idaejin.github.io/bcam-courses/neiker-2016/material/mixed-models/) and slightly modified. [cc](https://creativecommons.org/licenses/by-sa/3.0/)
