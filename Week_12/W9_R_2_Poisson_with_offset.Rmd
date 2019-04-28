@@ -69,7 +69,7 @@ $$
 
 * For Poisson models, the actual number of events defines the variance, so we often use models with offset instead of models with $\log \frac{\lambda_i}{t_i}$ on the LHS.  
 
-* At the same time both approaches are possible using the `glm()` function (if ratios are used, we need to weight residuals):
+* Nevertheless, both approaches are possible using the `glm()` function (if ratios are used, we need to weight residuals):
 
     + `glm(Claims ~ District + Group + Age + offset(log(Holders)), family=poisson, data=Insurance)`  
     + `glm(Claims/Holders ~ District + Group + Age, family=quasipoisson, data=Insurance, weights=Holders)`  
@@ -162,15 +162,14 @@ and hence, we do not reject the hyphotesis of all $\beta_i = 0$, for $i = 1,2,\d
 ## How to improve the analysis?
 
 
-- We have considered the counts of lung cancer cases.
-- Each city and age group have different population sizes.
+- We have considered the counts of lung cancer cases only (unweighted by exposure).
+- Yet, each city and age group have different population sizes.
 
 
 ```{r, echo=T}
 lung %>% 
   group_by(city) %>% 
   summarize(city_populatio = sum(pop))
-#
 ```
 
 
