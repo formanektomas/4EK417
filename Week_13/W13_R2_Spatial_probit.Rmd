@@ -1,0 +1,139 @@
+---
+title: "Spatial probit"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+library(spatialprobit)
+library(spatialreg)
+library(ggmap)
+```
+
+## General description of a spatial probit model
+
+* We have the spatial autoregressive model (SAR model, spatial lag model)
+
+$$
+z = \rho W z + X \beta + \varepsilon, \qquad \varepsilon \sim N(0, \sigma^2_{\varepsilon} I_n)
+$$
+* and the corresponding DGP for $\mathbf{z}$ is:
+
+$$
+z = (I_n - \rho W)^{-1} X \beta + (I_n - \rho W)^{-1} \varepsilon
+$$
+
+In a spatial probit model, $z$ is regarded as a latent variable, which cannot be observed. Instead, the observables are only binary variables $y_i$ (0, 1) as
+
+$$
+y_i = 
+\begin{cases}
+1 & \quad \text{if}~z_i \geq 0, \\
+0 & \quad \text{if}~z_i < 0.
+\end{cases}
+$$
+
+---
+
+
+* The model is estimated using a Bayesian approach: [Estimating Spatial Probit Models in R](https://journal.r-project.org/archive/2013/RJ-2013-013/RJ-2013-013.pdf)  
+
+    + $\beta$ is assumed Normally distributed (with suitable prior parameter values),  
+    + $\rho$ is often assumed to follow Gamma distribution,  
+    + $\sigma^2_{\varepsilon} = 1$ is often assumed (for identification).
+
+
+
+* Marginal effects (direct, indirect, total) are calculated from an estimated model.
+
+* For some $r$th regressor $x$, we can write   
+
+$$
+\mathbf{S}_r(\mathbf{W}) = \frac{\partial E [\mathbf{y}|\mathbf{x}_r]}{\partial \mathbf{x}_r^{\prime}} = \phi\left((\mathbf{I}_n -  \rho \mathbf{W})^{-1} \bar{\mathbf{x}}_r \beta_r \right) \odot (\mathbf{I}_n -  \rho \mathbf{W})^{-1} \mathbf{I}_n \beta_r
+$$
+where $\mathbf{S}_r(\mathbf{W})$ is an $(N \times N)$ matrix with dimension given by the number of spatial units. 
+
+* The direct impact of a change in $x_{ir}$ on "own" observation $y_i$ can be written as the $\{i,i\}$ element of $\mathbf{S}_r(\mathbf{W})$:
+
+$$
+\frac{\partial y_i}{\partial x_{ir}} = \mathbf{S}_r(\mathbf{W})_{ii}
+$$
+
+* Similarly, the indirect impact from observation $j$ to observation $i$ is
+
+$$
+\frac{\partial y_i}{\partial x_{jr}} = \mathbf{S}_r(\mathbf{W})_{ij}
+$$
+
+* For detailed description of marginal effects, see [text here](https://www.rdocumentation.org/packages/spatialprobit/versions/0.9-11/topics/marginal.effects)
+
+
+--- 
+
+
+## Hurricane Katrina example
+
+New Orleans business recovery in the aftermath of Hurricane Katrina
+
+**Data** The dataset contains 673 observations on 3 streets in New Orleans and can be used to estimate the spatial probit models and to replicate the findings in the paper.
+
+| Variable  | Description                                                            |
+|-----------|------------------------------------------------------------------------|
+| long  | longitude coordinate of store     |
+| lat   | latitude coordinate of store      |
+| flood_depth | flood depth (measured in feet)  |
+| log_medinc  | log median income             | 
+| small_size | binary variable for "small size" firms   |
+| large_size | binary variable for "large size" firms   |
+| low_status_customers   |  binary variable for low socio-economic status of clientele  |
+| high_status_customers  | binary variable for high socio-economic status of clientele  |
+| owntype_sole_proprietor  | a binary variable indicating "sole proprietor" ownership type  |
+| owntype_national_chain   | a binary variable indicating "national_chain" ownership type   |
+| y1  | reopening status in the very short period 0-3 months; 1=reopened, 0=not reopened  |
+| y2  | reopening status in the period 0-6 months; 1=reopened, 0=not reopened  |
+| y3  | reopening status in the period 0-12 months; 1=reopened, 0=not reopened |  
+
+
+```{r, message=FALSE}
+data(Katrina)
+str(Katrina)
+qmplot(long, lat, data = Katrina, maptype="roadmap", source="osm")
+```
+
+* Using the data, we replicate some otuput from the paper: J. P. LeSage, R. K. Pace, N. Lam, R. Campanella and X. Liu (2011), New Orleans business recovery in the aftermath of Hurricane Katrina Journal of the Royal Statistical Society A, 174, 1007???1027 
+
+```{r}
+# (a) 0-3 months time horizon
+# LeSage et al. (2011) use k=11 nearest neighbors in this case
+nb <- knn2nb(knearneigh(cbind(Katrina$lat, Katrina$long), k=11))
+listw <- nb2listw(nb, style="W")
+W1 <- as(as_dgRMatrix_listw(listw), "CsparseMatrix")
+nb
+```
+
+Model is estimated using the Bayesian approach
+
+```{r, warning=F}
+fit1 <- sarprobit(y1 ~ flood_depth + log_medinc + small_size + large_size +
+  low_status_customers +  high_status_customers + 
+  owntype_sole_proprietor + owntype_national_chain, 
+  W=W1, data=Katrina, ndraw=600, burn.in = 100, showProgress=F)
+summary(fit1)
+```
+
+Estimate marginal effects (average direct, indirect and total impacts) for the SAR probit
+
+```{r}
+# replicate LeSage et al. (2011), Table 4, p.1018
+# SAR probit model effects estimates for the 0-3-month time horizon
+impacts(fit1)
+```
+
+-----
+
+#### Quick exercise
+
+* Repeat the estimation for `y2` dependent variable (0-6 months re-opening)
+
+* use $k = 15$ for the $kNN$ method.  
+
+* Produce marginal/partial impacts estimates
