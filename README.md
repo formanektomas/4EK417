@@ -28,7 +28,6 @@ University of Economics, Prague
 
 ---
 
-
 ### Block 2: Econometric models: specification choice methods
 
 + Theoretical approach: specific-to-general, general-to-specific  
@@ -36,7 +35,22 @@ University of Economics, Prague
 + Penalized regression  
 + Principal component regression (PCR) models  
 
-#### Materials for Block 1
-- [scripts and datasets for Block 1](https://github.com/formanektomas/4EK417/tree/master/Block2)  
+#### Materials for Block 2
+- [scripts and datasets for Block 2](https://github.com/formanektomas/4EK417/tree/master/Block2)  
 
 ---
+
+### Block 3: Spatial analysis and spatial econometrics
+
++ Spatial data: basic descriptive analysis  
++ Spatial data: advanced visualization (choropleths, [sf](https://r-spatial.github.io/sf/) package)  
++ Spatial econometrics  
+    + Cross-sectional data  
+    + Panel data  
+    + Advanced topics (spatial filtering)  
+
+#### Materials for Block 3
+- [scripts and datasets for Block 3](https://github.com/formanektomas/4EK417/tree/master/Block3)  
+
+---
+
