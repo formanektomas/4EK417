@@ -4,8 +4,8 @@
 
 **Seminar held by:**  
 [Tomas Formanek](https://formanektomas.github.io/)     
-Department of Econometrics 
-Faculty of Informatics and Statistics
+Department of Econometrics   
+Faculty of Informatics and Statistics  
 University of Economics, Prague  
 
 --- 
@@ -22,6 +22,9 @@ University of Economics, Prague
 + Missing data, multiple imputation 
 
 #### Materials for Block 1
-- [R](https://www.r-project.org/) / [RStudio](https://www.rstudio.com/products/RStudio/)
-- [stackoverflow](https://stackoverflow.com/tags/r/info)
-- [scripts and datasets for Block 1](https://formanektomas.github.io/4EK417/Block1/)
+- [R](https://www.r-project.org/) / [RStudio](https://www.rstudio.com/products/RStudio/)  
+- [stackoverflow](https://stackoverflow.com/tags/r/info)  
+- [scripts and datasets for Block 1](https://github.com/formanektomas/4EK417/tree/master/Block1)  
+
+---
+
