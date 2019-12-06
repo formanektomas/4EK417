@@ -28,3 +28,15 @@ University of Economics, Prague
 
 ---
 
+
+### Block 2: Econometric models: specification choice methods
+
++ Theoretical approach: specific-to-general, general-to-specific  
++ Stepwise model selection  
++ Penalized regression  
++ Principal component regression (PCR) models  
+
+#### Materials for Block 1
+- [scripts and datasets for Block 1](https://github.com/formanektomas/4EK417/tree/master/Block2)  
+
+---
