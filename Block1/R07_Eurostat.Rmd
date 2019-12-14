@@ -49,12 +49,13 @@ install.packages("eurostat")
 
 ```{r, echo=T, message=F}
 options(readr.default_locale=readr::locale(tz="Europe/Berlin"))
-require(eurostat)
-require(knitr)
-require(tidyr)
-require(dplyr)
-require(ggplot2)
-require(RColorBrewer)
+library(eurostat)
+library(knitr)
+library(tidyr)
+library(dplyr)
+library(ggplot2)
+library(RColorBrewer)
+library(zoo)
 ```
 
 
@@ -165,7 +166,7 @@ write.csv(Un.DF, "datasets/Unemployment.csv", row.names = F)
 
 We can use `{tidyverse}` and `{ggplot2}` functions to filter and plot data. 
 
-**Example 1: Unemployment plot for selected countries (time series)**
+### **Example 1: Unemployment plot for selected countries (long-format data)**
 
 * `Y15-74` i.e. age group *from 15 to 74 years*  
 * Select data 2010 and newer  
@@ -186,9 +187,10 @@ Un.DF %>%
     theme_minimal()  # choose plot "design"
 ```
 
---- 
 
-**Example 2: Chorpleth (infomap) of unemployment**
+---
+
+### **Example 2: Choropleth (infomap) of unemployment**
 
 * `Y15-74` i.e. age group *from 15 to 74 years*  
 * Select data for 2017  
@@ -212,7 +214,7 @@ map_data <- inner_join(geodata, Un.2016)
 ggplot()+ 
   geom_sf(data = map_data, aes(fill = values))+ 
   # note that "values" is name of column that stores unemployment data...
-  scale_fill_gradientn('Unem. \n(%) ', colours=brewer.pal(8, "Oranges"))+
+  scale_fill_gradientn('Unem. \n(%) ', colours=brewer.pal(8, "Reds"))+
   ggtitle("Unemployment rates")
 ```
 
@@ -221,3 +223,55 @@ ggplot()+
 **Quick assignment:** Add Netherlands (`NL`) to both plots (Examples 1 & 2).
 
 --- 
+
+
+### **Example 3: Save Unemployment time series data into a `zoo` object **
+
+
+#### Panel data format (not a TS object)
+
+
+```{r}
+Un.DF %>% 
+  filter(age == "Y15-74", time >= 2010, sex == "T") %>% # filter variables
+  filter(geo %in% c("AT","CZ","DE","HU","PL","SK")) %>% # subset of countries
+  head(10)
+```
+
+
+#### TS format (`zoo`-type TS object)
+
+
+```{r}
+Unempl <- Un.DF %>% 
+  filter(age == "Y15-74", time >= 2010, sex == "T") %>% # filter variables
+  filter(geo %in% c("AT","CZ","DE","HU","PL","SK")) %>% # subset of countries
+  spread(key = "geo", value = "values") # convert to wide format
+head(Unempl) # wide format, not a TS object
+Unempl.zoo <- zoo(Unempl[,-c(1:4)], order.by = Unempl$time) # drop columns
+head(Unempl.zoo)
+```
+
+
+#### Quarterly data - `zoo` example (TS)
+
+Here, we download a new dataset that contains quarterly data: `lfsq_urgan`
+
+```{r}
+Un.Q <- get_eurostat("lfsq_urgan", time_format = "num") # note the simplified time format
+as.data.frame(Un.Q[1:6,])
+Un.2Q <- Un.Q %>% 
+  filter(age == "Y15-74", time >= 2010, sex == "T", citizen == "TOTAL") %>% # filter variables
+  filter(geo %in% c("AT","CZ","DE","HU","PL","SK")) %>% # subset of countries
+  spread(key = "geo", value = "values") # convert to wide format
+as.data.frame(Un.2Q[1:6,]) # wide format, not a TS object
+Un.Q.zoo <- zoo(Un.2Q[,-c(1:5)], order.by = as.yearqtr(Un.2Q$time)) # drop columns
+head(Un.Q.zoo)
+autoplot(Un.Q.zoo[,1:3]) + scale_x_yearqtr()
+
+```
+
+
+--- 
+
+
