@@ -37,15 +37,16 @@ row.names(full) <- c(1:50) # fixes row names.
 #
 #
 # A.2 Simulate MCAR missing data for two variables: educ and tenure
-set.seed(99)
+set.seed(19)
 sample2 <- sample(nrow(full), size = 5, replace = F)
+set.seed(111)
 sample3 <- sample(nrow(full), size = 6, replace = F)
 mcar <- full # step 1, copy all data
 mcar[sample2, "educ"] <-  NA  # step 2, generate NAs
 mcar[sample3, "tenure"] <-  NA 
 sum(complete.cases(mcar)) # complete cases in the mcar dataset
 cat("Due to missing data, we have lost a total of n = ", 50-(sum(complete.cases(mcar))), "observations.")
-fix(mcar)
+head(mcar[,1:10],20)
 #
 #
 # B.1 Our benchmark model - with no missing data simulated (all n=50 observations used)
@@ -100,7 +101,8 @@ library("VIM")
 md.pattern(mcar.mice)
 # each row corresponds to a missing data pattern (1=observed, 0=missing). 
 # Rows and columns are sorted in increasing amounts of missing information. 
-# The last column and row contain row and column counts, respectively.
+# Top (blue) row represents "full" observations
+# Numbers on the left are "row counts", numbers on the right are "variable counts".
 #
 md.pairs(mcar.mice) # Number of observations per variable pair.
 # rr - response-response, both variables are observed
@@ -111,18 +113,17 @@ md.pairs(mcar.mice) # Number of observations per variable pair.
 marginplot(mcar.mice[, c("educ", "tenure")], col = mdc(1:2, trans=F), 
            cex = 1.2, cex.lab = 1.2, cex.numbers = 1.3, pch = 19,
            xlab = "educ", ylab = "tenure")
-# x-axis:
-# .. minimum educ (blue dot corresponds to educ=5 (x-axis) and tenure = 0 (y-axis)
+# .. Blue dots
+# .... scatter-plot of observed educ-tenure pairs
 #
 # .. Purple dots on the "x-axis"
-# .... "corner" purple dot: educ and tenure are both missing (2 instances) 
-# .... educ = 12 and tenure is missing (2 instances)
-# .... educ = 13 and tenure is missing (3 instances)
+# .... educ is observed (at different levels), yet we have no data on tenure
 #
-# y-axis
-# .. Purple dots on the y-axis correspond to instances
-# .. with observed tenure and missing (not-determined) values of educ.
+# .. Purple dots on the "y-axis"
+# .... tenure is observed (at different levels), yet we have no data on educ
 #
+# .. "Corner" purple dot 
+# .... both educ and tenure are  missing at the same time
 #
 help(package=mice)
 # Create the imputation object
@@ -135,7 +136,7 @@ help(package=mice)
 #
 imputed.data <- mice(mcar.mice, m=5, seed=200) # m=5 is the default setting
 # Imputation summary
-imputed.data # see page 16 & 18 of the {mice} PDF file for "pmm" and other methods
+str(imputed.data) # see page 16 & 18 of the {mice} PDF file for "pmm" and other methods
 # .. pmm - Predictive mean matching
 # Actual imputed values for each of the 5 imputations
 imputed.data$imp$educ
@@ -147,8 +148,7 @@ stripplot(imputed.data, pch = 20, cex = 1.2)
 # .. x-axes: 0 is the original data, 1 is the first imputation, .... 
 # .. Blue dots: observed data (no missing data --> blue dots only)
 # .. Purple dots: imputed data
-# .. Note that the imputed points follow the blue points reasonably well,
-#    including the gaps in the distribution
+# .. Note how the pmm-based imputed points follow the blue points,
 #
 # Estimation of a model using MI:
 ?with
@@ -201,7 +201,7 @@ Coeffs
 rm(list=ls())
 ## Assignment 1
 ## 
-## 1) Open the "_dataW03/hp2_mi.csv" dataset. 
+## 1) Open the "datasets/hp2_mi.csv" dataset. 
 ##    This dataset contains an amended HPRICE2 dataset (as used in Wooldridge)
 ##    .. dataset is shorter and contains missing data (MCAR)
 ##    
