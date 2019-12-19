@@ -1,0 +1,190 @@
+---
+title: "TS imputation"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(imputeTS)
+```
+
+## Univariate Time Series Missing Value Imputation
+
+---
+
+### This example is based on the `{imputeTS}` package.
+
+**`tsAirgap` dataset** has 144 rows and the incomplete version includes 13 NA values. It represents
+the monthly totals of international airline passengers from 1949 to 1960. The
+
+#### Visualize the missing values in this time series
+
+```{r}
+class(tsAirgap)
+summary(tsAirgap)
+head(tsAirgap,24)
+plotNA.distribution(tsAirgap)
+```
+
+
+#### The next plot is especially useful if the time series would otherwise be too large to be plotted.  
+
++ Multiple observations for time intervals are grouped together and represented as bars.   
++ For these intervals, information about the amount of missing values are shown  
+
+```{r}
+plotNA.distributionBar(tsAirgap, breaks = 20)
+```
+
+#### Print stats about the missing data
+
+```{r}
+statsNA(tsAirgap)
+```
+
+--- 
+
+### Different types of imputation performed using the `{imputeTS}` package.
+
+#### **Missing value imputation by mean value** 
+
+```{r}
+impMean.Airgap <- na_mean(tsAirgap)
+plotNA.imputations(tsAirgap, impMean.Airgap) #  tsAirgapComplete is the complete dataset
+plotNA.imputations(tsAirgap, impMean.Airgap, tsAirgapComplete) #  tsAirgapComplete is the complete dataset
+```
+
+---
+
+#### **Imputation by last observation carried forward (LOCF)**
+
+```{r}
+impLOCF.Airgap <- na_locf(tsAirgap)
+plotNA.imputations(tsAirgap, impLOCF.Airgap, tsAirgapComplete)
+```
+
+
+---
+
+#### **Imputation by interpolation: linear & spline**
+
+#### Linear interpolation
+
+```{r}
+impLinear.Airgap <- na_interpolation(tsAirgap) # Linear interpolation
+plotNA.imputations(tsAirgap, impLinear.Airgap, tsAirgapComplete)
+```
+
+#### Spline interpolation
+
+```{r}
+impSpline.Airgap <- na_interpolation(tsAirgap, option = "spline") # Spline interpolation
+plotNA.imputations(tsAirgap, impSpline.Airgap, tsAirgapComplete)
+```
+
+--- 
+
+#### **Kalman filter -- for TS with trend & seasonality**
+
+#### Kalman filter
+
+```{r}
+impKalman.Airgap <- na_kalman(tsAirgap, model = "StructTS", smooth = TRUE) # Spline interpolation
+plotNA.imputations(tsAirgap, impKalman.Airgap, tsAirgapComplete)
+```
+
+--- 
+
+## Multivariate Time Series Missing Value Imputation
+
+Package `{Amelia}` supports time series MI:
+
+ + We may include time polynomials up to third order as additional variables in the covariance matrix.  
+ + Another option is using time lagged variables (leads, lags).  
+ + Bootstrap approach is used to account for the variance of paramters in a function used to produce imputations.  
+ + For details, see e.g. https://papers.ssrn.com/sol3/papers.cfm?abstract_id=2996611
+ 
+---
+
+#### **Amelia -- TS example**
+
+Based on the Freetrade dataset: *Economic and political data on nine developing countries in Asia from 1980 to 1999. This dataset includes 9 variables*:  
++ year,  
++ country,  
++ average tariff rates,  
++ polity IV score,  
++ total population,  
++ gross domestic product per capita,  
++ gross international reserves,  
++ dummy variable for if the country had signed an IMF agreement in that year,  
++ a measure of financial openness,  
++ a measure of US hegemony.  
+
+ 
+```{r}
+library(Amelia)
+summary(freetrade) 
+missmap(freetrade) # description of missing data in "freetrade" data
+```
+
+
++ Amelia can build a general model of patterns within variables across
+time by creating a sequence of polynomials of the time index.  
+
++ If, for example, tariffs vary smoothly over time, then we make the modeling assumption that there exists some polynomial that describes the economy in cross-sectional unit $i$ at time $t$ as ($3^{rd} order polynomial is a maximum):  
+$$ y_{it} = \beta_0 + \beta_1 t + \beta_2 t^2 + \beta_3 t^3 + u_{it}$$
+
+---  
+
+For a second-order polynomial and the `tariff` series, we may do MI as follows:
+
+```{r}
+set.seed(100)
+a.out <- amelia(freetrade, ts = "year", cs = "country", polytime = 2)
+tscsPlot(a.out, cs = "Malaysia", main = "MI with Amelia",
+         var = "tariff", ylim = c(-10, 60))
+compare.density(a.out, var = "tariff") #not specific to Malaysia
+```
+
+
+---  
+
+We can also impute with trends specific to each cross-sectional unit:
+
+```{r}
+set.seed(120)
+a.out.time <- amelia(freetrade, ts = "year", cs = "country", polytime = 2,
+                     intercs = TRUE, p2s = 0) # "p2s = 0" turns off text output
+tscsPlot(a.out.time, cs = "Malaysia", main = "MI with Amelia",
+         var = "tariff", ylim = c(-10, 60))
+compare.density(a.out.time, var = "tariff") #not specific to Malaysia
+```
+ 
+ + Note how the imputed values fit original observations better.
+ 
+ 
+---  
+
+We can add leads and lags to calculate the imputation (along with trends specific to each cross-sectional unit):
+
+```{r}
+set.seed(140)
+a.out2 <- amelia(freetrade, ts = "year", cs = "country", lags = "tariff",
+                 leads = "tariff", intercs = TRUE, polytime = 2, p2s = 0)
+tscsPlot(a.out2, cs = "Malaysia", main = "MI with Amelia",
+         var = "tariff", ylim = c(-10, 60))
+compare.density(a.out2, var = "tariff") #not specific to Malaysia
+```
+ 
+ + Calculation time for the last imputation task increases considerably.
+ 
+
+
+---
+
+
+Additional MI approaches (using prior information, etc.) and evaluation procedures can be observed from `Amelia` vignette: 
+
+https://cran.r-project.org/web/packages/Amelia/vignettes/amelia.pdf 
+
+
