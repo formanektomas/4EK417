@@ -1,4 +1,4 @@
-#### Spatial analysis ####
+#### Packages Block 1
 #
 install.packages(c("ggplot2","dplyr","tidyr","tidyverse","reshape2","sf"), dependencies = T)
 #
