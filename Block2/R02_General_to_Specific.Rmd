@@ -1,0 +1,374 @@
+---
+title: "General to Specific Modelling"
+output: html_document
+---
+
+```{r, include=F}
+library(ggplot2)
+library(knitr)
+library(dyn) # loads {zoo} as well
+require(lmtest)
+require(tseries)
+require(urca)
+```
+
+## Food Demand
+
+This example is based on the **Food Demand** exercise from Thomas, Modern Econometrics
+
+* Models in this exercise describe annual US demand for food "quantity".
+* 1965 - 1989 annual data
+
+---
+
+## Data
+
+```{r}
+# Read the data
+food.df <- read.csv('datasets/FoodDemand.csv') 
+str(food.df)
+```
+
+
+| Variable      | Description                                                     |
+|---------------|-----------------------------------------------------------------|
+| OBS           | Year id                                                         |
+| $Q$           | Food demand 'quantity' .. consumers' expenditures in 1980 prices|     
+| $X$           | Total (consumer) expenditures in current prices                 |
+| $P$           | Price index for food .. (current prices of food) / (1980 prices of food) |
+| $G$           | General price index .. (total current consumer prices) / (1980 consumer prices)  |
+| $q$           | $\log(Q)$                                                        |
+| $x$           | $\log(X)$                                                        |
+| $p$           | $\log(P)$                                                        |
+| $g$           | $\log(G)$                                                        |
+
+```{r}
+food.df$q <- log(food.df$Q)
+food.df$x <- log(food.df$X)
+food.df$p <- log(food.df$P)
+food.df$g <- log(food.df$G)
+food.zoo <- zoo(food.df, order.by=food.df$OBS)
+plot(food.zoo[,6:9], main = "log-transformed data",xlab = "time")
+
+```
+
+--- 
+
+# General model
+
+This is an `ADL(1,1)` model, describing the behaviour of $q$ using all available information (variables):
+
+$$
+q_t = \beta_0 + \beta_1 q_{t-1} + \beta_2 x_t + \beta_3 x_{t-1} + \beta_4 p_t + \beta_5 p_{t-1} + \beta_6 g_t + \beta_7 g_{t-1} + u_t \qquad (1)
+$$
+
+
+```{r}
+eq1244 <- dyn$lm(q ~ lag(q, -1) + x + lag(x, -1) + p + lag(p, -1) 
+                 + g + lag(g, -1), data = food.zoo, subset=3:27)
+summary(eq1244)
+```
+
+* Note that this example is mostly an illustration of the "general-to-specific" approach, as $n$ (sample size) is very limited for the statistical inference discussed next  
+
+* To treat equation $(1)$ as truly "general", one would need to check for dynamic completeness, i.e. test for stastical significance of additional lags (included to the model).
+
+
+**Basic tests for model $(1)$:**
+
+```{r}
+# Breusch-Godfrey test for serial correlation
+bgtest(eq1244, order=1)
+bgtest(eq1244, order=2)
+# Ramsey's RESET test
+reset(eq1244, power = 2:3, type="fitted")
+# Jarque-Bera test for normality
+jarque.bera.test(eq1244$residuals)
+# Breusch-Pagan test for heteroskedasticity
+bptest(eq1244, studentize = F)
+```
+
+* The diagnostic statistics can be regarded in the context of testing for model misspecification.  
+* We may conclude that our specification (log-log functional form) is OK.
+
+--- 
+
+## Model simplification: General-to-Specific modelling
+
+* Equation $(1)$ is a general specification (nesting model)  
+* Limited / reduced / simplified / specific models are nested within $(1)$  
+* Specific models are created from equation $(1)$ through simplifying assumptions
+* Specific models need to be tested against the General model ($F$-test for linear restrictions, etc.)
+
+
+--- 
+
+## Simplification attempt 1
+
+* A simplified version of model $(1)$ may be produced using PAM assumptions:
+
+**Quick PAM recap**
+
+* LRM: $y_t^{\ast} = \alpha + \beta x_t + u_t~~$  where $y_t^{\ast}$ is unobservable (equlibrium variable)
+
+* and $y_t$ behaviour assumption: $y_t = \theta y_t^{\ast} + (1-\theta) y_{t-1}$  
+
+* can be combined into $y_t = (\alpha\theta) + (\beta\theta)x_t + (1-\theta)y_{t-1}+\theta u_t~$. 
+
+* With simple substitution: $y_t = \beta_0^{\,'} + \beta_1^{\,'} x_t + \beta_2^{\,'} y_{t-1} + u_t^{\,'}~$, this model is estimable, based on observed variables only (GLS may be necessary).
+
+* PAM generalization from 1 to 3 regressors is trivial. 
+
+
+**Food demand based on PAM**
+
+Based on PAM, long-term equlibrium of food demand would follow from:
+
+$$
+q_t^{\ast} = \beta_0 + \beta_1 x_t + \beta_2 p_t + \beta_3 g_t + u_t  \qquad (2)
+$$
+
+This model may be transformed into $(3)$ for estimation:
+
+$$
+q_t = \beta_0^{\,'} + \beta_1^{\,'} x_t + \beta_2^{\,'} p_t + \beta_3^{\,'} g_t + \beta_4^{\,'} q_{t-1} +  u_t^{\,'}  \qquad (3)
+$$
+
+```{r}
+eq1245 <- dyn$lm(q ~ x + p + g + lag(q, -1), data = food.zoo, subset=3:27)
+summary(eq1245)       
+```
+
+
+* Please note that $(3)$ may be obtained from $(1)$ through (linear) zero-restrictions. Hence, $(3)$ is nested in $(1)$ and the two regressions can be compared using $F$-test.
+
+```{r}
+anova(eq1245, eq1244)
+```
+
+* The simplification from $(1)$ to $(3)$ is not supported by the data.  
+
+* We reject this "branch" of simplified models from further searching -- models nested in $(3)$ may be disregarded from further analysis.  
+
+* If the null hypothesis were not rejected, we would need to perform diagnostic tests.  
+
+--- 
+
+
+## Simplification attempt 2
+
+* A simplified version of model $(1)$ may be produced by assuming that food price inflation $p$ does not deviate significantly from general inflation $g$. 
+
+* This assumption may be used for dropping $p_t$ and $p_{t-1}$ from the regression model. 
+
+* Again, validity of such assumption (zero restriction) may be easily evaluated.
+
+Simplified model:
+
+$$
+q_t = \beta_0 + \beta_1 q_{t-1} + \beta_2 x_t + \beta_3 x_{t-1} + \beta_4 g_t + \beta_5 g_{t-1} + u_t \qquad (4)
+$$
+
+```{r}
+eq1246 <- dyn$lm(q ~ x + lag(x, -1) + g + lag(g, -1), data = food.zoo, subset=3:27)
+summary(eq1246) 
+```
+
+
+* Models $(1)$ and $(4)$ compared using $F$-test:
+
+```{r}
+anova(eq1246, eq1244)
+```
+
+* Again, this simplification (specific model) is not supported by the data.
+
+--- 
+
+# ECM-based simplification
+
+
+This simplification approach is based on the equivalency of `ADL(1,1)` and `ECM` models (revert to Week2 presentation for the course 4EK608/4EK416):
+
+* ADL(1,1) equation $y_t = \beta_0 + \beta_1 y_{t-1} + \gamma_0 x_t + \gamma_1 x_{t-1} + u_t$ ,
+
+* can be equivalently rewritten as ECM: $\Delta y_t = \beta_0 + (\beta_1 -1) ( y_{t-1} - \lambda x_{t-1} ) + \gamma_0 \Delta x_t + u_t$,
+
+* where $\lambda = \frac{\gamma_0 + \gamma_1}{1 - \beta_1}$ and $|\beta_1| < 1$ is assumed.
+
+* Generalization from 1 to 3 regressors can be performed.  
+
+Therefore, model $(1)$ may be re-written in ECM form (or generalized/explicit ECM form -- without the common coefficient restriction):
+
+$$
+\Delta q_t = \beta_0 + \beta_1 \Delta x_t + \beta_2 \Delta p_t + \beta_3 \Delta g_t \qquad \qquad \qquad \qquad~~~~~~ \\
++\beta_4 q_{t-1} +  \beta_5 x_{t-1}  + \beta_6 p_{t-1}  + \beta_7 g_{t-1} + u_t \qquad (5)
+$$
+
+```{r}
+# Calculate first differences and lags for the ECM
+food.zoo$d.q <- diff(food.zoo$q)
+food.zoo$d.x <- diff(food.zoo$x)
+food.zoo$d.p <- diff(food.zoo$p)
+food.zoo$d.g <- diff(food.zoo$g)
+#
+food.zoo$q_1 <- lag(food.zoo$q, -1)
+food.zoo$x_1 <- lag(food.zoo$x, -1)
+food.zoo$p_1 <- lag(food.zoo$p, -1)
+food.zoo$g_1 <- lag(food.zoo$g, -1)
+#
+eq1339 <- lm(d.q ~ d.x + d.p + d.g + q_1 + x_1 + p_1
+                 + g_1, data = food.zoo[3:27,])
+summary(eq1339)
+```
+
+**Basic tests for model $(5)$:**
+
+```{r}
+# Breusch-Godfrey test for serial correlation
+bgtest(eq1339, order=1)
+# Ramsey's RESET test
+reset(eq1339, power = 2:3, type="fitted")
+# Jarque-Bera test for normality
+jarque.bera.test(eq1339$residuals)
+# Breusch-Pagan test for heteroskedasticity
+bptest(eq1339, studentize = F)
+```
+
+* While model $(5)$ is generally OK (given diagnostic tests) and equivalent to $(1)$, the two estimations cannot be easily compared using a $F$-test: note the different LHS elements $q$ and $\Delta q$ in equations $(1)$ and $(5)$.
+
+## ECM-based simplification step 1
+
+* Coefficient on $p_{t-1}$ in the ECM model $(5)$ is not significant. 
+
+* $p_{t-1}$ "comes from" the long-run part of the ECM. Hence, this suggests that food price has no long-run impact on food demand quantity.
+
+* This may be consistent with the fact that food is a basic necessity. 
+
+Hence, we simplify $(5)$ by dropping $p_{t-1}$:
+
+```{r}
+eq1340 <- lm(d.q ~ d.x + d.p + d.g + q_1 + x_1 + g_1, data = food.zoo[3:27,])
+summary(eq1340)
+``` 
+
+**Basic tests for the simplified model $(5)$:**
+
+```{r}
+# Breusch-Godfrey test for serial correlation
+bgtest(eq1340, order=1)
+# Ramsey's RESET test
+reset(eq1340, power = 2:3, type="fitted")
+# Jarque-Bera test for normality
+jarque.bera.test(eq1340$residuals)
+# Breusch-Pagan test for heteroskedasticity
+bptest(eq1340, studentize = F)
+```
+
+* Models $(5)$ is compared to its simplified version:
+
+```{r}
+anova(eq1340, eq1339)
+```
+
+* While some deterioration in model properties is present, we may proceed with the simplified version and evaluate additional simplifications.
+
+## ECM-based simplification step 2
+
+* After dropping $p_{t-1}$ from equation $(5)$, we may see that the sum of short-run coefficients $\beta_1$ to $\beta_3$ is close to zero.  
+
+* i.e. in : $\Delta q_t = \beta_0 + \beta_1 \Delta x_t +  \beta_2 \Delta p_t + \beta_3 \Delta g_t \dots$,
+
+* we could assume $\beta_1 + \beta_2 + \beta_3 = 0 \qquad \Rightarrow \qquad \beta_3 = - \beta_1 - \beta_2$.
+
+* By substitution for $\beta_3$, we get: $\Delta q_t = \beta_0 + \beta_1 (\Delta x_t - \Delta g_t) + \beta_2 ( \Delta p_t - \Delta g_t) \dots$
+
+
+* $\beta_1 + \beta_2 + \beta_3 = 0$ is a short-run homogeneity of order zero assumption (of the function $\Delta q_t = f(.)$ wrt. $\Delta x_t,\Delta p_t,\Delta g_t$).
+
+* Hence, if nominal expenditures, food prices and general prices all rise by the same ammount (say, 10%), we expect no change in the food demand quantity.
+
+By imposing this additional assumption (homogeneity restriction), we get:
+
+$$
+\Delta q_t = \beta_0 + \beta_1 (\Delta x_t - \Delta g_t) + \beta_2 ( \Delta p_t - \Delta g_t) \qquad \qquad~ \\
++\beta_3 q_{t-1} +  \beta_4 x_{t-1}  + \beta_5 g_{t-1} + u_t \qquad \qquad (6)
+$$
+
+```{r}
+eq1341 <- lm(d.q ~ I(d.x-d.g) + I(d.p - d.g) + q_1 + x_1 + g_1, data = food.zoo[3:27,])
+summary(eq1341)
+``` 
+
+**Basic tests for model $(6)$:**
+
+```{r}
+# Breusch-Godfrey test for serial correlation
+bgtest(eq1341, order=1)
+# Ramsey's RESET test
+reset(eq1341, power = 2:3, type="fitted")
+# Jarque-Bera test for normality
+jarque.bera.test(eq1341$residuals)
+# Breusch-Pagan test for heteroskedasticity
+bptest(eq1341, studentize = F)
+```
+
+* Models $(5)$ is compared to model $(6)$:
+
+```{r}
+anova(eq1341, eq1339)
+```
+
+
+* Imposing the short-run homogeneity assumption is supported by the data and we may consider the simplification from $(5)$ to $(6)$ "valid".
+
+
+## ECM-based simplification step 3
+
+* In the estimated equation $(6)$, we may see that the coefficients for $x_{t-1}$ and $g_{t-1}$ are of roughly equal size yet opposite signs.
+
+* Again this might imply homogeneity of food demand (as food is a basic need). 
+
+* In model $(6)$, we might impose additional restriction: $\beta_4 + \beta_5 = 0 \Rightarrow \beta_4 = - \beta_5$.
+
+* Using this restriction, we assume homogeneity of order zero in the long-run as well (wrt $x_{t-1}$ and $g_{t-1}$).
+
+By imposing this restriction, model $(6)$ is transformed into $(7)$ as follows:
+
+
+$$
+\Delta q_t = \beta_0 + \beta_1 (\Delta x_t - \Delta g_t) + \beta_2 ( \Delta p_t - \Delta g_t) \qquad \qquad\\
++\beta_3 q_{t-1} +  \beta_4 (x_{t-1}  - g_{t-1}) + u_t \qquad \qquad (7)
+$$
+
+```{r}
+eq1342 <- lm(d.q ~ I(d.x-d.g) + I(d.p - d.g) + q_1 + I(x_1 - g_1), data = food.zoo[3:27,])
+summary(eq1342)
+``` 
+
+**Basic tests for model $(7)$:**
+
+```{r}
+# Breusch-Godfrey test for serial correlation
+bgtest(eq1342, order=1)
+# Ramsey's RESET test
+reset(eq1342, power = 2:3, type="fitted")
+# Jarque-Bera test for normality
+jarque.bera.test(eq1342$residuals)
+# Breusch-Pagan test for heteroskedasticity
+bptest(eq1342, studentize = F)
+```
+
+* Models $(5)$ is compared to model $(7)$:
+
+```{r}
+anova(eq1342, eq1339)
+```
+
+* We have tested down from the "full" ECM model $(5)$ (8 estimated parameters) to a more parsimonious specification $(7)$ (5 estimated parameters).
+
+* There is no obvious simplification to $(7)$ available, it is our final model. 
+
+* By reporting the whole **general-to-specific** model specification process, additional insight is gained -- as compared to reporting the final model $(7)$ only.
+
+--- 
