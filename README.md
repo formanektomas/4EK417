@@ -24,7 +24,7 @@ University of Economics, Prague
 #### Materials for Block 1
 - [R](https://www.r-project.org/) / [RStudio](https://www.rstudio.com/products/RStudio/)  
 - [stackoverflow](https://stackoverflow.com/tags/r/info)  
-- [scripts and datasets for Block 1](https://github.com/formanektomas/4EK417/tree/master/Block1)  
+- [Scripts and datasets for Block 1](https://github.com/formanektomas/4EK417/tree/master/Block1)  
 
 ---
 
@@ -36,7 +36,7 @@ University of Economics, Prague
 + Principal component regression (PCR) models  
 
 #### Materials for Block 2
-- [scripts and datasets for Block 2](https://github.com/formanektomas/4EK417/tree/master/Block2)  
+- [Scripts and datasets for Block 2](https://github.com/formanektomas/4EK417/tree/master/Block2)  
 
 ---
 
@@ -50,7 +50,7 @@ University of Economics, Prague
     + Advanced topics (spatial filtering)  
 
 #### Materials for Block 3
-- [scripts and datasets for Block 3](https://github.com/formanektomas/4EK417/tree/master/Block3)  
+- [Scripts and datasets for Block 3](https://github.com/formanektomas/4EK417/tree/master/Block3)  
 
 ---
 
@@ -65,6 +65,6 @@ University of Economics, Prague
     + Hierarchical models  
 
 #### Materials for Block 4
-- [scripts and datasets for Block 4](https://github.com/formanektomas/4EK417/tree/master/Block4)  
+- [Scripts and datasets for Block 4](https://github.com/formanektomas/4EK417/tree/master/Block4)  
 
 ---
