@@ -51,6 +51,8 @@ University of Economics, Prague
 
 #### Materials for Block 3
 - [Scripts and datasets for Block 3](https://github.com/formanektomas/4EK417/tree/master/Block3)  
+- [Simple Features for R](https://r-spatial.github.io/sf/)  
+- [GADM maps and data](https://gadm.org/)  
 
 ---
 
