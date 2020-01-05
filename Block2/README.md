@@ -1,4 +1,4 @@
-## Econometric models: specification choice methods
+## Econometric models: specification choice methods & extensions to linear models
 
 Model selection  
 + Theoretical approach: specific-to-general, general-to-specific
