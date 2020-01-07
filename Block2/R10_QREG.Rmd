@@ -8,7 +8,7 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 library(quantreg)
 library(Ecdat)	
-data(BudgetFood)
+BudgetFood <- BudgetFood
 BudgetFood$town <- as.factor(BudgetFood$town)
 ```
 
@@ -78,6 +78,26 @@ QR.seq <- rq(wfood ~ log(totexp)+age+size+town+sex, data=BudgetFood,
 summary(QR.seq)
 # summary plot
 plot(summary(QR.seq), ols=T)
+```
+
+
+--- 
+
+### Quantile regression: predicting (conditional) quantiles of the DV
+
+
+```{r, warning=F}
+QR.seq <- rq(wfood ~ log(totexp)+age+size+sex, data=BudgetFood, 
+             tau = 1:9/10)
+BDGF <- BudgetFood[10,]
+fp1 <- quantreg:::predict.rq(QR.seq, newdata=BDGF, stepfun = T)
+fp1
+plot(fp1~seq(0.1,0.9, by =0.1), main = "Conditional WFOOD Quantile Predictions for household 10", type = "h", lwd = 5, ylab = "wfood", xlab = "tau")
+#
+BDGF <- BudgetFood[1112,]
+fp2 <- quantreg:::predict.rq(QR.seq, newdata=BDGF, stepfun = T)
+fp2
+plot(fp2~seq(0.1,0.9, by =0.1), main = "Conditional WFOOD Quantile Predictions for household 1112", type = "h", lwd = 5, ylab = "wfood", xlab = "tau" )
 ```
 
 
