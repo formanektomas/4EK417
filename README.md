@@ -28,12 +28,23 @@ University of Economics, Prague
 
 ---
 
-### Block 2: Econometric models: specification choice methods
+### Block 2: Model specification choice methods & extensions to linear models
 
-+ Theoretical approach: specific-to-general, general-to-specific  
-+ Stepwise model selection  
-+ Penalized regression  
-+ Principal component regression (PCR) models  
+Model selection  
++ Theoretical approach: specific-to-general, general-to-specific
++ Stepwise model selection
+
+Model selection & regularization  
++ Penalized regression
++ Principal component regression (PCR) models
+
+Moving beyond linearity  
++ Quantile regression (quick repetition)  
++ Polynomial and step (piecewise-constant) regression  
++ Regression splines  
++ Smoothing splines  
++ Generalized Additive Models (GAM)  
+ 
 
 #### Materials for Block 2
 - [Scripts and datasets for Block 2](https://github.com/formanektomas/4EK417/tree/master/Block2)  
