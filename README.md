@@ -38,6 +38,7 @@ Model selection & regularization
 + Penalized regression
 + Principal component regression (PCR) models
 
+
 Moving beyond linearity  
 + Quantile regression (quick repetition)  
 + Polynomial and step (piecewise-constant) regression  
@@ -85,7 +86,9 @@ Moving beyond linearity
     + Longitudinal data  
     + Hierarchical models  
 
-#### Materials for Block 4
-- [Scripts and datasets for Block 4](https://github.com/formanektomas/4EK417/tree/master/Block4)  
+#### Materials for Block 6
+- [Scripts and datasets for Block 6](https://github.com/formanektomas/4EK417/tree/master/Block6)  
 
 ---
+
+[Homepage](https://formanektomas.github.io/4EK417/)
