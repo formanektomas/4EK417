@@ -56,7 +56,15 @@ University of Economics, Prague
 
 ---
 
-### Block 4: Panel data methods
+### Block 4: Limited dependent variables (LDVs): advanced methods and models
+
+--- 
+
+### Block 5: Treatment effects
+
+--- 
+
+### Block 6: Panel data methods
 
 + Panel data models  
     + Fixed effects & Random effects models  
