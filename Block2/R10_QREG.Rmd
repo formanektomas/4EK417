@@ -1,0 +1,94 @@
+---
+title: "Quantile regression"
+subtitle: "Quick repetition and empirical example"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(quantreg)
+library(Ecdat)	
+data(BudgetFood)
+BudgetFood$town <- as.factor(BudgetFood$town)
+```
+
+--- 
+
+
+## Quantile regression
+
++ QR allows for studying the impact of independent variables on different quantiles of dependent variable’s distribution, and thus provides a complete picture of the relationship between $y$ and $x_1, x_2, \dots, x_k$.  
+
++ Robust to outliers in $y$ observations.
+
++ Estimation and bootstrap inferences are distribution-free.
+
+---
+
+## Empirical example using `BudgetFood` data
+
+### Data description and visualization
+
+CS data 1980, 23972 households from Spain
+
+
+| Variable   | Description                                           | 
+|------------|-------------------------------------------------------|
+| wfood      | percentage of total expenditure which the household has spent on food |
+| totexp     | total expenditure of the household |
+| age        | age of reference person in the household |
+| size       | size of the household |
+| town       | size of the town where the household is placed categorised into 5 groups: 1 for small towns, 5 for big ones |
+| sex        | sex of reference person (man,woman) |
+
+
+
+
+
+```{r, warning=F}
+str(BudgetFood)
+#
+# pairs(BudgetFood, col="blue", main="Scatterplots")
+#
+hist(BudgetFood$wfood, prob=TRUE, col = "blue", border = "black")
+lines(density(BudgetFood$wfood))
+```
+
+---- 
+
+### Compare OLS and LAD estimation
+
+```{r, warning=F}
+# OLS
+OLS.est <- lm(wfood ~ log(totexp)+age+size+town+sex, data=BudgetFood)
+summary(OLS.est)
+# LAD 
+LAD.est <- rq(wfood ~ log(totexp)+age+size+town+sex, data=BudgetFood, tau = 0.5)
+summary(LAD.est)
+```
+
+--- 
+
+### Quantile regression: estimation and plots
+
+
+```{r, warning=F}
+QR.seq <- rq(wfood ~ log(totexp)+age+size+town+sex, data=BudgetFood, 
+             tau = 1:9/10)
+summary(QR.seq)
+# summary plot
+plot(summary(QR.seq), ols=T)
+```
+
+
+--- 
+
+### Testing for equal parameters at different quantiles of the dependent variable:
+
+
+```{r, warning=F}
+q30 <- rq(wfood ~ log(totexp)+age+size+sex, data=BudgetFood, tau = 0.3)
+q50 <- rq(wfood ~ log(totexp)+age+size+sex, data=BudgetFood, tau = 0.5)
+anova(q30, q50)
+```
+
