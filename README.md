@@ -41,7 +41,7 @@ Model selection & regularization
 
 Moving beyond linearity  
 + Quantile regression (quick repetition)  
-+ Polynomial and step (piecewise-constant) regression  
++ Polynomial and step regression  
 + Regression splines  
 + Smoothing splines  
 + Generalized Additive Models (GAM)  
