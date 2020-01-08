@@ -6,7 +6,7 @@ Model selection
 
 Model selection & regularization  
 + Penalized regression
-+ Principal component regression (PCR) models
++ Dimension reduction: PCR & PLS
 
 Moving beyond linearity  
 + Quantile regression (quick repetition)  
