@@ -49,6 +49,7 @@ Moving beyond linearity
 
 #### Materials for Block 2
 - [Scripts and datasets for Block 2](https://github.com/formanektomas/4EK417/tree/master/Block2)  
+- [Interactive Course using mgcv (ch. 1,2,4)](https://noamross.github.io/gams-in-r-course/)  
 
 ---
 
@@ -65,6 +66,7 @@ Moving beyond linearity
 - [Scripts and datasets for Block 3](https://github.com/formanektomas/4EK417/tree/master/Block3)  
 - [Simple Features for R](https://r-spatial.github.io/sf/)  
 - [GADM maps and data](https://gadm.org/)  
+- [Interactive Course using mgcv (ch. 3)](https://noamross.github.io/gams-in-r-course/)  
 
 ---
 
