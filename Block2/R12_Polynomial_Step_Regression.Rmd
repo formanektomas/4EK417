@@ -1,0 +1,309 @@
+---
+title: "Polynomial and step regression"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(ISLR)
+library(ggplot2)
+attach(Wage)
+Wage <- Wage
+agelims <- range(Wage$age)
+age.grid <- seq (from=agelims [1], to=agelims [2], length.out = 300)
+```
+
+## Polynomial regression
+
++ Quick recap only -- covered in previous courses  
++ Precursor to splines, smoothers and GAMs (discussed next)  
+
+$$
+ y_i = \beta_0 + \beta_1 x_i + \beta_2 x_i^2 + \beta_3 x_i^3 + \dots  + \beta_d x_i^d + u_i
+$$
+
+--- 
+
+## `Wage` data example from `{ISLR}`
+
+We shall focus on a regression model of in the general form:
+$$\texttt{Wage}~~\leftarrow~~f(\texttt{Age}).$$
+
+#### Linear regression model / linear function  
+
+```{r}
+# Linear model
+m1 <- lm(wage~age,data = Wage)
+summary(m1)$coefficients
+predm1 <- predict(m1, interval = "confidence")
+# head(predm1)
+plotDF.1 <- cbind(Wage, predm1)
+#
+# Plot the linear model
+#
+ggplot(plotDF.1, aes(x = age, y = wage) ) +
+  geom_point(col="grey70") +
+  geom_ribbon( aes(ymin = lwr, ymax = upr), fill="blue", alpha = .35) +
+  geom_line( aes(y = fit), colour="black", size = 1) +
+  theme_bw()
+
+```
+
+
+#### Linear regression model / quadratic function in `Age`  
+
+```{r}
+# Polynomial regression, d=2
+m2 <- lm(wage~age+I(age^2),data = Wage)
+summary(m2)$coefficients
+# we get the same result using poly() function:
+(summary(lm(wage~poly(age,degree = 2, raw = T),data = Wage)))$coefficients # note the raw argument
+predm2 <- predict(m2, interval = "confidence")
+plotDF.2 <- cbind(Wage, predm2)
+#
+# Plot the data and fitted values 
+#
+ggplot(plotDF.2, aes(x = age, y = wage) ) +
+  geom_point(col="grey70") +
+  geom_ribbon( aes(ymin = lwr, ymax = upr), fill="blue", alpha = .35) +
+  geom_line( aes(y = fit), colour="black", size = 1) +
+  theme_bw()
+
+```
+
+
+**Quick exercise:**  
+
++ use the `poly()` function to fit a polynomial regression of order $d=4$.  
++ show coefficients of the fitted model
++ use `ggplot2` functionality to display fitted values and confidence intervals  
+
+```{r}
+# Polynomial regression, d=4
+# m3 <- lm()
+
+
+# Plot the data and fitted values 
+
+
+``` 
+
+
+--- 
+
+## Step (piecewise-constant) regression 
+
+
++ Polynomial regression function imposes a **global** structure on the non-linear function. 
+
++ Instead, we can use a step function where regressor $x$ is broken into different bins and we fit a different constant for each bin (our regressor is transformed into a ordered categorical variable). 
+
++ Alternatively, we select adequate (ad-hoc) cutpoints $c_1, c_2, \dots, c_K$ for a continuous regressor $x$ and construct $K+1$ dummy variables:
+
+    + $C_0(X) \quad = \quad 1[X < c_1],$  
+    + $C_1(X) \quad = \quad 1[c_1 \leq X < c_2]$  
+    + $\cdots$  
+    + $C_K(X) \quad \!= \quad 1[c_{K} \leq X]$  
+    
+
+```{r}
+# step (piecewise constant) regression
+Wage$ageCut <- cut(Wage$age,4) # 4 levels, i.e. 3 cut-points, equidistant
+#
+m4 <- lm(wage~ageCut-1,data = Wage)
+summary(m4)$coefficients
+predm4 <- predict(m4, interval = "confidence")
+plotDF.4 <- cbind(Wage, predm4)
+# Plot the data and fitted values 
+ggplot(plotDF.4, aes(x = age, y = wage) ) +
+  geom_point(col="grey70") +
+  geom_ribbon( aes(ymin = lwr, ymax = upr, fill=ageCut), alpha = .35) +
+  geom_line( aes(y = fit, color=ageCut), size = 1) +
+  theme_bw()
+```
+ 
+
+--- 
+
+## Step (piecewise-linear) regression 
+
++ We can easily extend the above step regression to piecewise linear models  
++ In our `Wage` example $\texttt{Wage}~~\leftarrow~~f(\texttt{Age})$, let's try piecewise LRM with two cutpoints: $c_1$ and $c_2$:  
+
+
+$$
+y_i = 
+    \begin{cases}
+        \beta_{01} + \beta_{11} x_i +  u_i ~~~\texttt{if}~~~ x_i <  c_1 ;& \\ ~ & \\
+        \beta_{01} + \beta_{11} x_i +  u_i ~~~\texttt{if}~~~ c_1 \leq x_i <  c_2 ;& \\ ~ & \\
+        \beta_{03} + \beta_{13} x_i + u_i ~~~\texttt{if}~~~ x_i \geq  c_2 .& 
+    \end{cases}
+$$
+
+
+
+
+```{r}
+# step (piecewise constant) regression
+Wage$ageCut3 <- cut(Wage$age,3) # 3 levels, i.e. 2 cut-points, equidistant
+X1 <- model.matrix(~Wage$ageCut3-1) # -1 means no "base" level is used
+colnames(X1) <- c("ageL1","ageL2","ageL3")
+Wage <- cbind(Wage,X1)
+#
+m5 <- lm(wage~ageCut3+I(age*ageL1)+I(age*ageL2)+I(age*ageL3)-1,data = Wage)
+summary(m5)$coefficients # 6 parameters estimated
+predm5 <- predict(m5, interval = "confidence")
+plotDF.5 <- cbind(Wage, predm5)
+# Plot the data and fitted values 
+ggplot(plotDF.5, aes(x = age, y = wage) ) +
+  geom_point(col="grey70") +
+  geom_ribbon( aes(ymin = lwr, ymax = upr, fill=ageCut3), alpha = .35) +
+  geom_line( aes(y = fit, color=ageCut3), size = 1) +
+  theme_bw()
+```
+
+
+Note how the piecewise regression is non-continuous (zoom in at $c_1$):
+
+```{r,warning=F, echo=FALSE}
+# zoom-in using the xlim and ylim arguments
+ggplot(plotDF.5, aes(x = age, y = wage) ) +
+  geom_point(col="grey70") +
+  geom_ribbon( aes(ymin = lwr, ymax = upr, fill=ageCut3), alpha = .35) +
+  geom_line( aes(y = fit, color=ageCut3), size = 1) +
+  ylim(50,150) +
+  xlim(30,50) +
+  labs(title = "Zoom-in to previous plot") +
+  theme_bw()
+```
+
+---
+
+#### Interestingly, as we enforce "continuity" to the piecewise regression line, we actually save degrees of freedom:
+
+$$
+y_i = \beta_0 + \beta_1 x_i + \beta_2\, (x_i-c_1)_{+} + \beta_3\, (x_i-c_2)_{+} + u_i  
+$$
+
+
+```{r}
+# "Continuous" step (piecewise constant) regression elements:
+Wage$AgeBasFun1 <- ifelse(Wage$age > 38.7 , Wage$age-38.7,0) #c_1 = 38.7
+Wage$AgeBasFun2 <- ifelse(Wage$age > 59.3 , Wage$age-59.3,0) #c_2 = 59.3
+#
+m6 <- lm(wage~age+AgeBasFun1+AgeBasFun2, data = Wage)
+summary(m6)$coefficients # 4 parameters estimated
+predm6 <- predict(m6, interval = "confidence")
+plotDF.6 <- cbind(Wage, predm6)
+# Plot the data and fitted values 
+ggplot(plotDF.6, aes(x = age, y = wage) ) +
+  geom_point(col="grey70") +
+  geom_ribbon( aes(ymin = lwr, ymax = upr), fill="red", alpha = .35) +
+  geom_line( aes(y = fit), color="red", size = 1) +
+  theme_bw()
+```
+
+
+---
+
+
+
+## Step (piecewise-polynomial) regression 
+
+
+The extention from piecewise linear to piecewise cubic functions is relatively easy:  
+(for simplicity, let's use 1 knot $c_1$)
+
+
+$$
+y_i = 
+    \begin{cases}
+        \beta_{01} + \beta_{11} x_i + \beta_{21} x_i^2 + \beta_{31} x_i^3 + u_i ~~~\texttt{if}~~~ x_i <  c_1 ;& \\ ~ & \\
+         \beta_{02} + \beta_{12} x_i + \beta_{22} x_i^2 + \beta_{32} x_i^3 + u_i ~~~\texttt{if}~~~ x_i \geq  c_1 .& 
+    \end{cases}
+$$
+
+
+```{r}
+# step (piecewise constant) regression
+Wage$ageCut2 <- cut(Wage$age,2) # 2 levels, i.e. 1 cut-point
+#
+#
+# Please note we use automatic knot/cut-point selection....
+# use ?cut() and "breaks" argument to set knots manually.
+#
+#
+X2 <- model.matrix(~ Wage$ageCut2 - 1) # -1 means no "base" level is used
+colnames(X2) <- c("ageLow", "ageHigh")
+Wage <- cbind(Wage,X2)
+#
+#
+m7 <-lm(wage~ageCut2+I(age*ageLow)+I((age*ageLow)^2)+I((age*ageLow)^3)
+        +I(age*ageHigh)+I((age*ageHigh)^2)+I((age*ageHigh)^3) -1, data = Wage)
+summary(m7)$coefficients # 8 parameters
+predm7 <- predict(m7, interval = "confidence")
+plotDF.7 <- cbind(Wage, predm7)
+# Plot the data and fitted values 
+ggplot(plotDF.7, aes(x = age, y = wage) ) +
+  geom_point(col="grey70") +
+  geom_ribbon( aes(ymin = lwr, ymax = upr, fill=ageCut2), alpha = .35) +
+  geom_line( aes(y = fit, color=ageCut2), size = 1) +
+  theme_bw()
+```
+
+
+#### Again, as we enforce "continuity" to the piecewise cubic regression line, we actually save degrees of freedom:
+
+$$
+y_i = \beta_0 + \beta_1 x_i + \beta_2 x_i^2 + \beta_3 x_i^3 + \beta_4 \, (x_i-c_1)_{+}^3 + u_i  
+$$
+
+
+
+```{r}
+# "Continuous" step (piecewise constant) regression
+Wage$AgeBasFunc <- ifelse(Wage$age > 49 , Wage$age-49,0) #c = 49
+#
+m8 <- lm(wage~poly(age,3,raw = T)+I(AgeBasFunc^3), data = Wage)
+summary(m8)$coefficients # 5 parameters estimated
+predm8 <- predict(m8, interval = "confidence")
+plotDF.8 <- cbind(Wage, predm8)
+# Plot the data and fitted values 
+ggplot(plotDF.8, aes(x = age, y = wage) ) +
+  geom_point(col="grey70") +
+  geom_ribbon( aes(ymin = lwr, ymax = upr), fill="red", alpha = .35) +
+  geom_line( aes(y = fit), color="red", size = 1) +
+  theme_bw()
+```
+
+
+--- 
+
+
+**Quick exercise:**  
+
+(a)  
++ formulate a piecewise-cubic function to fit $\texttt{Wage}~~\leftarrow~~f(\texttt{Age})$.  
++ use 2 knots (cutpoints) ... those are already established $c_1 = 38.7,~c_2 = 59.3$ 
++ start by writing-down the regression equation  
+    - use the non-continuous version  
+    - enforce continuity (and save d.f. at the same time)  
+
+(b)  
++ Estimate the restricted function (continuity enforced) using `R`  
+    + note that basis functions $h_1 = (x_i-c_1)_{+}$ and $h_2 = (x_i-c_2)_{+}$ are already estabished in the `R` code above `[l.191-l.192]`.  
++ use `ggplot2` functionality to display fitted values and confidence intervals  
+
+```{r}
+# Polynomial regression, d=4
+# m9 <- lm()
+
+
+# Plot the data and fitted values 
+
+``` 
+
+
+--- 
+
+Examples partially based on [ISLR textbook and R scripts](http://faculty.marshall.usc.edu/gareth-james/ISL/)
