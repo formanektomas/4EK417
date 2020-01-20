@@ -9,8 +9,8 @@ library(ISLR)
 library(ggplot2)
 attach(Wage)
 Wage <- Wage
-agelims <- range(Wage$age)
-age.grid <- seq (from=agelims [1], to=agelims [2], length.out = 300)
+#
+#
 ```
 
 ## Polynomial regression
