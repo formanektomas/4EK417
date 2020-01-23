@@ -16,4 +16,4 @@ install.packages(c("quantreg", "rqPen"), dependencies = T)
 #
 install.packages(c("pls", "psych", "MASS", "glmpath"), dependencies = T)
 #
-install.packages(c("gam","mgcv","akima"), dependencies = T)
+install.packages(c("locfit","gam","mgcv","akima"), dependencies = T)
