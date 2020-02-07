@@ -30,7 +30,8 @@ Hodnocení – stupnice
 
 * **Home assignments**
 
-  + Vždy odevzdejte nejpozději den před následujícím cvičením (cvičení je v ponděli, odevzdání vždy do neděle 23:59).
+  + Vždy odevzdejte nejpozději den před následujícím cvičením 
+  (cvičení je v ponděli, odevzdání vždy do neděle 23:59).
 
   + V kódech používejte komentáře
 
