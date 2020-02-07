@@ -87,9 +87,7 @@ Moving beyond linearity
 #### Materials for Block 6
 - [Scripts and datasets for Block 6](https://github.com/formanektomas/4EK417/tree/master/Block6)  
 
----
-
----
+===
 
 ### Seminar paper
 
