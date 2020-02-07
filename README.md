@@ -10,6 +10,12 @@ University of Economics, Prague
 
 --- 
 
+### Requirements and classification
+
+[Detailed information provided here (CZE)](https://github.com/formanektomas/4EK417/blob/master/CourseClassification.md)
+
+---
+
 ### Block 1: Data handling in R
 
 + Importing data from major databases (Eurostat, IMF, Yahoo finance, etc.)
