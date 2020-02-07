@@ -4,34 +4,19 @@ layout: theme
 filename: SeminarPaper.md
 --- 
 
-# Praktikum z ekonometrie (4EK417)
+## Seminární práce (odevzdání, peer review, úprava podle připomínek, prezentace):
 
---- 
+    Studenti zpracují a odevzdají seminární práci individuálně - termín: 18. 4.
 
-**Seminar held by:**  
-[Tomas Formanek](https://formanektomas.github.io/)     
-Department of Econometrics   
-Faculty of Informatics and Statistics  
-University of Economics, Prague  
+    Každý student provede peer review (vzájemné hodnocení): dvou dalších seminárních prací
 
---- 
+    - přidělení seminárek k hodnocení: 23. 4., 
 
-### Block 5: Treatment effects
+    - odevzdání vyplněných recenzních formulářů - termín 29. 4.
 
---- 
+    Zapracování připomínek z peer review a odevzdání závěrečné verze seminární práce - termín 10. 5. 
 
-### Block 6: Panel data methods
-
-+ Panel data models  
-    + Fixed effects & Random effects models  
-    + Panel data tests and advanced topics  
-    
-+ Linear mixed effects models
-    + Longitudinal data  
-    + Hierarchical models  
-
-#### Materials for Block 6
-- [Scripts and datasets for Block 6](https://github.com/formanektomas/4EK417/tree/master/Block6)  
+    Podrobné informace a požadavky k seminární práci 
 
 ---
 
