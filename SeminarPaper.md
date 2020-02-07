@@ -44,7 +44,9 @@ filename: SeminarPaper.md
 1. Zpracování / rozpracování aplikační části DP.  
 
 2. Zpracování existující (již publikované) vědecké studie (Working paper) nebo její části  
+
   - aplikace (a zjednodušení) postupu na ekonomiku ČR nebo SR
+
   - v případě nejasností konzultujte volbu práce s vyučujícím
 
 3. Jiný typ seminární práce, vycházející z analýzy v prostředí R  
@@ -84,15 +86,15 @@ filename: SeminarPaper.md
 
 **Doporučená (možná) struktura seminární práce:**
 
-1. Teoretický úvod		1-2 s.  
+1. Teoretický úvod	(1-2 s).  
 
-2. Aplikace modelu		2-3 s.  
+2. Aplikace modelu (2-3 s).  
 
-  + Popis zvoleného modelu, problematika aplikace modelu s ohledem na dostupná data, jiná specifika a omezující faktory.  
+  - Popis zvoleného modelu, problematika aplikace modelu s ohledem na dostupná data, jiná specifika a omezující faktory.  
   
-3. Výsledky a interpretace		cca 7 s.  
+3. Výsledky a interpretace	(cca 7 s).  
 
-4. Závěr				1 s.  
+4. Závěr	(1 s).  
 
 5.  Abstrakt, Literatura
 
