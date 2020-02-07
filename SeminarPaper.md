@@ -1,7 +1,7 @@
+---
 title: Seminární práce
 layout: jekyll-theme-modernist
 filename: SeminarPaper.md
-
 ---
 
 ## Seminární práce (odevzdání, peer review, úprava podle připomínek, prezentace):
@@ -14,7 +14,7 @@ filename: SeminarPaper.md
 
   - odevzdání vyplněných recenzních formulářů - termín 29. 4.
 
-Z* apracování připomínek z peer review a odevzdání závěrečné verze seminární práce - termín 10. 5. 
+* Zapracování připomínek z peer review a odevzdání závěrečné verze seminární práce - termín 10. 5. 
 
 ---
 
