@@ -1,3 +1,9 @@
+---
+title: Seminární práce
+layout: template
+filename: SeminarPaper.md
+--- 
+
 # Praktikum z ekonometrie (4EK417)
 
 --- 
