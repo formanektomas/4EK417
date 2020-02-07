@@ -1,6 +1,6 @@
 ---
 title: Seminární práce
-layout: template
+layout: jekyll-theme-modernist
 filename: SeminarPaper.md
 --- 
 
