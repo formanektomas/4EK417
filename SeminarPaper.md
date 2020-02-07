@@ -1,8 +1,8 @@
----
 title: Seminární práce
-layout: theme
+layout: jekyll-theme-modernist
 filename: SeminarPaper.md
---- 
+
+---
 
 ## Seminární práce (odevzdání, peer review, úprava podle připomínek, prezentace):
 
