@@ -1,4 +1,4 @@
-# 4EK417
+# Praktikum z ekonometrie (4EK417)
 
 --- 
 
@@ -9,10 +9,6 @@ Faculty of Informatics and Statistics
 University of Economics, Prague  
 
 --- 
-
-## Materials for the course 4EK417 Praktikum z ekonometrie
-
----
 
 ### Block 1: Data handling in R
 
