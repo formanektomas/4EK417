@@ -89,4 +89,12 @@ Moving beyond linearity
 
 ---
 
+---
+
+### Seminar paper
+
+[Detailed information provided here (CZE)](https://github.com/formanektomas/4EK417/blob/master/SeminarPaper.md)
+
+---
+
 [Homepage](https://formanektomas.github.io/4EK417/)
