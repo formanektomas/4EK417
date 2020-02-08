@@ -40,16 +40,12 @@ layout: default
 **Témata SP**
 
 1. Zpracování / rozpracování aplikační části DP.  
-
 2. Zpracování existující (již publikované) vědecké studie (Working paper) nebo její části  
-
-  - aplikace (a zjednodušení) postupu na ekonomiku ČR nebo SR
-
-  - v případě nejasností konzultujte volbu práce s vyučujícím
+   - aplikace (a zjednodušení) postupu na ekonomiku ČR nebo SR
+   - v případě nejasností konzultujte volbu práce s vyučujícím
 
 3. Jiný typ seminární práce, vycházející z analýzy v prostředí R  
-  - nutné odsouhlasení zadání (emailem).
-
+   - nutné odsouhlasení zadání (emailem).
 4. Odhad modelů vycházejících z učebnice APLIKOVANÁ EKONOMETRIE (Hušek, 2009), pouze kapitoly  4 až 9.
 
 --- 
@@ -58,13 +54,9 @@ layout: default
 
 
 1. Použití metod a postupů probíraných na kurzu.
-
 2. Korektní ekonometrická verifikace použitých regresních modelů: významnost odhadu (t, R2, F), autokorelace, heteroskedasticita, multikolinearita, u ČŘ stacionarita, resp. kointegrace. 
-
 3. Ekonomická interpretace výsledků (Jsou získané odhady v souladu s ekonomickou teorií? Na co ukazuje odchylka od očekávaného výsledku?). 
-
 4. Srovnání provedených odhadů (s jinými publikovanými odhady, interpretace rozdílů mezi jednotlivými státy / odhadnutými modely vlastní práce).
-
 5. Ke splnění zvoleného cíle (analýzy) často postačí relativně jednoduchý postup / analytická metoda. Rozhodnete-li se použít sofistikovanější metody, zejména metody neprobírané na kurzu, musejí být tyto metody v seminární práci správně aplikovány (předpoklady, postup, interpretace výsledků).
 
 
@@ -73,11 +65,8 @@ layout: default
 **Formální náležitosti seminární práce:** 
 
 1. Číslování stran, rovnic, tabulek a grafů.  
-
 2. Seznam použité literatury (včetně korektních odkazů v textu).  
-
 3. Abstrakt (cca. 1/2 strany).  
-
 4. Přiložený soubor s daty a úplný kód k analýze v prostředí R (opakovatelnost).  
 
 ---
@@ -85,15 +74,14 @@ layout: default
 **Doporučená (možná) struktura seminární práce:**
 
 1. Teoretický úvod	(1-2 s).  
-
 2. Aplikace modelu (2-3 s).  
 
-  - Popis zvoleného modelu, problematika aplikace modelu s ohledem na dostupná data, jiná specifika a omezující faktory.  
+    - Popis zvoleného modelu, 
+    - Problematika aplikace modelu s ohledem na dostupná data, 
+    - Jiná specifika a omezující faktory.  
   
 3. Výsledky a interpretace	(cca 7 s).  
-
 4. Závěr	(1 s).  
-
 5.  Abstrakt, Literatura
 
 
