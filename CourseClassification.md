@@ -1,7 +1,5 @@
 ---
-title: Klasifikace
-layout: jekyll-theme-modernist
-filename: CourseClassification.md
+layout: default
 ---
 
 ## Hodnocení – body (max. 100 bodů)
