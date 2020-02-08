@@ -1,6 +1,6 @@
 ---
 layout: default
-show_downloads: true
+show_downloads: "true"
 ---
 
 ## Panel data methods
@@ -16,4 +16,4 @@ show_downloads: true
 
 --- 
 
-[Homepage](./)
+[Homepage](../)
