@@ -1,3 +1,8 @@
+---
+layout: default
+show_downloads: true
+---
+
 ## Spatial analysis and spatial econometrics
 
 + Spatial data: basic descriptive analysis
@@ -6,3 +11,8 @@
   + Cross-sectional data
   + Panel data
   + Advanced topics (spatial filtering)
+
+
+--- 
+
+[Homepage](https://formanektomas.github.io/4EK417/)
