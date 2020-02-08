@@ -3,7 +3,7 @@
 --- 
 
 **Seminar held by:**  
-[Tomas Formanek](https://formanektomas.github.io/)     
+[Tomas Formanek](https://insis.vse.cz/auth/lide/clovek.pl?id=46723)     
 Department of Econometrics   
 Faculty of Informatics and Statistics  
 University of Economics, Prague  
@@ -23,10 +23,13 @@ University of Economics, Prague
 + Tidyverse packages `tidyr`, `dplyr`, pipe operator `%>%`
 + Missing data, multiple imputation 
 
-#### Materials for Block 1
+#### Materials for Block 1  
+
+- [Scripts and datasets for Block 1](./Block1/README.html)    
+  
+  
 - [R](https://www.r-project.org/) / [RStudio](https://www.rstudio.com/products/RStudio/)  
 - [stackoverflow](https://stackoverflow.com/tags/r/info)  
-- [Scripts and datasets for Block 1](https://github.com/formanektomas/4EK417/tree/master/Block1)  
 
 ---
 
@@ -50,7 +53,9 @@ Moving beyond linearity
  
 
 #### Materials for Block 2
-- [Scripts and datasets for Block 2](https://github.com/formanektomas/4EK417/tree/master/Block2)  
+
+- [Scripts and datasets for Block 2](./Block2/README.html)  
+  
 - [Interactive Course using mgcv (ch. 1,2,4)](https://noamross.github.io/gams-in-r-course/)  
 
 ---
@@ -65,7 +70,9 @@ Moving beyond linearity
     + Advanced topics (spatial filtering)  
 
 #### Materials for Block 3
-- [Scripts and datasets for Block 3](https://github.com/formanektomas/4EK417/tree/master/Block3)  
+
+- [Scripts and datasets for Block 3](./Block3/README.html)  
+  
 - [Simple Features for R](https://r-spatial.github.io/sf/)  
 - [GADM maps and data](https://gadm.org/)  
 - [Interactive Course using mgcv (ch. 3)](https://noamross.github.io/gams-in-r-course/)  
