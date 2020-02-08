@@ -14,6 +14,8 @@ University of Economics, Prague
 
 [Detailed information provided here (CZE)](./CourseClassification.html)
 
+[Literature and other supporting materials for the course](./LiteratureSupport.html)
+
 ---
 
 ### Block 1: Data handling in R
