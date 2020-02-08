@@ -1,3 +1,8 @@
+---
+layout: default
+show_downloads: true
+---
+
 ## Panel data methods
 
 + Panel data models
@@ -7,3 +12,10 @@
 + Linear mixed effects models
   + Longitudinal data
   + Hierarchical models
+
+
+--- 
+
+--- 
+
+[Homepage](./)
