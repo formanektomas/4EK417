@@ -12,9 +12,8 @@ University of Economics, Prague
 
 ### Requirements and classification
 
-[Detailed information provided here (CZE)](./CourseClassification.html)
-
-[Literature and other supporting materials for the course](./LiteratureSupport.html)
++ [Detailed information provided here (CZE)](./CourseClassification.html)
++ [Literature and other supporting materials for the course](./LiteratureSupport.html)
 
 ---
 
@@ -113,7 +112,7 @@ Moving beyond linearity
 
 ### Seminar paper
 
-[Detailed information provided here (CZE)](./SeminarPaper.html)
++ [Detailed information provided here (CZE)](./SeminarPaper.html)
 
 ---
 
