@@ -12,7 +12,7 @@ University of Economics, Prague
 
 ### Requirements and classification
 
-[Detailed information provided here (CZE)](https://github.com/formanektomas/4EK417/blob/master/CourseClassification.md)
+[Detailed information provided here (CZE)](./CourseClassification.html)
 
 ---
 
@@ -97,7 +97,7 @@ Moving beyond linearity
 
 ### Seminar paper
 
-[Detailed information provided here (CZE)](https://github.com/formanektomas/4EK417/blob/master/SeminarPaper.md)
+[Detailed information provided here (CZE)](./SeminarPaper.html)
 
 ---
 
