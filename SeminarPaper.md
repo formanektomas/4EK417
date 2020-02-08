@@ -6,7 +6,7 @@ layout: default
 
 * Studenti zpracují a odevzdají seminární práci individuálně - termín: 19. 4.
 * Každý student provede peer review (vzájemné hodnocení): dvou dalších seminárních prací
-  - přidělení seminárek k hodnocení: 22. 4., 
+  - přidělení seminárek k hodnocení: 22. 4.,
   - odevzdání vyplněných recenzních formulářů - termín 30. 4.
 * Zapracování připomínek z peer review a odevzdání závěrečné verze seminární práce - termín 15. 5. 
 
@@ -39,7 +39,6 @@ layout: default
 2. Zpracování existující (již publikované) vědecké studie (Working paper) nebo její části  
    - aplikace (a zjednodušení) postupu na ekonomiku ČR nebo SR
    - v případě nejasností konzultujte volbu práce s vyučujícím
-
 3. Jiný typ seminární práce, vycházející z analýzy v prostředí R  
    - nutné odsouhlasení zadání (emailem).
 4. Odhad modelů vycházejících z učebnice APLIKOVANÁ EKONOMETRIE (Hušek, 2009), pouze kapitoly  4 až 9.
@@ -70,10 +69,10 @@ layout: default
 **Doporučená (možná) struktura seminární práce:**
 
 1. Teoretický úvod	(1-2 s).  
-2. Aplikace modelu (2-3 s).  
-    - Popis zvoleného modelu, 
-    - Problematika aplikace modelu s ohledem na dostupná data, 
-    - Jiná specifika a omezující faktory.  
+2. Aplikace modelu (2-3 s).
+    - Popis zvoleného modelu,
+    - Problematika aplikace modelu s ohledem na dostupná data,
+    - Jiná specifika a omezující faktory.
 3. Výsledky a interpretace	(cca 7 s).  
 4. Závěr	(1 s).  
 5.  Abstrakt, Literatura
