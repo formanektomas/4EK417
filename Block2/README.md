@@ -1,3 +1,9 @@
+---
+layout: default
+show_downloads: true
+---
+
+
 ## Model specification choice methods & extensions to linear models
 
 Model selection  
@@ -14,3 +20,8 @@ Moving beyond linearity
 + Regression splines, smoothing splines    
 + Local regression    
 + Generalized Additive Models (GAM)  
+
+
+--- 
+
+[Homepage](https://formanektomas.github.io/4EK417/)
