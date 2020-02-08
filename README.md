@@ -19,7 +19,7 @@ University of Economics, Prague
 ### Block 1: Data handling in R
 
 + Importing data from major databases (Eurostat, IMF, Yahoo finance, etc.)
-+ Data visualization using `ggplot2`
++ [Markdown](https://rstudio.com/wp-content/uploads/2015/02/rmarkdown-cheatsheet.pdf) for data/output presentation & visualization using `ggplot2`
 + Tidyverse packages `tidyr`, `dplyr`, pipe operator `%>%`
 + Missing data, multiple imputation 
 
