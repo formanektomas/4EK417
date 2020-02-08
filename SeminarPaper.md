@@ -1,7 +1,5 @@
 ---
-title: Seminární práce
-layout: jekyll-theme-modernist
-filename: SeminarPaper.md
+layout: default
 ---
 
 # Seminární práce (odevzdání, peer review, úprava podle připomínek, prezentace):
