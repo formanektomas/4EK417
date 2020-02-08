@@ -4,13 +4,13 @@ layout: default
 
 ## Basic literature:
 
-+ James, G. et al., [An Introduction to Statistical Learning](http://faculty.marshall.usc.edu/gareth-james/ISL/)
-+ Greene, W.H., Econometric analysis
++ James, G. et al., [An Introduction to Statistical Learning](http://faculty.marshall.usc.edu/gareth-james/ISL/).
++ Greene, W.H., Econometric analysis.
 
 ## Supporting literature:
 
 + Hastie, T. et al., [The Elements of
-Statistical Learning](https://web.stanford.edu/~hastie/ElemStatLearn/) 
+Statistical Learning](https://web.stanford.edu/~hastie/ElemStatLearn/).
 
 --- 
 
@@ -21,7 +21,7 @@ Statistical Learning](https://web.stanford.edu/~hastie/ElemStatLearn/)
 
 ---
 
-[Old web page of the course (no longer updated)](https://sites.google.com/site/econometricseminar/4ek417) 
+[Old website for the course (no longer updated)](https://sites.google.com/site/econometricseminar/4ek417) 
 
 
 --- 
