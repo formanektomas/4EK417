@@ -1,6 +1,6 @@
 ---
 layout: default
-show_downloads: "true"
+show_downloads: true
 ---
 
 ## Panel data methods
@@ -16,4 +16,4 @@ show_downloads: "true"
 
 --- 
 
-[Homepage](https://formanektomas.github.io/4EK417/))
+[Homepage](https://formanektomas.github.io/4EK417/)
