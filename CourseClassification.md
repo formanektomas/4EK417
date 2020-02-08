@@ -22,7 +22,7 @@ Hodnocení – stupnice
 
 ---
 
-* **Podrobné informace a požadavky k seminární práci** [zde](https://github.com/formanektomas/4EK417/blob/master/SeminarPaper.md)
+* **Podrobné informace a požadavky k seminární práci** [zde](./SeminarPaper.html)
 
 
 
@@ -66,4 +66,4 @@ Hodnocení – stupnice
 
 ---
 
-[Homepage](https://formanektomas.github.io/4EK417/)
+[Homepage](./)
