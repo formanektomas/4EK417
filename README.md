@@ -91,7 +91,7 @@ Moving beyond linearity
     + Hierarchical models  
 
 #### Materials for Block 6
-- [Scripts and datasets for Block 6](https://github.com/formanektomas/4EK417/tree/master/Block6)  
+- [Scripts and datasets for Block 6](./Block6/README.html)  
 
 ---
 
