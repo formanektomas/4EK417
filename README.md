@@ -116,4 +116,10 @@ Moving beyond linearity
 
 ---
 
+### Home assignments
+
++ [Detailed information provided here (CZE)](./Homeworks.html)
+
+---
+
 [Homepage](https://formanektomas.github.io/4EK417/)
