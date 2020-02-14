@@ -140,9 +140,9 @@ v3 <- c(na.omit(v1)) # same result as from the line above.
 #
 # Missing values: Loading external data files with missing values (NAs)
 #
-# By default, only empty data fields get interpreted as NA's.
+# By default, only "NA" values and empty data fields get interpreted as NA's.
 # (in logical, numeric, integer and complex fields)
-# Other NA's (na.strings), such as "." or "Missing value" must be
+# Other NA's (na.strings), such as "..." or "Missing value" must be
 # explicitly passed to the read.table / read.csv function
 #
 #
