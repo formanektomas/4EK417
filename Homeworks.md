@@ -2,8 +2,9 @@
 layout: default
 ---
 
-# Týden 1 (odevzdání do 23.2.)
+## Týden 1 (odevzdání do 23.2.)
 
+*  
 
 ---
 
