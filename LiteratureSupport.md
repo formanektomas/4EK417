@@ -14,6 +14,14 @@ Statistical Learning](https://web.stanford.edu/~hastie/ElemStatLearn/).
 
 --- 
 
+## Stack Exchange:
+
++ [stackoverflow R](https://stackoverflow.com/tags/r/info).  
++ [CrossValidated](https://stats.stackexchange.com/).  
+
+--- 
+
+
 ## Datasets
 
 + [https://vincentarelbundock.github.io/Rdatasets/datasets.html](https://vincentarelbundock.github.io/Rdatasets/datasets.html)
