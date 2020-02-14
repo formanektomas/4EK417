@@ -9,6 +9,8 @@ output:
 
 This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
 
+For a simple cheatsheet, go to: `RStudio: File > Help > Cheatsheets > R Markdown Cheat Sheet`  
+
 When you *click* the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
 
 ```{r}
@@ -22,7 +24,7 @@ Note: two empty spaces at the end of a line force a line return
 * Lists are insterted using `*`
 * Horizontal lines `---`
 * Headings are produced using `#`, `##`, etc. 
-* Math expression are inserted through `LaTex` syntax: $\hat{\beta}_1$, $\sigma_i^2$
+* Math expression are inserted through $\LaTeX$ syntax: `$\hat{\beta}_1$` translates to $\hat{\beta}_1$, `$\sigma_i^2$` becomes $\sigma_i^2$, etc.
 
 ---
 
@@ -48,9 +50,27 @@ You can also embed plots, for example:
 plot(cars)
 ```
 
-Alternatively, you can hide the plot command `plot(cars)` using `echo=FALSE`:
+Alternatively, you can hide the plot command `plot(cars)` from the `html` output, using `echo=FALSE`:
 
 ```{r, echo=FALSE}
 plot(cars)
 ```
 
+
+--- 
+
+## Quick exercise
+
+1. Estimate and save a linear regression model `mpg <- f(hp,wt,vs)` using the `mtcars` dataset from the `{datasets}` package.  
+
+2. Print the estimation results (regression table) and provide interpretation.  
+
+3. Test for heteroskedasticity (e.g. Breusch-Pagan test from the `{lmtest}` package).  
+
+4. Show diagnostic plots for the estimted model and provide interpretation.  
+
+
+```{r}
+
+
+```
