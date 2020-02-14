@@ -16,7 +16,7 @@ suppressPackageStartupMessages({
 
 > Data scientists, according to interviews and expert estimates, spend from 50 percent to 80 percent of their time mired in the mundane labor of collecting and preparing data, before it can be explored for useful information.  
 
-This tutorial covers the *very basics* of `tidyr` package. Usage:  
+This tutorial covers the *very basics* of data handling based on the `tidyr` package:  
 
 * General data handling \& processing
 * `ggplot2` plots (long format required)
@@ -39,7 +39,9 @@ This tutorial covers the *very basics* of `tidyr` package. Usage:
 
 ---
 
-## Time Series Example - wide format
+## GDP Time Series Example  
+
+### GDP - Wide format
 
 ```{r}
 GDPwide <- data.frame(
@@ -56,10 +58,11 @@ GDPwide # artifical/made-up data used here
 
 * In **long format** (below), the same data are shown, yet each `Year` and `Country` combination is on a separate row of the dataset. 
 
-    + Basically, columns (*variables* in R) `Year`, `Country` and `GDP` are used in the long format to display the same data.  
+    + In the long format,  columns `Year`, `State` and `GDP` are used in the long format to display the same data.  
     
-    + Note that `Country` and `GDP` *variables* need to be created to get the long format (such *variables* do not exist in the wide format dataset)
+    + Note that `State` and `GDP` *variables* (i.e. columns in the long-format dataset) need to be created to get the long format (such *variables* do not exist in the wide format dataset)
 
+### GDP - long format (same data)
 
 ```{r, echo=F}
 GDPlong <- gather(GDPwide, key = "State", value = "GDP", 2:4)
@@ -80,18 +83,22 @@ print(GDPlong)
 
 ### Convert `GDPwide` to long format
 
+```{r,echo=T}
+GDPwide # repeated from above for clarity
+```
+
 `gather(GDPwide, key = "State", value = "GDP", 2:4)`
 
 * `GDPwide` dataframe to reshape - convert to long format  
 
-* `"State"` is the name of the new key column - a new *variable* (can be any character string you supply). The keys are generated based on column names of the columns being transformed (`2:4`)  
+* `"State"` is the name of the new key column - a new *variable* (can be any character string you supply). The **keys are generated based on column names of the columns being transformed** (`2:4`)  
     + *variable*-names in the wide format dataframe (`GER`,`FRA`,`USA`) are used as "entries" (keys) in the new column (i.e. variable `State`).  
 
-* `"GDP"` name of the new value column (any character string you supply)  
+* `"GDP"` name of the new value column (can be any character string you supply)  
 
 * `2:4` numeric indexes (or names) of columns to collapse. 
 
-* Please note that column `Year` (1st column) is left out (Year is the grey column as in the illustration).  
+* Please note that column `Year` (1st column) is left out from the syntax (Year is the grey column as in the illustration).  
 
 
 ```{r}
@@ -99,8 +106,11 @@ GDPlong <- gather(GDPwide, key = "State", value = "GDP", 2:4)
 print(GDPlong)
 ```
 
-Please note that `GDPlong` is suitable for panel data analysis - both `id` and `time` identification is provided in each row.
+* Please note that `GDPlong` format resembles panel data analysis - both `id` and `time` identification is provided in each row. 
 
+* However, with long-format, we only have one value item in each row. The remaining columns (items in each row) provide identification to our observation. 
+
+* Say, we want to store `GDP` and `Unemployment` in a long format. We would need four columns. For example: `Year`, `State`, `Unit` ("GDP","Unemployment"),`Value` (observed data). 
 
 ---
 
@@ -114,6 +124,7 @@ Please note that `GDPlong` is suitable for panel data analysis - both `id` and `
 * Please note that column `Year` is left out from the syntax (Year is the grey column as in the illustration).
 
 ```{r}
+head(GDPlong,10)
 GDPwide_2 <- spread(GDPlong, key = "State", value = "GDP")
 GDPwide_2
 GDPwide # for comparison
@@ -166,7 +177,7 @@ For additional information on `{reshape2}`, see:
 + [Tutorial by Timothy Carsel](https://ademos.people.uic.edu/Chapter8.html) 
 + [Tutorial by Sean C. Anderson](https://seananderson.ca/2013/10/19/reshape/) 
 + [reshape2 pdf](https://cran.r-project.org/web/packages/reshape2/reshape2.pdf) 
-+ `R09_Eurostat_in_depth_self_study_material.R` (in your R working directory)  
++ `R09_Eurostat_in_depth_data_handling.R` (in your R working directory)  
 
 ---
 
