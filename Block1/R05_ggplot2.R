@@ -57,10 +57,14 @@ ggplot(small, aes(x=carat,y=price))+
 # Adding colours - different colour for each "cut" ("Fair", "Good", ...)
 ggplot(small, aes(x=carat,y=price, colour=cut))+ # amend basic aesthetics
   geom_point()
+#
 # Alternatively:
 ggplot(small)+ # only the dataset is defined here
   geom_point(aes(x=carat, y=price, colour=cut)) # aes() for geom_points defined
 # .. useful if different types of "lines/dots" appear on the plot
+ggplot(small)+ # only the dataset is defined here
+  geom_point(aes(x=carat, y=price, colour=cut))+
+  geom_smooth(aes(x=carat, y=price), colour="red", method = "lm")
 #
 # [C]
 # Adding title to the plot
@@ -91,12 +95,12 @@ ggplot(small, aes(x=carat,y=price))+
 ## of columns)?
 #
 # [F]
-# Say, we want to add linear trend to the data
+# Say, we want to add linear trend to the facetted plot:
 ggplot(small, aes(x=carat,y=price))+ 
   geom_point(aes(colour=cut))+
   ggtitle("Price ~ carat plot example")+
   facet_wrap(~cut, ncol=1)+
-  geom_smooth(method= "lm") # new layer - linear trend
+  geom_smooth(method= "lm", colour="red") # new layer - linear trend
 #
 ## Quick assignment 2
 ?geom_smooth
