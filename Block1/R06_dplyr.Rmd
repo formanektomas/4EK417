@@ -28,7 +28,7 @@ output: html_document
 [handy data transformation with **`dplyr`** cheatsheet](https://github.com/rstudio/cheatsheets/raw/master/data-transformation.pdf) and this [one about **`tidyr`**](https://github.com/rstudio/cheatsheets/raw/master/data-import.pdf).
 
 
-```{r, message = FALSE,}
+```{r, echo=F, warning=F, message = F}
 ## load dplyr
 library("dplyr")
 ```
@@ -93,8 +93,10 @@ filter(NUTS2.DF, NUTS0 == "SI")
 
 
 ```{r, purl = FALSE}
-# Choose all records for Slovenia AND year 2011
+# Choose all records for both Slovenia AND year 2011
 filter(NUTS2.DF, Year == 2011, NUTS0 == "SI")
+# Same year (2011), retrieve data for Slovenia and Slovakia
+filter(NUTS2.DF, Year == 2011, NUTS0 %in% c("SI","SK"))
 ```
 
 ---
@@ -111,7 +113,9 @@ ways to do this:
 
 --- 
 
-##### Sample exercise: Get TotPopNr data (*plus id info* Year and NUTS2) for Slovenia, year 2011 and older
+#### Sample exercise: 
+
+* Get `TotPopNr` data (*plus id info*, i.e. columns `Year` and `NUTS2`) for Slovenia, year 2011 and older: 
 
 With **intermediate steps**, you create a temporary data frame and use
 that as input to the next function, like this:
@@ -132,11 +136,11 @@ You can also **nest functions** (i.e. one function inside of another), like this
 select(filter(NUTS2.DF, Year <= 2011, NUTS0 == "SI"), Year, NUTS2, TotPopNr)
 ```
 
-* This is handy, but can be difficult to read if too many functions are nested, as R evaluates the expression from the inside out (in this case, filtering, then selecting).
+* This is handy, but can be difficult to read if too many functions are nested, as `R` evaluates the expression from the inside out (in this case, filtering, then selecting).
 
 --- 
 
-The last option, **pipes**, are a recent addition to R. Pipes let you take
+The last option, **pipes**, are a recent addition to `R`. Pipes let you take
 the output of one function and send it directly to the next, which is useful
 when you need to do many things to the same dataset.  
 
@@ -159,13 +163,15 @@ NUTS2.DF %>%
 
 * The **`dplyr`** functions by themselves are somewhat simple, but by combining them into linear workflows with the pipe, we can accomplish more complex manipulations of data frames.
 
-* If we want to create a new object with this smaller version of the data, we can assign it a new name:
+* Many types of functions (from different packages) can be used in pipes.  
+
+* If we want to create a new object using the pipe operater, we do it the usual way: we use `<-` operator and assign a name to the new object:
 
 ```{r}
 NUTS.SI <- NUTS2.DF %>%
   filter(Year <= 2011, NUTS0 == "SI") %>%
   select(Year, NUTS2, TotPopNr)
-NUTS.SI
+NUTS.SI # display the new objec (df) 
 ```
 
 * Note that the final data frame is the leftmost part of the piping expression.
@@ -176,7 +182,7 @@ NUTS.SI
 
 Complete `R` script below as follows, using the `NUTS2.DF` data frame: 
 
-* Filter GDP data: restrict only to Austria (`"AT"`) AND Years 2015 or later,
+* Retrieve GDP data for austria: filter for Austria (`"AT"`) AND Years 2015 or later,
 * Select columns: Year, NUTS2, GDP_MIO_EUR,
 * Use the pipe syntax
 
@@ -206,8 +212,8 @@ Complete `R` script below as follows:
 
 Show population dentisty by NUTS2 regions  
 
-* Use (filter for) year 2016,
-* Calculate population density `PopDens` (TotPopNr / Area) ,
+* Use  year 2016 only (filter),
+* Calculate population density `PopDens` = (TotPopNr / Area) ,
 * Show columns: NUTS2, `PopDens`,
 * Use the pipe syntax
 * Show the first 15 rows in your Rmd output,
@@ -222,6 +228,10 @@ Show population dentisty by NUTS2 regions
 
 ## `group_by()` and `summarize()`  - summary on grouped data
 
+* `group_by()` takes an existing tbl and converts it into a grouped tbl where operations are performed "by group". `ungroup()` removes grouping.  
+
+* For example, we can use GDP per capita at the NUTS2 level and calculate state-wise (NUTS0) averages.
+
 ```{r}
 # Calculate average value of GDP per capita at the State level, year 2016
 # .. serves for illustration only - NUTS2 to NUTS0 averages are not weighted by population
@@ -229,7 +239,7 @@ NUTS2.DF %>%
   filter(Year == 2016) %>%
   mutate(GDPpc = (GDP_MIO_EUR/TotPopNr)*1000000) %>%
   group_by(NUTS0) %>% 
-  summarize(mean_GDPpc = mean(GDPpc, na.rm = TRUE))
+  summarize(mean_GDPpc = mean(GDPpc, na.rm = TRUE)) 
 ```
 
 * Note the output is not a `data.frame` table, but a `tibble` - `{dplyr}` / `{tidyverse}` specific format.
@@ -246,12 +256,14 @@ NUTS2.DF %>%
 * Easy to calculate lags and individual means for panel data
 
 ```{r}
-# For Slovenia, calculate first lag of GDP and individual means (over time) for TotPopNr
-NUTS2.DF %>%
+# For Slovenia and Slovakia, calculate first lag of GDP and individual means (over time) for TotPopNr
+SISK <- NUTS2.DF %>%
   select(-Area) %>% 
-  filter(NUTS0 == "SI") %>%
+  filter(NUTS0 %in% c("SI","SK")) %>%
   group_by(NUTS2) %>% 
-  mutate(GDP_lag1 = lag(GDP_MIO_EUR, k = 1), PopAvg = mean(TotPopNr))
+  mutate(GDP_lag1 = lag(GDP_MIO_EUR, k = 1), PopAvg = mean(TotPopNr)) %>% 
+  ungroup()
+head(SISK,20)
 ```
 
 
@@ -266,6 +278,7 @@ NUTS2.DF %>%
   filter(NUTS0 == "SI") %>%
   group_by(NUTS2) %>% 
   mutate(GDP_lag1 = lag(GDP_MIO_EUR, k = 1)) %>% 
+  ungroup() %>% 
   arrange(NUTS2,Year) # sorts by NUTS2, then by Year - both ascending
 ```
 
@@ -282,7 +295,7 @@ Read in additional dataset
 
 | Variable    | Description                                                     |
 |-------------|-----------------------------------------------------------------|
-| Year        |  time identification of the observation 2011 - 2016  **(no 2010)**  |
+| Year        |  time identification of the observation 2011 - 2016. Compared to `NUTS2.DF`, there is  **no 2010**   daata  |
 | NUTS2       |  NUTS2 id   **(same 113 regions) **                                 |
 | Unem        |  Unemployment rate in %                                         |
 
