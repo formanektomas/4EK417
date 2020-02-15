@@ -47,7 +47,7 @@ install.packages("eurostat")
 
 ## Search Eurostat for data
 
-```{r, echo=T, message=F}
+```{r, echo=T, message=F, warning=F}
 options(readr.default_locale=readr::locale(tz="Europe/Berlin"))
 library(eurostat)
 library(knitr)
@@ -111,7 +111,7 @@ Download the data:
 # http://appsso.eurostat.ec.europa.eu/nui/show.do?dataset=lfst_r_lfu3rt
 Un.DF <- get_eurostat("lfst_r_lfu3rt", time_format = "num") # note the simplified time format
 dim(Un.DF)
-# (5 age groups) * (3 gender categories) * (19 year 1999-2017) * (504 geo units) = 143.640
+# (5 age groups) * (3 gender categories) * (19 year 1999-2017) * (500 geo units)
 # 
 #
 #
@@ -187,11 +187,33 @@ Un.DF %>%
     theme_minimal()  # choose plot "design"
 ```
 
+--- 
+
+### Quick exercise: 
+
+**Total wages/compensations per region by NACE r2 activities**
+
+* Use pipe operator for steps 4 & 5.  
+* (you may find it easier to perform this exercise in a separate R-script, load `eurostat` `ggplot2` and `dplyr` first)  
+
+1. Download "nama_10r_2coe" from Eurostat (use simplified time format).  
+2. Check the structure of your dataset. 
+3. Find out the meaning of `currency` and `nace_r2` codes.  
+4. Retrieve data for the sector "Financial and insurance activities" for CZ, SK, SI, AT (NUTS0), years 2007-2017, in euro.
+5. Plot the data using `ggplot` (follow formatting in Example 1 or choose your own style)
+
+* This is just a simple exercise focused on downloading and filtering data from Eurostat... data among states are not directly comparable (we would need a per-employee standardization).
+
+```{r}
+#
+#
+```
 
 ---
 
 ### **Example 2: Choropleth (infomap) of unemployment**
 
+Same Unemployment dataset as in **Example 1**.  
 * `Y15-74` i.e. age group *from 15 to 74 years*  
 * Select data for 2017  
 * Total unemployment only (no M/F/T)  
@@ -220,7 +242,7 @@ ggplot()+
 
 ---
 
-**Quick assignment:** Add Netherlands (`NL`) to both plots (Examples 1 & 2).
+**Quick assignment:** Add Netherlands (`NL`) to the infomap (Example 2).
 
 --- 
 
@@ -228,7 +250,7 @@ ggplot()+
 ### **Example 3: Save Unemployment time series data into a `zoo` object **
 
 
-#### Panel data format (not a TS object)
+#### Long format (not a TS object)
 
 
 ```{r}
@@ -247,7 +269,7 @@ Unempl <- Un.DF %>%
   filter(age == "Y15-74", time >= 2010, sex == "T") %>% # filter variables
   filter(geo %in% c("AT","CZ","DE","HU","PL","SK")) %>% # subset of countries
   spread(key = "geo", value = "values") # convert to wide format
-head(Unempl) # wide format, not a TS object
+head(Unempl) # wide format, not a TS/zoo object
 Unempl.zoo <- zoo(Unempl[,-c(1:4)], order.by = Unempl$time) # drop columns
 head(Unempl.zoo)
 ```
@@ -259,12 +281,13 @@ Here, we download a new dataset that contains quarterly data: `lfsq_urgan`
 
 ```{r}
 Un.Q <- get_eurostat("lfsq_urgan", time_format = "num") # note the simplified time format
-as.data.frame(Un.Q[1:6,])
+dim(Un.Q)
+summary(Un.Q)
 Un.2Q <- Un.Q %>% 
   filter(age == "Y15-74", time >= 2010, sex == "T", citizen == "TOTAL") %>% # filter variables
   filter(geo %in% c("AT","CZ","DE","HU","PL","SK")) %>% # subset of countries
   spread(key = "geo", value = "values") # convert to wide format
-as.data.frame(Un.2Q[1:6,]) # wide format, not a TS object
+head(Un.Q) # wide format, not a TS object
 Un.Q.zoo <- zoo(Un.2Q[,-c(1:5)], order.by = as.yearqtr(Un.2Q$time)) # drop columns
 head(Un.Q.zoo)
 autoplot(Un.Q.zoo[,1:3]) + scale_x_yearqtr()
