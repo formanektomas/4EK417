@@ -27,7 +27,7 @@ University of Economics, Prague
 #### Materials for Block 1  
 
 + [Download presentation slides for Block 1](https://github.com/formanektomas/4EK417/raw/master/Block1/Block_1.pdf)
-+ [Download R scripts (zip)] 
++ [Download R scripts (zip)](https://github.com/formanektomas/4EK417/raw/master/Block1/Block1.zip)
   
 #### Supporting materials for Block 1  
 
