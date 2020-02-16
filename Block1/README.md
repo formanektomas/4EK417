@@ -16,7 +16,7 @@ show_downloads: true
 ---  
 
 + [Download slides](https://github.com/formanektomas/4EK417/raw/master/Block1/Block_1.pdf)
-+ [Download R scripts (zip)]
++ [Download R scripts (zip)](https://github.com/formanektomas/4EK417/raw/master/Block1/Block1.zip)
 
 
 --- 
