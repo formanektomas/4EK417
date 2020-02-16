@@ -15,6 +15,7 @@ help(package="quantmod")
 # Apple
 #
 getSymbols("AAPL", from = "2015-01-01", to = Sys.Date()) # Yahoo is the default data source
+# getSymbols("AAPL")
 # loads "silently" - no need to specify destination object name
 head(AAPL)
 tail(AAPL)
@@ -72,7 +73,15 @@ aggregate(apple.zoo, as.yearqtr, mean)
 #
 getSymbols("F", from = "2014-07-01", to = Sys.Date())
 chartSeries(F)
+# Add Moving Average Convergence Divergence indicator to chart.
+# MACD is calculated by subtracting the 26-period EMA from the 12-period EMA.
+# .. exponential moving average (EMA)
+# MACD triggers technical signals when it crosses above (to buy) or below (to sell) its signal line.
+# The speed of crossovers is also taken as a signal of a market is overbought or oversold.
+# MACD helps investors understand whether the bullish or bearish movement in the price is strengthening or weakening.
 addMACD() 
+#
+# Add Bollinger Bands to Chart
 addBBands() 
 #
 #######################################################################################
@@ -101,7 +110,7 @@ head(EURUSD, 10)
 tail(EURUSD, 10)
 candleChart(EURUSD)
 #
-getFX("EUR/CZK", from="2017-01-01")
+getFX("EUR/CZK")
 candleChart(EURCZK)
 #
 #
