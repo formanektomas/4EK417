@@ -27,7 +27,7 @@ mydata$ID <- as.factor(c("CZ","CZ","AT","AT"))
 mydata # Original data.frame
 #
 ## melt() command is analogous to gather() from {tidyr}
-?melt
+?melt.data.frame
 # To melt a dataset, we restructure it into a format where each measured variable 
 # (DEBT and GDP) is in its own row, along with all the variables needed 
 # to uniquely identify it (ID and Time).
@@ -84,9 +84,9 @@ str(myData1)
 ## .... 2 x 3 x 77 = 462 rows of data
 ##
 ## Note: conversion of "time" to actual date format may be performed as follows
-# require(zoo)
-# myData.zoo <- zoo(myData1, order.by = as.yearqtr(myData1$time))
-#
+# library(zoo)
+# myData.zoo <- zoo(DF.wide, order.by = as.yearqtr(myData1$time))
+# .. because of repeated time entries, this is done after transforming the data to "wide" format 
 #
 #
 #
@@ -194,7 +194,9 @@ View(cbind(as.character(unique(GDP$s_adj)),as.character(unique(GDP.labels$s_adj)
 #
 # Say, we only want the B1GQ - Gross domestic product at market prices from "na_item"
 # AND we only want the CP_MEUR - Current prices, million euro from "unit"
-# AND we only want data for CZ, PL and AT from "geo
+# AND we only want data for CZ, PL and AT from "geo"
+# AND "SCA" seas. adj. 
+# AND year 2000 or later
 GDP.dataset <- GDP %>% 
   filter(na_item == "B1GQ", 
          unit == "CP_MEUR", 
@@ -213,7 +215,9 @@ head(as.data.frame(GDP.dataset))
 # function so that the data frame contains a column 
 # for GDP in each country. We want individual years as rows.
 GDP.new.dataset <- dcast(GDP.dataset, time ~ geo+na_item, value.var = "values")
-head(as.data.frame(GDP.new.dataset))
+head(GDP.new.dataset)
+library(zoo) # illustration only, not saved to Gl. Env.
+head(zoo(GDP.new.dataset[,-1], order.by = as.yearqtr(GDP.new.dataset$time)),10)
 #
 #
 ## Step 1 - Unemployment ## 
@@ -243,7 +247,7 @@ U.AT_CZ_PL <- U.data %>%
 #
 ## Step 3 - Unemployment ##
 U.AT_CZ_PL.ts <- dcast(U.AT_CZ_PL, time ~  geo+indic_em , value.var = "values")
-head(as.data.frame(U.AT_CZ_PL.ts))
+head(U.AT_CZ_PL.ts)
 #
 #
 #
