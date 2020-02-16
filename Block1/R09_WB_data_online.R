@@ -1,4 +1,4 @@
-#### World Bank's World Development Indicators  ####
+#### World Bank's World Development Indicators (WDI) ####
 #
 ## World Bank Data website
 ## http://data.worldbank.org/data-catalog/world-development-indicators 
@@ -65,7 +65,7 @@ countrycode("Canada", "country.name", 'genc2c')
 countrycode("Mexico", "country.name", 'genc2c')
 #
 #
-# Step 3: retrieve the data
+# Step 3: retrieve the data from WB's WDI
 #
 ?WDI 
 # We create a data.frame "dat" for subsequent analysis.
@@ -102,7 +102,7 @@ tail(dat.BR)
 ?rbind
 # to use rbind, we have to be sure that column structre in DFs is identical
 GDP.Data <- rbind(dat, dat.BR) 
-fix(GDP.Data)
+View(GDP.Data)
 #
 # Plot new data.frame
 ggplot(GDP.Data, aes(x = year, y = NY.GDP.PCAP.KD, color=country)) + 
@@ -166,13 +166,15 @@ tail(GDP.Data)
 # A more convenient approach: merge() function or tidyverse() functions
 #
 ?merge
-merged.Data <- merge(GDP.Data, dat.POP, by = c("iso2c", "year"))
+merged.Data <- merge(GDP.Data, dat.POP, by = c("iso2c", "year","country"))
 View(merged.Data)
-# How can we adjust code on line 173 to fix the "country.x" and "country.y" entries ?
+# 
 #
-# Use dplyr()
+# Alternatively, we can use dplyr():
+#
 require(dplyr)
 Merged.DF <- left_join(GDP.Data, dat.POP, by = c("iso2c", "year", "country"))
+head(Merged.DF)
 #
 #
 #
@@ -181,7 +183,7 @@ Merged.DF <- left_join(GDP.Data, dat.POP, by = c("iso2c", "year", "country"))
 ## a) Use the online WDI database to retrieve the following data:
 ##    - Unemployment (you can  use total or relative values)
 ##    - data for some 3 - 5 countries (e.g.: the V4 group: CZ,SK,PL,HU)
-##    - data for a6 least 10 years (say, 2006 to 20115).
+##    - data for at least 10 years (say, 2006 to 20115).
 ##      
 ##
 ## b) Plot the data using ggplot2
