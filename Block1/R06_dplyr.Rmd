@@ -346,7 +346,13 @@ Unem %>%
 
 * `inner_join()` , `right_join()` are available in `dplyr` package.
 
-* sometimes, `merge()` from the `base` packge may be a reasonable alternative.
+* Joining by columns of different names:  
+    + Say, `Year` variable is in both DFs, but `NUTS2` IDs are in `geo` column of the second DF:  
+    + `left_join(DF1,DF2, by = c("Year", "NUTS2"="geo"))`  
+    + With pipes, `DF1` is implicit, comes from the previous "line" of the pipe
+    
+
+* Sometimes, `merge()` from the `base` packge may be a reasonable alternative to `join` commands from `dplyr`.  
 
 --- 
 
