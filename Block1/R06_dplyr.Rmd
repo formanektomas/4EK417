@@ -182,7 +182,7 @@ NUTS.SI # display the new objec (df)
 
 Complete `R` script below as follows, using the `NUTS2.DF` data frame: 
 
-* Retrieve GDP data for austria: filter for Austria (`"AT"`) AND Years 2015 or later,
+* Retrieve GDP data for Austria: filter for Austria (`"AT"`) AND Years 2015 or later,
 * Select columns: Year, NUTS2, GDP_MIO_EUR,
 * Use the pipe syntax
 
@@ -353,6 +353,22 @@ Unem %>%
     
 
 * Sometimes, `merge()` from the `base` packge may be a reasonable alternative to `join` commands from `dplyr`.  
+
+---
+
+**Quick exercise:**
+
+* Start with the `NUTS2.DF` dataset
+* Filter for year 2015 & NUTS2 regions in Germany
+* For the NUTS2 regions above, append all corresponding data from the `Unem` dataset
+* Create new dataframe: save ID column(s), Unemployment and GDP data into a new DF
+* Arrange output by NUTS2 ID
+* Use pipe operator syntax, show the output 
+
+
+```{r}
+
+```
 
 --- 
 
