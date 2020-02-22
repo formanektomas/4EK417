@@ -2,7 +2,7 @@
 layout: default
 ---
 
-## Obecná doporučení pro práci s `R`
+## Obecná doporučení pro práci s R
 
 1. Používejte nejnovější verzi [R](https://www.r-project.org/)
 2. Používejte nejnovější verzi [RStudio](https://rstudio.com/products/rstudio/)
