@@ -9,7 +9,7 @@ layout: default
 3. Aktualizujte balíčky
 4. Je-li to nutné, nainstalujte si poslední verzi Pandoc (`Rmd` compiler)
 
-     install.packages("installr",dependencies = T)
+     install.packages("installr",dependencies = T)  
      installr::install.pandoc() # may require admin access rights
 
 ---
