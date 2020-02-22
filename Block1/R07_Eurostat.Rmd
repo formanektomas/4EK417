@@ -87,7 +87,7 @@ kable(search_eurostat(".*Unemployment.*rates.*NUTS", fixed=F))
 
 ```{r, eval=FALSE, echo=T}
 # Alternatively, you can use grep() to search a downloaded TOC
-# .. this way, you can ignore the case-sensitive "issue"
+# .. this way, you can deal with the case-sensitivity "issue"
 toc <- get_eurostat_toc() # Downloads Table of Contents of Eurostat Data Sets
 toc[grep(".*unemployment.*rates.*NUTS", toc$title, ignore.case = T),]$title
 # ... this R code is not executed, provided for your information only
@@ -222,16 +222,16 @@ Same Unemployment dataset as in **Example 1**.
 * Draw choropleth (cartogram, infomap)
 
 ```{r, echo=T, message=F}
-# Download geospatial data from GISCO # NUTS revisions: e.g.: 2010, 2013, 2016.
+# Download geospatial data from GISCO, NUTS revision: 2016.
 geodata <- get_eurostat_geospatial(resolution = "60", nuts_level = "2", year = 2016)
-# Filter Unemployment dataset
-Un.2016 <- Un.DF %>% 
+# Filter Unemployment dataset for the year 2017
+Un.2017 <- Un.DF %>% 
   filter(age == "Y15-74", time == 2017, sex == "T") %>% # filter variables, year, sex
   filter(nchar(as.character(geo)) == 4) %>% # NUTS2 regions have a 4-digit id
   mutate(NUTS0 = substr(as.character(geo), start=1, stop=2)) %>% # retrieve NUTS0 id from NUTS2
   filter(NUTS0 %in% c("AT","CZ","DE","HU","PL","SK")) 
 # Join Unemployment data with "map data"
-map_data <- inner_join(geodata, Un.2016)
+map_data <- inner_join(geodata, Un.2017)
 # plot the data
 ggplot()+ 
   geom_sf(data = map_data, aes(fill = values))+ 
