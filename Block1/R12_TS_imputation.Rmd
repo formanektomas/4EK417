@@ -15,7 +15,7 @@ library(imputeTS)
 ### This example is based on the `{imputeTS}` package.
 
 **`tsAirgap` dataset** has 144 rows and the incomplete version includes 13 NA values. It represents
-the monthly totals of international airline passengers from 1949 to 1960. The
+the monthly totals of international airline passengers from 1949 to 1960.
 
 #### Visualize the missing values in this time series
 
@@ -50,7 +50,11 @@ statsNA(tsAirgap)
 
 ```{r}
 impMean.Airgap <- na_mean(tsAirgap)
-plotNA.imputations(tsAirgap, impMean.Airgap) #  tsAirgapComplete is the complete dataset
+plotNA.imputations(tsAirgap, impMean.Airgap) 
+#
+#  In this illustrative example, we have the original (full) TS
+#  and we can use it to evaluate different imputation methods....
+#
 plotNA.imputations(tsAirgap, impMean.Airgap, tsAirgapComplete) #  tsAirgapComplete is the complete dataset
 ```
 
@@ -121,7 +125,7 @@ Based on the Freetrade dataset: *Economic and political data on nine developing 
 + a measure of US hegemony.  
 
  
-```{r}
+```{r, message=F}
 library(Amelia)
 summary(freetrade) 
 missmap(freetrade) # description of missing data in "freetrade" data
@@ -140,10 +144,12 @@ For a second-order polynomial and the `tariff` series, we may do MI as follows:
 
 ```{r}
 set.seed(100)
-a.out <- amelia(freetrade, ts = "year", cs = "country", polytime = 2)
+a.out <- amelia(freetrade, m=5, ts = "year", cs = "country", polytime = 2, p2s = 0)
 tscsPlot(a.out, cs = "Malaysia", main = "MI with Amelia",
          var = "tariff", ylim = c(-10, 60))
 compare.density(a.out, var = "tariff") #not specific to Malaysia
+plot(a.out) # overall basic Imputation information plot
+summary(a.out)
 ```
 
 
@@ -151,13 +157,17 @@ compare.density(a.out, var = "tariff") #not specific to Malaysia
 
 We can also impute with trends specific to each cross-sectional unit:
 
+* `intercs` is a logical argument indicating if the time effects of polytime should vary across the cross-section.
+
 ```{r}
 set.seed(120)
-a.out.time <- amelia(freetrade, ts = "year", cs = "country", polytime = 2,
+a.out.time <- amelia(freetrade, m=5, ts = "year", cs = "country", polytime = 2,
                      intercs = TRUE, p2s = 0) # "p2s = 0" turns off text output
 tscsPlot(a.out.time, cs = "Malaysia", main = "MI with Amelia",
          var = "tariff", ylim = c(-10, 60))
 compare.density(a.out.time, var = "tariff") #not specific to Malaysia
+plot(a.out.time) # overall basic Imputation information plot
+summary(a.out.time)
 ```
  
  + Note how the imputed values fit original observations better.
@@ -174,6 +184,8 @@ a.out2 <- amelia(freetrade, ts = "year", cs = "country", lags = "tariff",
 tscsPlot(a.out2, cs = "Malaysia", main = "MI with Amelia",
          var = "tariff", ylim = c(-10, 60))
 compare.density(a.out2, var = "tariff") #not specific to Malaysia
+plot(a.out2) # overall basic Imputation information plot
+summary(a.out2)
 ```
  
  + Calculation time for the last imputation task increases considerably.
