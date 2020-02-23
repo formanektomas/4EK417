@@ -90,7 +90,7 @@ head(mcar.mice,15)
 # .. MI uses ML estimation and does NOT work if dataframe contains
 # .. linearly dependent variables and/or combinations such as var1 & log(var1)..
 #
-# In our illustrative example, missing data are artificially generated
+# In our illustrative example, missing observations are artificially generated
 # .. and we know their nature.
 # 
 # However, in empirical applications, we often start by describing 
@@ -100,7 +100,7 @@ library("VIM")
 #
 md.pattern(mcar.mice)
 # each row corresponds to a missing data pattern (1=observed, 0=missing). 
-# Rows and columns are sorted in increasing amounts of missing information. 
+# Rows and columns are sorted in increasing amounts of observations. 
 # Top (blue) row represents "full" observations
 # Numbers on the left are "row counts", numbers on the right are "variable counts".
 #
