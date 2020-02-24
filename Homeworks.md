@@ -39,7 +39,7 @@ layout: default
 * Úkol pro týden 2 je založen na příkladu `Quick exercise` ze skriptu `R07_Eurostat.Rmd`  (viz níže).
 * Na rozídl od `Quick exercise` ale v bodu 1. nepoužijete dataset "nama_10r_2coe".   
 * Svůj dataset vyhledejte pomocí funkce `search_eurostat()`, klíčová slova a tedy použitý dataset dle uvážení každého studenta.   
-* U bodů 2. až 5. budete postupovat analogicky k zadání pro "nama_10r_2coe" (vyberte "zajímavou" proměnnou/jednotku měření, skupinu států/regionů, atd.  
+* U bodů 2. až 5. budete postupovat analogicky k zadání pro "nama_10r_2coe" (vyberte "zajímavou" proměnnou/jednotku měření, skupinu států/regionů, atd).  
 * Doprovoďte Váš výstup stručným slovním komentářem (popište zvolené proměnné).
 
 
