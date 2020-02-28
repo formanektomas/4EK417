@@ -84,7 +84,7 @@ Moving beyond linearity
 - [Simple Features for R](https://r-spatial.github.io/sf/)  
 - [GADM maps and data](https://gadm.org/)  
 - [Interactive Course using mgcv (ch. 3)](https://noamross.github.io/gams-in-r-course/)  
-- R Package **RCzechia** (run `install.packages("RCzechia")  
+- R Package **RCzechia** : run `install.packages("RCzechia")`  
 
 ---
 
