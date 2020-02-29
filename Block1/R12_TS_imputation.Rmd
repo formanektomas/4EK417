@@ -112,17 +112,18 @@ Package `{Amelia}` supports time series MI:
 
 #### **Amelia -- TS example**
 
-Based on the Freetrade dataset: *Economic and political data on nine developing countries in Asia from 1980 to 1999. This dataset includes 9 variables*:  
-+ year,  
-+ country,  
-+ average tariff rates,  
-+ polity IV score,  
-+ total population,  
-+ gross domestic product per capita,  
-+ gross international reserves,  
-+ dummy variable for if the country had signed an IMF agreement in that year,  
-+ a measure of financial openness,  
-+ a measure of US hegemony.  
+Based on the Freetrade dataset: *Economic and political data on nine developing countries in Asia from 1980 to 1999*. This dataset includes 9 variables:  
+
+* year,  
+* country,  
+* average tariff rates,  
+* polity IV score,  
+* total population,  
+* gross domestic product per capita,  
+* gross international reserves,  
+* dummy variable for if the country had signed an IMF agreement in that year,  
+* a measure of financial openness,  
+* a measure of US hegemony.  
 
  
 ```{r, message=F}
@@ -132,10 +133,9 @@ missmap(freetrade) # description of missing data in "freetrade" data
 ```
 
 
-+ Amelia can build a general model of patterns within variables across
-time by creating a sequence of polynomials of the time index.  
+* Amelia can build a general model of patterns within variables across time by creating a sequence of polynomials of the time index.  
 
-+ If, for example, tariffs vary smoothly over time, then we make the modeling assumption that there exists some polynomial that describes the economy in cross-sectional unit $i$ at time $t$ as ($3^{rd} order polynomial is a maximum):  
+* If, for example, tariffs vary smoothly over time, then we make the modeling assumption that there exists some polynomial that describes the economy in cross-sectional unit $i$ at time $t$ as ($3^{rd}$ order polynomial is a maximum):  
 $$ y_{it} = \beta_0 + \beta_1 t + \beta_2 t^2 + \beta_3 t^3 + u_{it}$$
 
 ---  
