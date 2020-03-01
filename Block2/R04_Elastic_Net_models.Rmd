@@ -70,7 +70,7 @@ We will use the data included in the Hitters dataset to predict players' **Salar
 `glmnet()` function from the `{glmnet}` package needs regression input in matrix $\mathbf{X}$ and vector $\mathbf{y}$ form.
 
 ```{r}
-x <-  model.matrix(Salary~., Hitters)[ , -1] # 1st col. is for the dependent variable Salary
+x <-  model.matrix(Salary~., Hitters)[ , -1] # 1st column with (Intercept) is removed
 y <- Hitters$Salary
 ```
 
@@ -108,7 +108,7 @@ plot(ridge.mod, xvar="lambda", label=TRUE)
 Coefficient value plot as a function of log of lambda. `glmnet()` estimates multiple models on a grid of values of lambda.
 
 
-When log of lambda is 12 ($\lambda$ is large), all the $\beta_j$ coefficients are essentially zero. Then as we relax the lambda restriction parameter, the coefficients grow away from zero in a smooth way, and the sum of squares of the coefficients is getting bigger and bigger until we reach a point where lambda is effectively zero, and the coefficients are unregularized (equal to OLS from `lm()`, up to rounding errors).
+When $\lambda$ (log of $\lambda$) is large, all the $\beta_j$ coefficients ($j \neq 0$) are essentially zero. Then as we relax the lambda restriction parameter, the coefficients grow away from zero in a smooth way, and the sum of squares of the coefficients is getting bigger and bigger until we reach a point where lambda is effectively zero, and the coefficients are unregularized (equal to OLS from `lm()`, up to rounding errors).
 
 ## Sample coefficients for different lambda values:
 
@@ -154,11 +154,11 @@ For lower lambda values, at some point, the *MSE* kind of levels off. The plot s
 
 * For the largest value of $\lambda$ such that error is within 1 standard error of the minimum, use: `s=lambda.1se` (model is more restricted, hence less prediction variance)
 
-* At the top of the plot, you can see how many non-zero variables coefficients are in the model. Here, there's all 20 variables in the model (19 variables plus the intercept) and no coefficient is zero (as we are doing ridge regression, regressors are not turned off).
+* At the top of the plot, you can see how many non-zero variables coefficients are in the model. Here, there's all 19 variables in the model (19 variables plus the intercept) and no coefficient is zero (as we are doing ridge regression, regressors are not turned off).
 
 ## Coefficient extraction
 
-There's a coefficient function extractor that works on a cross validation object and pick the coefficient vector corresponding to the best model:
+There's a coefficient function extractor that works on a cross validation object and picks the coefficient vector corresponding to the best model:
 
 ```{r}
 coef(cv.ridge, s="lambda.min") # alternatively, use "lambda.1se"
