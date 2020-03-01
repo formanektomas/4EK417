@@ -58,6 +58,7 @@ Moving beyond linearity
 #### Materials for Block 2
 
 + [Download presentation slides for Block 2](https://github.com/formanektomas/4EK417/raw/master/Block2/Block_2.pdf)  
++ [Download R scripts (zip)](https://github.com/formanektomas/4EK417/raw/master/Block2/Block2.zip)
   
 #### Supporting materials for Block 2  
   
