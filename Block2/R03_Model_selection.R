@@ -143,17 +143,22 @@ coef(forward.select, iifwd)
 fwd.info$rsq[iifwd]
 fwd.info$adjr2[iifwd]
 #
-# Compare to Best subset selection results:
-coef(bestSubset.all, ii)
-best.info$rsq[ii]
-best.info$adjr2[ii]
+iifwd <- which.min(fwd.info$bic)
+name.info <- (fwd.info$which[iifwd, ]==TRUE)
+VariableSet <- names(name.info[name.info==TRUE])
+VariableSet <- VariableSet[-1]
+cat(VariableSet, sep="+")
+#
+FSS <- lm(wage~educ+tenure+female+smsa+west+trade+services+profocc, data=wages)
+summary(FSS)
+#
 #
 #
 #### Model selection: Backward stepwise selection method ####
 #
 #
 back.select <- regsubsets(wage~., wages,
-                          nvmax=22, method = "forward")
+                          nvmax=22, method = "backward")
 summary(back.select)
 #
 #
@@ -171,8 +176,16 @@ points(iib,back.info$bic[iib],pch=20,col="red")
 coef(back.select, iib)
 back.info$rsq[iib]
 back.info$adjr2[iib]
-# In this particular case, both forward and backward stepwise selection methods lead
-# to the same specification (does NOT apply in general)
+#
+# A functional method for obtaining regressors & estimating selected LRM:
+iib <- which.min(back.info$bic)
+name.info <- (back.info$which[iib, ]==TRUE)
+VariableSet <- names(name.info[name.info==TRUE])
+VariableSet <- VariableSet[-1]
+cat(VariableSet, sep="+")
+#
+BSS <- lm(wage~educ+exper+tenure+female+smsa+trade+services+profocc+expersq, data=wages)
+summary(BSS)
 #
 #
 # 
@@ -182,18 +195,13 @@ back.info$adjr2[iib]
 #
 summary(W.7.4) # Our "benchmark", theoretically defined model
 summary(best.LRM) # Model chosen using the "Best subset" method
-# .. Generally, FSS and BSS may generate different subsets
-# .. Global minimum for BIC is NOT guaranteed
-# Here, Forward stepwise and Backward stepwise methods 
-# select the same subset 
-# (inferior to the best subset selection method
-# all results are VALID FOR A GIVEN DATASET ONLY ! )
-FSS <- lm(wage~educ+tenure+female+smsa+west+trade+services+profocc, data=wages)
 summary(FSS)
+summary(BSS)
 #
 BIC(W.7.4) # BIC for the benchmark model
 BIC(best.LRM) # The global minimum for BIC among all possible subsets
-BIC(FSS) # BIC for the Forward stepwise and Backward stepwise methods
+BIC(FSS) # BIC for the Forward stepwise method
+BIC(BSS) # BIC for the Backward stepwise method
 #
 #
 #
