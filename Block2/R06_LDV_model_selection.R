@@ -1,6 +1,6 @@
 ### Model selection methods and binary dependent variables (logistic regression)
 #
-require(Ecdat) # install.packages("Ecdat")
+library(Ecdat) # install.packages("Ecdat")
 #
 # Unemployment insurance - Blue Collar Workers
 rm(list=ls())
@@ -18,7 +18,7 @@ dataUI$ui <- ifelse(dataUI$ui == "yes",1,0)
 #
 # 1] Stepwise regression
 #
-require(MASS) # install.packages("MASS")
+library(MASS) # install.packages("MASS")
 # Full glm() logistic model
 glm1 <- glm(ui ~ ., family = binomial, data = dataUI)
 summary(glm1)
@@ -36,7 +36,7 @@ glm1.step
 # 2] Lasso regularization using {glmpath}
 #
 #
-require(glmpath) # install.packages("glmpath")
+library(glmpath) # install.packages("glmpath")
 ?glmpath
 #
 X.mat <-  model.matrix(ui~., dataUI)
@@ -58,20 +58,34 @@ plot(fit.lasso, type="bic", xvar="lambda")
 summary(fit.lasso)
 select <- which(fit.lasso$bic==min(fit.lasso$bic))
 fit.lasso$b.predictor[select,] # minimum AIC & corresponding model
+fit.lasso$lambda[select]
+#
 #
 # Alternatively, we can use CV
-?cv.glmpath
-cv.lasso <- cv.glmpath(X.mat, y, family=binomial, type="response")
-min.cv <- which(cv.lasso$cv.error == min(cv.lasso$cv.error))
-abline(v=min.cv/100, col="red")
+#
+# ?cv.glmpath
+# cv.lasso <- cv.glmpath(X.mat, y, family=binomial, type="response", mode="lambda")
+# min.cv <- which(cv.lasso$cv.error == min(cv.lasso$cv.error))
+# abline(v=min.cv/100, col="red")
 # fraction: the fraction of L1 norm or log(\lambda) with respect to their maximum values 
 # at which the CV errors are computed. Default is seq(0,1,length=100).
 #
+#
+#
 # Predictions
 ?predict.glmpath
+# predictions made at different "steps" 
+pred <- predict.glmpath(fit.lasso, newx = X.mat, type="response")
+head(pred,10)
+# predictions at min BIC
 pred <- predict.glmpath(fit.lasso, newx = X.mat, type="response",s=select)
 head(pred,10)
-#
+# predictions at min BIC - Alternative syntax using lambda value at BIC minimal.
+pred <- predict.glmpath(fit.lasso, newx = X.mat, 
+                        type="response",
+                        mode="lambda",
+                        s=fit.lasso$lambda[select])
+head(pred,10)
 #
 #
 #
