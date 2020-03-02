@@ -54,8 +54,8 @@ layout: default
     + místo toho použijte `R`-kód, např. : `MyData <- PackageName:::DatasetName`.
     + Vyberete-li jiný dataset, srozumitelně popište svá data a soubor přiložte.
 * Použijte průřezová data a volte model tak, abyste měli spojitou závislou proměnnou.      
-* U bodů 1. až 6. budete postupovat analogicky k zadání ze skriptu `R03_Model_selection.R`.
-    + U datasetů s vysokým počtem proměnných / sloupců můžete omezit maximální uvažovaný počet regresorů.
+* U `Assignment 1`, body 1. až 6. budete postupovat analogicky k zadání ze skriptu `R03_Model_selection.R`, jen s jiným datasetem.
+    + U datasetů s vysokým počtem proměnných / sloupců můžete omezit maximální uvažovaný počet regresorů pro stepwise regresi.
     + **Pozor**, řada datasetů obsahuje logaritmické transformace vybraných proměnných (a logaritmovanou závislou proměnnou nechcete mít v sadě potenciálních regresorů při stepwise analýze - viz též ř. 7 skriptu `R03_Model_selection.R`).
 * Doprovoďte Váš výstup stručným slovním komentářem.
 
