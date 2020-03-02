@@ -30,7 +30,7 @@ layout: default
     + alespoň 2 grafy, použijte různá nastavení (např. přidejte fazety, resp. vhodně ukažte práci s vrstvami/layers)
     
 * Odevzdejte ve formátu `.R`, `.Rmd` nebo Rmd zkompilované do `html/pdf/docx` výstupu   
-    + u zkompilovaných výstupů musejí být viditelné použité příkazy, tj. nastavtení `echo=T` (je defaultní).
+    + u zkompilovaných výstupů musejí být viditelné použité příkazy, tj. nastavení `echo=T` (je defaultní).
 
 ---
 
@@ -59,7 +59,7 @@ layout: default
     + **Pozor**, řada datasetů obsahuje logaritmické transformace vybraných proměnných (a logaritmovanou závislou proměnnou nechcete mít v sadě potenciálních regresorů při stepwise analýze - viz též ř. 7 skriptu `R03_Model_selection.R`).
 * Doprovoďte Váš výstup stručným slovním komentářem.  
 * Odevzdejte ve formátu `.R`, `.Rmd` nebo Rmd zkompilované do `html/pdf/docx` výstupu   
-    + u zkompilovaných výstupů musejí být viditelné použité příkazy, tj. nastavtení `echo=T` (je defaultní).
+    + u zkompilovaných výstupů musejí být viditelné použité příkazy, tj. nastavení `echo=T` (je defaultní).
     
 ---
 
