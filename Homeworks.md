@@ -57,8 +57,10 @@ layout: default
 * U `Assignment 1`, body 1. až 6. budete postupovat analogicky k zadání ze skriptu `R03_Model_selection.R`, jen s jiným datasetem.
     + U datasetů s vysokým počtem proměnných / sloupců můžete omezit maximální uvažovaný počet regresorů pro stepwise regresi.
     + **Pozor**, řada datasetů obsahuje logaritmické transformace vybraných proměnných (a logaritmovanou závislou proměnnou nechcete mít v sadě potenciálních regresorů při stepwise analýze - viz též ř. 7 skriptu `R03_Model_selection.R`).
-* Doprovoďte Váš výstup stručným slovním komentářem.
-
+* Doprovoďte Váš výstup stručným slovním komentářem.  
+* Odevzdejte ve formátu `.R`, `.Rmd` nebo Rmd zkompilované do `html/pdf/docx` výstupu   
+    + u zkompilovaných výstupů musejí být viditelné použité příkazy, tj. nastavtení `echo=T` (je defaultní).
+    
 ---
 
 
