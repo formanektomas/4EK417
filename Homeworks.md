@@ -42,22 +42,22 @@ layout: default
 * U bodů 2. až 5. budete postupovat analogicky k zadání pro "nama_10r_2coe" (vyberte "zajímavou" proměnnou/jednotku měření, skupinu států/regionů, atd).  
 * Doprovoďte Váš výstup stručným slovním komentářem (popište zvolené proměnné).
 
+---
 
-### Quick exercise: 
+## Týden 3 (odevzdání do 8. 3. 2020)
 
-**Total wages/compensations per region by NACE r2 activities**
-
-* Use pipe operator for steps 4 & 5.  
-* (you may find it easier to perform this exercise in a separate R-script, load `eurostat` `ggplot2` and `dplyr` first)  
-
-1. Download "nama_10r_2coe" from Eurostat (use simplified time format).  
-2. Check the structure of your dataset. 
-3. Find out the meaning of `currency` and `nace_r2` codes.  
-4. Retrieve data for the sector "Financial and insurance activities" for CZ, SK, SI, AT (NUTS0), years 2007-2017, in euro.
-5. Plot the data using `ggplot` (follow formatting in Example 1 or choose your own style)
-
-* This is just a simple exercise focused on downloading and filtering data from Eurostat... data among states are not directly comparable (we would need a per-employee standardization).
-
+* Úkol pro týden 3 je založen na příkladu `Assignment 1` ze skriptu `R03_Model_selection.R`.
+* Na rozídl od `Assignment 1` ale **nepoužijete** pro stepwise regresi dataset "htv.csv".   
+*  Každý si vyberte vhodný dataset, například ze seznamu zde  
+    + https://vincentarelbundock.github.io/Rdatasets/datasets.html  
+    + Použijtete-li data z balíčku, nepřikládatejte csv soubor,
+    + místo toho použijte `R`-kód, např. : `MyData <- PackageName:::DatasetName`.
+    + Vyberete-li jiný dataset, srozumitelně popište svá data a soubor přiložte.
+* Použijte průřezová data a volte model tak, abyste měli spojitou závislou proměnnou.      
+* U bodů 1. až 6. budete postupovat analogicky k zadání ze skriptu `R03_Model_selection.R`.
+    + U datasetů s vysokým počtem proměnných / sloupců můžete omezit maximální uvažovaný počet regresorů.
+    + **Pozor**, řada datasetů obsahuje logaritmické transformace vybraných proměnných (a logaritmovanou závislou proměnnou nechcete mít v sadě potenciálních regresorů při stepwise analýze - viz též ř. 7 skriptu `R03_Model_selection.R`).
+* Doprovoďte Váš výstup stručným slovním komentářem.
 
 ---
 
