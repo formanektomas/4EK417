@@ -4,7 +4,7 @@
 #
 #
 rm(list=ls())
-require(Ecdat)
+library(Ecdat)
 mydataset <- Hedonic
 ?Hedonic
 # mv (median value of owner–occupied homes) is our dependent variable
