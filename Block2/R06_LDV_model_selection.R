@@ -57,7 +57,7 @@ plot(fit.lasso, type="bic", xvar="lambda")
 #
 summary(fit.lasso)
 select <- which(fit.lasso$bic==min(fit.lasso$bic))
-fit.lasso$b.predictor[select,] # minimum AIC & corresponding model
+fit.lasso$b.predictor[select,] # minimum BIC & corresponding model
 fit.lasso$lambda[select]
 #
 #
@@ -89,4 +89,37 @@ head(pred,10)
 #
 #
 #
+##########################################################################
+# Detecting separation and infinite estimates in binomial response GLMs  #
+##########################################################################
 #
+#
+#
+library("brglm2")
+# https://cran.r-project.org/web/packages/brglm2/vignettes/separation.html
+data("endometrial", package = "brglm2")
+?brglm2:::endometrial
+modML <- glm(HG ~ NV + PI + EH, family = binomial, data = endometrial)
+theta_mle <- coef(modML)
+summary(modML)
+#
+endometrial_sep <- glm(HG ~ NV + PI + EH, data = endometrial,
+                       family = binomial("logit"),
+                       method = "detect_separation")
+endometrial_sep 
+#
+# 
+#
+library(glmpath) # install.packages("glmpath")
+X.mat <-  model.matrix(HG ~ NV + PI + EH, endometrial)[,-1]
+y <- endometrial$HG
+fit.lasso <- glmpath(X.mat, y, family=binomial)
+#
+# Coefficient "selection" by lasso penalty
+plot(fit.lasso, xvar="step", mar = c(5,4,4,7))
+select <- which(fit.lasso$bic==min(fit.lasso$bic))
+fit.lasso$b.predictor[select,] # minimum BIC & corresponding model
+fit.lasso$lambda[select]
+summary(fit.lasso)
+# Predictions at lambda minizing the bic statistic.
+predict(fit.lasso,newx=X.mat[1:10,],s=select,type="response")
