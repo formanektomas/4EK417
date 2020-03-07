@@ -4,7 +4,7 @@
 #
 #
 rm(list=ls())
-require(Ecdat)
+library(Ecdat)
 mydataset <- Hedonic[1:200,]
 testsample <- Hedonic[201:506,]
 ?Hedonic
@@ -27,7 +27,7 @@ mat <-
 #########################
 ######### PCA ###########
 #########################
-require(psych)
+library(psych)
 #
 # Step 1 - perform the KMO test
 
@@ -52,7 +52,7 @@ require(psych)
 #########################
 ######### PCR ###########
 #########################
-require(pls)
+library(pls)
 #
 #
 # Step 1 - use pcr() from the {pls} package. to calculate PCR: mv ~ .
