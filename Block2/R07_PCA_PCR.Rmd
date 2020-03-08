@@ -97,7 +97,7 @@ KMO(mat)
 Note the `center=T` (default) and  `scale = T` arguments 
 
 ```{r}
-pca <- prcomp(mat, center = T, scale = T)
+pca <- prcomp(mat, center = T, scale. = T)
 summary(pca)
 names(pca) # see help for detailed information
 ```
@@ -190,10 +190,20 @@ selectNcomp(pcr.fit, method = "onesigma", plot = TRUE)
 ```
 
 
+### PCR-estimated model, with `ncomp = 1` 
+
+```{r}
+pcr.fit.1 <- pcr(Salary~., data=Hitters, scale=TRUE, ncomp=1)
+summary(pcr.fit.1)
+loadings(pcr.fit.1)[,1, drop=F] # compare with:  pca$rotation[,1:4] ...above
+```
+
+
 ### For quick illustration of features of the PCR-estimated model, we use `ncomp = 4` 
 
 
 (although CV suggests only one PC for regression)
+
 ```{r}
 pcr.fit.4 <- pcr(Salary~., data=Hitters, scale=TRUE, ncomp=4)
 summary(pcr.fit.4)
@@ -201,7 +211,7 @@ loadings(pcr.fit.4)[,1:4] # compare with:  pca$rotation[,1:4] ...above
 ```
 
 
-### Fitted values from PCR (regression on PC1 only)
+### Fitted values from PCR (regression on PC1 only vs regression PC1 to PC4)
 
 ```{r}
 pcr.predictions <- predict(pcr.fit, Hitters[1:100,], ncomp=1, type="response")
@@ -211,7 +221,7 @@ predplot(pcr.fit, ncomp = 1, newdata = Hitters[1:100,], asp = 1, line = TRUE)
 predplot(pcr.fit, ncomp = 4, newdata = Hitters[1:100,], asp = 1, line = TRUE)
 ```
 
-
+---
 
 ## Illustration of prediction efficiency of the PCR estimation
 
