@@ -25,9 +25,11 @@ summary(glm1)
 #
 ?stepAIC
 # Selection based on AIC, "backwards" selection is the default
-glm1.step <- stepAIC(glm1)
-glm1.step$anova
-glm1.step
+glm1.step <- stepAIC(glm1) # note how the algorithm stops after removing "nwhite"
+glm1.step$anova # summary of the eliminated regressors
+# The usual operations may be performed:
+summary(glm1.step)
+head(predict(glm1.step,type="response"),10)
 #
 #
 #
@@ -39,7 +41,7 @@ glm1.step
 library(glmpath) # install.packages("glmpath")
 ?glmpath
 #
-X.mat <-  model.matrix(ui~., dataUI)
+X.mat <-  model.matrix(ui~., dataUI)[,-1] # remove intercept column of ones
 y <- dataUI$ui
 fit.lasso <- glmpath(X.mat, y, family=binomial)
 #
@@ -100,9 +102,8 @@ library("brglm2")
 data("endometrial", package = "brglm2")
 ?brglm2:::endometrial
 modML <- glm(HG ~ NV + PI + EH, family = binomial, data = endometrial)
-theta_mle <- coef(modML)
 summary(modML)
-#
+# Syntax for separation detection
 endometrial_sep <- glm(HG ~ NV + PI + EH, data = endometrial,
                        family = binomial("logit"),
                        method = "detect_separation")
@@ -117,9 +118,16 @@ fit.lasso <- glmpath(X.mat, y, family=binomial)
 #
 # Coefficient "selection" by lasso penalty
 plot(fit.lasso, xvar="step", mar = c(5,4,4,7))
+summary(fit.lasso)
+# Coefficients at different steps
+fit.lasso$b.predictor
+# Coefficients and lambda at minimum BIC
 select <- which(fit.lasso$bic==min(fit.lasso$bic))
 fit.lasso$b.predictor[select,] # minimum BIC & corresponding model
 fit.lasso$lambda[select]
-summary(fit.lasso)
+
 # Predictions at lambda minizing the bic statistic.
 predict(fit.lasso,newx=X.mat[1:10,],s=select,type="response")
+#
+#
+#
