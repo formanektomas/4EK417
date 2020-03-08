@@ -5,24 +5,15 @@
 #
 rm(list=ls())
 library(Ecdat)
-mydataset <- Hedonic[1:200,]
-testsample <- Hedonic[201:506,]
+mydataset <- Hedonic
 ?Hedonic
 # mv is the dependent variable
 str(mydataset)
 #
 #
 # Pre-processing, step 1:
-# convert "chas" to 0-1 dummy variable 
-
-mydataset$chas <- 
-testsample$chas <- 
-
-# Pre-processing, step 2:
-# store all variables except for the dependent variable in "mat" matrix
-
-mat <- 
-
+x <- model.matrix(mv~.,mydataset)[,-1]
+# y <- mydataset$mv
 #
 #########################
 ######### PCA ###########
@@ -67,9 +58,7 @@ set.seed(10)
 # Step 3 - plot PCR-fitted vs observed "mv" values.
 
 
-# Step 4 - calculate test sample MSE
-#          OLS-based test sample is: 0.145   
-#          .. (verify OLS-based MSE as a bonus assignment)
+
 
 
 
