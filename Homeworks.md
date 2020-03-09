@@ -67,14 +67,14 @@ layout: default
 
 * Pro úkol 4 použijte stejný dataset jako byl použit pro úkol 3 (případnou změnu datasetu vysvětlete)  
 * Odhadněte regresní model pomocí penalizované regrese a vyhodnoťte predičkní vlastnosti  
-    + jako vzor můžete využít postup ve skriptu `R04_Elastic_Net_models.Rmd`,  
+    + jako vzor můžete využít postup ze skriptu `R04_Elastic_Net_models.Rmd`,  
     + srovnejte predičkní vlastnosti pro dostatečně širokou škálu penalizačních parametrů $\lambda$,
     + použijte alespoň dvě možnosti penalizace (ridge, lasso, elastic net),  
     + generujte predikce (alespoň na ukázku, nebo rozdělte data na train/test sample), okomentuje výsledky.
 * Pro stejný dataset proveďte regresi na hlavních komponentách (PCR).
-    + jako vzor můžete využít postup ve skriptu `R07_PCA_PCR.Rmd`,  
+    + jako vzor můžete využít postup ze skriptu `R07_PCA_PCR.Rmd`,  
     + vyhodnoťte statistiku KMO,  
-    + srovnejte prediční vlastnosti regresních modelů s různým množstvím zahrných hlavních komponent,
+    + srovnejte prediční vlastnosti regresních modelů s různým množstvím zahrných hlavních komponent.
 * Doprovoďte Vaše výstupy stručným slovním komentářem.  
 * Odevzdejte ve formátu `.R`, `.Rmd` nebo Rmd zkompilované do `html/pdf/docx` výstupu   
     + u zkompilovaných výstupů musejí být viditelné použité příkazy, tj. nastavení `echo=T` (je defaultní).
