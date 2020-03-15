@@ -27,8 +27,8 @@ Blok 2 - polynomial and step regression, regression splines, smoothing splines, 
 
 **Samostudium**  
 
-+ Podívejte se na videa z kapitoly 7 (Chapter 7: Moving Beyond Linearity)  
-    + [https://www.r-bloggers.com/in-depth-introduction-to-machine-learning-in-15-hours-of-expert-videos/](https://www.r-bloggers.com/in-depth-introduction-to-machine-learning-in-15-hours-of-expert-videos/)  
++ Podívejte se na videa zařazená do kapitoly 7 (Chapter 7: Moving Beyond Linearity)  
+    + [https://www.r-bloggers.com/in-depth-introduction-to-machine-learning-in-15-hours-of-expert-videos/](https://www.r-bloggers.com/in-depth-introduction-to-machine-learning-in-15-hours-of-expert-videos/)  U videí lze zapnout AJ titulky pro lepší porozumění mluvenému slovu.
     + základní literatura: slidy 74-108 z prezentace [Block 2](https://github.com/formanektomas/4EK417/raw/master/Block2/Block_2.pdf)
     + doplňková literatura: kapitola 7 knihy [An Introduction to Statistical Learning](http://faculty.marshall.usc.edu/gareth-james/ISL/)  
 
