@@ -40,11 +40,10 @@ Blok 2 - polynomial and step regression, regression splines, smoothing splines, 
 + Do 29.3. do insisu odevzdejte rozšířený domácí úkol vycházející z tématu:  
     + ekonometrický model postavte na datech, která jste použili v úkolu odevzdávaném k 15.3.2020,  
     + v analýze použijte (a) polynomiální regresi, (b) kubické a natural spline křivky, (c) lokální regresi, (d) GAM,  
-    + interpretujte a vyhodnoťte jednitlivé postupy/odhadové metody a srovnejte je navzájem.  
+    + interpretujte a vyhodnoťte jednotlivé postupy/odhadové metody a srovnejte je navzájem.  
     
 + Úkol je za 10 bodů.
 
----
 --- 
 
 ### Block 1: Data handling in R
