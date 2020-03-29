@@ -48,8 +48,8 @@ Blok 2 - polynomial and step regression, regression splines, smoothing splines, 
 
 **Modely se smíšenými efekty (LME - linear mixed effects models)**  
 
-+ Upozorňuji, že termíny "Fixed effect" a "Random effect" se u LME modelů používají v jiném kontextu a s jiným významem, než jak je tomu např. v učebnici Wooldridge, Introductory econometrics (LME přístup lze použít i panelových i longitudinálních dat).  
-+ Domácí úkol pro tyto dva týdny není příliš náročný, ale zvolené téma (LME) je relativně časově náročné na samostudium. Důležité teoretické části z přiloženého textu "LME_Textbook.pdf" mají cca 30 stran (pdf má 100 stran, ale začátek je triviální, poslední dvě sub-kapitoly můžete přeskočit a hodně zabírají grafy a částečně duplicitní postupy ve dvou balíčcích R).
++ Upozorňuji, že termíny "Fixed effect" a "Random effect" se u LME modelů používají v jiném kontextu a s jiným významem, než jak je tomu např. v učebnici Wooldridge, Introductory econometrics (LME přístup lze použít u panelových i longitudinálních dat).  
++ Domácí úkol pro tyto dva týdny není příliš obtížný, ale zadané téma (LME) je relativně časově náročné na samostudium. Důležité teoretické části z přiloženého textu "LME_Textbook.pdf" mají cca 30 stran textu (pdf má 100 stran, ale začátek je triviální, poslední dvě sub-kapitoly můžete vypustit a hodně prostoru zabírají grafy a částečně duplicitní postupy ve dvou balíčcích R).
 
 [Materiály k samostudiu](https://github.com/formanektomas/4EK417/raw/master/Week_07/LME.zip)
 
@@ -57,16 +57,14 @@ Blok 2 - polynomial and step regression, regression splines, smoothing splines, 
 
 + Projděte si prezentaci "LME_Presentation_4EK417.pdf" a výše zmíněný text "LME_Textbook.pdf". Přiložil jsem i třetí pdf s alternativní souhrnnou prezentací k tématu LME.
 
-+ R-lab: projděte si R a Rmd skripty z přiloženého zip souboru.
-    + Většina skriptů vychází z textu "LME_Textbook.pdf", proto můžete tuto "učebnici" využít i v případě nejasností v popisu nebo postupu, použitého v R skriptu.
++ R-lab: projděte si `R` a `Rmd` skripty z přiloženého zip souboru.
+    + Většina skriptů vychází z textu "LME_Textbook.pdf", proto můžete tuto "učebnici" využít i v případě nejasností v popisu nebo postupu, použitého v R skriptech.
 
 **Domácí úkol (získání bodů pro průběžnou klasifikaci)**  
 + Do 9.4. v insisu odevzdejte domácí úkol podle "Home_Assign_LME.R":  
-    + samotný úkol není obtížný z hlediska syntaxe v R (hotové skripty poslouží jako příklad), soustřeďte se na interpretaci/diskusi.
+    + samotný úkol není obtížný z hlediska syntaxe v R (hotové skripty poslouží jako příklad), o to více se soustřeďte na interpretaci/diskusi.
     
 + Úkol je za 10 bodů.
-
-
 
 
 --- 
