@@ -48,7 +48,7 @@ Blok 2 - polynomial and step regression, regression splines, smoothing splines, 
 
 **Modely se smíšenými efekty (LME - linear mixed effects models)**  
 
-+ Upozorňuji, že termíny "Fixed effect" a "Random effect" se u LME modelů používají v jiném kontextu a s jiným významem, než jak je tomu např. v učebnici Wooldridge, Introductory econometrics.  
++ Upozorňuji, že termíny "Fixed effect" a "Random effect" se u LME modelů používají v jiném kontextu a s jiným významem, než jak je tomu např. v učebnici Wooldridge, Introductory econometrics (LME přístup lze použít i panelových i longitudinálních dat).  
 + Domácí úkol pro tyto dva týdny není příliš náročný, ale zvolené téma (LME) je relativně časově náročné na samostudium. Důležité teoretické části z přiloženého textu "LME_Textbook.pdf" mají cca 30 stran (pdf má 100 stran, ale začátek je triviální, poslední dvě sub-kapitoly můžete přeskočit a hodně zabírají grafy a částečně duplicitní postupy ve dvou balíčcích R).
 
 [Materiály k samostudiu](https://github.com/formanektomas/4EK417/raw/master/Week_07/LME.zip)
