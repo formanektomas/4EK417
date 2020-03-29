@@ -1,7 +1,8 @@
 #### Sleep study example: ICC and its bootstrapped significance ####
 #
 #
-# 
+# ICC is estimated (calculated based on estimates)
+# its distribution is hard to tackle analytically, yet bootstrap can be used
 #
 #
 #
@@ -18,8 +19,9 @@ summary(fit)
 # ICC manual calculation:
 1378.2/(960.5+1378.2)
 #
-?icc
-icc(fit) # (1378.2)/(960.5+1378.2)
+?performance::icc
+performance::icc(fit) # (1378.2)/(960.5+1378.2)
+
 #
 #
 # compute bootstrapped SE of ICC
@@ -36,9 +38,11 @@ dummy <- sleepstudy %>%
     lmer(Reaction ~ Days + (1|Subject), data = x)
   })) %>% 
   # compute ICC for each "bootstrapped" regression
-  mutate(icc = unlist(lapply(.$models, icc, ajusted=T)))
+  mutate(icc = unlist(lapply(.$models, performance::icc))[seq(from=1,to=200,by=2)]) 
+  # the last argument (seq) retrieves the "Adjusted ICC" from the icc output
 #
-# # Step 2
+# 
+# Step 2
 # now compute SE and p-values for the bootstrapped ICC
 boot_se(dummy, icc)
 boot_p(dummy, icc)
