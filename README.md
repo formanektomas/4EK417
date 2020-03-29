@@ -15,11 +15,9 @@ University of Economics, Prague
 + [Detailed information provided here (CZE)](./CourseClassification.html)
 + [Literature and other supporting materials for the course](./LiteratureSupport.html)
 
----
 
 # Náhradní výuka po dobu mimořádných opatření
 
----
 
 ### Program nahrazující běžnou výuku ve dnech 16. 3. 2020 a 23. 3. 2020
 
@@ -43,6 +41,33 @@ Blok 2 - polynomial and step regression, regression splines, smoothing splines, 
     + interpretujte a vyhodnoťte jednotlivé postupy/odhadové metody a srovnejte je navzájem.  
     
 + Úkol je za 10 bodů.
+
+---
+
+### Program nahrazující běžnou výuku ve dnech 30. 3. 2020 a 6. 4. 2020
+
+**Modely se smíšenými efekty (LME - linear mixed effects models)**  
+
++ Upozorňuji, že termíny "Fixed effect" a "Random effect" se u LME modelů používají v jiném kontextu a s jiným významem, než jak je tomu např. v učebnici Wooldridge, Introductory econometrics.  
++ Domácí úkol pro tyto dva týdny není příliš náročný, ale zvolené téma (LME) je relativně časově náročné na samostudium. Důležité teoretické části z přiloženého textu "LME_Textbook.pdf" mají cca 30 stran (pdf má 100 stran, ale začátek je triviální, poslední dvě sub-kapitoly můžete přeskočit a hodně zabírají grafy a částečně duplicitní postupy ve dvou balíčcích R).
+
+[Materiály k samostudiu](https://github.com/formanektomas/4EK417/raw/master/Week_07/LME.zip)
+
+**Samostudium**  
+
++ Projděte si prezentaci "LME_Presentation_4EK417.pdf" a výše zmíněný text "LME_Textbook.pdf". Přiložil jsem i třetí pdf s alternativní souhrnnou prezentací k tématu LME.
+
++ R-lab: projděte si R a Rmd skripty z přiloženého zip souboru.
+    + Většina skriptů vychází z textu "LME_Textbook.pdf", proto můžete tuto "učebnici" využít i v případě nejasností v popisu nebo postupu, použitého v R skriptu.
+
+**Domácí úkol (získání bodů pro průběžnou klasifikaci)**  
++ Do 9.4. v insisu odevzdejte domácí úkol podle "Home_Assign_LME.R":  
+    + samotný úkol není obtížný z hlediska syntaxe v R (hotové skripty poslouží jako příklad), soustřeďte se na interpretaci/diskusi.
+    
++ Úkol je za 10 bodů.
+
+
+
 
 --- 
 
