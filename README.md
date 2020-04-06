@@ -65,6 +65,7 @@ Blok 2 - polynomial and step regression, regression splines, smoothing splines, 
     + samotný úkol není obtížný z hlediska syntaxe v R (hotové skripty poslouží jako příklad), o to více se soustřeďte na interpretaci/diskusi.
     
 + Úkol je za 10 bodů.
++ **Update:** chybějící soubor `dahlberg.csv` k domácímu úkolu doplněn do ZIP souboru dne 6.4.2020.
 
 
 --- 
