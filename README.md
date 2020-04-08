@@ -66,6 +66,8 @@ Blok 2 - polynomial and step regression, regression splines, smoothing splines, 
     
 + Úkol je za 10 bodů.
 + **Update:** chybějící soubor `dahlberg.csv` k domácímu úkolu doplněn do ZIP souboru dne 6.4.2020.
++ **Update2:** Pro body `4` až `7` můžete použít logaritmickou transformaci proměnných modelu.  
+    * Jde o jedno z řešení pro `Warning message: Some predictor variables are on very different scales: consider rescaling`.
 
 
 --- 
