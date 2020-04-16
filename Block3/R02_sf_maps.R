@@ -1,6 +1,7 @@
 library(dplyr)
 library(eurostat)
 library(sf)
+rm(list=ls())
 # https://r-spatial.github.io/sf/ 
 # Get the spatial data - as an {sf} object
 ?get_eurostat_geospatial
@@ -127,3 +128,22 @@ df60 %>%
 ## add NUTS 0 borders, use "laea" projection
 ## .. remember the "reset=F" and "add=T" arguments
 ## .. choose appropriate "laea" centerpoint
+#
+#
+##
+## Package RCzechia: a quik example
+##
+#
+library(RCzechia) # install.packages("RCzechia")
+help(package="RCzechia") # list of datasets / map elements available
+#
+# Quick example: plot regions and railways:
+#
+# data download
+okresy <- okresy()
+zeleznice <- zeleznice()
+#
+# plot
+plot(zeleznice[,"KATEGORIE"], lwd=2, main="CZ - Regions and railway roads", reset=F, key.pos=1)
+plot(st_geometry(okresy[,"KOD_KRAJ"]), add=T)
+#
