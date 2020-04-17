@@ -55,11 +55,13 @@ plot(nb250km, coords, col = "black", add = T)
 #
 # Distance based neighbors, 
 # ..maximum neighbor distance threshold set to 150 km
-nb150km <- dnearneigh(coords, d1=0, d2=150, longlat=T, row.names = IDs)
-summary(nb150km) # Note the non-connected units - "islands"
+nb1 <- dnearneigh(coords, d1=0, d2=150, longlat=T, row.names = IDs)
+summary(nb1) # Note the non-connected units - "islands"
 plot(CE.sp, col = "lightgrey", border = "blue")
-plot(nb150km, coords, col = "black", add = T)
+plot(nb1, coords, col = "black", add = T)
 # Note the island NUTS2 regions (centroids farther apart than 150 km)
+#
+## Quick exercise: plot neighbors with maximum distance threshold at 220 km
 #
 # 
 ######################################################
