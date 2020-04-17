@@ -140,6 +140,7 @@ Moving beyond linearity
 #### Materials for Block 3
 
 + [Download presentation slides for Block 3](https://github.com/formanektomas/4EK417/raw/master/Block3/Block_3.pdf)  
++ [Download R scripts (zip)](https://github.com/formanektomas/4EK417/raw/master/Block3/Block3.zip)
 
 
 #### Supporting materials for Block 3
