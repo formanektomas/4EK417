@@ -69,6 +69,16 @@ Blok 2 - polynomial and step regression, regression splines, smoothing splines, 
 + **Update2:** Pro body `4` až `7` můžete použít logaritmickou transformaci proměnných modelu.  
     * Jde o jedno z řešení pro `Warning message: Some predictor variables are on very different scales: consider rescaling`.
 
+---
+
+### Program nahrazující běžnou výuku ve dnech 20. 4., 27. 4. a 4. 5. 2020
+
+**Online výuka pomocí Teams**
+
++ Blok 3 - prostorová analýza a prostorová ekonometrie  
+    * Materiály ke stažení (prezentace a `R` kódy) viz blok 3
++ Domácí úkoly budou zadány během vzdálené výuky (a prostřednictvím insis)
+
 
 --- 
 
