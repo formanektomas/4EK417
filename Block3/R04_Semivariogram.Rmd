@@ -12,6 +12,15 @@ data(meuse)
 
 This illustration uses the Meuse dataset included in gstat which comprises of four heavy metals measured in the top soil in a flood plain along the river Meuse.Apparently polluted sediment is carried by the river and mostly deposited close to the river bank.
 
+Heavy metal concentrations are from composite samples of an area of approximately 15 m x 15 m.  
+
+* *x* is a numeric vector; Easting (m) in Rijksdriehoek (RDH) (Netherlands topographical) map coordinates  
+* *y* is a numeric vector; Northing (m) in RDH coordinates
+* *cadmium* topsoil cadmium concentration, mg kg-1 soil ("ppm"); zero cadmium values in the original data set have been shifted to 0.2 (half the lowest non-zero value)  
+* *copper*, *lead*, etc. by analogy
+* *dist* distance to the Meuse; obtained from the nearest cell in meuse.grid
+ 
+
 ```{r}
 str(meuse)
 ```
@@ -31,7 +40,7 @@ str(meuse)
 The function `coordinates()` can retrieve spatial coordinates from a SpatialPointsDataFrame: 
 
 ```{r}
-coordinates(meuse)[5:15,]
+coordinates(meuse)[5:15,] # retrieve coordinates for spatial points (DF rows) 5 to 15
 ```
 
 Now, we can use plotting functions spplot and bubble as illustrated below (note: the x- and y-axis are the spatial coordinates)
