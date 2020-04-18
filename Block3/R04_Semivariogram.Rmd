@@ -23,6 +23,11 @@ Heavy metal concentrations are from composite samples of an area of approximatel
 
 ```{r}
 str(meuse)
+# Total area sampled and plotted (in meters)
+range(meuse$x)
+max(meuse$x) - min(meuse$x)
+range(meuse$y)
+max(meuse$y) - min(meuse$y)
 ```
 
 --- 
