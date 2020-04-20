@@ -95,8 +95,8 @@ Tvorba map a infomap (kartogramů) v R, pomocí balíčku `ggplot2`
     + Mapa 5: Další mapa či kombinace map na zvolené téma podle Vašeho uvážení a podle typu dat.
     
 + Upozornění 1: U předchích úkolů měla řada studentů problémy s filtrováním dat ze stažených tabulek Eurostatu. Připomínám, že pokud Vámi zvolené státy (např. 4) mají určitý počet regionů NUTS2 (např. 100 celkem), pak při korektním filtrování (jedna sledovaná proměnná, 100 regionů krát tři roky) bude mít Váš dataset 300 řádků (a ne 15 tisíc.... například). 
-+ V rámci odevzdávaného R/Rmd kódu proto uveďte přesný popis dat a také kontrolu správnosti filtrování (např. kontrola počtu řádků po filtrování).  
-+ Upozronění 2: Aktualizujte si `R`, `RStudio`, `Pandoc` a všechny balíky (viz odkazy nahoře na této stránce).
+    + V rámci odevzdávaného R/Rmd kódu proto uveďte přesný popis dat a také kontrolu správnosti filtrování (např. kontrola počtu řádků po filtrování).  
++ Upozronění 2: Aktualizujte si `R`, `RStudio`, `Pandoc` a všechny balíčky (viz odkazy nahoře na této stránce).
 
 + Domácí úkol odevzdejte prostřednctvím insisu do 26.4.
 
