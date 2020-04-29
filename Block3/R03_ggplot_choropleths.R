@@ -47,6 +47,8 @@ Income <- Income.DF %>%
   dplyr::filter(time %in% c(2010,2015), nchar(as.character(geo)) == 4) 
 # note that the "nchar()" does nothing here as all data are NUTS2 already (ID is 4-digit)
 # .. generally, NUTS1 and NUTS0 summarized data would be present in Eurostat datasets
+# > Alternatively, we can use: add_nuts_level(Income, geo_labels = "geo")
+# > .. this generates a new variable containing NUTS level information.
 summary(Income)
 #
 # 3) Merge with {sf} spatial data
