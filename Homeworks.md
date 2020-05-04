@@ -107,8 +107,11 @@ Tvorba map a infomap (kartogramů) v R, pomocí balíčku `ggplot2`
 Testování prostorové (ne)závislosti v R 
 
 * Pro tento úkol můžeme vyjít z dat, která jste použili v předcházejícím úkolu (data na úrovni NUTS2 nebo NUTS3). 
-    + Pozor, u řady studentů přetrvávají problémy s filtrováním dat ze stažených tabulek Eurostatu. Pokud pro analýzy vyberete uřčité regiony (např. 100 celkem), pak při korektním filtrování (jedna sledovaná proměnná, jeden rok), bude mít dataset stejný počet řádků jako je počet uvažovaných regionů. Pokud tomu tak není (např. v datasetu máte údaje 3x, v členění podle pohlaví za M/F/T), pak test nelze provést, resp. interpretovat
-1. Zvolte jednu proměnnou a jeden rok (ideálně co nejblíže roku 2020) a proveďte Moranův test na prostorovou závislost. Použijte alespoň tři různé způsoby definice prostorové struktury (stačí různé maximální vzdálenosti mezi sousedy, ideálně si vyzkoušejte i *kNN* přístup) a ověřte robustnost výsledků vůči změnám prostorové struktury. Slovně okomentujte výsledky.
+    + Pozor, u řady studentů přetrvávají problémy s filtrováním dat ze stažených tabulek Eurostatu. Pokud pro analýzy vyberete uřčité regiony (např. 100 celkem), pak při korektním filtrování (jedna sledovaná proměnná, jeden rok), bude mít dataset stejný počet řádků jako je počet uvažovaných regionů. Pokud tomu tak není (např. v datasetu máte údaje 3x, v členění podle pohlaví za M/F/T), pak test nelze provést, resp. interpretovat  
+    
++ Zvolte jednu proměnnou a jeden rok (ideálně co nejblíže roku 2020) a proveďte Moranův test na prostorovou závislost. Použijte alespoň tři různé způsoby definice prostorové struktury (stačí různé maximální vzdálenosti mezi sousedy, ideálně si vyzkoušejte i *kNN* přístup) a ověřte robustnost výsledků vůči změnám prostorové struktury. Slovně okomentujte výsledky.
+
++ Zopakujte předchozí bod pro test prostorové závislosti, založený na statistice: Gearyho C.  
 
 ---
 
