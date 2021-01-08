@@ -4,13 +4,15 @@ layout: default
 
 ## Basic literature:
 
-+ James, G. et al., [An Introduction to Statistical Learning](http://faculty.marshall.usc.edu/gareth-james/ISL/).
-+ Greene, W.H., Econometric analysis.
++ James, G. et al., [An Introduction to Statistical Learning](http://faculty.marshall.usc.edu/gareth-james/ISL/).  
++ Greene, W.H., Econometric analysis.  
++ [ISLR course](https://www.r-bloggers.com/2014/09/in-depth-introduction-to-machine-learning-in-15-hours-of-expert-videos/).  
 
 ## Supporting literature:
 
 + Hastie, T. et al., [The Elements of
-Statistical Learning](https://web.stanford.edu/~hastie/ElemStatLearn/).
+Statistical Learning](https://web.stanford.edu/~hastie/ElemStatLearn/).  
+
 
 --- 
 
