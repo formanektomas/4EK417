@@ -7,12 +7,10 @@ show_downloads: true
 
 
 
-+ Data manipulation and visualization   
-
-+ Tidyverse packages `tidyr`, `dplyr`, `ggplot2`, pipe operator `%>%`  
-
++ Data manipulation and visualization basics
++ [Markdown](https://rstudio.com/wp-content/uploads/2015/02/rmarkdown-cheatsheet.pdf) for data/output presentation  
++ Introduction to Tidyverse packages `tidyr`, `dplyr`, `ggplot2`, pipe operator `%>%`  
 + Importing data from major databases (Eurostat, IMF, Yahoo finance, etc.)  
-
 + Missing data, multiple imputation  
 
 ---  
