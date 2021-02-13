@@ -5,11 +5,13 @@ show_downloads: true
 
 ## Data handling in R
 
+
+
++ Data manipulation and visualization   
+
++ Tidyverse packages `tidyr`, `dplyr`, `ggplot2`, pipe operator `%>%`  
+
 + Importing data from major databases (Eurostat, IMF, Yahoo finance, etc.)  
-
-+ Data visualization using `ggplot2`  
-
-+ Tidyverse packages `tidyr`, `dplyr`, pipe operator `%>%`  
 
 + Missing data, multiple imputation  
 
