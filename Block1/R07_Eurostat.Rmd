@@ -111,17 +111,14 @@ Download the data:
 # http://appsso.eurostat.ec.europa.eu/nui/show.do?dataset=lfst_r_lfu3rt
 Un.DF <- get_eurostat("lfst_r_lfu3rt", time_format = "num") # note the simplified time format
 dim(Un.DF)
-# (5 age groups) * (3 gender categories) * (19 year 1999-2017) * (500 geo units)
-# 
-#
-#
 str(Un.DF)
-# note the "value" variable - it contains Unemployment rates for a given "row"
-#
-#
-#
-summary(Un.DF) # note that observations are annual
-head(Un.DF,10)
+Un.DF[,1:5] %>% 
+  mutate(unit = as.factor(unit),
+         age = as.factor(age),
+         sex = as.factor(sex),
+         geo = as.factor(geo)) %>% 
+  summary()
+head(Un.DF,10) # note the "value" variable - it contains Unemployment rates for a given "row"
 ```
 
 
@@ -141,14 +138,15 @@ head(Un.DF.l,6)
 
 Also, codes and their "descriptions" can be shown side-by-side:
 
-```{r}
+```{r, warning=F}
+head(kable(cbind(as.character(unique(Un.DF$age)),as.character(unique(Un.DF.l$age)))),5)
+head(kable(cbind(as.character(unique(Un.DF$sex)),as.character(unique(Un.DF.l$sex)))),5)
 head(kable(cbind(as.character(unique(Un.DF$geo)),as.character(unique(Un.DF.l$geo)))),17)
 # note the NUTS-code format:
 # NUTS0 (states) have 2-digit IDs ... "AT"
 # NUTS1 regions have 3-digit IDs
 # NUTS2 regions have 4-digit IDS 
 #
-head(kable(cbind(as.character(unique(Un.DF$age)),as.character(unique(Un.DF.l$age)))),5)
 ```
 
 ---
@@ -281,8 +279,14 @@ Here, we download a new dataset that contains quarterly data: `lfsq_urgan`
 
 ```{r}
 Un.Q <- get_eurostat("lfsq_urgan", time_format = "num") # note the simplified time format
-dim(Un.Q)
-summary(Un.Q)
+str(Un.Q)
+Un.Q %>% 
+  mutate(unit = as.factor(unit),
+         age = as.factor(age),
+         sex = as.factor(sex),
+         citizen = as.factor(citizen)) %>% 
+  summary()
+#
 Un.2Q <- Un.Q %>% 
   filter(age == "Y15-74", time >= 2010, sex == "T", citizen == "TOTAL") %>% # filter variables
   filter(geo %in% c("AT","CZ","DE","HU","PL","SK")) %>% # subset of countries
