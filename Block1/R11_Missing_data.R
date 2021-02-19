@@ -191,7 +191,7 @@ stat$p
 # Finally, we can compare coefficients from different estimation methods:
 # .. note that s.e. and siginficance information is missing here:
 #
-Coeffs <- cbind(coef(LRM.bench), coef(LRM.cc), coef(LRM.ms), LRM.MI[,1])
+Coeffs <- cbind(coef(LRM.bench), coef(LRM.cc), coef(LRM.ms), LRM.MI[,"estimate"])
 colnames(Coeffs) <- (c("Benchmark","CompleteCases","MeanSubstitution","MultImputation"))
 Coeffs
 #
@@ -219,6 +219,7 @@ rm(list=ls())
 ##
 ## 3) Using nrow() and sum(complete.cases()) functions, find out the 
 ##    proportion of rows with missing data in the dataset.
+##    Use the plots shown above to visualize the structure of missing data.
 ##
 ## 4) Perform MI, estimation and evaluation of the model based on MI
 ##    .. Use "seed=200" argument for the mice() function
