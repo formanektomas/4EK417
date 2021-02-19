@@ -23,7 +23,7 @@ the monthly totals of international airline passengers from 1949 to 1960.
 class(tsAirgap)
 summary(tsAirgap)
 head(tsAirgap,24)
-plotNA.distribution(tsAirgap)
+ggplot_na_distribution(tsAirgap)
 ```
 
 
@@ -33,7 +33,7 @@ plotNA.distribution(tsAirgap)
 + For these intervals, information about the amount of missing values are shown  
 
 ```{r}
-plotNA.distributionBar(tsAirgap, breaks = 20)
+ggplot_na_intervals(tsAirgap)
 ```
 
 #### Print stats about the missing data
@@ -50,12 +50,12 @@ statsNA(tsAirgap)
 
 ```{r}
 impMean.Airgap <- na_mean(tsAirgap)
-plotNA.imputations(tsAirgap, impMean.Airgap) 
+ggplot_na_imputations(tsAirgap, impMean.Airgap) 
 #
 #  In this illustrative example, we have the original (full) TS
 #  and we can use it to evaluate different imputation methods....
 #
-plotNA.imputations(tsAirgap, impMean.Airgap, tsAirgapComplete) #  tsAirgapComplete is the complete dataset
+ggplot_na_imputations(tsAirgap, impMean.Airgap, tsAirgapComplete) #  tsAirgapComplete is the complete dataset
 ```
 
 ---
@@ -64,7 +64,7 @@ plotNA.imputations(tsAirgap, impMean.Airgap, tsAirgapComplete) #  tsAirgapComple
 
 ```{r}
 impLOCF.Airgap <- na_locf(tsAirgap)
-plotNA.imputations(tsAirgap, impLOCF.Airgap, tsAirgapComplete)
+ggplot_na_imputations(tsAirgap, impLOCF.Airgap, tsAirgapComplete)
 ```
 
 
@@ -76,14 +76,14 @@ plotNA.imputations(tsAirgap, impLOCF.Airgap, tsAirgapComplete)
 
 ```{r}
 impLinear.Airgap <- na_interpolation(tsAirgap) # Linear interpolation
-plotNA.imputations(tsAirgap, impLinear.Airgap, tsAirgapComplete)
+ggplot_na_imputations(tsAirgap, impLinear.Airgap, tsAirgapComplete)
 ```
 
 #### Spline interpolation
 
 ```{r}
 impSpline.Airgap <- na_interpolation(tsAirgap, option = "spline") # Spline interpolation
-plotNA.imputations(tsAirgap, impSpline.Airgap, tsAirgapComplete)
+ggplot_na_imputations(tsAirgap, impSpline.Airgap, tsAirgapComplete)
 ```
 
 --- 
@@ -94,7 +94,7 @@ plotNA.imputations(tsAirgap, impSpline.Airgap, tsAirgapComplete)
 
 ```{r}
 impKalman.Airgap <- na_kalman(tsAirgap, model = "StructTS", smooth = TRUE) # Spline interpolation
-plotNA.imputations(tsAirgap, impKalman.Airgap, tsAirgapComplete)
+ggplot_na_imputations(tsAirgap, impKalman.Airgap, tsAirgapComplete)
 ```
 
 --- 
@@ -112,7 +112,7 @@ Package `{Amelia}` supports time series MI:
 
 #### **Amelia -- TS example**
 
-Based on the Freetrade dataset: *Economic and political data on nine developing countries in Asia from 1980 to 1999*. This dataset includes 9 variables:  
+Based on the Freetrade dataset: *Economic and political data on nine developing countries in Asia from 1980 to 1999. This dataset includes 9 variables*:  
 
 * year,  
 * country,  
@@ -133,9 +133,9 @@ missmap(freetrade) # description of missing data in "freetrade" data
 ```
 
 
-* Amelia can build a general model of patterns within variables across time by creating a sequence of polynomials of the time index.  
++ Amelia can build a general model of patterns within variables across time by creating a sequence of polynomials of the time index.  
 
-* If, for example, tariffs vary smoothly over time, then we make the modeling assumption that there exists some polynomial that describes the economy in cross-sectional unit $i$ at time $t$ as ($3^{rd}$ order polynomial is a maximum):  
++ If, for example, tariffs vary smoothly over time, then we make the modeling assumption that there exists some polynomial that describes the economy in cross-sectional unit $i$ at time $t$ as ($3^{rd} order polynomial is a maximum):  
 $$ y_{it} = \beta_0 + \beta_1 t + \beta_2 t^2 + \beta_3 t^3 + u_{it}$$
 
 ---  
