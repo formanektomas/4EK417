@@ -327,10 +327,9 @@ NewDF %>%
 
 --- 
 
-**Alternative ordering od data.frames to join:** Start with `Unem` and *append* `NUTS2.DF` dataset
+**Alternative ordering od data.frames to join:** Start with `Unem` and *append* `NUTS2.DF` dataset (`left_join()` works within the pipe operator sequence)
 
 ```{r, message = FALSE,}
-# Note the missing 2010 Unem values
 # Show output - head of the table only
 Unem %>% 
   left_join(NUTS2.DF, by = c("Year", "NUTS2")) %>% 
@@ -375,7 +374,3 @@ Unem %>%
 This worksheet draws from 
 
 * [Manipulating, analyzing and exporting data with tidyverse](https://github.com/datacarpentry/R-ecology-lesson/blob/master/03-dplyr.Rmd) 
-
-* [Data wrangling webinar](http://ucsb-bren.github.io/env-info/wk03_dplyr/wrangling-webinar.pdf) 
-
-
