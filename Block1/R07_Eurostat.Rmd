@@ -28,8 +28,8 @@ install.packages("eurostat")
 
 ## Using the package
 
-* [Cheat sheet: eurostat R package](https://github.com/rstudio/cheatsheets/raw/master/eurostat.pdf)
-* [Tutorial (vignette) for the eurostat R package](http://ropengov.github.io/eurostat/articles/website/eurostat_tutorial.html)
+* [Cheat sheet: eurostat R package](http://ropengov.github.io/eurostat/articles/cheatsheet.html)
+* [Tutorial (vignette) for the eurostat R package](http://ropengov.github.io/eurostat/articles/eurostat_tutorial.html)
 * [Detailed documentation for eurostat functions](http://ropengov.github.io/eurostat/reference/index.html)
 
 --- 
@@ -277,8 +277,6 @@ head(Unempl.zoo)
 
 Here, we download a new dataset that contains quarterly data: `lfsq_urgan`
 
-[Unemployment rates by sex, age and citizenship (%)](http://appsso.eurostat.ec.europa.eu/nui/show.do?dataset=lfsq_urgan)
-
 ```{r}
 Un.Q <- get_eurostat("lfsq_urgan", time_format = "num") # note the simplified time format
 str(Un.Q)
@@ -288,12 +286,12 @@ Un.Q %>%
          sex = as.factor(sex),
          citizen = as.factor(citizen)) %>% 
   summary()
-# Plot unemployment of foreigners (%)
+#
 Un.2Q <- Un.Q %>% 
-  filter(age == "Y15-74", time >= 2010, sex == "T", citizen == "FOR") %>% # filter variables
+  filter(age == "Y15-74", time >= 2010, sex == "T", citizen == "TOTAL") %>% # filter variables
   filter(geo %in% c("AT","CZ","DE","HU","PL","SK")) %>% # subset of countries
   spread(key = "geo", value = "values") # convert to wide format
-head(Un.Q) # wide format, not a TS object
+head(Un.2Q) # wide format, not a TS object
 Un.Q.zoo <- zoo(Un.2Q[,-c(1:5)], order.by = as.yearqtr(Un.2Q$time)) # drop columns
 head(Un.Q.zoo)
 autoplot(Un.Q.zoo[,1:3]) + scale_x_yearqtr()
