@@ -49,7 +49,7 @@ Příklad zpracování:
 * Doprovoďte Váš výstup stručným slovním komentářem (popište zvolené proměnné).
 
 
-### Update 26.22021
+### Update 26.2.2021
 Děkuji kolegovi Vojtěchu Vávrovi za upozornění na dnešní výpadek balíčku `{eurostat}`.  
 
 Pokud by potíže přetrvávaly, lze alternativně použít `{Smarter Poland}` (nebo vzít data z jiné databáze).
