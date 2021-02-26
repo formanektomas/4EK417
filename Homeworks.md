@@ -48,6 +48,21 @@ Příklad zpracování:
 
 * Doprovoďte Váš výstup stručným slovním komentářem (popište zvolené proměnné).
 
+
+### Update 26.22021
+Děkuji kolegovi Vojtěchu Vávrovi za upozornění na dnešní výpadek balíčku `{eurostat}`.  
+
+Pokud by potíže přetrvávaly, lze alternativně použít `{Smarter Poland}` (nebo vzít data z jiné databáze).
+
+`install.packages("SmarterPoland")  
+library("SmarterPoland")   
+help(package=SmarterPoland)  
+GPD_data <- grepEurostatTOC("GDP")  
+GDP <- getEurostatRCV(kod = "nama_10r_2gdp")`  
+
+
+
+
 ---
 
 
