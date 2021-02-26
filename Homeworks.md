@@ -55,9 +55,13 @@ Děkuji kolegovi Vojtěchu Vávrovi za upozornění na dnešní výpadek balíč
 Pokud by potíže přetrvávaly, lze alternativně použít `{Smarter Poland}` (nebo vzít data z jiné databáze).
 
 `install.packages("SmarterPoland")  
+
 library("SmarterPoland")   
+
 help(package=SmarterPoland)  
+
 GPD_data <- grepEurostatTOC("GDP")  
+
 GDP <- getEurostatRCV(kod = "nama_10r_2gdp")`  
 
 
