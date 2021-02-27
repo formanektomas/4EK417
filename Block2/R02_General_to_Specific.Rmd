@@ -188,7 +188,7 @@ anova(eq1246, eq1244)
 # ECM-based simplification
 
 
-This simplification approach is based on the equivalency of `ADL(1,1)` and `ECM` models (revert to Week2 presentation for the course 4EK608/4EK416):
+This simplification approach is based on the equivalency of `ADL(1,1)` and `ECM` models (revert to Block 2 presentation for the course 4EK608/4EK416):
 
 * ADL(1,1) equation $y_t = \beta_0 + \beta_1 y_{t-1} + \gamma_0 x_t + \gamma_1 x_{t-1} + u_t$ ,
 
