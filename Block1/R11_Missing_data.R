@@ -17,7 +17,7 @@ wageData <- read.csv("datasets/wage1.csv")
 # 1) From "wage1.csv", we only retrieve a small data sample, n=50
 #    for further estimation
 # 
-# 2) In our n=50 sample, we simulate 6 and 4 MCAR observations in 2 regressors 
+# 2) In our n=50 sample, we simulate 6 and 5 MCAR observations in 2 regressors 
 #    (10 missing values total).
 #
 # B) Estimation & model comparison
@@ -110,9 +110,12 @@ md.pairs(mcar.mice) # Number of observations per variable pair.
 # rm - missing-response, row missing, column observed
 # mm - missing-missing, both variables are missing
 #
+# ?marginplot
 marginplot(mcar.mice[, c("educ", "tenure")], col = mdc(1:2, trans=F), 
            cex = 1.2, cex.lab = 1.2, cex.numbers = 1.3, pch = 19,
            xlab = "educ", ylab = "tenure")
+# Alternatively:
+marginplot(mcar.mice[, c("educ", "tenure")])
 # .. Blue dots
 # .... scatter-plot of observed educ-tenure pairs
 #
