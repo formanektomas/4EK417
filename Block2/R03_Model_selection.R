@@ -4,7 +4,8 @@
 #
 rm(list=ls())
 wages <- read.csv("datasets/wage1.csv")
-wages$lwage <- NULL
+str(wages)
+wages$lwage <- NULL # log-transformed dependent variable is removed before searching for regressors
 # Is the dataset complete?
 all(complete.cases(wages))
 #
