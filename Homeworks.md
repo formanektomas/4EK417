@@ -65,5 +65,13 @@ Pokud by potíže přetrvávaly, lze alternativně použít `{Smarter Poland}` (
 
 ---
 
+## Týden 3 (odevzdání do 7. 3. 2021)
+
+* Úkol pro týden 3 je založen na příkladu `Assignment 1` ze skriptu `R11_Missing_data.R` (řádek 207).
+* Doprovoďte Váš výstup stručným slovním komentářem.  
+* Odevzdejte ve formátu `.R`, `.Rmd` nebo Rmd zkompilované do `html/pdf/docx` výstupu   
+    + u zkompilovaných výstupů musejí být viditelné použité příkazy, tj. nastavení `echo=T` (je defaultní).
+       
+---
 
 [Homepage](https://formanektomas.github.io/4EK417/)
