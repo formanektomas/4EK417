@@ -29,12 +29,15 @@ summary(W.7.4)$adj.r.squared
 #### Model selection: Best subset selection method ####
 #
 #
-require("leaps") #install.packages("leaps")
+library("leaps") #install.packages("leaps")
 ?regsubsets() # note the "method" and "force.in" arguments....
 #
 # By default, all combinations of up to 8 regressors are evaluated
 bestSubset.8 <- regsubsets(wage~., wages)
 summary(bestSubset.8)
+# summary object has different (useful) elements
+summary(bestSubset.8)$outmat
+summary(bestSubset.8)$which
 #
 # Let's evaluate "all" 2^22 combinations
 # .. dataset has 23 columns, with 22 potential explanatory variables
@@ -106,7 +109,8 @@ best.info$adjr2[ii]
 ii <- which.min(best.info$bic)
 name.info <- (best.info$which[ii, ]==TRUE)
 VariableSet <- names(name.info[name.info==TRUE])
-VariableSet <- VariableSet[-1]
+VariableSet # show output
+VariableSet <- VariableSet[-1] # remove Intercept
 cat(VariableSet, sep="+")
 # and copy-paste into a new LRM
 best.LRM <- (lm(wage~educ+exper+tenure+female+smsa
