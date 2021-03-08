@@ -74,4 +74,21 @@ Pokud by potíže přetrvávaly, lze alternativně použít `{Smarter Poland}` (
        
 ---
 
+## Týden 4 (odevzdání do 14. 3. 2020)
+
+*  Každý si vyberte vhodný dataset, například ze seznamu zde  
+    + https://vincentarelbundock.github.io/Rdatasets/datasets.html  
+    + Použijtete-li data z balíčku, nepřikládatejte csv soubor,
+    + místo toho použijte `R`-kód, např. : `MyData <- PackageName::DatasetName`.
+    + Vyberete-li jiný dataset, srozumitelně popište svá data a soubor přiložte.
+* Použijte průřezová data a volte model tak, abyste měli spojitou závislou proměnnou a pokud možno větší množství regresorů.      
+    + U datasetů s vysokým počtem proměnných / sloupců můžete omezit maximální uvažovaný počet regresorů pro stepwise regresi.  
+    + **Pozor**, řada datasetů obsahuje logaritmické transformace vybraných proměnných.  
+* Proveďte stepwise regresi (ideálně best subset + jedna další varianta) a penalizovanou regresi (ideálně lasso + další varianta).  
+* Výstup (vizualizace, vyhodnocení, predikce) proveďte podle vzoru ze cvičení.  
+* Odevzdejte ve formátu `.R`, `.Rmd` nebo Rmd zkompilované do `html/pdf/docx` výstupu   
+    + u zkompilovaných výstupů musejí být viditelné použité příkazy, tj. nastavení `echo=T` (je defaultní).  
+
+---
+
 [Homepage](https://formanektomas.github.io/4EK417/)
