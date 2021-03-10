@@ -13,7 +13,7 @@ University of Economics, Prague
 ### Requirements and classification
 
 + [Detailed information provided here (CZE)](https://formanektomas.github.io/4EK417/CourseClassification.html)
-+ [Literature and other supporting materials for the course](./LiteratureSupport.html)
++ [Literature and other supporting materials for the course](https://formanektomas.github.io/4EK417/LiteratureSupport.html)
 
 
 --- 
@@ -117,13 +117,13 @@ Moving beyond linearity
 
 ### Seminar paper
 
-+ [Detailed information provided here (CZE)](./SeminarPaper.html)
++ [Detailed information provided here (CZE)](https://formanektomas.github.io/4EK417/SeminarPaper.html)
 
 ---
 
 ### Home assignments
 
-+ [Detailed information provided here (CZE)](./Homeworks.html)
++ [Detailed information provided here (CZE)](https://formanektomas.github.io/4EK417/Homeworks.html)
 
 ---
 
