@@ -16,18 +16,20 @@ Local regression at $X = x_0$
 
 1. Gather the fraction $s = k/n$ of training points whose $x_i$ \\are closest to $x_0$.  
 2. Assign a weight $K_{i0} = K(x_i , x_0)$ to each point in this neighborhood, so that the closest point has the highest weight \\and vice versa. All but the nearest $k$ neighbors get zero weights.  
-3. Fit \textit{weighted least squares regression} of $y_i$ on $x_i$ by finding $\beta$ parameters that minimize the following expression:
+3. Fit *weighted least squares regression*: $y_i$ on $x_i$ by finding $\beta$ parameters that minimize the following expression:
     $$\min : ~~~ \sum_{i=1}^n K_{i0} (y_i - \beta_0 - \beta_1 x_i)^2 \,.$$  
 * Fitted value at $x_0$ is given by $\hat{f}(x_0) = \hat{\beta}_0 + \hat{\beta}_1 x_0\,$.  
     
 
-Local regression: choices to be made
+**Local regression: choices to be made**  
 
-* Weighting function $K$ must be defined (e.g.: $\tfrac{1}{(x_0 - x_i)^2}, x_0 \neq x_i$).  
+* Weighting function $K$ must be defined  
+
+    + e.g.: $\tfrac{1}{(x_0 - x_i)^2}, x_0 \neq x_i$.  
 
 * Functional form in Step 3 (constant, linear, quadratic, etc.).
 
-* Span $s$ controls flexibility of the fit (can choose using CV).
+* Span $s$ controls flexibility of the fit (can be choosen using CV).
 
 --- 
 
@@ -45,9 +47,9 @@ We use the `locfit()` function from `{locfit}` package to estimate local regress
 + `nn=0.5` - each neigborhood consists of 50% of nearest observations (w.r.t. total sample)  
 
 +  Kernel weight function defaults to = `kern = "tcub"`, which is the tricube kernel  
-    + $K(u)= \frac{70}{81}(1-|u|^3)^3~1(|u|<1)$ where $u=\frac{||x-x_0||}{\text{s.d.}(x)}$  
+    + $K(u)= \frac{70}{81}(1-|u|^3)^3~1[|u|<1]$ where $u=\frac{||x-x_0||}{\text{s.d.}(x)}$  
     + (given diverse scales of measurement, $x$ is standardized)  
-    + $1()$ is the Indicator function.  
+    + $1[\cdot]$ is the indicator function.  
     
 + `deg=2` ($2^{nd}$ order polynomial) is the default setting.
 
@@ -153,6 +155,7 @@ yend3 <- pr.unique[10]+6*slope[10]
 ggplot(Wage, aes(x = age, y = wage) ) +
   geom_point(col="grey70") +
   geom_ribbon( aes(ymin = lwr, ymax = upr), fill="green", alpha = .35) +
+  geom_line( aes(y = predLREG$fit), color="darkgreen", size = 2) +
   geom_segment(data = data.frame(x = x1, xend=xend1, y=y1, yend=yend1), 
                aes(x=x, y=y, xend=xend, yend=yend), size = 1, color='red')+
   geom_segment(data = data.frame(x = x2, xend=xend2, y=y2, yend=yend2), 
@@ -160,7 +163,6 @@ ggplot(Wage, aes(x = age, y = wage) ) +
   geom_segment(data = data.frame(x = x3, xend=xend3, y=y3, yend=yend3), 
                aes(x=x, y=y, xend=xend, yend=yend), size = 1, color='red')+
   geom_vline(xintercept=c(37,52,64), linetype="dashed", color='red', size=0.6)+
-  geom_line( aes(y = predLREG$fit), color="darkgreen", size = 1) +
   theme_bw()
 ```
 

@@ -1,5 +1,5 @@
 ---
-title: "Generalized Additive Models"
+title: "Generalized Additive Models (GAMs)"
 output: html_document
 ---
 
@@ -30,7 +30,7 @@ where each $f_j(x_{ij})$ represents a convenient function of $x$: smoothing spli
 --- 
 
 
-## Natural splines 
+## GAM & Natural splines 
 
 + As a special case, GAMs with natural splines can be estimated by OLS (no backcasting is necessary here).  
 
@@ -40,7 +40,7 @@ $$
 \texttt{Wage} ~ \leftarrow ~ f_1(\texttt{year}) + f_2( \texttt{age}) + f_3(\texttt{education}) + u
 $$
 
-where $f_1$ and $f_2$ are natural splines and $f_3$ is a step function. 
+where $f_1$ and $f_2$ are *natural splines* and $f_3$ is a step function. 
 
 ```{r, warning=F}
 # note the syntax of ns(), e.g. we use ns(year, df=1) for linear func.
@@ -59,7 +59,7 @@ Plot interpretation:
 
 --- 
 
-## Smoothing splines 
+## GAM & Smoothing splines 
 
 + With smoothing splines, we do not use an expansion of basis functions for estimation (i.e. constituent elements used in some matrix of regressors $\mathbf{X}$).  
 
@@ -96,7 +96,7 @@ $$
 \texttt{Wage} ~ \leftarrow ~ f_1(\texttt{year}) + f_2( \texttt{age}) + f_3(\texttt{education}) + u
 $$
 
-where $f_1$ and $f_2$ are (cubic) smoothing splines and $f_3$ is a step function. 
+where $f_1$ and $f_2$ are (cubic) *smoothing splines* and $f_3$ is a step function. 
 
 
 ```{r, warning=F}
@@ -106,17 +106,15 @@ plot(gam2, se=T, col="darkgreen") # syntax simplified since gam2 is a gam object
 par(mfrow=c(1,1))
 (sum.gam <- summary(gam2))
 # 
-# significance of different constituent elements of the model
-#
+# Test for significance of different constituent elements of the model
 sum.gam$parametric.anova
 #
-# H_0 of linear relationship against H_1 of non-linear relationship
-#
+# Test H_0 of linear relationship against H_1 of non-linear relationship
 sum.gam$anova
 ```
 
 
-+ Given the results of diagnostic tests, let's drop the smoothing spline for $\texttt{year}$ and simply use a linear function instead: 
++ Given the results of diagnostic tests, we drop the smoothing spline for $\texttt{year}$ and use a linear function instead: 
 
 
 ```{r, warning=F}
@@ -127,11 +125,11 @@ par(mfrow=c(1,1))
 summary(gam3)
 # 
 # ANOVA
-#
 anova(gam3,gam2,test="F")
 ```
 
-+ We can see that the simpler model describes variability in the dependent variable equally well (at all reasonable significance levels).
++ We can see that the simpler model describes variability in the dependent variable equally well (at all reasonable significance levels).  
+
 
 ---  
 
@@ -144,7 +142,7 @@ anova(gam3,gam2,test="F")
 
 ```{r, warning=F}
 Gam.pred <- predict(gam3, se.fit = T)
-ggplot(Wage, aes(x = Gam.pred$fit, y = Wage$wage) ) +
+ggplot(Wage, aes(x = Wage$wage, y = Gam.pred$fit) ) +
   geom_point(color="darkgreen")+
   ylim(0,320) +
   xlim(0,320) +
@@ -158,14 +156,14 @@ ggplot(Wage, aes(x = Gam.pred$fit, y = Wage$wage) ) +
 --- 
 
 
-## GAM based on a combination of splines and local regression
+## GAM: a combination of splines and local regression
 
 + We can easily combine different types of smoothers in a GAM:
 
 ```{r, warning=F}
 gam4 <- gam(wage~s(year,df=2)+lo(age,span = 0.2)+education, data=Wage)
 par(mfrow=c(1,3))
-plot(gam4, se=T, col="blue") # syntax simplified since gam2 is a gam object
+plot(gam4, se=T, col="blue") 
 par(mfrow=c(1,1))
 summary(gam4)
 ```
@@ -181,9 +179,9 @@ summary(gam4)
 
 --- 
 
-#### GAMs can encompass interaction elements:
+## GAM & interaction elements
 
-+ Interaction between $\texttt{age}$ and $\texttt{year}$ can be a{ccounte for as follows (`{gam}` package based example, ISLR textbook)  
++ Interaction between $\texttt{age}$ and $\texttt{year}$ can be accounted for as follows 
 
 
 ```{r, warning=F}
@@ -204,7 +202,7 @@ plot(gam5b)
 par(mfrow=c(1,1))
 ```
 
-
+---
 
 ## GAMs for binary dependent variable
 
@@ -217,9 +215,9 @@ par(mfrow=c(1,1))
 gam6 <- gam(I(wage>250)~s(year,df=1)+s(age,df=5)+education, family=binomial, data=Wage)
 par(mfrow=c(1,3))
 plot(gam6, se=T, col="orange") # syntax simplified since gam2 is a gam object
-#
 # Standard errors at extreme regressor levels seem rather high
 #
+# Also, no variability of dependent variable at basic education:
 table(Wage$education,I(Wage$wage>250))
 #
 # Let's exclude basic education from the logistic GAM model:
@@ -234,7 +232,7 @@ par(mfrow=c(1,1))
 
 ---
 
-**Homework exercise**
+**Self-study based on `{mgcv}` package**
 
 1. Read through chapters 1 & 2 of the online course [GAMS with mgcv package](https://noamross.github.io/gams-in-r-course/)  
 

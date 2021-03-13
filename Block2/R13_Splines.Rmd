@@ -65,14 +65,14 @@ $$
 Wage$AgeBasFunc <- ifelse(Wage$age > 49 , Wage$age-49,0) #c = 49
 #
 m8 <- lm(wage~poly(age,3,raw = T)+I(AgeBasFunc^3), data = Wage)
-summary(m8)$coefficients # 5 parameters estimated
+# summary(m8)$coefficients # 5 parameters estimated
 predm8 <- predict(m8, interval = "confidence")
 plotDF.8 <- cbind(Wage, predm8)
 # Plot the data and fitted values 
 ggplot(plotDF.8, aes(x = age, y = wage) ) +
   geom_point(col="grey70") +
-  geom_ribbon( aes(ymin = lwr, ymax = upr), fill="red", alpha = .35) +
-  geom_line( aes(y = fit), color="red", size = 1) +
+  geom_ribbon( aes(ymin = lwr, ymax = upr), fill="darkgreen", alpha = .35) +
+  geom_line( aes(y = fit), color="black", size = 1) +
   theme_bw()
 #
 # The same result are obtained through the bs() function
@@ -85,10 +85,10 @@ plotDF.SP1 <- cbind(Wage, predSP1)
 ggplot(plotDF.SP1, aes(x = age, y = wage) ) +
   geom_point(col="grey70") +
   geom_ribbon( aes(ymin = lwr, ymax = upr), fill="red", alpha = .35) +
-  geom_line( aes(y = fit), color="red", size = 1) +
+  geom_line( aes(y = fit), color="black", size = 1) +
   theme_bw()
 #
-# We can verify that the two fitted curves are actually identical:
+# The two fitted vectors are identical:
 #
 cbind(head(predm8[,1,drop=F]),head(predSP1[,1,drop=F]))
 round(sum(predm8[,1] - predSP1[,1]),6)
@@ -96,7 +96,8 @@ round(sum(predm8[,1] - predSP1[,1]),6)
 
 ---
 
-**Setting knots in cubic splines** 
+## Setting knots in cubic splines 
+
 
 + We can set the knots directly: `bs(age, knots=c(25,40,60))` 
 
@@ -110,16 +111,17 @@ round(sum(predm8[,1] - predSP1[,1]),6)
 #
 # 3 knots set directly
 #
-SPfit2 <- lm(wage~bs(age, knots=c(25,40,60)), data = Wage) #manual knots
+SPfit2 <- lm(wage~bs(age, knots=c(25,40,60)), data = Wage) #manual knots at age values
 predSP2 <- predict(SPfit2, interval = "confidence")
 plotDF.SP2 <- cbind(Wage, predSP2)
 #
 # 3 knots set automatically
 #
-SPfit3 <- lm(wage~bs(age, df=6), data = Wage) #automatic knots
-attr(terms(SPfit3), "predvars") # retrieve knot information
+SPfit3 <- lm(wage~bs(age, df=6), data = Wage) # automatic knots - quantiles
 predSP3 <- predict(SPfit3, interval = "confidence")
 plotDF.SP3 <- cbind(Wage, predSP3)
+# retrieve quantile-based knot information:
+attr(terms(SPfit3), "predvars") 
 #
 # Compare the two fits
 #
@@ -145,7 +147,12 @@ ggplot(plotDF.SP2, aes(x = age, y = wage) ) + #general
 **Quick exercise** 
 
 + Expand the above plot by including a third fit (use `color="blue"`)  
-+ Use 4 knots (either provide the knots explicitely or using`df` argument)
++ Use 4 knots (either provide the knots explicitly or by using`df` argument)
+
+```{r}
+# 
+#
+```
 
 ---
 
@@ -166,11 +173,11 @@ ggplot(plotDF.SP2, aes(x = age, y = wage) ) + #general
 
 ---
 
-General notation for natural cubic splines with $K$ knots:  
+General notation for natural cubic splines with $K$ knots ($k=1,2,\dots,K$):  
 
 
 $$
-y_i = \beta_0 \, N_1 (x_i)  + \beta_1 \, N_2 (x_i) + \beta_2 \, N_{k+2} (x_i) + \cdots + \beta_{K-3} \, N_{K-2} (x_i) + u_i  
+y_i = \beta_1 \, N_1 (x_i)  + \beta_2 \, N_2 (x_i) + \beta_3 \, N_{k+2} (x_i) + \cdots + \beta_{K-2} \, N_{K-2} (x_i) + u_i  
 $$ 
 
  where  
@@ -189,7 +196,7 @@ $$
 
 For basis functions, we only use knots up to $K\!-\!2$.
 
-All basis functions $N_1,N_2,N_{k+2},\dots,N_{K-2}$ have $2^{nd}$ and $3^{rd}$ derivatives \\equal to zero for $X < \xi_1$ and for $X \geq \xi_K$.
+All basis functions $N_1,N_2,N_{k+2},\dots,N_{K-2}$ have $2^{nd}$ and $3^{rd}$ derivatives equal to zero for $X < \xi_1$ and for $X \geq \xi_K$.
 
 
 --- 
@@ -197,7 +204,7 @@ All basis functions $N_1,N_2,N_{k+2},\dots,N_{K-2}$ have $2^{nd}$ and $3^{rd}$ d
 Example: For $K\!=\!3$ and using the truncated power bases of cubic splines $(X-\xi_k)_{+}^3 \,$, we can write:
 
 $$
-y_i = \beta_0 \, N_1 (x_i)  + \beta_1 \, N_2 (x_i) + \beta_2 \, N_3 (x_i) + u_i  
+y_i = \beta_1 \, N_1 (x_i)  + \beta_2 \, N_2 (x_i) + \beta_3 \, N_3 (x_i) + u_i  
 $$
 
 where:  
@@ -242,7 +249,7 @@ ggplot(plotDF.NS, aes(x = age, y = wage) ) +
 # The same result are obtained through the ns() function
 #
 fitNS2 <- lm(wage~ns(age,knots=c2, intercept = T, Boundary.knots = c(c1,c3)), data = Wage) #
-attr(terms(fitNS2), "predvars") # 1 internal knot, 2 boundary knots with nat. restrictions
+# summary(fitNS2)
 predNS2 <- predict(fitNS2, interval = "confidence")
 plotDF.NS2 <- cbind(Wage, predNS2)
 # Plot the data and fitted values 
@@ -252,7 +259,7 @@ ggplot(plotDF.NS2, aes(x = age, y = wage) ) +
   geom_line( aes(y = fit), color="darkgreen", size = 1) +
   theme_bw()
 #
-# We can verify that the two fitted curves are actually identical:
+# The two fitted vectors are identical:
 #
 cbind(head(predNS[,1,drop=F]),head(predNS2[,1,drop=F]))
 
@@ -260,14 +267,19 @@ cbind(head(predNS[,1,drop=F]),head(predNS2[,1,drop=F]))
 
 ---
 
+#### Natural splines: discussion
+
 + The above example deviates from `ns()` default setting.
 
 + Imposing linearity at quantiles $q_{0.25}$ and $q_{0.75}$ may be "too much" (but it makes a simple illustration)  
 
-+ Using default `ns()` settings, the model would be estimated as follows (`no intercept` is the default, hence the `df` argument adjustment):
++ Hence, the tree quantiles $q_{0.25}$, $q_{0.50}$ and $q_{0.75}$ are treated as *inner knots* and linearity restrictions are imposed on conveniently chosen *boundary knots*.
+
++ Using default `ns()` settings, the model would be estimated as follows:
 
 ```{r}
 fitNS3 <- lm(wage~ns(age,df=4), data = Wage) # knots = df-intercept-1
+# no intercept is default, so: df=4 --> 4-1 = 3 inner knots.
 attr(terms(fitNS3), "predvars") 
 predNS3 <- predict(fitNS3, interval = "confidence")
 plotDF.NS3 <- cbind(Wage, predNS3)
@@ -281,7 +293,7 @@ ggplot(plotDF.NS3, aes(x = age, y = wage) ) +
 
 --- 
 
-We can compare cubic splines and natural splines (3 knots):
++ We can compare cubic splines and natural splines (3 knots):  
 
 ```{r}
 # Code repeated from the chunks above...
@@ -289,11 +301,12 @@ We can compare cubic splines and natural splines (3 knots):
 SPfit3 <- lm(wage~bs(age, df=6), data = Wage) 
 predSP3 <- predict(SPfit3, interval = "confidence")
 plotDF.SP3 <- cbind(Wage, predSP3)
+attr(terms(SPfit3), "predvars") 
 # Natural splines 
 fitNS3 <- lm(wage~ns(age,df=4), data = Wage) #
-attr(terms(fitNS3), "predvars") 
 predNS3 <- predict(fitNS3, interval = "confidence")
 plotDF.NS3 <- cbind(Wage, predNS3)
+attr(terms(fitNS3), "predvars") 
 # Plot the data and fitted values 
 ggplot(plotDF.NS3, aes(x = age, y = wage) ) + #general
   geom_point(col="grey70") + #general
@@ -345,7 +358,7 @@ $$
 
 + While $g$ can be any function, it may be shown that $\text{RSS}(g,\lambda)$ has an explicit & unique minimizer: natural cubic spline with $N$ knots at the unique values of $x_i,~i=1,2,\dots,N$. (more precisely, a penalized natural cubic spline with $N$ knots)  
 + With a suitable $\lambda$ parameter, the model is not overparameterized: **effective degrees of freedom** used for estimation $(df_{\lambda})$ decrease from $N$ to 2 as $\lambda$ increases from 0 to $\infty$.  
-+ Cross-validation can be used to find $\lambda$ with the lowest cross-validated RSS (LOOC is computationally very efficient here).
++ Cross-validation can be used to find $\lambda$ with the lowest cross-validated RSS.
 
 ---
 
@@ -354,11 +367,13 @@ $$
 + We can use cross-validation to select the smoothing parameter $\lambda$ automatically:
 
 ```{r}
-SSfit <- smooth.spline(age,wage,cv=F) # smoothing splines
-# as age values are repeated (x-axis), do NOT use LOOC, i.e. "cv=T".
+SSfit <- smooth.spline(age,wage) # smoothing splines, Wages are `attached`
+SSfit # note the effective degrees of freedom
+# Plot the data and fitted values 
+# .. confindence intervals not directly implemented..
 plot(age,wage,col="darkgrey")
 lines(SSfit,col="purple",lwd=2)
-SSfit # note the effective degrees of freedom
+
 ```
 
 
@@ -369,7 +384,6 @@ SSfit # note the effective degrees of freedom
 
 ```{r}
 SSfit2 <- smooth.spline(age,wage,lambda=1000) # smoothing splines
-# as age values are repeated (x-axis), do NOT use LOOC, i.e. "cv=T".
 plot(age,wage,col="darkgrey")
 lines(SSfit2,col="darkgreen",lwd=2)
 SSfit2 # note the effective degrees of freedom are close to 2
@@ -382,7 +396,6 @@ SSfit2 # note the effective degrees of freedom are close to 2
 
 ```{r}
 SSfit3 <- smooth.spline(age,wage,df=8) # smoothing splines
-# as age values are repeated (x-axis), do NOT use LOOC, i.e. "cv=T".
 plot(age,wage,col="darkgrey")
 lines(SSfit3,col="blue",lwd=2)
 SSfit3 # note the convergence information and how EDF =~ 8.
