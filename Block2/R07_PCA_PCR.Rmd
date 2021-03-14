@@ -84,11 +84,11 @@ KMO
 * KMO in the .80s, mertitourious, 
 * KMO in the .70s, middling,  
 * KMO in the .60s, medicore, 
-* KMO in the 50s, miserable, and 
+* KMO in the .50s, miserable, and 
 * KMO less than .5, unacceptable... PCA not relevant.
 
 ```{r}
-KMO(mat)
+psych::KMO(mat)
 ```
 
 
