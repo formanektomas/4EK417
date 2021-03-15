@@ -78,7 +78,7 @@ Pokud by potíže přetrvávaly, lze alternativně použít `{Smarter Poland}` (
 
 *  Každý si vyberte vhodný dataset, například ze seznamu zde  
     + https://vincentarelbundock.github.io/Rdatasets/datasets.html  
-    + Použijtete-li data z balíčku, nepřikládatejte csv soubor,
+    + Použijete-li data z balíčku, nepřikládatejte csv soubor,
     + místo toho použijte `R`-kód, např. : `MyData <- PackageName::DatasetName`.
     + Vyberete-li jiný dataset, srozumitelně popište svá data a soubor přiložte.
 * Použijte průřezová data a volte model tak, abyste měli spojitou závislou proměnnou a pokud možno větší množství regresorů.      
@@ -86,6 +86,20 @@ Pokud by potíže přetrvávaly, lze alternativně použít `{Smarter Poland}` (
     + **Pozor**, řada datasetů obsahuje logaritmické transformace vybraných proměnných.  
 * Proveďte stepwise regresi (ideálně best subset + jedna další varianta) a penalizovanou regresi (ideálně lasso + další varianta).  
 * Výstup (vizualizace, vyhodnocení, predikce) proveďte podle vzoru ze cvičení.  
+* Odevzdejte ve formátu `.R`, `.Rmd` nebo Rmd zkompilované do `html/pdf/docx` výstupu   
+    + u zkompilovaných výstupů musejí být viditelné použité příkazy, tj. nastavení `echo=T` (je defaultní).  
+       
+---
+
+## Týden 5 (odevzdání do 21. 3. 2020)
+
+*  Použijte dataset, který jste si vybrali pro úkol č. 4
+    + Použijete-li data z balíčku, nepřikládatejte csv soubor,
+    + místo toho použijte `R`-kód, např. : `MyData <- PackageName::DatasetName`.
+    + Vyberete-li jiný dataset, srozumitelně popište svá data a soubor přiložte.
+* Proveďte PCR regresi (PCA analýza + regrese na hlavních komponentách) a PLS regresi. Využijte příklady ze cvičení jako vzor (vestavěné funkce v R).  
+    * Výstup (vizualizace, vyhodnocení, predikce) proveďte podle vzoru ze cvičení.  
+* K závislé proměnné z Vašeho datsetu vyberte jeden vhodný regresor, zvolte vhodné "cut-points" a generujte regresi na spline křivce (cubic spline) podle vzoru z příkladu `R12_Polynomial_Step_Regression.Rmd` z dnešního cvičení). Alternativně (k tomuto bodu/kroku) odevzdejte dopracovaný Quick exercise z `R12_Polynomial_Step_Regression.Rmd`.
 * Odevzdejte ve formátu `.R`, `.Rmd` nebo Rmd zkompilované do `html/pdf/docx` výstupu   
     + u zkompilovaných výstupů musejí být viditelné použité příkazy, tj. nastavení `echo=T` (je defaultní).  
 
