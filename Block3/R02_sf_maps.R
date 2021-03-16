@@ -45,29 +45,36 @@ df60 %>%
 # .. note the "reset=F" and "add=T" arguments that control this.
 df60 %>%   
   dplyr::filter(LEVL_CODE == 3 & CNTR_CODE %in% ("DE")) %>%
-  dplyr::select(NUTS_ID) %>% plot(main="NUTS3 Germany", reset=F)
+  dplyr::select(NUTS_ID) %>% 
+  plot(main="NUTS3 Germany", reset=F) # note the reset=F argument
 # Add border-lines
 df60 %>%
   dplyr::filter(LEVL_CODE == 1 & CNTR_CODE %in% ("DE")) %>%
-  dplyr::select(NUTS_ID) %>% st_geometry() %>% plot(lwd=2, add=T, border="black")
+  dplyr::select(NUTS_ID) %>% 
+  st_geometry() %>% 
+  plot(lwd=2, add=T, border="black") # note the add=T argument
 #
 #
 # Plot data for multiple countries
 df60 %>%   
   dplyr::filter(CNTR_CODE %in% (c("DE","CZ","PL","AT","SK"))) %>%
   dplyr::filter(LEVL_CODE == 2) %>%
-  dplyr::select(NUTS_ID) %>% plot(main="Central Europe", reset=F)
+  dplyr::select(NUTS_ID) %>% 
+  plot(main="Central Europe", reset=F)
 # Add border-lines
 df60 %>%
   dplyr::filter(LEVL_CODE == 0 & CNTR_CODE %in% (c("DE","CZ","PL","AT","SK"))) %>%
-  dplyr::select(NUTS_ID) %>% st_geometry() %>% plot(lwd=2, add=T, border="black")
+  dplyr::select(NUTS_ID) %>% 
+  st_geometry() %>% 
+  plot(lwd=2, add=T, border="black")
 #
 #
-## Additional Eurostat-specific topics:
+## Additional topics:
 ##
 ## Additional NUTS plot & corresponding information
 ## a] Data are available at different resolutions
-## b] NUTS regions change over time - different NUTS "revisions" exist: 2003, 2006, 2010, 2013, 2016.
+## b] EU's NUTS regions change over time - different NUTS "revisions" exist: 
+##    2003, 2006, 2010, 2013, 2016, 2021.
 #
 df20.2003 <- eurostat::get_eurostat_geospatial(year="2003", resolution = 20)
 df1 <- eurostat::get_eurostat_geospatial(resolution = 01)
@@ -76,14 +83,14 @@ df1 <- eurostat::get_eurostat_geospatial(resolution = 01)
 #
 df60 %>% # CZ02 at 1:60mio
   dplyr::filter(LEVL_CODE == 2 & grepl("CZ02", NUTS_ID)) %>%
-  dplyr::select(NUTS_ID) %>% st_geometry() %>% plot(main="1:60mi0 resolution")
+  dplyr::select(NUTS_ID) %>% st_geometry() %>% plot(main="1:60 mio resolution")
 #
 df1 %>% # CZ02 at 1:1mio resolution
   dplyr::filter(LEVL_CODE == 2 & grepl("CZ02", NUTS_ID)) %>%
-  dplyr::select(NUTS_ID) %>% st_geometry() %>% plot(main="1:1mi0 resolution")
+  dplyr::select(NUTS_ID) %>% st_geometry() %>% plot(main="1:1 mio resolution")
 #
 #
-# Compare NUTS2 region for Croatia, revisions 2003 and 2016
+# Compare NUTS2 region for Croatia, revisions 2003 and current
 #
 df20.2003 %>%
   dplyr::filter(LEVL_CODE == 2 & grepl("HR", NUTS_ID)) %>%
@@ -97,8 +104,13 @@ df60 %>%
 #
 ## Use different projection (geometry) settings
 #
-# A) Equidistant circular 
-# at the center of the plot, one unit north equals one unit east.
+# A) WGS84 / EPSG:4326
+# Basic Coordinate Reference System for computerized applications
+# coordinates in degrees, preserves angles, simple, 
+# major distortion closer to poles
+# for details, see (CZ): https://github.com/jlacko/4EK418
+st_crs(df60)
+#
 df60 %>%   
   dplyr::filter(LEVL_CODE == 2 & CNTR_CODE %in% ("DE")) %>%
   dplyr::select(NUTS_ID) %>% 
@@ -120,9 +132,6 @@ df60 %>%
   plot(key.pos=2,key.width = lcm(2.3), graticule=T, axes = T)
 #
 #
-#
-#
-#
 ## Quick exercise
 ## Print plot of Belgium, Luxembourg and Netherlands at NUTS3 level, 
 ## add NUTS 0 borders, use "laea" projection
@@ -130,20 +139,57 @@ df60 %>%
 ## .. choose appropriate "laea" centerpoint
 #
 #
+############################################################################
+## Package RCzechia: a quick example
 ##
-## Package RCzechia: a quik example
-##
-#
 library(RCzechia) # install.packages("RCzechia")
 help(package="RCzechia") # list of datasets / map elements available
 #
-# Quick example: plot regions and railways:
+# Quick example: plot regions and railways,
+# calculate length of international railways in each LAU1 region:
 #
 # data download
-okresy <- okresy()
-zeleznice <- zeleznice()
+okresy <- okresy() # LAU1
+zeleznice <- zeleznice() # railway
 #
 # plot
 plot(zeleznice[,"KATEGORIE"], lwd=2, main="CZ - Regions and railway roads", reset=F, key.pos=1)
 plot(st_geometry(okresy[,"KOD_KRAJ"]), add=T)
 #
+# select international railway only
+int_railway <- zeleznice %>% 
+  filter(KATEGORIE == "mezinárodní")
+#
+sf::st_intersection(okresy, int_railway) %>% # LAU1 with IntlRailway only
+  mutate(delka = st_length(.)) %>% # length (different types of Railway)
+  st_drop_geometry() %>% # drops geometry
+  group_by(NAZ_LAU1) %>% 
+  summarise(celkova_delka = sum(delka)) %>% 
+  ungroup() %>% 
+  arrange(desc(celkova_delka)) # ordering the otuput
+#
+############################################################################
+## Package giscoR: a quick example
+##
+#
+library(giscoR)
+world <- gisco_get_countries(resolution = "60")
+#
+plot(world[,1],reset = T)
+#
+world %>% 
+  filter(CNTR_ID == "AU") %>% 
+  select(CNTR_ID) %>% 
+  plot()
+#
+#
+############################################################################
+## Geographic administrative units available from:  gadm.org
+##
+# Working example based on the gadm.org website and data
+download.file("https://biogeo.ucdavis.edu/data/gadm3.6/Rsf/gadm36_MLT_2_sf.rds",
+              "gadm36_MLT_2_sf.rds")
+#
+malta <- readRDS("gadm36_MLT_2_sf.rds")
+#
+plot(malta[,1])

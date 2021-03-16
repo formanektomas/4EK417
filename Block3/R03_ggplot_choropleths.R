@@ -47,14 +47,12 @@ Income <- Income.DF %>%
   dplyr::filter(time %in% c(2010,2015), nchar(as.character(geo)) == 4) 
 # note that the "nchar()" does nothing here as all data are NUTS2 already (ID is 4-digit)
 # .. generally, NUTS1 and NUTS0 summarized data would be present in Eurostat datasets
-# > Alternatively, we can use: add_nuts_level(Income, geo_labels = "geo")
-# > .. this generates a new variable containing NUTS level information.
 summary(Income)
 #
 # 3) Merge with {sf} spatial data
 # .. if you want LAEA geometry, use map-transformation before joining.
 Income.sf <- df60 %>% 
-  dplyr::inner_join(Income, by = c(  "NUTS_ID"="geo"))   
+  dplyr::inner_join(Income, by = c(  "NUTS_ID"="geo")) #   
 # .. geo becomes character vector, which is OK
 summary(Income.sf) # PPS/Hab for all NUTS2 regions and for two years + shapefiles
 #
@@ -74,14 +72,22 @@ summary(Income.sf) # PPS/Hab for all NUTS2 regions and for two years + shapefile
 # 4a) 2015 only, Germany only
 Plot1DF <- Income.sf%>%   
   dplyr::filter(time == 2015 & CNTR_CODE %in% ("DE"))
-Plot1DF # we want to plot "values" using the "geometry" entries (on a map)
 #
+head(Plot1DF) # we want to plot "values" using the "geometry" entries (on a map)
+#
+# choropleth/infomap is simple to produce
+ggplot(Plot1DF) +
+  geom_sf(aes(fill = values))
+#
+# We will be using RColorBrewer package and brewer.pal() 
 ggplot(Plot1DF) +
   geom_sf(aes(fill = values)) +
   scale_fill_gradientn('PPS/Hab', colours=brewer.pal(9, "Greens"))+
   ggtitle("PPS per Habitant") +
   theme_bw()
-#
+# 
+# Built-in color schemes:
+# ?brewer.pal
 #
 # 4b) Plot 2010 & 2015, Germany and Austria 
 Plot2DF <- Income.sf%>%   
@@ -95,6 +101,16 @@ ggplot(Plot2DF) +
   ggtitle("PPS per Habitant") +
   facet_wrap(~time, ncol=2)+
   theme_bw()
+#
+# 4b) can be simplified into single pipeline:
+Income.sf%>%   
+  dplyr::filter(time %in% c(2010,2015) & CNTR_CODE %in% c("DE","AT")) %>% 
+  ggplot() +
+    geom_sf(aes(fill = values)) +
+    scale_fill_gradientn('PPS/Hab', colours=brewer.pal(9, "Greens"))+
+    ggtitle("PPS per Habitant") +
+    facet_wrap(~time, ncol=2)+
+    theme_bw()
 #
 #
 # 4c) Plot 2015, Spain
@@ -127,7 +143,7 @@ borders <- df60 %>%
 #
 ggplot() + # note the changed data argument...
   geom_sf(data=Plot4DF, aes(fill = values)) + # data for choropleth
-  scale_fill_gradientn('PPS/Hab', colours=brewer.pal(9, "PuBu"))+ # scale and colors
+  scale_fill_gradientn('PPS/Hab', colours=brewer.pal(9, "Purples"))+ # scale and colors
   geom_sf(data=borders, color = "gray30", lwd=1, fill=NA) + # borders - from own DF
   labs(title="PPS per Habitant", y="Latitude", x="Longitude")+ # labels
   coord_sf(xlim = c(-10, 5), ylim = c(35, 45))+ # map range
@@ -152,9 +168,9 @@ ggplot() + # note the changed data argument...
 #
 # Plot4DF repeated (in case "changed" during Q.E.2)
 Plot4DF <- Income.sf%>%   
-  dplyr::filter(time %in% c(2010) & CNTR_CODE %in% c("ES","PT"))
+  dplyr::filter(time %in% c(2010) & CNTR_CODE %in% c("ES"))
 borders <- df60 %>%   
-  dplyr::filter(LEVL_CODE == 0 & CNTR_CODE %in% c("ES","PT")) %>%
+  dplyr::filter(LEVL_CODE == 0 & CNTR_CODE %in% c("ES")) %>%
   dplyr::select(NUTS_ID)
 #
 P1 <- ggplot() + 
@@ -196,12 +212,8 @@ Plot5DF <- Income.sf%>%
   dplyr::filter(time == 2015 & CNTR_CODE %in% ("DE"))
 #
 meanVal <- mean(Plot5DF$values)
-Plot5DF$RichReg <- ifelse(Plot5DF$values >= meanVal,1,0)
+Plot5DF$RichReg <- as.factor(ifelse(Plot5DF$values >= meanVal,1,0)) # identifies above-avg regions as "rich"
 #
 ggplot(Plot5DF) +
-  geom_sf(aes(fill = factor(RichReg)))
-#
-ggplot(Plot5DF) +
-  geom_sf(aes(fill = RichReg))+
-  scale_fill_gradientn('PPS/Hab', colours=brewer.pal(3, "RdBu"),breaks=NULL)
+  geom_sf(aes(fill = RichReg))
 #
