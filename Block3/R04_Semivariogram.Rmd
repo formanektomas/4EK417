@@ -10,11 +10,18 @@ library(gstat)
 data(meuse)
 ```
 
-This illustration uses the Meuse dataset included in gstat which comprises of four heavy metals measured in the top soil in a flood plain along the river Meuse.Apparently polluted sediment is carried by the river and mostly deposited close to the river bank.
++ This illustration uses the Meuse dataset included in gstat which comprises of four heavy metals measured in the top soil in a flood plain along the river Meuse.  
 
-Heavy metal concentrations are from composite samples of an area of approximately 15 m x 15 m.  
++ Apparently polluted sediment is carried by the river and mostly deposited close to the river bank.  
 
-* *x* is a numeric vector; Easting (m) in Rijksdriehoek (RDH) (Netherlands topographical) map coordinates  
++ Heavy metal concentrations are from composite samples of an area of approximately 15 m x 15 m (i.e. each *point* on a map represents a 15m by 15m square).  
+
+```{r}
+str(meuse)
+```
+
+
+* *x* is a numeric vector; Easting (m) in Rijksdriehoek (RDH) (Netherlands topographical) map coordinates. EPSG:28991 - Geprojecteerd coördinatensysteem Amersfoort / RD Old in meters, Amersfoort heeft coördinaten (0 m, 0 m).
 * *y* is a numeric vector; Northing (m) in RDH coordinates
 * *cadmium* topsoil cadmium concentration, mg kg-1 soil ("ppm"); zero cadmium values in the original data set have been shifted to 0.2 (half the lowest non-zero value)  
 * *copper*, *lead*, etc. by analogy
@@ -22,33 +29,51 @@ Heavy metal concentrations are from composite samples of an area of approximatel
  
 
 ```{r}
-str(meuse)
 # Total area sampled and plotted (in meters)
-range(meuse$x)
 max(meuse$x) - min(meuse$x)
-range(meuse$y)
 max(meuse$y) - min(meuse$y)
 ```
 
 --- 
 
-## Coordinates
+## Coordinates, `sp` and `sf` formats
 
-Function `coordinates()`: promotes the data.frame meuse into a SpatialPointsDataFrame which knows about its spatial coordinates.
+* The data frame above is not *spatially aware*.
 
-```{r}
-coordinates(meuse) = ~x+y
+* Function `coordinates()` promotes the data frame `meuse` into a SpatialPointsDataFrame which knows about its spatial coordinates.
+
+```{r, warning=F}
+sp::coordinates(meuse) = ~x+y # ?sp::coordinates
 class(meuse)
-str(meuse)
+head(meuse)
+proj4string(meuse)
+proj4string(meuse) <- CRS("+init=epsg:28992") # ?gstat::variogram
+proj4string(meuse)
 ```
 
-The function `coordinates()` can retrieve spatial coordinates from a SpatialPointsDataFrame: 
+---   
 
-```{r}
-coordinates(meuse)[5:15,] # retrieve coordinates for spatial points (DF rows) 5 to 15
++ Most packages used for spatial statistics and spatial econometrics require **sp** format of spatial data, not the **sf**.  
+
++ If necessary, the two spatial data formats can be "translated" back and forth:
+
+
+```{r, warning=F}
+# sp --> sf objects
+meuse_sf <- sf::st_as_sf(meuse)
+class(meuse_sf)
+head(meuse_sf)
+# sf --> sp objects
+meuse <- as(meuse_sf, "Spatial")
+class(meuse)
+head(meuse)
 ```
 
-Now, we can use plotting functions spplot and bubble as illustrated below (note: the x- and y-axis are the spatial coordinates)
+---
+
+#### The remaining part of the example is based on `sp` data.
+
+We can use `sp` plotting functions `spplot()` and `bubble()` as illustrated below (note: the x- and y-axis are the spatial coordinates)
 
 
 ```{r}
@@ -56,28 +81,33 @@ spplot(meuse, "zinc",  colorkey = TRUE, main = "zinc concentrations (ppm)")
 bubble(meuse, "zinc", col=c("#00ff0088"), main = "zinc concentrations (ppm)")
 ```
 
-Instead of points, we may plot "polygons" (regions):
+
+Besides points, we may use "raster" data:
 
 ```{r}
 data(meuse.grid) # we read-in a grid (map)
 coordinates(meuse.grid) = ~x+y
+proj4string(meuse.grid) <- CRS("+init=epsg:28992") # ?gstat::variogram
 gridded(meuse.grid) = TRUE
 class(meuse.grid)
-# Concentrations seem to follow (inversely) from distances to the river
-image(meuse.grid["dist"], main="distance to river (red = 0)")
+# The above-shown Zinc concentrations seem to follow (inversely) from distances to the river:
+#
+image(meuse.grid["dist"], main="distance to river (red = 0)", axes=T)
 ```
 
 ---- 
 
 ## Semivariogram
 
-* Calculate the sample variogram. This is done with the `variogram()` function.
+Semivariogram is produced in a two-step approach:
 
-* Fit a model to the sample variogram using `fit.variogram()` function
+1. Calculate the sample variogram. This is done with the `variogram()` function.
+
+2. Fit a model to the sample variogram using `fit.variogram()` function
 
 The `variogram()` function takes two arguments: the first denotes how one or more variables interact spatially, and the second is an SPDF where those variables reside. 
 
-* In our example, we assume that there is a constant mean (no trend) for the variable `log(zinc)`
+* In our example, we assume that there is a constant mean (no spatial trend) for the variable `log(zinc)`
 
 ```{r}
 lzn.vgm <- variogram(log(zinc)~1, meuse) # calculates sample variogram values 
@@ -85,18 +115,26 @@ lzn.vgm # 15 groups, # obs per group, repr. distance, gamma, isotropy assumed
 ```
 
 
-For the `fit.variogram()` function, a sample variogram is the first argument. The second is the model, with parameters, to be fit to the sample variogram. For a list of all possible variograms that can be used, call `?vgm`, and to see graphical properties/characteristics of these models, call  `?show.vgms`.
+For the `fit.variogram()` function, a sample variogram is the first argument. The second is the model (functional form, parameter settings) to be fit to the sample variogram. 
+
+* For a list of all possible variograms that can be used, call `?gstat::vgm`, and to see graphical properties/characteristics of these models, call  `?gstat::show.vgms`.
 
 
 ```{r}
-lzn.fit <- fit.variogram(lzn.vgm, model=vgm(psill=1, "Sph", range=900, nugget=1)) # fit model
+lzn.fit <- fit.variogram(lzn.vgm, model=vgm(psill=1, model="Sph", range=900, nugget=1)) # fit model
+#
+# psill = Partial sill = Sill - Nugget (initiall value for fitting psill)
+# "Sph" - fit to spherical "model"/curve
+# range	- range parameter of the variogram model component
+# nugget=1 - basically, adds nugget to model; if missing, nugget is omitted
+# 
 lzn.fit
 plot(lzn.vgm, lzn.fit) # plot the fitted variogram and the observed variogram on the same graph
 ```
 
 ----- 
 
-## Fitted semivariograms depend on assumptions used:
+## Fitted semivariograms depend on assumptions/settings used:
 
 **Gaussian** semivariance wrt distance:
 
