@@ -17,7 +17,7 @@ CE_data <- read.csv("datasets/NUTS2_data.csv")
 library(spdep) # install.packages("spdep")
 library(spatialreg)
 coords <- CE_data[,c("long", "lat")]
-coords <- coordinates(coords)
+coords <- sp::coordinates(coords)
 IDs <- CE_data$NUTS_ID
 #
 #

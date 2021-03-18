@@ -44,7 +44,7 @@ plot(CE_data[ , c(4:7)])
 #
 # (a) coordinates and IDs
 coords <- CE_data[,c("long", "lat")]
-coords <- coordinates(coords)
+coords <- sp::coordinates(coords)
 IDs <- CE_data$NUTS_ID
 # (b) identify neighbors given tau distance threshold
 nb250km <- dnearneigh(coords, d1=0, d2=250, longlat=T, row.names = IDs)
@@ -85,11 +85,11 @@ lm.LMtests(OLS.1, W.matrix, test=c("LMlag", "LMerr", "RLMlag", "RLMerr"))
 #
 # Step 3 Spatial lag model estimation, tests & plots
 #
-?lagsarlm # note e.g. the "Dubin" argument
+?spatialreg::lagsarlm # note e.g. the "Dubin" argument
 spatial.lag <- lagsarlm(U_pc_2012 ~ I(EUR_HAB_EU_2011-EUR_HAB_EU_2010) + TechEmp_2012, 
                         data=CE_data, W.matrix)
 summary(spatial.lag)
-?LR.sarlm # Test the spatial lag specification against OLS model
+?spatialreg::LR.sarlm # Test the spatial lag specification against OLS model
 LR1.sarlm(spatial.lag)
 LR.sarlm(spatial.lag, OLS.1)
 #
@@ -105,12 +105,12 @@ bptest.sarlm(spatial.lag)
 # plot(CE_data$U_pc_2012, spatial.lag$fitted.values, pch=16)
 #
 # Fitted vs. actual data (using ggplot2):
-Fitted_Lag_250km <- spatial.lag$fitted.values
-plot.df <- as.data.frame(Fitted_Lag_250km)
-plot.df$Actual <- CE_data$U_pc_2012
+Fitted_Unemployment <- spatial.lag$fitted.values
+plot.df <- as.data.frame(Fitted_Unemployment)
+plot.df$Observed_Unemployment <- CE_data$U_pc_2012
 plot.df$CountryCode <- substring(CE_data$NUTS_ID, 1,2)
 #
-ggplot(plot.df, aes(Actual, Fitted_Lag_250km)) +
+ggplot(plot.df, aes(Observed_Unemployment, Fitted_Unemployment)) +
   scale_x_continuous(limits = c(0,20), expand = c(0,0)) +
   scale_y_continuous(limits = c(0,20), expand = c(0,0)) +
   geom_segment(aes(x=0, xend=20, y=0, yend=20), linetype=2) + 

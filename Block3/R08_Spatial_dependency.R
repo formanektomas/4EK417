@@ -1,4 +1,4 @@
-## Maps and choropleths with {ggplot2}
+## Tests for spatial dependency
 #
 library(dplyr)
 library(eurostat)
@@ -8,9 +8,12 @@ library(RColorBrewer)
 library(spdep)
 rm(list = ls())
 #
-# Get the spatial data for NUTS regions and cast it as a sf object
+#
+## Step 1
+## Get map & spatial data from Eurostat 
+## and cast it as a sf object
+#
 options(readr.default_locale=readr::locale(tz="Europe/Berlin"))
-# df60 <- sf::st_as_sf(eurostat::get_eurostat_geospatial(output_class = "spdf", resolution = 60))
 df60 <- eurostat::get_eurostat_geospatial(resolution = 60)
 # Get GDP data (annual, NUTS2)
 GDP.DF <- eurostat::get_eurostat("nama_10r_2gdp", time_format = "num") 
@@ -32,58 +35,65 @@ ggplot(GDP.sf) +
   ggtitle("GDP in EUR per Habitant") +
   theme_bw()
 #
-## To perform spatial dependency test, we need a geo-coded data frame, e.g.:
 #
-#       | GDP | long | lat |
-# Step 1: store long/lat coordinates of centroids
-GDP.sp <- as_Spatial(GDP.sf)
-Centroids1 <- coordinates(GDP.sp)
-Centroids2 <- as.data.frame(Centroids1)
-Centroids <- cbind(GDP.sf$id,Centroids2)
-colnames(Centroids) <- c("NUTS_ID","lon","lat")
-head(Centroids,10)
-# Merge with GDP data
-GDP.data <- merge(GDP.CE,Centroids, by.x="geo", by.y="NUTS_ID")
-head(GDP.data)
+## Step 2
+## Get centroids - representative coordinates and IDs of spatial units
+## (see previous R script)
+#
+laea = st_crs("+proj=laea +lat_0=51 +lon_0=11") 
+# transform selected countries to laea
+CE_sf <- GDP.sf %>% 
+  st_transform(laea)
+# get coords & translate back to WGS84
+centroids <- sf::st_centroid(CE_sf) # find centroids
+centroids <- st_transform(centroids, 4326)
+coords <- sf::st_coordinates(centroids) # object 1: matrix of coordinates
+colnames(coords) <- c("long","lat")
+# IDs
+CE_IDs <- st_drop_geometry(CE_sf[,"geo"]) # object 2: vector of CS-unit IDs
+IDs <- CE_IDs[,1] # make a vector with IDs
 #
 #
-# To perform Moran test, we need to define spatial structure (neighbors) first:
-coords <- GDP.data[,c("lon", "lat")] # spdep works with sp features and objects
-coords <- coordinates(coords) # sp coordinates
-IDs <- GDP.data$geo # separately provided IDs
-?dnearneigh
+## Step 3
+## Get W-matrix (or its modifications)
+## start with nb structure and transform into a "nb2listw" object
+## .. note that nb structure affects "spatial lag" and test results!
+#
 nb250km <- dnearneigh(coords, d1=0, d2=250, longlat=T, row.names = IDs)
-summary(nb250km)
-#
-#
-#
-# Moran I test for the observed GDP
-#
+summary(nb250km) # see previous R script
+# For spatial dependency tests and model estimation, we have to 
+# transform the "nb" object into a "nb2listw" - basically its a W matrix
 ?nb2listw # style = "W" (row standardization) is the default
 W.matrix <- nb2listw(nb250km) 
-summary(W.matrix) # not an actual W matrix...
+summary(W.matrix) # the object is not formally a matrix (W), 
+#                   but it is used as such for testing and estimation
+#
+#
+##
+##
+## Moran I test for the observed GDP
 #
 ?moran.test
-moran.test(GDP.data$values, W.matrix, na.action=na.omit)
+# GDP is in the "values" column
+moran.test(CE_sf$values, W.matrix, na.action=na.omit)
 ?moran.plot
-# Spatial lag of GDP
-# i.e. W.matrix %*% GDP vector is displayed on the y-axis.
-moran.plot(GDP.data$values, W.matrix, zero.policy=T, labels=IDs)
+#
+## Spatial lag of GDP
+## .. W.matrix %*% GDP vector is displayed on the y-axis.
+moran.plot(CE_sf$values, W.matrix, zero.policy=T, labels=IDs)
 #
 #
-#
-# Local Moran I test 
-#
+## Local Moran I test 
 ?localmoran
-LocMorTest <- localmoran(GDP.data$values, W.matrix, na.action=na.omit)
-head(LocMorTest,20)
+LocMorTest <- localmoran(CE_sf$values, W.matrix, na.action=na.omit)
+round(head(LocMorTest,20),4)
 #
 #
 #
 # Geary's C test
 #
 ?geary.test
-geary.test(GDP.data$values,W.matrix)
+geary.test(CE_sf$values,W.matrix)
 #
 #
 #

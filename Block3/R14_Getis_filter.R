@@ -44,7 +44,7 @@ plot(CE_data[ , c(4,7,8)])
 #
 # (a) coordinates and IDs
 coords <- CE_data[,c("long", "lat")]
-coords <- coordinates(coords)
+coords <- sp::coordinates(coords)
 IDs <- CE_data$NUTS_ID
 # (b) identify neighbors given tau distance threshold
 nb250km <- dnearneigh(coords, d1=0, d2=250, longlat=T, row.names = IDs)

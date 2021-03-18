@@ -42,7 +42,7 @@ CE_data <- read.csv("datasets/NUTS2_data.csv")
 #
 # (a) coordinates and IDs
 coords <- CE_data[,c("long", "lat")]
-coords <- coordinates(coords)
+coords <- sp::coordinates(coords)
 IDs <- CE_data$NUTS_ID
 # (b) identify neighbors given tau distance threshold
 nb250km <- dnearneigh(coords, d1=0, d2=250, longlat=T, row.names = IDs)
@@ -59,7 +59,7 @@ spatial.lag <- lagsarlm(U_pc_2012 ~ I(EUR_HAB_EU_2011-EUR_HAB_EU_2010) + TechEmp
                         data=CE_data, W.matrix)
 summary(spatial.lag)
 # Impacts
-?spatialreg:::impacts
+?spatialreg::impacts
 impacts(spatial.lag, listw= W.matrix)
 #
 impacts.obj <- impacts(spatial.lag, listw= W.matrix, R=500)
@@ -81,7 +81,7 @@ impacts(spatial.Durbin, listw= W.matrix)
 #
 impacts.obj2 <- impacts(spatial.Durbin, listw= W.matrix, R=500)
 summary(impacts.obj2, zstats=T, short=T)
-plot(impacts.obj2)
+# plot(impacts.obj2)
 #
 #
 #

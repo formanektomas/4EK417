@@ -44,7 +44,7 @@ plot(CE_data[ , c(4:7)])
 #
 # (a) coordinates and IDs
 coords <- CE_data[,c("long", "lat")]
-coords <- coordinates(coords)
+coords <- sp::coordinates(coords)
 IDs <- CE_data$NUTS_ID
 # (b) identify neighbors given tau distance threshold
 knns <- knearneigh(coords, k=12, longlat=T) # returns 12 nearest neighbors
@@ -61,6 +61,8 @@ AIC(OLS.1)
 BIC(OLS.1)
 #
 # Specification test (spatial dependence) for KNN-based neigbors, k = 12
+# .. k = 12 is not the best setup, but it can be used to demonstrate 
+# .. SEM estimation
 lm.LMtests(OLS.1, W.matrix, test=c("LMlag", "LMerr", "RLMlag", "RLMerr"))
 #
 #
