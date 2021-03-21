@@ -39,9 +39,11 @@ where
  
 + $h_3 (x_i) = x_i^3$ 
  
-+ $h_{k+3} (x_i) = (x_i-\xi_1)_{+}^3$ 
++ $h_{[k=1]+3} (x_i) = (x_i-\xi_1)_{+}^3$ 
+
+    + $h_{k+3}(x_i) = (x_i-\xi_k)_{+}^3$ can be used as general notation for $k=1,\dots,K$
  
-+ $\cdots$
++ $~~\vdots$
 
 + $h_{K+3} (x_i) = (x_i-\xi_K)_{+}^3$
 
@@ -173,12 +175,12 @@ ggplot(plotDF.SP2, aes(x = age, y = wage) ) + #general
 
 ---
 
-General notation for natural cubic splines with $K$ knots ($k=1,2,\dots,K$):  
+General notation for natural cubic splines with $K$ knots $\xi_k,~~ (k=1,2,\dots,K)$:  
 
 
 $$
-y_i = \beta_1 \, N_1 (x_i)  + \beta_2 \, N_2 (x_i) + \beta_3 \, N_{k+2} (x_i) + \cdots + \beta_{K-2} \, N_{K-2} (x_i) + u_i  
-$$ 
+y_i = \beta_1 \, N_1 (x_i)  + \beta_2 \, N_2 (x_i) + \beta_3 \, N_{2+[k=1]} (x_i) + \cdots + \beta_{K} \, N_{2+[k=K-2]} (x_i) + u_i  
+$$
 
  where  
  
@@ -186,17 +188,19 @@ $$
  
 + $N_2 (x_i) = x_i$ 
 
-+ $N_{k+2} (x_i) = d_k(X)-d_{K-1}(X)\,$ 
++ $N_{2+k} (x_i) = d_k(X)-d_{K-1}(X)\,$  
 
-+ $\cdots$  
+    * applies to all $k=1,\dots,K\!-\!2$.
+
++ $~~\vdots$  
  
-+ $N_{K-2} (x_i) = d_{K-2}(X)-d_{K-1}(X)\,$ 
++ $N_{K} (x_i) = d_{K-2}(X)-d_{K-1}(X)\,$ 
  
 + and $d_k(X)=\frac{(X-\xi_k)_{+}^3 - \, (X-\xi_K)_{+}^3}{\xi_K \,-\, \xi_k}$
 
-For basis functions, we only use knots up to $K\!-\!2$.
+For basis functions $N$, we only use knots up to $K\!-\!2$.
 
-All basis functions $N_1,N_2,N_{k+2},\dots,N_{K-2}$ have $2^{nd}$ and $3^{rd}$ derivatives equal to zero for $X < \xi_1$ and for $X \geq \xi_K$.
+All basis functions $N_1,N_2,\dots,N_{2+k},\dots,N_{K}$ have $2^{nd}$ and $3^{rd}$ derivatives equal to zero for $X < \xi_1$ and for $X \geq \xi_K$.
 
 
 --- 
@@ -273,13 +277,14 @@ cbind(head(predNS[,1,drop=F]),head(predNS2[,1,drop=F]))
 
 + Imposing linearity at quantiles $q_{0.25}$ and $q_{0.75}$ may be "too much" (but it makes a simple illustration)  
 
-+ Hence, the tree quantiles $q_{0.25}$, $q_{0.50}$ and $q_{0.75}$ are treated as *inner knots* and linearity restrictions are imposed on conveniently chosen *boundary knots*.
++ In the default setting of `ns()`, the tree quantiles $q_{0.25}$, $q_{0.50}$ and $q_{0.75}$ are treated as *inner knots* and linearity restrictions are imposed on conveniently chosen *boundary knots*  
+    + boundary knots default the range of the data, but can be set manually as well - shown in the example above).  
 
 + Using default `ns()` settings, the model would be estimated as follows:
 
 ```{r}
-fitNS3 <- lm(wage~ns(age,df=4), data = Wage) # knots = df-intercept-1
-# no intercept is default, so: df=4 --> 4-1 = 3 inner knots.
+fitNS3 <- lm(wage~ns(age,df=4), data = Wage) # knots = df-1 - we (account for N_1)
+# df=4 --> 4-1 = 3 inner knots.
 attr(terms(fitNS3), "predvars") 
 predNS3 <- predict(fitNS3, interval = "confidence")
 plotDF.NS3 <- cbind(Wage, predNS3)
