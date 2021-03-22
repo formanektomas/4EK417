@@ -74,7 +74,7 @@ Pokud by potíže přetrvávaly, lze alternativně použít `{Smarter Poland}` (
        
 ---
 
-## Týden 4 (odevzdání do 14. 3. 2020)
+## Týden 4 (odevzdání do 14. 3. 2021)
 
 *  Každý si vyberte vhodný dataset, například ze seznamu zde  
     + https://vincentarelbundock.github.io/Rdatasets/datasets.html  
@@ -91,7 +91,7 @@ Pokud by potíže přetrvávaly, lze alternativně použít `{Smarter Poland}` (
        
 ---
 
-## Týden 5 (odevzdání do 21. 3. 2020)
+## Týden 5 (odevzdání do 21. 3. 2021)
 
 *  Použijte dataset, který jste si vybrali pro úkol č. 4
     + Použijete-li data z balíčku, nepřikládatejte csv soubor,
@@ -104,5 +104,21 @@ Pokud by potíže přetrvávaly, lze alternativně použít `{Smarter Poland}` (
     + u zkompilovaných výstupů musejí být viditelné použité příkazy, tj. nastavení `echo=T` (je defaultní).  
 
 ---
+
+## Týden 4 (odevzdání do 18. 3. 2021)
+
+* Použijte stejný dataset jako byl použit pro minul7 úkol 3 (případnou změnu datasetu vysvětlete)  
+* Odhadněte jednoduchý regresní model pomocí "natural spline" a "smoothing spine" křivky  
+    + jako vzor můžete využít postup ze skriptu `R13_Splines.Rmd`.   
+* Odhadněte jednoduchý regresní model pomocí lokální regrese
+    + Použijte vhodné nastavení podle vlastního uvážení, s využitím vzoru z `R14_Local regression.Rmd`.  
+* Odhadněte na datech vhodně zvolený model typu GAM
+    + Použijte diagnostické testy podle vzoru z příkladu `R15_GAMs.Rmd`.  
+* Doprovoďte Vaše výstupy stručným slovním komentářem.  
+* Odevzdejte ve formátu `.R`, `.Rmd` nebo Rmd zkompilované do `html/pdf/docx` výstupu   
+    + u zkompilovaných výstupů musejí být viditelné použité příkazy, tj. nastavení `echo=T` (je defaultní).
+    
+
+---  
 
 [Homepage](https://formanektomas.github.io/4EK417/)
