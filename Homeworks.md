@@ -105,7 +105,7 @@ Pokud by potíže přetrvávaly, lze alternativně použít `{Smarter Poland}` (
 
 ---
 
-## Týden 4 (odevzdání do 18. 3. 2021)
+## Týden 6 (odevzdání do 28. 3. 2021)
 
 * Použijte stejný dataset jako byl použit pro minul7 úkol 3 (případnou změnu datasetu vysvětlete)  
 * Odhadněte jednoduchý regresní model pomocí "natural spline" a "smoothing spine" křivky  
