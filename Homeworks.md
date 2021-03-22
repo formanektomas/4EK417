@@ -107,12 +107,12 @@ Pokud by potíže přetrvávaly, lze alternativně použít `{Smarter Poland}` (
 
 ## Týden 6 (odevzdání do 28. 3. 2021)
 
-* Použijte stejný dataset jako byl použit pro minul7 úkol 3 (případnou změnu datasetu vysvětlete)  
+* Použijte stejný dataset jako byl použit pro minulý úkol (případnou změnu datasetu vysvětlete)  
 * Odhadněte jednoduchý regresní model pomocí "natural spline" a "smoothing spine" křivky  
     + jako vzor můžete využít postup ze skriptu `R13_Splines.Rmd`.   
 * Odhadněte jednoduchý regresní model pomocí lokální regrese
     + Použijte vhodné nastavení podle vlastního uvážení, s využitím vzoru z `R14_Local regression.Rmd`.  
-* Odhadněte na datech vhodně zvolený model typu GAM
+* Odhadněte na svých datech vhodně zvolený model typu GAM
     + Použijte diagnostické testy podle vzoru z příkladu `R15_GAMs.Rmd`.  
 * Doprovoďte Vaše výstupy stručným slovním komentářem.  
 * Odevzdejte ve formátu `.R`, `.Rmd` nebo Rmd zkompilované do `html/pdf/docx` výstupu   
