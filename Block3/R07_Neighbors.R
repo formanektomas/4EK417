@@ -58,7 +58,7 @@ CS_IDs <- st_drop_geometry(CE.sf[,"NUTS_ID"]) # object 2: vector of CS-unit IDs
 IDs <- CS_IDs[,1] # make a vector with IDs
 head(IDs)
 #
-# Centroid information an be combined and stored for later use:
+# Centroid information can be combined and stored for later use:
 centds_df <- cbind(CS_IDs, coords)
 head(centds_df) # & save as csv, etc.
 #
