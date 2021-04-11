@@ -50,9 +50,10 @@ proj4string(meuse.grid) <- CRS("+init=epsg:28992")
 
 ## IDW
 
-```{r}
+```{r, warning=F}
 idwmodel <- idw(log(zinc) ~1, meuse,meuse.grid,
                maxdist = Inf, idp = 1) 
+head(idwmodel) # show interpolated values (note absence of variances of interpolated values)
 idwmodel %>% 
   as.data.frame %>%
   ggplot(aes(x=x, y=y)) + geom_tile(aes(fill=var1.pred)) + coord_equal() +
@@ -63,7 +64,7 @@ idwmodel %>%
 
 * IDV with high `idp` argument produces "tiles" (Voronoi-type)
 
-```{r}
+```{r, warning=F}
 idwmodel2 <- idw(log(zinc) ~1, meuse,meuse.grid,
                maxdist = Inf, idp = 20) 
 idwmodel2 %>% 
@@ -95,6 +96,7 @@ lzn.vgm <- variogram(log(zinc)~1, meuse) # calculates sample variogram values
 lzn.fit <- fit.variogram(lzn.vgm, model=vgm(psill=1, "Sph", range=900, nugget=1))
 # 3
 lzn.kriged <- krige(log(zinc) ~ 1, meuse, meuse.grid, model=lzn.fit)
+head(lzn.kriged) # show krigged values and the variances of predictions
 # 4
 lzn.kriged %>% 
   as.data.frame %>%
