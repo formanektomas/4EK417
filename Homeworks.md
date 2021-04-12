@@ -125,7 +125,7 @@ Pokud by potíže přetrvávaly, lze alternativně použít `{Smarter Poland}` (
 
 Testování prostorové (ne)závislosti v R 
 
-* Pro tento úkol můžeme vyjít z dat, která jste použili v týdnu 2  - pokud jde o data z EU, ideálně na úrovni NUTS2 nebo NUTS3 (volte data tak, abyste měli alespoň cca 30 prostorových jednotek). 
+* Pro tento úkol můžete vyjít z dat, která jste použili v týdnu 2  - pokud jde o data z EU, ideálně na úrovni NUTS2 nebo NUTS3 (volte data tak, abyste měli alespoň cca 30 prostorových jednotek). 
     + Pozor na filtrování dat ze stažených tabulek Eurostatu. Pokud pro analýzu vyberete uřčité regiony (např. 100 regionů celkem), pak při korektním filtrování (jedna sledovaná proměnná, jeden rok), bude mít dataset stejný počet řádků jako je počet regionů.  
     + Pokud pracujete se státy jako Francie nebo Španělsko, je vhodné z datasetu odstranit zámořská území (např. ostrovy). 
     
