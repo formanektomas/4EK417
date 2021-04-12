@@ -121,4 +121,21 @@ Pokud by potíže přetrvávaly, lze alternativně použít `{Smarter Poland}` (
 
 ---  
 
+## Týden 9 (odevzdání do 18. 4. 2021)
+
+Testování prostorové (ne)závislosti v R 
+
+* Pro tento úkol můžeme vyjít z dat, která jste použili v týdnu 2  - pokud jde o data z EU, ideálně na úrovni NUTS2 nebo NUTS3 (volte data tak, abyste měli alespoň cca 30 prostorových jednotek). 
+    + Pozor na filtrování dat ze stažených tabulek Eurostatu. Pokud pro analýzu vyberete uřčité regiony (např. 100 regionů celkem), pak při korektním filtrování (jedna sledovaná proměnná, jeden rok), bude mít dataset stejný počet řádků jako je počet regionů.  
+    + Pokud pracujete se státy jako Francie nebo Španělsko, je vhodné z datasetu odstranit zámořská území (např. ostrovy). 
+    
++ Zvolte jednu proměnnou a jeden rok (ideálně co nejblíže roku 2020) a proveďte Moranův test na prostorovou závislost.  
+
++ Použijte alespoň dva různé způsoby definice prostorové struktury (vzdálenost, společná hranice) a ověřte robustnost výsledků vůči změnám prostorové struktury.  
+
++ Slovně okomentujte výsledky.
+
++ Zopakujte předchozí bod pro test prostorové závislosti, založený na statistice: Gearyho C.  
+
+
 [Homepage](https://formanektomas.github.io/4EK417/)
