@@ -129,13 +129,13 @@ Testování prostorové (ne)závislosti v R
     + Pozor na filtrování dat ze stažených tabulek Eurostatu. Pokud pro analýzu vyberete uřčité regiony (např. 100 regionů celkem), pak při korektním filtrování (jedna sledovaná proměnná, jeden rok), bude mít dataset stejný počet řádků jako je počet regionů.  
     + Pokud pracujete se státy jako Francie nebo Španělsko, je vhodné z datasetu odstranit zámořská území (např. ostrovy). 
     
-+ Zvolte jednu proměnnou a jeden rok (ideálně co nejblíže roku 2020) a proveďte Moranův test na prostorovou závislost.  
++ Zvolte jednu proměnnou a jeden rok (ideálně co nejblíže roku 2020) a proveďte Moranův test na prostorovou nezávislost.  
 
 + Použijte alespoň dva různé způsoby definice prostorové struktury (vzdálenost, společná hranice) a ověřte robustnost výsledků vůči změnám prostorové struktury.  
 
 + Slovně okomentujte výsledky.
 
-+ Zopakujte předchozí bod pro test prostorové závislosti, založený na statistice: Gearyho C.  
++ Zopakujte pro test prostorové nezávislosti, založený na statistice: Gearyho C.  
 
 
 [Homepage](https://formanektomas.github.io/4EK417/)
