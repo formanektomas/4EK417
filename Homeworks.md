@@ -149,7 +149,7 @@ Identifikace prostorových shluků (clusterů podle postupu Getis-Ord)
     + Pozor na filtrování dat ze stažených tabulek Eurostatu. Pokud pro analýzu vyberete uřčité regiony (např. 100 regionů celkem), pak při korektním filtrování (jedna sledovaná proměnná, jeden rok), bude mít dataset stejný počet řádků jako je počet regionů.  
     + Pokud pracujete se státy jako Francie nebo Španělsko, je vhodné z datasetu odstranit zámořská území (např. ostrovy). 
     
-+ Zvolte jednu proměnnou a jeden rok (ideálně co nejblíže roku 2020), spočtěte lokální Getisovu G* statistiku a identifikujte hotspoty/coldspoty (jsou-li nějaké).  
++ Zvolte jednu proměnnou a jeden rok (ideálně co nejblíže roku 2020), spočtěte lokální Getisovu G* statistiku a identifikujte hotspoty/coldspoty (jsou-li nějaké). Vaše data samozřejmě nemusejí reálně žádné shluky obsahovat - přítomnost/nepřítomnost shluků v pozorovaných datech nemá vliv na získání bodů z tohoto úkolu. 
 
 + Použijte alespoň dva různé způsoby definice prostorové struktury (vzdálenost, společná hranice) a ověřte robustnost výsledků vůči změnám prostorové struktury.  
 
