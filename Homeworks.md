@@ -138,4 +138,24 @@ Testování prostorové (ne)závislosti v R
 + Zopakujte pro test prostorové nezávislosti, založený na statistice: Gearyho C.  
 
 
+--- 
+
+
+## Týden 10 (odevzdání do 25. 4. 2021)
+
+Identifikace prostorových shluků (clusterů podle postupu Getis-Ord)
+
+* Pro tento úkol můžete vyjít z dat, která jste použili v minulém týdnu.  Můžete použít postup v souboru `R09_Clusters.R` jako šablonu.  
+    + Pozor na filtrování dat ze stažených tabulek Eurostatu. Pokud pro analýzu vyberete uřčité regiony (např. 100 regionů celkem), pak při korektním filtrování (jedna sledovaná proměnná, jeden rok), bude mít dataset stejný počet řádků jako je počet regionů.  
+    + Pokud pracujete se státy jako Francie nebo Španělsko, je vhodné z datasetu odstranit zámořská území (např. ostrovy). 
+    
++ Zvolte jednu proměnnou a jeden rok (ideálně co nejblíže roku 2020), spočtěte lokální Getisovu G* statistiku a identifikujte hotspoty/coldspoty (jsou-li nějaké).  
+
++ Použijte alespoň dva různé způsoby definice prostorové struktury (vzdálenost, společná hranice) a ověřte robustnost výsledků vůči změnám prostorové struktury.  
+
++ Zobrazte prostorové shluky na mapě (jsou-li identifikovány).
+
+
+--- 
+
 [Homepage](https://formanektomas.github.io/4EK417/)
