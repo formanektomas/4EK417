@@ -1,6 +1,8 @@
 #######################################################
 #
 #
+library(ggplot2)
+library(RColorBrewer)
 library(splm) 
 library(dplyr)
 # 
@@ -15,7 +17,7 @@ summary(Pdata)
 #
 # Pdata$EUR_HAB ... Pdata$PPS_HAB_EU - GDP per capita, etc. 
 #
-# Pdata$U_pc ... nemployment %
+# Pdata$U_pc ... unemployment %
 #
 # Pdata$A_B ... Pdata$S  ... labor market structure, see 
 # http://appsso.eurostat.ec.europa.eu/nui/show.do?dataset=htec_emp_reg2&lang=en
