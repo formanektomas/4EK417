@@ -63,6 +63,7 @@ W.matrix <- nb2listw(nb250km)
 #
 #
 C1 <- nb2mat(nb250km, style = "B") # Connectivity matrix (binary)
+colnames(C1) <- rownames(C1)
 C1[1:10,1:10] # view sample of the matrix
 #
 
