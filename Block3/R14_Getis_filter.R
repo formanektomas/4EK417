@@ -74,8 +74,8 @@ localG(CE_data$U_pc_2012, W.matrix)
 # For spatial filtering, we need
 # - return_internals = TRUE 
 #   .. G(i) and E(G) are used in filtering
-# - GeoDa=FALSE = T 
-#   .. exclude "self-neighborhood" - use G(i) not G*(i)
+# - GeoDa=FALSE is default.. exclude "self-neighborhood" - use G(i) 
+#  if GeoDa=TRUE .. include "self-neighborhood" - use G*(i) 
 # - filtering is usually calculated based on connectivity matrix (C, not W)
 #   .. see syntax below
 localG(CE_data$U_pc_2012, nb2listw(nb250km, style="B"), return_internals = T, GeoDa = T)
