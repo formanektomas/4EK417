@@ -79,7 +79,7 @@ BIC(spatial.err)
 #
 ## Assignment 1
 ## Replicate the Actual vs. fitted values plot as in 
-## Spatial lag model (W4_R_9_Spatial_lag.R)
+## Spatial lag model (R10_Spatial_lag_model.R)
 ##
 #
 #
@@ -87,7 +87,8 @@ BIC(spatial.err)
 #
 ## Assignment 
 ## Use a spatial error model "spatial.err" (line 58) and
-## replicate the coefficient stability plots as shown in previous example:
+## replicate the coefficient stability plots as shown 
+## in previous example (R12_Coefficient_stability.R):
 ## LogLik, AIC, all beta-coefficients and the spatial error AR term
 ## Use KNN-based neigbors, for k = 2 to k = 11 
 ## .. use increments of 1 (add one neigbor at a time)
