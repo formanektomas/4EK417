@@ -158,4 +158,15 @@ Identifikace prostorových shluků (clusterů podle postupu Getis-Ord)
 
 --- 
 
+## Týden 11 (odevzdání do 2. 5. 2021)
+
+Stabilita odhaduntého SEM modelu pro různé specifikace prostorové struktury.
+
+* Postupujte podle zadání úkolu, ze skriptu `R13_Spatial_error_model.R` ze 3. bloku. Zadání úkolu začíná na řádku 88.  
+* Jako šablonu pro velkou část úkolu můžete použít postup ze souboru `R10_Spatial_lag_model.R`  
+
+
+--- 
+
+
 [Homepage](https://formanektomas.github.io/4EK417/)
