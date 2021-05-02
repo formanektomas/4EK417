@@ -98,7 +98,7 @@ Moving beyond linearity
     + Longitudinal data  
     + Hierarchical models  
 
-#### Materials for Block 3
+#### Materials for Block 4
 
 + [Download presentation slides for Block 4](https://github.com/formanektomas/4EK417/raw/master/Block4/Block_4.pdf)  
 + [Download R scripts (zip)](https://github.com/formanektomas/4EK417/raw/master/Block4/Block4.zip)
