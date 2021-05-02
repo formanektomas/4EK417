@@ -1,0 +1,156 @@
+---
+title: "Hierarchical data/models with 3 or more levels"
+output:
+  html_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+require(knitr)
+require(ggplot2)
+require(dplyr)
+require(nlme)
+require(lme4)
+require(gridExtra)
+require(lattice)
+require(RLRsim)
+```
+
+## Hierarchical data example
+
+* Level 1) Student
+* Level 2) Class  
+* Level 3) School
+* Level 4) Corporation (public/private entity operating several schools)
+
+
+
+## Empirical data
+
+* In this example, we focus on `general reading achievement` of student.
+
+
+| Variable | Description                                                          |
+|----------|----------------------------------------------------------------------|
+| school   |  school id (numerical)                                               |
+| corp     |  corporation id (numerical)                                          |
+| class    |  class id (numerical)                                                |
+| geread   |  general reading achievement (score, **higher is better**)           |
+| gevocab  |  student's vocabulary test score                                     |
+| clenroll |  size of reading class - no. of students                             |
+| cenroll  |  school size - no. of students                                       |
+
+
+```{r}
+Achieve <- read.csv("data/Achieve.csv")
+Achieve$gender <- as.factor(Achieve$gender)
+str(Achieve)
+length(unique(Achieve$class)) # note that class numbering is school-specific
+length(unique(Achieve$school)) # number of schools
+length(unique(Achieve$corp)) # number of corporations
+```
+
+
+--- 
+
+## Simple model, random intercept, 3 levels
+
+
+* For hierarchical structure, we use `random = ~1|school/class` where `school` is the higher level data group.  
+
+
+```{r}
+M1 <- lme(geread~1, random = ~1|school/class, data = Achieve)
+summary(M1)
+```
+
+Interpretation closely follows 2-level models:
+
+* Two different sets of random effects:
+
+   + Random effects for `~1|school` model intercept variability across schools  
+   + Random effects for `~1|class %in% school` model intercept variability across classrooms within schools 
+
+* At the end of the output, `R` summarizes the sample size for each of the higher level units.
+
+--- 
+
+## Model with added regressors, random intercept, 3 levels
+
+* We add regressors at different levels:
+
+   + `gevocab` is student-specific (Level 1)
+   + `clenroll` is class-specific (Level 2)
+   + `cenroll` is school-specific (Level 3)
+   
+
+```{r}
+M2 <- lme(geread~gevocab+clenroll+cenroll, random = ~1|school/class, data = Achieve)
+summary(M2)
+```
+
+Interpretation: 
+
+* Higher `gevocab` result in higher reading scores  
+* The result of `clenroll` is somewhat confusing as larger classrooms would lead to better reading scores.  
+* School size is not a statistically significant factor.
+
+----
+
+## Simple model, random intercept, 4 levels
+
+
+* For hierarchical structure, we use `random = ~1|corp/school/class` where `corp` is the highest level data groupping.
+
+```{r}
+M3 <- lme(geread~1, random = ~1|corp/school/class, data = Achieve)
+summary(M3)
+```
+
+
+---- 
+
+
+## Model with added regressors, random intercept, 4 levels
+
+* We add regressors at different levels:
+
+   + `gevocab` is student-specific (Level 1)
+   + `clenroll` is class-specific (Level 2)
+   + `cenroll` is school-specific (Level 3)
+   
+
+```{r}
+M4 <- lme(geread~gevocab+clenroll+cenroll, random = ~1|corp/school/class, data = Achieve)
+summary(M4)
+intervals(M4)
+```
+
+---- 
+
+
+## Model with added regressors, random intercept and "slope", 3 levels
+
+* We add regressors at different levels:
+
+   + `gevocab`  is student-specific (Level 1,`i`)  
+   + `clenroll` is class-specific (changes only at Level 2, `j`)  
+   + `gender`   is student-specific (Level 1, `i`)  
+   + school is at level 3, with `k` index  
+   
+* Random effect added for intercept and gender (which is binary, so beta coefficient is not a true slope)  
+
+$$
+\texttt{geread}_{ijk} = \beta_0 + \beta_1 \texttt{gevocab}_{ijk}
++ \beta_2 \texttt{clenroll}_{jk} + \beta_3 \texttt{gender}_{ijk}
++ u_{0j(k)} + u_{3j(k)} + v_{0k} + v_{3k} + \varepsilon_{ijk}
+$$
+
+
+```{r}
+M5 <- lme(geread~gevocab+clenroll+gender, random = ~1+gender|school/class, data = Achieve)
+summary(M5)
+```
+
+
+* By comparing random effects for `gender`, we can see that gender-based reading score differences are relatively prominent at the school level (school-by-school differences), while they are relatively negligible at the class level (within a given school).
