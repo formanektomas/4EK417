@@ -143,7 +143,7 @@ intervals(M4)
 $$
 \texttt{geread}_{ijk} = \beta_0 + \beta_1 \texttt{gevocab}_{ijk}
 + \beta_2 \texttt{clenroll}_{jk} + \beta_3 \texttt{gender}_{ijk}
-+ u_{0j(k)} + u_{3j(k)} + v_{0k} + v_{3k} + \varepsilon_{ijk}
++ u_{0j(k)} + u_{3j(k)}\texttt{gender}_{ijk} + v_{0k} + v_{3k}\texttt{gender}_{ijk} + \varepsilon_{ijk}
 $$
 
 
