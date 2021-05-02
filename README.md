@@ -94,13 +94,15 @@ Moving beyond linearity
 
 ## Block 4: Panel data methods
 
-+ Panel data models  
-    + Fixed effects & Random effects models  
-    + Panel data tests and advanced topics  
-    
 + Linear mixed effects models
     + Longitudinal data  
     + Hierarchical models  
+
+#### Materials for Block 3
+
++ [Download presentation slides for Block 4](https://github.com/formanektomas/4EK417/raw/master/Block4/Block_4.pdf)  
++ [Download R scripts (zip)](https://github.com/formanektomas/4EK417/raw/master/Block4/Block4.zip)
+
 
 --- 
 
