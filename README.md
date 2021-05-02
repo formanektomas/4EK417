@@ -104,6 +104,13 @@ Moving beyond linearity
 + [Download R scripts (zip)](https://github.com/formanektomas/4EK417/raw/master/Block4/Block4.zip)
 
 
+#### Supporting materials for Block 4
+
+- [Introduction to LMEs in R](https://ourcodingclub.github.io/tutorials/mixed-models/)  
+- [Mixed models in R](https://m-clark.github.io/mixed-models-with-R/)  
+- [Vignette for lme4 package](https://cran.r-project.org/web/packages/lme4/vignettes/lmer.pdf/)  
+
+
 --- 
 
 ## Block 5: Limited dependent variables (LDVs): advanced methods and models
