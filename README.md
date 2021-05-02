@@ -92,9 +92,9 @@ Moving beyond linearity
 
 ---
 
-## Block 4: Panel data methods
+## Block 4: Linear Mixed Effect models
 
-+ Linear mixed effects models
++ Introduction to linear mixed effects models
     + Longitudinal data  
     + Hierarchical models  
 
