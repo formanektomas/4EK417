@@ -168,5 +168,14 @@ Stabilita odhaduntého SEM modelu pro různé specifikace prostorové struktury.
 
 --- 
 
+## Týden 12 (odevzdání do 9. 5. 2021)
+
+Doplnění skriptu ze souboru `R06_LME_wagepanel_hierarchical_data.R`
+
+* Postupujte podle zadání úkolu, ze skriptu `R06_LME_wagepanel_hierarchical_data.R` ze 4. bloku. 
+* Pozor, zadání mírně upraveno (zjednodušeno) 3. 5. po cvičení.
+
+
+--- 
 
 [Homepage](https://formanektomas.github.io/4EK417/)
