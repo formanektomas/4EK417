@@ -68,14 +68,15 @@ layout: default
 
 **Doporučená (možná) struktura seminární práce:**
 
-1. Teoretický úvod	(1-2 s).  
-2. Aplikace modelu (2-3 s).
+1. Abstrakt (1/2 s).
+2. Teoretický úvod	(1-2 s).  
+3. Aplikace modelu (2-3 s).
     - Popis zvoleného modelu,
     - Problematika aplikace modelu s ohledem na dostupná data,
     - Jiná specifika a omezující faktory.
-3. Výsledky a interpretace	(cca 7 s).  
-4. Závěr	(1 s).  
-5.  Abstrakt, Literatura
+4. Výsledky a interpretace	(cca 7 s).  
+5. Závěr	(1 s).  
+6. Literatura
 
 
 --- 
