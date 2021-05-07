@@ -1,1 +1,1 @@
-## Treatment effects
+## Binary dependent variable models
