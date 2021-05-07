@@ -113,7 +113,11 @@ Moving beyond linearity
 
 --- 
 
-## Block 5: Limited dependent variables (LDVs): advanced methods and models
+## Block 5: Binary dependent variables: selected methods and models
+
+#### Materials for Block 5
+
++ [Download R scripts (zip)](https://github.com/formanektomas/4EK417/raw/master/Block5/Block5.zip)  
 
 --- 
 
