@@ -36,9 +36,35 @@ University of Economics, Prague
 - [R](https://www.r-project.org/) / [RStudio](https://www.rstudio.com/products/RStudio/)  
 - [stackoverflow](https://stackoverflow.com/tags/r/info)  
 
+
 ---
 
-## Block 2: Model specification choice methods & extensions to linear models
+## Block 2: Spatial analysis and spatial econometrics
+
++ Spatial data: basic descriptive analysis  
++ Spatial data: advanced visualization (choropleths, [sf](https://r-spatial.github.io/sf/) package)  
++ Spatial econometrics  
+    + Cross-sectional data  
+    + Panel data  
+    + Advanced topics (spatial filtering)  
+
+#### Materials for Block 2
+
++ [Download presentation slides for Block 2](https://github.com/formanektomas/4EK417/raw/master/Block2/Block_2.pdf)  
++ [Download R scripts (zip)](https://github.com/formanektomas/4EK417/raw/master/Block2/Block2.zip)
+
+
+#### Supporting materials for Block 2
+
+- [Simple Features for R](https://r-spatial.github.io/sf/)  
+- [GADM maps and data](https://gadm.org/)  
+- [Interactive Course using mgcv (ch. 3)](https://noamross.github.io/gams-in-r-course/)  
+- R Package **RCzechia** : run `install.packages("RCzechia")`  
+
+
+---
+
+## Block 3: Model specification choice methods & extensions to linear models
 
 Model selection  
 + Theoretical approach: specific-to-general, general-to-specific
@@ -57,38 +83,15 @@ Moving beyond linearity
 + Generalized Additive Models (GAM)  
  
 
-#### Materials for Block 2
-
-+ [Download presentation slides for Block 2](https://github.com/formanektomas/4EK417/raw/master/Block2/Block_2.pdf)  
-+ [Download R scripts (zip)](https://github.com/formanektomas/4EK417/raw/master/Block2/Block2.zip)
-  
-#### Supporting materials for Block 2  
-  
-- [Interactive Course using mgcv (ch. 1,2,4)](https://noamross.github.io/gams-in-r-course/)  
-
----
-
-## Block 3: Spatial analysis and spatial econometrics
-
-+ Spatial data: basic descriptive analysis  
-+ Spatial data: advanced visualization (choropleths, [sf](https://r-spatial.github.io/sf/) package)  
-+ Spatial econometrics  
-    + Cross-sectional data  
-    + Panel data  
-    + Advanced topics (spatial filtering)  
-
 #### Materials for Block 3
 
 + [Download presentation slides for Block 3](https://github.com/formanektomas/4EK417/raw/master/Block3/Block_3.pdf)  
 + [Download R scripts (zip)](https://github.com/formanektomas/4EK417/raw/master/Block3/Block3.zip)
+  
+#### Supporting materials for Block 3  
+  
+- [Interactive Course using mgcv (ch. 1,2,4)](https://noamross.github.io/gams-in-r-course/)  
 
-
-#### Supporting materials for Block 3
-
-- [Simple Features for R](https://r-spatial.github.io/sf/)  
-- [GADM maps and data](https://gadm.org/)  
-- [Interactive Course using mgcv (ch. 3)](https://noamross.github.io/gams-in-r-course/)  
-- R Package **RCzechia** : run `install.packages("RCzechia")`  
 
 ---
 
@@ -119,6 +122,7 @@ Moving beyond linearity
 
 + [Download R scripts (zip)](https://github.com/formanektomas/4EK417/raw/master/Block5/Block5.zip)  
 
+
 --- 
 
 ## Block 6: Treatment effects
@@ -127,6 +131,7 @@ Moving beyond linearity
 #### Materials for Block 6
 
 ---
+
 
 ### Seminar paper
 
