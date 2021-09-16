@@ -1,4 +1,4 @@
-#### Packages - Block 2 
+#### Packages - Block 3 
 #
 install.packages(c("ggplot2","RColorBrewer"), dependencies = T)
 #
