@@ -1,0 +1,172 @@
+---
+title: "Local regression"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(ggplot2)
+library(ISLR)
+library(locfit)
+```
+
+
+
+Local regression at $X = x_0$ 
+
+1. Gather the fraction $s = k/n$ of training points whose $x_i$ \\are closest to $x_0$.  
+2. Assign a weight $K_{i0} = K(x_i , x_0)$ to each point in this neighborhood, so that the closest point has the highest weight \\and vice versa. All but the nearest $k$ neighbors get zero weights.  
+3. Fit *weighted least squares regression*: $y_i$ on $x_i$ by finding $\beta$ parameters that minimize the following expression:
+    $$\min : ~~~ \sum_{i=1}^n K_{i0} (y_i - \beta_0 - \beta_1 x_i)^2 \,.$$  
+* Fitted value at $x_0$ is given by $\hat{f}(x_0) = \hat{\beta}_0 + \hat{\beta}_1 x_0\,$.  
+    
+
+**Local regression: choices to be made**  
+
+* Weighting function $K$ must be defined  
+
+    + e.g.: $\tfrac{1}{(x_0 - x_i)^2}, x_0 \neq x_i$.  
+
+* Functional form in Step 3 (constant, linear, quadratic, etc.).
+
+* Span $s$ controls flexibility of the fit (can be choosen using CV).
+
+--- 
+
+In `R`, local regression can be performed using:
+
++ `loess` (Locally Estimated Scatterplot Smoothing / Local Polynomial Regression Fitting) from `{stats}` package.  
++ using the `{locfit}` package.  
+
+--- 
+
+## `Wage` $\leftarrow$ `Age` example
+
+We use the `locfit()` function from `{locfit}` package to estimate local regression.
+
++ `nn=0.5` - each neigborhood consists of 50% of nearest observations (w.r.t. total sample)  
+
++  Kernel weight function defaults to = `kern = "tcub"`, which is the tricube kernel  
+    + $K(u)= \frac{70}{81}(1-|u|^3)^3~1[|u|<1]$ where $u=\frac{||x-x_0||}{\text{s.d.}(x)}$  
+    + (given diverse scales of measurement, $x$ is standardized)  
+    + $1[\cdot]$ is the indicator function.  
+    
++ `deg=2` ($2^{nd}$ order polynomial) is the default setting.
+
+
+```{r}
+LREG <- locfit(wage ~ lp(age,nn=0.5, deg = 2), Wage)
+# summary(LREG)
+predLREG <- predict(LREG, newdata = Wage$age, band = "local")
+# conf int for plotting
+lwr <- predLREG$fit-(2*predLREG$se.fit)
+upr <- predLREG$fit+(2*predLREG$se.fit)
+# Plot the data and fitted values 
+ggplot(Wage, aes(x = age, y = wage) ) +
+  geom_point(col="grey70") +
+  geom_ribbon( aes(ymin = lwr, ymax = upr), fill="red", alpha = .35) +
+  geom_line( aes(y = predLREG$fit), color="red", size = 1) +
+  theme_bw()
+```
+
+
+---
+
+
+## Increased LOESS flexibility
+
++ Can be achieved by making the regression more local.  
++ By setting `nn=0.2`, we only consider 20% of nearest observations   
+
+```{r}
+
+LREG <- locfit(wage ~ lp(age,nn=0.2, deg = 2), Wage)
+# summary(LREG)
+predLREG <- predict(LREG, newdata = Wage$age, band = "local")
+# conf int for plotting
+lwr <- predLREG$fit-(2*predLREG$se.fit)
+upr <- predLREG$fit+(2*predLREG$se.fit)
+
+# Plot the data and fitted values 
+ggplot(Wage, aes(x = age, y = wage) ) +
+  geom_point(col="grey70") +
+  geom_ribbon( aes(ymin = lwr, ymax = upr), fill="green", alpha = .35) +
+  geom_line( aes(y = predLREG$fit), color="darkgreen", size = 1) +
+  theme_bw()
+
+
+```
+
+
+----
+
+
+## Local regression: slope of the fitted line
+
+* Use `nn=0.2` to ensure flexibility
+
+
+```{r}
+# repeat from previous section
+LREG <- locfit(wage ~ lp(age,nn=0.2, deg = 2), Wage)
+predLREG <- predict(LREG, newdata = Wage$age, band = "local")
+lwr <- predLREG$fit-(2*predLREG$se.fit) # approx. for 95% interval
+upr <- predLREG$fit+(2*predLREG$se.fit) # approx. for 95% interval
+#
+# Produce fitted values at all observed age values
+pr.unique <- predict(LREG, newdata = unique(Wage$age))
+#
+# Produce slope values from the estimation, note the "deriv=1" argument
+dLREG <- locfit(wage ~ lp(age,nn=0.2, deg = 2), Wage, deriv=1)
+#
+# Get slopes at each unique observed age value 
+slope <- predict(dLREG, newdata = unique(Wage$age))
+years <- unique(Wage$age)
+#
+#
+# Besides fitted values, we can plot how the slope of the fit line changes:
+ggplot()+
+  geom_line( aes(y = slope, x = years), color="darkgreen", size = 1 )+
+  geom_hline(yintercept = c(0), linetype="dashed", color='red', size = 0.7)+
+  labs(x = "age", y = "slope of the fitted curve") +
+  theme_bw()
+#
+# Plot "local" slopes at selected ages: 37,52,64
+# slope for age = 37
+x1 <- years[15]-6
+xend1 <- years[15]+6
+y1 <- pr.unique[15]-6*slope[15]
+yend1 <- pr.unique[15]+6*slope[15]
+# slope for age = 64
+x2 <- years[51]-6
+xend2 <- years[51]+6
+y2 <- pr.unique[51]-6*slope[51]
+yend2 <- pr.unique[51]+6*slope[51]
+#
+# slope for age = 52
+x3 <- years[10]-6
+xend3 <- years[10]+6
+y3 <- pr.unique[10]-6*slope[10]
+yend3 <- pr.unique[10]+6*slope[10]
+#
+#
+# Note that the lenght of the "slope" is exaggerated for visibility.
+#
+ggplot(Wage, aes(x = age, y = wage) ) +
+  geom_point(col="grey70") +
+  geom_ribbon( aes(ymin = lwr, ymax = upr), fill="green", alpha = .35) +
+  geom_line( aes(y = predLREG$fit), color="darkgreen", size = 2) +
+  geom_segment(data = data.frame(x = x1, xend=xend1, y=y1, yend=yend1), 
+               aes(x=x, y=y, xend=xend, yend=yend), size = 1, color='red')+
+  geom_segment(data = data.frame(x = x2, xend=xend2, y=y2, yend=yend2), 
+               aes(x=x, y=y, xend=xend, yend=yend), size = 1, color='red')+
+  geom_segment(data = data.frame(x = x3, xend=xend3, y=y3, yend=yend3), 
+               aes(x=x, y=y, xend=xend, yend=yend), size = 1, color='red')+
+  geom_vline(xintercept=c(37,52,64), linetype="dashed", color='red', size=0.6)+
+  theme_bw()
+```
+
+
+
+
+               

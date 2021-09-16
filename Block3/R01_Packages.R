@@ -1,10 +1,19 @@
-#### Packages - Block 3 
+#### Packages - Block 2 
 #
-install.packages(c("ggplot2","RColorBrewer","dplyr","reshape2","tidyr"), dependencies = T)
+install.packages(c("ggplot2","RColorBrewer"), dependencies = T)
 #
-install.packages(c("sf","sp","rgdal","rgeos","eurostat","gstat","RCzechia","giscoR"), dependencies = T)
+install.packages(c("dplyr","tidyr","reshape2"), dependencies = T)
 #
-install.packages(c("spdep","splm","spatialreg","raster"), dependencies = T)
-# 
-install.packages("spmoran", dependencies = T)
+install.packages(c("glmnet", "cvTools", "leaps"), dependencies = T)
 #
+install.packages(c("zoo","car","plotly","dyn","lmtest","tseries","urca"), dependencies = T)
+#
+install.packages(c("flexdashboard","shiny","htmlwidgets"), dependencies = T)
+#
+install.packages(c("Ecdat", "ISLR"), dependencies = T)
+#
+install.packages(c("quantreg", "rqPen"), dependencies = T)
+#
+install.packages(c("pls", "psych", "MASS", "glmpath","brglm2"), dependencies = T)
+#
+install.packages(c("locfit","gam","mgcv","akima"), dependencies = T)

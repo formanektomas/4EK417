@@ -1,0 +1,425 @@
+---
+title: "Cubic, natural and smoothing splines"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(ISLR)
+library(splines)
+library(ggplot2)
+attach(Wage)
+Wage <- Wage
+```
+
+## Splines in `R`
+
++ **Cubic splines** are performed using `bs()` from the `{splines}` library  
++ **Natural splines** are performed using `ns()` from the `{splines}` library  
++ **Smoothing splines** are performed using `smooth.spline` from the `{stats}` library  
+
+Both `{stats}` and `{splines}` are base libraries in `R`.
+
+--- 
+
+## Cubic splines (regression splines)
+
++ Cubic spline with knots $\xi_k,~k=1,\dots, K$ is a piecewise cubic polynomial with continuous derivatives up to order 2 at each knot.
+
++ General notation for $K$ knots:
+
+
+$$y_i = \beta_0 + \beta_1 \, h_1 (x_i) + \beta_2 \, h_2 (x_i) + \cdots + \beta_{K+3} \, h_{K+3} (x_i) + u_i  $$
+
+where 
+
++ $h_1 (x_i) = x_i$ 
+ 
++ $h_2 (x_i) = x_i^2$ 
+ 
++ $h_3 (x_i) = x_i^3$ 
+ 
++ $h_{[k=1]+3} (x_i) = (x_i-\xi_1)_{+}^3$ 
+
+    + $h_{k+3}(x_i) = (x_i-\xi_k)_{+}^3$ can be used as general notation for $k=1,\dots,K$
+ 
++ $~~\vdots$
+
++ $h_{K+3} (x_i) = (x_i-\xi_K)_{+}^3$
+
+
+---
+
+
+With just 1 knot $\xi_1$, regression spline (cubic spline) may be simply outlined as: 
+
+$$
+y_i = \beta_0 + \beta_1 x_i + \beta_2 x_i^2 + \beta_3 x_i^3 + \beta_4 \, (x_i-\xi_1)_{+}^3 + u_i  
+$$
+
++ This is a piecewise cubic polynomial function with "continutity" restriction imposed.
+
++ In `R`, regression splines may be calculated as follows (compare "manual approach" and "built-in functionality"):
+
+
+```{r}
+# setup the truncated (positive) difference between x and c:
+Wage$AgeBasFunc <- ifelse(Wage$age > 49 , Wage$age-49,0) #c = 49
+#
+m8 <- lm(wage~poly(age,3,raw = T)+I(AgeBasFunc^3), data = Wage)
+# summary(m8)$coefficients # 5 parameters estimated
+predm8 <- predict(m8, interval = "confidence")
+plotDF.8 <- cbind(Wage, predm8)
+# Plot the data and fitted values 
+ggplot(plotDF.8, aes(x = age, y = wage) ) +
+  geom_point(col="grey70") +
+  geom_ribbon( aes(ymin = lwr, ymax = upr), fill="darkgreen", alpha = .35) +
+  geom_line( aes(y = fit), color="black", size = 1) +
+  theme_bw()
+#
+# The same result are obtained through the bs() function
+#
+SPfit1 <- lm(wage~bs(age,knots = 49), data = Wage)
+summary(SPfit1)$coefficients 
+predSP1 <- predict(SPfit1, interval = "confidence")
+plotDF.SP1 <- cbind(Wage, predSP1)
+# Plot the data and fitted values 
+ggplot(plotDF.SP1, aes(x = age, y = wage) ) +
+  geom_point(col="grey70") +
+  geom_ribbon( aes(ymin = lwr, ymax = upr), fill="red", alpha = .35) +
+  geom_line( aes(y = fit), color="black", size = 1) +
+  theme_bw()
+#
+# The two fitted vectors are identical:
+#
+cbind(head(predm8[,1,drop=F]),head(predSP1[,1,drop=F]))
+round(sum(predm8[,1] - predSP1[,1]),6)
+```
+
+---
+
+## Setting knots in cubic splines 
+
+
++ We can set the knots directly: `bs(age, knots=c(25,40,60))` 
+
++ Use `df` option to set knots at uniform quantiles: `bs(age, df=6)`  
+    + Note that `R` sets `K` knots where `K = df - degree`  
+    + `degree` equals 3 for cubic splines, hence `df=6` $\rightarrow$ 3 knots
+    + With 3 knots, those are placed at quantiles $q_{0.25}, q_{0.5}$ and $q_{0.75}$. 
+    
+    
+```{r}
+#
+# 3 knots set directly
+#
+SPfit2 <- lm(wage~bs(age, knots=c(25,40,60)), data = Wage) #manual knots at age values
+predSP2 <- predict(SPfit2, interval = "confidence")
+plotDF.SP2 <- cbind(Wage, predSP2)
+#
+# 3 knots set automatically
+#
+SPfit3 <- lm(wage~bs(age, df=6), data = Wage) # automatic knots - quantiles
+predSP3 <- predict(SPfit3, interval = "confidence")
+plotDF.SP3 <- cbind(Wage, predSP3)
+# retrieve quantile-based knot information:
+attr(terms(SPfit3), "predvars") 
+#
+# Compare the two fits
+#
+# Plot the data and fitted values 
+ggplot(plotDF.SP2, aes(x = age, y = wage) ) + #general
+  geom_point(col="grey70") + #general
+  geom_ribbon( aes(ymin = lwr, ymax = upr), fill="red", alpha = .35) + #manual knots
+  geom_ribbon( aes(ymin = plotDF.SP3$lwr, ymax = plotDF.SP3$upr), 
+               fill="green", alpha = .35) + #automatic knots
+  geom_line( aes(y = fit), color="red", size = 1) + #manual knots
+  geom_line( aes(y = plotDF.SP3$fit), color="darkgreen", 
+             size = 1) + #automatic knots
+  annotate(label = "manually set knots: 25,40,60", geom = "text", 
+           x = 50, y = 30, size = 5, color="darkgreen") +
+  annotate(label = "quantile-based knots: `25%` = 33.75, `50%` = 42, `75%` = 51",
+           geom = "text", x = 50, y = 150, size = 5, color="red") +
+  labs(title = "Comparison of cubic splines, different knots used") +
+  theme_bw()
+
+```
+    
+
+**Quick exercise** 
+
++ Expand the above plot by including a third fit (use `color="blue"`)  
++ Use 4 knots (either provide the knots explicitly or by using`df` argument)
+
+```{r}
+# 
+#
+```
+
+---
+
+## Natural splines
+
++ Cubic spline: the lowest-order spline where knot-discontinuity is not visible to the human eye.  
+
++ Cubic splines tend to have high variance at the outer range of the predictor
+
++ Possible solution: use *natural splines* with additional boundary constraints.
+
+
+**Natural splines** 
+
++ For a cubic spline regression model $y \leftarrow x$ with $K$ knots, $f(X)$ is required to be linear for $X \leq \xi_1$ and for $X > \xi_K$.
+
++ Additional restrictions free 4 d.f. (compared to cubic spline), so we use $K$ d.f. for estimation.
+
+---
+
+General notation for natural cubic splines with $K$ knots $\xi_k,~~ (k=1,2,\dots,K)$:  
+
+
+$$
+y_i = \beta_1 \, N_1 (x_i)  + \beta_2 \, N_2 (x_i) + \beta_3 \, N_{2+[k=1]} (x_i) + \cdots + \beta_{K} \, N_{2+[k=K-2]} (x_i) + u_i  
+$$
+
+ where  
+ 
++ $N_1 (x_i) = 1$ 
+ 
++ $N_2 (x_i) = x_i$ 
+
++ $N_{2+k} (x_i) = d_k(X)-d_{K-1}(X)\,$  
+
+    * applies to all $k=1,\dots,K\!-\!2$.
+
++ $~~\vdots$  
+ 
++ $N_{K} (x_i) = d_{K-2}(X)-d_{K-1}(X)\,$ 
+ 
++ and $d_k(X)=\frac{(X-\xi_k)_{+}^3 - \, (X-\xi_K)_{+}^3}{\xi_K \,-\, \xi_k}$
+
+For basis functions $N$, we only use knots up to $K\!-\!2$.
+
+All basis functions $N_1,N_2,\dots,N_{2+k},\dots,N_{K}$ have $2^{nd}$ and $3^{rd}$ derivatives equal to zero for $X < \xi_1$ and for $X \geq \xi_K$.
+
+
+--- 
+
+Example: For $K\!=\!3$ and using the truncated power bases of cubic splines $(X-\xi_k)_{+}^3 \,$, we can write:
+
+$$
+y_i = \beta_1 \, N_1 (x_i)  + \beta_2 \, N_2 (x_i) + \beta_3 \, N_3 (x_i) + u_i  
+$$
+
+where:  
+
++ $N_1 (x_i) = 1$ 
+ 
++ $N_2 (x_i) = x_i$ 
+ 
++ $N_3 (x_i) = d_1(X)-d_{2}(X) ~=~ \frac{(X-\xi_1)_{+}^3 \,-\, (X-\xi_3)_{+}^3}{\xi_3 \,-\, \xi_1} - \frac{(X-\xi_2)_{+}^3 \,-\, (X-\xi_3)_{+}^3}{\xi_3 \,-\, \xi_2}$
+ 
+
+
++ In `R`, natural splines may be calculated as follows (compare "manual approach" and "built-in functionality"):
+
+
+```{r}
+# 3 cutpoints
+c1 <- quantile(Wage$age, 0.25)
+c2 <- median(Wage$age)
+c3 <- quantile(Wage$age, 0.75)
+# truncated differences $(x-c_1)_{+}$, ... 
+t1 <- ifelse(Wage$age > c1,Wage$age-c1,0)
+t2 <- ifelse(Wage$age > c2,Wage$age-c2,0)
+t3 <- ifelse(Wage$age > c3,Wage$age-c3,0)
+# d1 and d2 elements of N_3
+d1 <- ((t1^3) - (t3^3))/(c3-c1)
+d2 <- ((t2^3) - (t3^3))/(c3-c2)
+# N_3 = d1-d2
+N3 <- d1-d2
+#
+fitNS1 <- lm(wage~age+N3, data = Wage)
+summary(fitNS1)$coefficients # 3 parameters estimated
+predNS <- predict(fitNS1, interval = "confidence")
+plotDF.NS <- cbind(Wage, predNS)
+# Plot the data and fitted values 
+ggplot(plotDF.NS, aes(x = age, y = wage) ) +
+  geom_point(col="grey70") +
+  geom_ribbon( aes(ymin = lwr, ymax = upr), fill="darkgreen", alpha = .35) +
+  geom_line( aes(y = fit), color="darkgreen", size = 1) +
+  theme_bw()
+#
+# The same result are obtained through the ns() function
+#
+fitNS2 <- lm(wage~ns(age,knots=c2, intercept = T, Boundary.knots = c(c1,c3)), data = Wage) #
+# summary(fitNS2)
+predNS2 <- predict(fitNS2, interval = "confidence")
+plotDF.NS2 <- cbind(Wage, predNS2)
+# Plot the data and fitted values 
+ggplot(plotDF.NS2, aes(x = age, y = wage) ) +
+  geom_point(col="grey70") +
+  geom_ribbon( aes(ymin = lwr, ymax = upr), fill="darkgreen", alpha = .35) +
+  geom_line( aes(y = fit), color="darkgreen", size = 1) +
+  theme_bw()
+#
+# The two fitted vectors are identical:
+#
+cbind(head(predNS[,1,drop=F]),head(predNS2[,1,drop=F]))
+
+```
+
+---
+
+#### Natural splines: discussion
+
++ The above example deviates from `ns()` default setting.
+
++ Imposing linearity at quantiles $q_{0.25}$ and $q_{0.75}$ may be "too much" (but it makes a simple illustration)  
+
++ In the default setting of `ns()`, the tree quantiles $q_{0.25}$, $q_{0.50}$ and $q_{0.75}$ are treated as *inner knots* and linearity restrictions are imposed on conveniently chosen *boundary knots*  
+    + boundary knots default the range of the data, but can be set manually as well - shown in the example above).  
+
++ Using default `ns()` settings, the model would be estimated as follows:
+
+```{r}
+fitNS3 <- lm(wage~ns(age,df=4), data = Wage) # knots = df-1 - we (account for N_1)
+# df=4 --> 4-1 = 3 inner knots.
+attr(terms(fitNS3), "predvars") 
+predNS3 <- predict(fitNS3, interval = "confidence")
+plotDF.NS3 <- cbind(Wage, predNS3)
+# Plot the data and fitted values 
+ggplot(plotDF.NS3, aes(x = age, y = wage) ) +
+  geom_point(col="grey70") +
+  geom_ribbon( aes(ymin = lwr, ymax = upr), fill="blue", alpha = .35) +
+  geom_line( aes(y = fit), color="blue", size = 1) +
+  theme_bw()
+```
+
+--- 
+
++ We can compare cubic splines and natural splines (3 knots):  
+
+```{r}
+# Code repeated from the chunks above...
+# Cubic splines
+SPfit3 <- lm(wage~bs(age, df=6), data = Wage) 
+predSP3 <- predict(SPfit3, interval = "confidence")
+plotDF.SP3 <- cbind(Wage, predSP3)
+attr(terms(SPfit3), "predvars") 
+# Natural splines 
+fitNS3 <- lm(wage~ns(age,df=4), data = Wage) #
+predNS3 <- predict(fitNS3, interval = "confidence")
+plotDF.NS3 <- cbind(Wage, predNS3)
+attr(terms(fitNS3), "predvars") 
+# Plot the data and fitted values 
+ggplot(plotDF.NS3, aes(x = age, y = wage) ) + #general
+  geom_point(col="grey70") + #general
+  geom_ribbon( aes(ymin = lwr, ymax = upr), fill="blue", alpha = .35) + # ns()
+  geom_ribbon( aes(ymin = plotDF.SP3$lwr, ymax = plotDF.SP3$upr), 
+               fill="red", alpha = .35) + # bs()
+  geom_line( aes(y = plotDF.SP3$fit), color="red", size = 1) + 
+  geom_line( aes(y = fit), color="blue", size = 1) + # ns()
+  annotate(label = "ns()", geom = "text", 
+           x = 75, y = 130, size = 5, color="blue") +
+  annotate(label = "bs()", geom = "text", 
+           x = 75, y = 50, size = 5, color="red") +
+  labs(title = "Comparison of cubic splines - bs() and natural splines - ns() for K=3") +
+  theme_bw()
+
+```
+
+
+--- 
+
+**Quick exercise:**
+
++ Use natural splines with $K=5$ knots to model the `wage` $\leftarrow$ `age` function.
+
+
+```{r}
+# Estimate model
+
+# Make predictions and and join fitted values (fit, lwr, upr) with original data
+
+# Use ggplot to display fitted values
+
+```
+
+
+
+--- 
+
+## Smoothing splines 
+
+$$
+\min:~~~\text{RSS}(g,\lambda) = \sum_{i=1}^n [y_i - g(x_i)]^2 + \lambda \int g''(t)^2 \textit{dt}
+$$
+
++ $\sum_{i=1}^n [y_i - g(x_i)]^2$ is a loss function, makes $g(x)$ fit the data.  
++ $g(x)$ can be any function for which the second term is defined.  
++ $\lambda \int \! g''(t)^2 \textit{dt}~$ penalizes high variability in $g(x)$.  
++ $\lambda$ is a penalty term. For $\lambda=\infty$, smoothing splines lead to OLS fit.  
+
++ While $g$ can be any function, it may be shown that $\text{RSS}(g,\lambda)$ has an explicit & unique minimizer: natural cubic spline with $N$ knots at the unique values of $x_i,~i=1,2,\dots,N$. (more precisely, a penalized natural cubic spline with $N$ knots)  
++ With a suitable $\lambda$ parameter, the model is not overparameterized: **effective degrees of freedom** used for estimation $(df_{\lambda})$ decrease from $N$ to 2 as $\lambda$ increases from 0 to $\infty$.  
++ Cross-validation can be used to find $\lambda$ with the lowest cross-validated RSS.
+
+---
+
+#### Wage $\leftarrow$ Age example
+
++ We can use cross-validation to select the smoothing parameter $\lambda$ automatically:
+
+```{r}
+SSfit <- smooth.spline(age,wage) # smoothing splines, Wages are `attached`
+SSfit # note the effective degrees of freedom
+# Plot the data and fitted values 
+# .. confindence intervals not directly implemented..
+plot(age,wage,col="darkgrey")
+lines(SSfit,col="purple",lwd=2)
+
+```
+
+
+--- 
+
++ By setting $\lambda$ very high, `smmoth.spline` output approximates OLS regression line: 
+
+
+```{r}
+SSfit2 <- smooth.spline(age,wage,lambda=1000) # smoothing splines
+plot(age,wage,col="darkgrey")
+lines(SSfit2,col="darkgreen",lwd=2)
+SSfit2 # note the effective degrees of freedom are close to 2
+```
+
+--- 
+
++ Alternatively, we can set the required `df`s as follows: 
+
+
+```{r}
+SSfit3 <- smooth.spline(age,wage,df=8) # smoothing splines
+plot(age,wage,col="darkgrey")
+lines(SSfit3,col="blue",lwd=2)
+SSfit3 # note the convergence information and how EDF =~ 8.
+```
+
+---- 
+
+
+**Quick exercise:**
+
++ Use smoothing splines to generate a fitted line with `df=16`.    
++ Plot the output & print out the `smooth.spline()` object information.  
+
+
+```{r}
+
+
+```
+
+
+--- 
+

@@ -1,0 +1,133 @@
+---
+title: "Krigging & IDW example - Meuse river sediments"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(sp)
+library(gstat)
+library(dplyr)
+library(ggplot2)
+library(scales) # for "comma"
+library(magrittr)
+data(meuse)
+data(meuse.grid)
+```
+
+* We shall be predicting zinc-sediment levels.  
+
+* Example is based on the Meuse dataset.  
+
+```{r}
+glimpse(meuse)
+glimpse(meuse.grid) # empty grid - zinc levels will be predicted here
+```
+
+* We can use `ggplot2` to visually inspect how zinc varies over the domain of interest where we map concentration to point size:
+
+```{r}
+meuse %>% 
+  as.data.frame %>% 
+  ggplot(aes(x, y)) + geom_point(aes(size=zinc), color="red", alpha=3/4) + 
+    ggtitle("Zinc Concentration (ppm)") + coord_equal() + theme_bw()
+```
+
+
+----
+
+* Prepare data for spatial analysis (IDW, krigging)
+
+
+```{r, warning=F}
+coordinates(meuse) = ~x+y
+proj4string(meuse) <- CRS("+init=epsg:28992") # ?gstat::variogram
+coordinates(meuse.grid) = ~x+y
+proj4string(meuse.grid) <- CRS("+init=epsg:28992") 
+```
+
+----
+
+## IDW
+
+```{r, warning=F}
+idwmodel <- idw(log(zinc) ~1, meuse,meuse.grid,
+               maxdist = Inf, idp = 1) 
+head(idwmodel) # show interpolated values (note absence of variances of interpolated values)
+idwmodel %>% 
+  as.data.frame %>%
+  ggplot(aes(x=x, y=y)) + geom_tile(aes(fill=var1.pred)) + coord_equal() +
+    scale_fill_gradient(low = "yellow2", high="red") +
+    scale_x_continuous(labels=comma) + scale_y_continuous(labels=comma) +
+    theme_bw()
+```
+
+* IDV with high `idp` argument produces "tiles" (Voronoi-type)
+
+```{r, warning=F}
+idwmodel2 <- idw(log(zinc) ~1, meuse,meuse.grid,
+               maxdist = Inf, idp = 20) 
+idwmodel2 %>% 
+  as.data.frame %>%
+  ggplot(aes(x=x, y=y)) + geom_tile(aes(fill=var1.pred)) + coord_equal() +
+    scale_fill_gradient(low = "yellow2", high="red") +
+    scale_x_continuous(labels=comma) + scale_y_continuous(labels=comma) +
+    theme_bw()
+```
+
+----
+
+## Krigging
+
+
+1. Calculate the sample variogram. This is done with the `variogram()` function.  
+
+2. Fit a model to the sample variogram using `fit.variogram()` function  
+
+3. Use the fitted variogram for krigging ($\lambda_i$) weights, using `krige()` function  
+
+4. Plot the krigged data using `ggplot()`  
+
+
+```{r, warning=F, message=F}
+# 1
+lzn.vgm <- variogram(log(zinc)~1, meuse) # calculates sample variogram values 
+# 2 
+lzn.fit <- fit.variogram(lzn.vgm, model=vgm(psill=1, "Sph", range=900, nugget=1))
+# 3
+lzn.kriged <- krige(log(zinc) ~ 1, meuse, meuse.grid, model=lzn.fit)
+head(lzn.kriged) # show krigged values and the variances of predictions
+# 4
+lzn.kriged %>% 
+  as.data.frame %>%
+  ggplot(aes(x=x, y=y)) + geom_tile(aes(fill=var1.pred)) + coord_equal() +
+    scale_fill_gradient(low = "yellow2", high="red") +
+    scale_x_continuous(labels=comma) + scale_y_continuous(labels=comma) +
+    theme_bw()
+```
+
+
+
+----
+
+#### Quick exercise:
+
+* Repeat the krigging process (including plotting) while fitting the empirical semivariogram to a  Gaussian curve.
+
+
+```{r}
+# 1
+
+# 2 
+
+# 3
+
+# 4
+
+```
+
+
+
+----- 
+
+For application to London's house prices, see [example here](https://rpubs.com/chrisbrunsdon/gwdplyr)
