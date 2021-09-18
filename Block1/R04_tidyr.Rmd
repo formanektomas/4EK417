@@ -91,10 +91,10 @@ GDPwide # repeated from above for clarity
 
 * `GDPwide` dataframe to reshape - convert to long format  
 
-* `"State"` is the name of the new key column - a new *variable* (can be any character string you supply). The **keys are generated based on column names of the columns being transformed** (`2:4`)  
-    + *variable*-names in the wide format dataframe (`GER`,`FRA`,`USA`) are used as "entries" (keys) in the new column (i.e. variable `State`).  
+* `key = "State"` is the name of the new key column - a new *variable* (can be any character string you supply). The **keys are generated based on column names of the columns being transformed** (`2:4`)  
+    + *variable*-names in the wide format dataframe (`GER`,`FRA`,`USA`) are used as "entries" (keys) in the new column (hence variable name `State`).  
 
-* `"GDP"` name of the new value column (can be any character string you supply)  
+* `value = "GDP"` name of the new value column (can be any character string you supply)  
 
 * `2:4` numeric indexes (or names) of columns to collapse. 
 
