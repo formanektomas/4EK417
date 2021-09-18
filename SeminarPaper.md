@@ -4,11 +4,11 @@ layout: default
 
 # Seminární práce (odevzdání, peer review, úprava podle připomínek, prezentace):
 
-* Studenti zpracují a odevzdají seminární práci individuálně - termín: 19. 4. (lhůta upravena o 1 den)  
+* Studenti zpracují a odevzdají seminární práci individuálně - termín: 23. 11.   
 * Každý student provede peer review (vzájemné hodnocení): dvou dalších seminárních prací
-  - přidělení seminárek k hodnocení: 21. 4.,
-  - odevzdání vyplněných recenzních formulářů - termín 30. 4.
-* Zapracování připomínek z peer review a odevzdání závěrečné verze seminární práce - termín 14. 5. 
+  - přidělení seminárek k hodnocení: 25. 11.,
+  - odevzdání vyplněných recenzních formulářů - termín 3. 12.
+* Zapracování připomínek z peer review a odevzdání závěrečné verze seminární práce - termín 17. 12. 
 
 ---
 
@@ -38,9 +38,12 @@ layout: default
 1. Zpracování / rozpracování aplikační části DP.  
 2. Zpracování existující (již publikované) vědecké studie (Working paper) nebo její části  
    - aplikace (a zjednodušení) postupu na ekonomiku ČR nebo SR
-   - v případě nejasností konzultujte volbu práce s vyučujícím
+   - v případě nejasností konzultujte volbu práce s vyučujícím  
+
 3. Jiný typ seminární práce, vycházející z analýzy v prostředí R  
-   - nutné odsouhlasení zadání (emailem).
+   - zadání je potřeba odsouhlasit (emailem) s vyučujícím.
+
+
 4. Odhad modelů vycházejících z učebnice APLIKOVANÁ EKONOMETRIE (Hušek, 2009), pouze kapitoly  4 až 9.
 
 --- 
@@ -49,7 +52,7 @@ layout: default
 
 
 1. Použití metod a postupů probíraných na kurzu.
-2. Korektní ekonometrická verifikace použitých regresních modelů: významnost odhadu (t, R2, F), autokorelace, heteroskedasticita, multikolinearita, u ČŘ stacionarita, resp. kointegrace. 
+2. Korektní ekonometrická verifikace použitých regresních modelů: významnost odhadu (t, R2, F, LR, atd.), autokorelace, heteroskedasticita, multikolinearita, u ČŘ stacionarita, resp. kointegrace. 
 3. Ekonomická interpretace výsledků (Jsou získané odhady v souladu s ekonomickou teorií? Na co ukazuje odchylka od očekávaného výsledku?). 
 4. Srovnání provedených odhadů (s jinými publikovanými odhady, interpretace rozdílů mezi jednotlivými státy / odhadnutými modely vlastní práce).
 5. Ke splnění zvoleného cíle (analýzy) často postačí relativně jednoduchý postup / analytická metoda. Rozhodnete-li se použít sofistikovanější metody, zejména metody neprobírané na kurzu, musejí být tyto metody v seminární práci správně aplikovány (předpoklady, postup, interpretace výsledků).
