@@ -95,6 +95,7 @@ head(mcar.mice,15)
 # 
 # However, in empirical applications, we often start by describing 
 # and visualizing missing data occurences
+library("mitml")
 library("mice")
 library("VIM")
 #
@@ -137,7 +138,12 @@ help(package=mice)
 # even if the structural part of the imputation model is wrong.
 #
 #
-imputed.data <- mice(mcar.mice, m=5, seed=200) # m=5 is the default setting
+imputed.data <- mice(mcar.mice[,-1], m=5, seed=200) # m=5 is the default setting
+# mcar.mice[,-1] - depvar "lwage" is removed from the series used for MI.
+# .. hence, depvar is not in the imputed datasets and has to be provided
+# .. separately for subsequent estimation
+#
+#
 # Imputation summary
 str(imputed.data) # see page 16 & 18 of the {mice} PDF file for "pmm" and other methods
 # .. pmm - Predictive mean matching
@@ -155,7 +161,11 @@ stripplot(imputed.data, pch = 20, cex = 1.2)
 #
 # Estimation of a model using MI:
 ?with
-LRM.mice <- with(imputed.data, lm(lwage~educ+tenure+female+south))
+LRM.mice <- with(imputed.data, lm(mcar.mice$lwage~educ+tenure+female+south))
+# .. ~educ+tenure+female+south come from the "imputed.data"
+# .. note how depvar is taken from the original data frame
+#
+#
 # Estimation output
 LRM.mice
 ?pool
@@ -178,16 +188,18 @@ LRM.MI
 #
 # Testing two nested models - estimated using {mice} imputation
 #
-?pool.compare
+?D1 # linear restrictions on parameters, see References section for discussion:
+# https://stefvanbuuren.name/fimd/sec-multiparameter.html#sec:wald
+#
 # Say, we want to compare the following two models:
 # a]  lwage~educ+tenure+female+south  ... our "original model"
 # b]  lwage~educ       +female        ... a restricted model
 #
-original <- with(imputed.data, lm(lwage~educ+tenure+female+south)) #repeated for convenience
-restricted <- with(imputed.data, lm(lwage~educ+female)) 
-stat <- pool.compare(original, restricted, method = "wald") # for lm() models
-stat
-stat$p
+original <- with(imputed.data, lm(mcar.mice$lwage~educ+tenure+female+south)) #repeated for convenience
+restricted <- with(imputed.data, lm(mcar.mice$lwage~educ+female)) 
+stat <- D1(original, restricted) 
+summary(stat) # riv = relative increase (in) variance, 
+#                     see eq. (2.29) in the link above
 #
 #######################################
 #

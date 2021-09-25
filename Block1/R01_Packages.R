@@ -10,4 +10,4 @@ install.packages(c("RColorBrewer","grid"), dependencies = T)
 # 
 install.packages(c("car","MASS","lmtest","glmpath"), dependencies = T)
 #
-install.packages(c("mice","VIM","imputeTS", "Amelia"), dependencies = T)
+install.packages(c("mice","VIM","mitml","imputeTS", "Amelia"), dependencies = T)
