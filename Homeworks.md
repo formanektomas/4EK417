@@ -34,7 +34,7 @@ layout: default
 
 ---
 
-## Týden 2 (odevzdání do 2. 10. 2021)
+## Týden 2 (odevzdání do 3. 10. 2021)
 
 * Stažení zajímavého datasetu z webové databáze (Eurostat, WB, ČSÚ, Yahoo) prostřednictvím vhodného balíčku R. Úprava dat pomocí `dplyr` a pipe operátoru, vizualizace.
 
