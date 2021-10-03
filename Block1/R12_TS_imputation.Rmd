@@ -14,8 +14,8 @@ library(imputeTS)
 
 ### This example is based on the `{imputeTS}` package.
 
-**`tsAirgap` dataset** has 144 rows and the incomplete version includes 13 NA values. It represents
-the monthly totals of international airline passengers from 1949 to 1960.
+**`tsAirgap` dataset** has 144 rows and the incomplete version includes 13 NA values. The series represents
+monthly totals of international airline passengers from 1949 to 1960 (in thousands).
 
 #### Visualize the missing values in this time series
 
@@ -23,7 +23,7 @@ the monthly totals of international airline passengers from 1949 to 1960.
 class(tsAirgap)
 summary(tsAirgap)
 head(tsAirgap,24)
-ggplot_na_distribution(tsAirgap)
+imputeTS::ggplot_na_distribution(tsAirgap) # {imputeTS} function, based on ggplot2
 ```
 
 
@@ -92,8 +92,10 @@ ggplot_na_imputations(tsAirgap, impSpline.Airgap, tsAirgapComplete)
 
 #### Kalman filter
 
++ The Kalman filter is an efficient recursive filter estimating the internal-state of a linear dynamic system from a series of noisy measurements. 
+
 ```{r}
-impKalman.Airgap <- na_kalman(tsAirgap, model = "StructTS", smooth = TRUE) # Spline interpolation
+impKalman.Airgap <- na_kalman(tsAirgap, model = "StructTS", smooth = TRUE)
 ggplot_na_imputations(tsAirgap, impKalman.Airgap, tsAirgapComplete)
 ```
 
@@ -135,27 +137,32 @@ missmap(freetrade) # description of missing data in "freetrade" data
 
 + Amelia can build a general model of patterns within variables across time by creating a sequence of polynomials of the time index.  
 
-+ If, for example, tariffs vary smoothly over time, then we make the modeling assumption that there exists some polynomial that describes the economy in cross-sectional unit $i$ at time $t$ as ($3^{rd} order polynomial is a maximum):  
++ If, for example, tariffs vary smoothly over time, then we make the modeling assumption that there exists some polynomial that describes the economy in cross-sectional unit $i$ at time $t$ as ($3^{rd}$ order polynomial is a maximum):  
 $$ y_{it} = \beta_0 + \beta_1 t + \beta_2 t^2 + \beta_3 t^3 + u_{it}$$
 
 ---  
 
-For a second-order polynomial and the `tariff` series, we may do MI as follows:
+For a **second-order polynomial and the `tariff` series**, we may do MI as follows:  
+* MI is applied to all series with missing data,  
+* All available series are used for MI (ID variables need to be listed separately)  
+* `polytime = 2` coefficients apply to all CS units (will be relaxed later)  
+* `p2s` controls calculation details displayed  
+* Here, we only display results for `tariff`  
 
 ```{r}
 set.seed(100)
-a.out <- amelia(freetrade, m=5, ts = "year", cs = "country", polytime = 2, p2s = 0)
+a.out <- amelia(freetrade, m=5, ts = "year", cs = "country", polytime = 2, p2s = 2) # EM: expectation maximization (ML-base method)
+summary(a.out)
 tscsPlot(a.out, cs = "Malaysia", main = "MI with Amelia",
          var = "tariff", ylim = c(-10, 60))
 compare.density(a.out, var = "tariff") #not specific to Malaysia
 plot(a.out) # overall basic Imputation information plot
-summary(a.out)
 ```
 
 
 ---  
 
-We can also impute with trends specific to each cross-sectional unit:
+#### We can impute TS with trends that are specific to each cross-sectional unit:
 
 * `intercs` is a logical argument indicating if the time effects of polytime should vary across the cross-section.
 
@@ -167,7 +174,6 @@ tscsPlot(a.out.time, cs = "Malaysia", main = "MI with Amelia",
          var = "tariff", ylim = c(-10, 60))
 compare.density(a.out.time, var = "tariff") #not specific to Malaysia
 plot(a.out.time) # overall basic Imputation information plot
-summary(a.out.time)
 ```
  
  + Note how the imputed values fit original observations better.
@@ -175,7 +181,9 @@ summary(a.out.time)
  
 ---  
 
-We can add leads and lags to calculate the imputation (along with trends specific to each cross-sectional unit):
+#### We can add leads and lags to calculate the imputation (along with trends specific to each cross-sectional unit):
+
+* leads and lags are only used for the `tariff` series (user input, can be amended)
 
 ```{r}
 set.seed(140)
@@ -185,7 +193,6 @@ tscsPlot(a.out2, cs = "Malaysia", main = "MI with Amelia",
          var = "tariff", ylim = c(-10, 60))
 compare.density(a.out2, var = "tariff") #not specific to Malaysia
 plot(a.out2) # overall basic Imputation information plot
-summary(a.out2)
 ```
  
  + Calculation time for the last imputation task increases considerably.
@@ -195,8 +202,12 @@ summary(a.out2)
 ---
 
 
-Additional MI approaches (using prior information, etc.) and evaluation procedures can be observed from `Amelia` vignette: 
+Additional MI approaches (using prior information, etc.) and evaluation procedures can be observed from:
 
-https://cran.r-project.org/web/packages/Amelia/vignettes/amelia.pdf 
+https://www.jstatsoft.org/article/view/v045i07  
 
+https://cran.r-project.org/web/packages/Amelia/vignettes/amelia.pdf  
 
+https://cran.r-project.org/web/packages/Amelia/vignettes/using-amelia.html  
+
+https://www.ece.iastate.edu/~namrata/EE527_Spring08/Dempster77.pdf  (EM algortihm)
