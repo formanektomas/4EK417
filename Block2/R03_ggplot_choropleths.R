@@ -30,34 +30,52 @@ ggplot() +
   geom_sf(data = GermanyLAEA)
 #
 #
+###########################################################################
 #
 #
 #### Simple choropleths with {ggplot2}
 #
 # 1) Read in a dataset 
+#
+rm(list = ls())
+# NUTS2-level map
+df60 <- eurostat::get_eurostat_geospatial(resolution = 60, nuts_level = "2")
+#
+# Macroeconomic data
 # .. Disposable income of private households by NUTS 2 regions
 # http://appsso.eurostat.ec.europa.eu/nui/show.do?dataset=tgs00026
 #
 Income.DF <- eurostat::get_eurostat("tgs00026", time_format = "num") 
-summary(Income.DF)
-label_eurostat(Income.DF, fix_duplicated = T)[1,]
+# 
+Income.DF <- Income.DF %>% 
+  mutate(unit = as.factor(unit),
+         direct = as.factor(direct),
+         na_item = as.factor(na_item))
 #
-# 2) Filter data for plotting: 2010 & 2015 only, at NUTS2 level
-Income <- Income.DF %>% 
-  dplyr::filter(time %in% c(2010,2015), nchar(as.character(geo)) == 4) 
+summary(Income.DF)
+labels <- label_eurostat(Income.DF, fix_duplicated = T)[1,]
+labels
+#
+# 2) Simplify data for our example: at NUTS2 level
+Income.DF <- Income.DF %>% 
+  dplyr::filter(nchar(as.character(geo)) == 4) 
 # note that the "nchar()" does nothing here as all data are NUTS2 already (ID is 4-digit)
 # .. generally, NUTS1 and NUTS0 summarized data would be present in Eurostat datasets
-summary(Income)
+summary(Income.DF)
 #
 # 3) Merge with {sf} spatial data
 # .. if you want LAEA geometry, use map-transformation before joining.
+# when joining sf and df object, sf object must go first to preserve (geometry), i.e. sf format
 Income.sf <- df60 %>% 
-  dplyr::inner_join(Income, by = c(  "NUTS_ID"="geo")) #   
+  dplyr::left_join(Income.DF, by = c(  "NUTS_ID"="geo")) #   
+# note the number of rows: not all NUTS2 regions have data for all years
 # .. geo becomes character vector, which is OK
 summary(Income.sf) # PPS/Hab for all NUTS2 regions and for two years + shapefiles
 #
 #
 # 4) Plot the data 
+#
+#
 # We shall use {RColorBrewer} for color-coding
 ?scale_fill_gradientn
 ?brewer.pal
@@ -69,7 +87,9 @@ summary(Income.sf) # PPS/Hab for all NUTS2 regions and for two years + shapefile
 # BrBG PiYG PRGn PuOr RdBu RdGy RdYlBu RdYlGn Spectral
 #
 #
-# 4a) 2015 only, Germany only
+#
+# 4a) Plot example:  2015 only, Germany only
+#
 Plot1DF <- Income.sf%>%   
   dplyr::filter(time == 2015 & CNTR_CODE %in% ("DE"))
 #
@@ -89,7 +109,10 @@ ggplot(Plot1DF) +
 # Built-in color schemes:
 # ?brewer.pal
 #
+#
+#
 # 4b) Plot 2010 & 2015, Germany and Austria 
+#
 Plot2DF <- Income.sf%>%   
   dplyr::filter(time %in% c(2010,2015) & CNTR_CODE %in% c("DE","AT"))
 head(Plot2DF) # note that data is in "long format"
@@ -98,7 +121,7 @@ tail(Plot2DF) # some columns are redundant (geo/id...)
 ggplot(Plot2DF) +
   geom_sf(aes(fill = values)) +
   scale_fill_gradientn('PPS/Hab', colours=brewer.pal(9, "Greens"))+
-  ggtitle("PPS per Habitant") +
+  ggtitle("PPS per capita") +
   facet_wrap(~time, ncol=2)+
   theme_bw()
 #

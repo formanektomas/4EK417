@@ -151,22 +151,55 @@ help(package="RCzechia") # list of datasets / map elements available
 # data download
 okresy <- okresy() # LAU1
 zeleznice <- zeleznice() # railway
+zeleznice <- zeleznice %>% 
+  mutate(ELEKTRIFIKACE = as.factor(ELEKTRIFIKACE))
+zeleznice$ELEKTRIFIKACE <- forcats::fct_recode(zeleznice$ELEKTRIFIKACE, YES = "TRUE", NO = "FALSE")
 #
 # plot
-plot(zeleznice[,"KATEGORIE"], lwd=2, main="CZ - Regions and railway roads", reset=F, key.pos=1)
+plot(zeleznice[,"ELEKTRIFIKACE"], lwd=2, main="CZ - Railway electrification", reset=F, key.pos=1)
 plot(st_geometry(okresy[,"KOD_KRAJ"]), add=T)
 #
-# select international railway only
-int_railway <- zeleznice %>% 
-  filter(KATEGORIE == "mezinárodní")
 #
-sf::st_intersection(okresy, int_railway) %>% # LAU1 with IntlRailway only
-  mutate(delka = st_length(.)) %>% # length (different types of Railway)
+#
+# D1 highway lenght across regions
+#
+D1 <- silnice()
+D1 <- D1 %>% 
+  filter(CISLO_SILNICE == "D1")
+#
+# calculation can take 5+ minutes...
+sf::st_intersection(okresy, D1) %>% # LAU1 with D1 only
+  mutate(Length = st_length(.)) %>% # length 
   st_drop_geometry() %>% # drops geometry
   group_by(NAZ_LAU1) %>% 
-  summarise(celkova_delka = sum(delka)) %>% 
+  summarise(total_length = sum(Length)) %>% 
   ungroup() %>% 
-  arrange(desc(celkova_delka)) # ordering the otuput
+  arrange(desc(total_length)) # ordering the otuput
+#
+# Output as of October 2021:
+#
+# A tibble: 18 x 2
+# NAZ_LAU1         total_length
+# <chr>                     [m]
+#  1 Pøerov                 56377.
+#  2 Benešov                50980.
+#  3 Žïár nad Sázavou       42657.
+#  4 Vyškov                 38162.
+#  5 Brno-venkov            36872.
+#  6 Nový Jièín             31768.
+#  7 Praha-východ           27706.
+#  8 Ostrava-mìsto          26807.
+#  9 Jihlava                24334.
+# 10 Kromìøíž               23348.
+# 11 Pelhøimov              22576.
+# 12 Brno-mìsto             18318.
+# 13 Havlíèkùv Brod         12443.
+# 14 Karviná                10186.
+# 15 Prostìjov               8225.
+# 16 Praha                   6521.
+# 17 Praha-západ             2129.
+# 18 Opava                    859.
+#
 #
 ############################################################################
 ## Package giscoR: a quick example
