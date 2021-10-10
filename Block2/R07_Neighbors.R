@@ -150,12 +150,14 @@ PL_centroids <- sf::st_centroid(Poland.sf)
 PL_coords <- sf::st_coordinates(PL_centroids) # object 1: matrix of coordinates
 colnames(PL_coords) <- c("long","lat")
 PL_coords[17,2] <- 53 # manually shift "centroid" of "Mazowiecki regionalny" from Warszaw
-# We will need the {sp} object
+# .. for visualization only, will not affect contiguity evaluation
+#
+# We will need the {sp} object for poly2nb()
 Poland.sp <- as_Spatial(Poland.sf)
 # 
 #
 ?poly2nb # transforms polygons to nb, based on common borders
-PL_contig <- poly2nb(Poland.sp, snap = 0.03) # note the snap argument
+PL_contig <- poly2nb(Poland.sp, snap = 0.03) # note the snap & queen arguments
 PL_contig
 #
 plot(Poland.sp, col = "lightgrey", border = "blue")
