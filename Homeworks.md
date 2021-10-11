@@ -1,6 +1,10 @@
 ---
 layout: default
 ---
+# Zadání domácích úkolů
+
+--- 
+
 
 ## Obecná doporučení pro práci s R
 
