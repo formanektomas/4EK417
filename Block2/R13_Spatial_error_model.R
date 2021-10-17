@@ -69,8 +69,8 @@ lm.LMtests(OLS.1, W.matrix, test=c("LMlag", "LMerr", "RLMlag", "RLMerr"))
 #
 #
 # Spatial error model for KNN, k = 12
-?errorsarlm
-spatial.err <- errorsarlm(U_pc_2012 ~ I(EUR_HAB_EU_2011-EUR_HAB_EU_2010) + TechEmp_2012, 
+?spatialreg::errorsarlm
+spatial.err <- spatialreg::errorsarlm(U_pc_2012 ~ I(EUR_HAB_EU_2011-EUR_HAB_EU_2010) + TechEmp_2012, 
                             data=CE_data, W.matrix)
 summary(spatial.err)
 AIC(spatial.err)

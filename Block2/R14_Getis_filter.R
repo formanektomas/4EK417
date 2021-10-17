@@ -68,30 +68,29 @@ moran.test(CE_data$TechEmp_2012,W.matrix)
 #
 #
 #
-# Getis G* z-score
+# Getis G z-score
 ?localG
 localG(CE_data$U_pc_2012, W.matrix)
 # For spatial filtering, we need
 # - return_internals = TRUE 
 #   .. G(i) and E(G) are used in filtering
 # - GeoDa=FALSE is default.. exclude "self-neighborhood" - use G(i) 
-#  if GeoDa=TRUE .. include "self-neighborhood" - use G*(i) 
 # - filtering is usually calculated based on connectivity matrix (C, not W)
 #   .. see syntax below
-localG(CE_data$U_pc_2012, nb2listw(nb250km, style="B"), return_internals = T, GeoDa = T)
+localG(CE_data$U_pc_2012, nb2listw(nb250km, style="B"), return_internals = T)
 #
 # Spatial filter for unemployment
-U.Ftr <- localG(CE_data$U_pc_2012, nb2listw(nb250km, style="B"), return_internals = T, GeoDa = T)
+U.Ftr <- localG(CE_data$U_pc_2012, nb2listw(nb250km, style="B"), return_internals = T)
 Getis.m <- as.data.frame(attr(U.Ftr, which = "internals")) # retrieve "internals"
 CE_data$U_ddot <- CE_data$U_pc_2012 * (Getis.m$EG/Getis.m$G ) # "multiplicative filter"
 #
 # Spatial filter for log.GDP
-GDP.Ftr <- localG(CE_data$log.GDP, nb2listw(nb250km, style="B"), return_internals = T, GeoDa = T)
+GDP.Ftr <- localG(CE_data$log.GDP, nb2listw(nb250km, style="B"), return_internals = T)
 Getis.m2 <- as.data.frame(attr(GDP.Ftr, which = "internals")) # retrieve "internals"
 CE_data$lGDP_ddot <- CE_data$log.GDP * (Getis.m2$EG/Getis.m2$G ) # "multiplicative filter"
 #
 # Spatial filter for TechEmp_2012
-Tech.Ftr <- localG(CE_data$TechEmp_2012, nb2listw(nb250km, style="B"), return_internals = T, GeoDa = T)
+Tech.Ftr <- localG(CE_data$TechEmp_2012, nb2listw(nb250km, style="B"), return_internals = T)
 Getis.m3 <- as.data.frame(attr(Tech.Ftr, which = "internals")) # retrieve "internals"
 CE_data$Tech_ddot <- CE_data$TechEmp_2012 * (Getis.m3$EG/Getis.m3$G ) # "multiplicative filter"
 #
@@ -131,17 +130,17 @@ s2.df <- data.frame(max.dist= 0, AIC= 0, LL= 0, R2=0,
 for(jj in 16:100) {
   nb <- dnearneigh(coords, d1=0, d2=jj*10, longlat=T, row.names = IDs)
   # U_pc filtering
-  U.Ftr <- localG(CE_data$U_pc_2012, nb2listw(nb, style="B"), return_internals = T, GeoDa = T)
+  U.Ftr <- localG(CE_data$U_pc_2012, nb2listw(nb, style="B"), return_internals = T)
   Getis.m <- as.data.frame(attr(U.Ftr, which = "internals")) # retrieve "internals"
   CE_data$U_ddot <- CE_data$U_pc_2012 * (Getis.m$EG/Getis.m$G ) # "multiplicative filter"
   #
   # Spatial filter for log.GDP
-  GDP.Ftr <- localG(CE_data$log.GDP, nb2listw(nb, style="B"), return_internals = T, GeoDa = T)
+  GDP.Ftr <- localG(CE_data$log.GDP, nb2listw(nb, style="B"), return_internals = T)
   Getis.m2 <- as.data.frame(attr(GDP.Ftr, which = "internals")) # retrieve "internals"
   CE_data$lGDP_ddot <- CE_data$log.GDP * (Getis.m2$EG/Getis.m2$G ) # "multiplicative filter"
   #
   # Spatial filter for TechEmp_2012
-  Tech.Ftr <- localG(CE_data$TechEmp_2012, nb2listw(nb, style="B"), return_internals = T, GeoDa = T)
+  Tech.Ftr <- localG(CE_data$TechEmp_2012, nb2listw(nb, style="B"), return_internals = T)
   Getis.m3 <- as.data.frame(attr(Tech.Ftr, which = "internals")) # retrieve "internals"
   CE_data$Tech_ddot <- CE_data$TechEmp_2012 * (Getis.m3$EG/Getis.m3$G ) # "multiplicative filter"
   #

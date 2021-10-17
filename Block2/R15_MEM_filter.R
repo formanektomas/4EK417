@@ -99,8 +99,8 @@ summary(basic.LRM)
 moran.test(basic.LRM$residuals, W.matrix, alternative = "two.sided")
 #
 # {spdep} - Built-in MEM-based filtering 
-?SpatialFiltering
-EI1 <- SpatialFiltering(U_pc_2012~1, ~ log.GDP + TechEmp_2012,
+?spatialreg::SpatialFiltering
+EI1 <- spatialreg::SpatialFiltering(U_pc_2012~1, ~ log.GDP + TechEmp_2012,
                         data = CE_data, nb = W.matrix$neighbours, style = "B",
                         zero.policy = NULL, tol = 0.1, zerovalue = 1e-02, ExactEV = F,
                         symmetric = TRUE, verbose=T)

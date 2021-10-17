@@ -85,13 +85,12 @@ lm.LMtests(OLS.1, W.matrix, test=c("LMlag", "LMerr", "RLMlag", "RLMerr"))
 #
 # Step 3 Spatial lag model estimation, tests & plots
 #
-?spatialreg::lagsarlm # note e.g. the "Dubin" argument
+?spatialreg::lagsarlm # note e.g. the "Durbin" argument
 spatial.lag <- lagsarlm(U_pc_2012 ~ I(EUR_HAB_EU_2011-EUR_HAB_EU_2010) + TechEmp_2012, 
                         data=CE_data, W.matrix)
 summary(spatial.lag)
-?spatialreg::LR.sarlm # Test the spatial lag specification against OLS model
-LR1.sarlm(spatial.lag)
-LR.sarlm(spatial.lag, OLS.1)
+?spatialreg::LR.Sarlm # Test the spatial lag specification against OLS model
+LR.Sarlm(spatial.lag, OLS.1)
 #
 # Test for spatial randomness in residuals from the spatial lag model
 moran.test(spatial.lag$residuals, W.matrix, 
@@ -99,7 +98,7 @@ moran.test(spatial.lag$residuals, W.matrix,
 #
 # Breusch-Pagan test for heteroskedasticity, generalized for spatial models,
 # .. taking rho coefficient into account
-bptest.sarlm(spatial.lag)
+bptest.Sarlm(spatial.lag)
 #
 # Basic fitted vs. actual plot:
 # plot(CE_data$U_pc_2012, spatial.lag$fitted.values, pch=16)

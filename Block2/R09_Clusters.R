@@ -68,6 +68,7 @@ moran.test(CE_sf$values, W.matrix, na.action=na.omit)
 ##
 # .. Ord, J. K. and Getis, A. 1995
 ?localG # returns a z-score (not the underlying G statistic)
+?include.self
 #
 # Search for clusters in the U.data (unemployment) variable 
 # .. We use "W.matrix" weights.
@@ -78,14 +79,19 @@ moran.test(CE_sf$values, W.matrix, na.action=na.omit)
 # .. for the 95th percentile are for n=50: 3.083, n=100: 3.289. 
 # 
 #
-# Given the G formula, we use binary neighborhood indicators
+# Given the G* formula, we use binary neighborhood indicators
 # instead of the weighted "listw" object used for Moran's I.
-W.matrix <- nb2listw(nb200km, style = "B") 
+# .. also, we use include.self() for G* formula
+# .. and leave this function out for G formula
+#
+W.matrix <- nb2listw(include.self(nb200km), style="B")
+# show z-score, plus the underlying G*, E(G*) and var(G*)
+localG(CE_sf$values, W.matrix, return_internals = T)
+# save z-score for subsequent analysis
 CE_sf$LocG <- localG(CE_sf$values, W.matrix)
 CE_sf$LocG
 #
 # We may want to plot cluster data for "significant" z-scores only
-#
 CE_sf$lG <- 0
 CE_sf[CE_sf$LocG < -3.289, "lG"] <- -1 # significant cold-spot (approx)
 CE_sf[CE_sf$LocG > 3.289, "lG"] <- 1 # significant hot-spot
