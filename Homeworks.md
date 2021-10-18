@@ -86,4 +86,12 @@ Testování prostorové (ne)závislosti v R
 
 ---
 
+## Týden 5 (odevzdání do 23. 10. 2021)
+
+Postupujte podle zadání 'Quick Exercise' na řádku 90 u skriptu 'R11_Direct_Indirect_Effects.R'
+    
++ kromě knn definice sousednosti použijte ještě jednu další prostorovou strukturu, (například podle společné hranice, tj. použijte funkci 'poly2nb()')  
+
+---
+
 [Homepage](https://formanektomas.github.io/4EK417/)
