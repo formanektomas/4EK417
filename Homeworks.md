@@ -86,7 +86,7 @@ Testování prostorové (ne)závislosti v R
 
 ---
 
-## Týden 5 (odevzdání do 23. 10. 2021)
+## Týden 5 (odevzdání do 24. 10. 2021)
 
 Postupujte podle zadání `Quick Exercise` na řádku 90 skriptu `R11_Direct_Indirect_Effects.R`
     
