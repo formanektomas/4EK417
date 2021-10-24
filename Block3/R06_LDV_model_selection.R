@@ -98,16 +98,15 @@ head(pred,10)
 #
 #
 library("brglm2")
-# https://cran.r-project.org/web/packages/brglm2/vignettes/separation.html
 data("endometrial", package = "brglm2")
-?brglm2::endometrial
 modML <- glm(HG ~ NV + PI + EH, family = binomial, data = endometrial)
 summary(modML)
 # Syntax for separation detection
-?brglm2::detect_separation
+library("detectseparation")
+?detectseparation::detect_separation
 endometrial_sep <- glm(HG ~ NV + PI + EH, data = endometrial,
                        family = binomial("logit"),
-                       method = "detect_separation") # from {brglm2}
+                       method = "detect_separation")
 endometrial_sep 
 #
 # 
