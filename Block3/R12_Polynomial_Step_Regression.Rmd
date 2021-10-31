@@ -114,6 +114,8 @@ ggplot(plotDF.2, aes(x = age, y = wage) ) +
 ```{r}
 # step (piecewise constant) regression
 Wage$ageCut <- cut(Wage$age,4) # 4 levels, i.e. 3 cut-points, equidistant
+class(Wage$ageCut)
+summary(Wage$ageCut)
 #
 # 17.9 is the minimum age, 33.5 is the first cut-point
 #
