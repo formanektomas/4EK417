@@ -25,8 +25,6 @@ Local regression at $X = x_0$
 
 * Weighting function $K$ must be defined  
 
-    + e.g.: $\tfrac{1}{(x_0 - x_i)^2}, x_0 \neq x_i$.  
-
 * Functional form in Step 3 (constant, linear, quadratic, etc.).
 
 * Span $s$ controls flexibility of the fit (can be choosen using CV).
@@ -47,15 +45,14 @@ We use the `locfit()` function from `{locfit}` package to estimate local regress
 + `nn=0.5` - each neigborhood consists of 50% of nearest observations (w.r.t. total sample)  
 
 +  Kernel weight function defaults to = `kern = "tcub"`, which is the tricube kernel  
-    + $K(u)= \frac{70}{81}(1-|u|^3)^3~1[|u|<1]$ where $u=\frac{||x-x_0||}{\text{s.d.}(x)}$  
-    + (given diverse scales of measurement, $x$ is standardized)  
-    + $1[\cdot]$ is the indicator function.  
+    + $K(u)= \frac{70}{81}(1-|u|^3)^3~1[|u|<1]$, where $u=\frac{||x_i-x_0||}{\text{max}_{i \in K_0}||x_i-x_0||}$  
+    + $1[\cdot]$ is the indicator function ($u$ only has support in $u \leq |1|$).  
     
 + `deg=2` ($2^{nd}$ order polynomial) is the default setting.
 
 
 ```{r}
-LREG <- locfit(wage ~ lp(age,nn=0.5, deg = 2), Wage)
+LREG <- locfit(wage ~ lp(age, nn=0.5, deg = 2), Wage)
 # summary(LREG)
 predLREG <- predict(LREG, newdata = Wage$age, band = "local")
 # conf int for plotting
@@ -101,14 +98,15 @@ ggplot(Wage, aes(x = age, y = wage) ) +
 ----
 
 
-## Local regression: slope of the fitted line
+## Local regression: slope of the fitted line - visualization
 
-* Use `nn=0.2` to ensure flexibility
+* Use `nn=0.2` to ensure flexibility of the fitted line
 
 
 ```{r}
 # repeat from previous section
 LREG <- locfit(wage ~ lp(age,nn=0.2, deg = 2), Wage)
+# plot(LREG) # plot fitted values
 predLREG <- predict(LREG, newdata = Wage$age, band = "local")
 lwr <- predLREG$fit-(2*predLREG$se.fit) # approx. for 95% interval
 upr <- predLREG$fit+(2*predLREG$se.fit) # approx. for 95% interval
@@ -116,7 +114,8 @@ upr <- predLREG$fit+(2*predLREG$se.fit) # approx. for 95% interval
 # Produce fitted values at all observed age values
 pr.unique <- predict(LREG, newdata = unique(Wage$age))
 #
-# Produce slope values from the estimation, note the "deriv=1" argument
+# Produce slope values from the estimation,
+# ! note the "deriv=1" argument
 dLREG <- locfit(wage ~ lp(age,nn=0.2, deg = 2), Wage, deriv=1)
 #
 # Get slopes at each unique observed age value 
@@ -150,7 +149,7 @@ y3 <- pr.unique[10]-6*slope[10]
 yend3 <- pr.unique[10]+6*slope[10]
 #
 #
-# Note that the lenght of the "slope" is exaggerated for visibility.
+# Note that the length of the "slope" is exaggerated for visibility.
 #
 ggplot(Wage, aes(x = age, y = wage) ) +
   geom_point(col="grey70") +
@@ -165,6 +164,68 @@ ggplot(Wage, aes(x = age, y = wage) ) +
   geom_vline(xintercept=c(37,52,64), linetype="dashed", color='red', size=0.6)+
   theme_bw()
 ```
+
+* [Differences in slopes along the x-axis can be visualized using animation (see example in the link).](https://www.r-bloggers.com/2013/10/some-heuristics-about-local-regression-and-kernel-smoothing/)
+
+
+--- 
+
+## Quick excercise:
+
+1. Estimate the equation `price` <- `carat` using OLS, show summary & fitted line
+2. Enhance OLS in Step 1 by using 2nd order polynomial, show summary & fitted line/curve
+3. Use local regression to add flexibility: set `nn=0.3`, 2nd order polynomial, show fitted line
+4. Visualize the changing slope /use the `deriv=1` argument/.
+
+
+```{r}
+library(Ecdat)
+data(Diamond)
+str(Diamond)
+
+# 1 Estimate by OLS:
+#diamLM <- lm()
+#summary(diamLM)
+#plot(Diamond$price~Diamond$carat)
+#abline()
+
+# 2 Use 2nd order polynomial for carat:
+
+# Use ggplot to show data and fitted values / hint: use R13 code as template /
+
+
+
+
+# 3 Use local regression to add flexibility
+
+# plot fitted values / hint: use code starting on l.108 as template /
+
+
+
+
+# 4 Visualize the changing slope /use the `deriv=1` argument/.
+
+# Get slopes at each unique observed age value 
+
+
+
+
+
+
+
+
+
+```
+
+
+
+
+
+
+
+
+
+
 
 
 
