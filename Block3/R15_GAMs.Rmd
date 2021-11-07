@@ -3,12 +3,13 @@ title: "Generalized Additive Models (GAMs)"
 output: html_document
 ---
 
-```{r setup, include=FALSE}
+```{r setup, include=T,warning=FALSE,message=FALSE}
 library(ggplot2)
 library(ISLR)
-Wage <- Wage
 library(splines)
 library(gam)
+Wage <- ISLR::Wage
+str(Wage)
 ```
 
 
@@ -46,8 +47,10 @@ where $f_1$ and $f_2$ are *natural splines* and $f_3$ is a step function.
 # note the syntax of ns(), e.g. we use ns(year, df=1) for linear func.
 gam1 <- lm(wage~ns(year,df=4)+ns(age,df=5)+education, data=Wage) 
 summary(gam1)
+# Show  marginal effects (link scale) 
+# - centered about the GAM constant term (mean of depvar)
 par(mfrow=c(1,3))
-gam:::plot.Gam(gam1, se=T, col="red")
+gam::plot.Gam(gam1, se=T, col="red")
 par(mfrow=c(1,1))
 ```
 
@@ -59,11 +62,31 @@ Plot interpretation:
 
 --- 
 
+## GAM models using the `{gam}` package:
+
+* `gam(y ~ s(x1,4) + lo(x2) + Factor, data=Mydata)
+
+#### `gam::gam()` uses smoothing splines and local regression, default values and syntax shown:
+
+* `s(x1, df=4)`
+    + `df`: target equivalent degrees of freedom, used as a smoothing parameter,
+    + `df=1` implying a linear fit
+
+*  `lo(x2, span=0.5, degree=1)`   
+    + `span` defines the number of observations in a neighborhood,
+    + `degree` of local polynomial, either 1 or 2.
+
+* For a categorial variable (Factor), a step function is produced.
+
+
+---
+
+
 ## GAM & Smoothing splines 
 
-+ With smoothing splines, we do not use an expansion of basis functions for estimation (i.e. constituent elements used in some matrix of regressors $\mathbf{X}$).  
++ With GAM & smoothing splines, we do not use an expansion of basis functions for estimation (i.e. constituent elements used in some matrix of regressors $\mathbf{X}$).  
 
-+ Instead, we fit all $p$ functions "simultaneously", using a scatterplot smoother (e.g. smoothing spline, natural spline, polynomial function, etc.) , using a **backfitting algorithm**:
++ Instead, we fit all $p$ functions "simultaneously", using a **backfitting algorithm**:
 
 1. Initialize: $\hat{\alpha}=\frac{1}{n} \sum_{i=1}^n y_i~~\text{and}~~\hat{f}_j \equiv 0,~~\forall i,j.$ 
 
@@ -74,15 +97,9 @@ Plot interpretation:
     b. $\hat{f}_j~\leftarrow ~ \hat{f}_j - \frac{1}{n} \sum_{i-1}^n \hat{f}_j (x_{ij}) ~~~$ (mean centering of estimated function)
     
 
++ Without restrictions in Step 1, solution is non-unique -- constant $\alpha$ is non-identifiable as we can add/subtract any constant to each of the $f_j$ functions. This is solved in Step 1 (i.e. by setting $\hat{\alpha} = \text{mean}(y_i)$ and $\hat{f}_j \equiv 0 $). Note that this setting does not change troughout the backfitting estimation.  
 
-
-+ Each of the $f_j$ functions is a cubic spline (with knots at each unique value of $x_j$ and $\textit{df}_{\lambda}$).  
-
-+ Without further restrictions, solution is non-unique -- constant $\alpha$ is non-identifiable as we can add/subtract any constant to each of the $f_j$ functions.    
-
-+ This is solved in Step 1 (i.e. by setting $\hat{\alpha} = \text{mean}(y_i)$ and $\hat{f}_j \equiv 0 $). Note that this setting does not change troughout the backfitting estimation.  
-
-+ Step 2 (a) applies a cubic smoothing spline $\mathcal{S}_j$ to the $X_j$ regressor while fixing all other $\hat{f}_k$ at their current estimates when computing the $\left\lbrace y_i - \hat{\alpha} - \sum_{k \neq j} \hat{f}_k (x_{ik}) \right\rbrace_1^n$ term.  
++ Step 2 (a) applies a smoothing spline $\mathcal{S}_j$ to the $X_j$ regressor while fixing all other $\hat{f}_k$ at their current estimates when computing the $\left\lbrace y_i - \hat{\alpha} - \sum_{k \neq j} \hat{f}_k (x_{ik}) \right\rbrace_1^n$ term.  
 
 + Step 2 (b) is technical -- it adjusts for rounding errors in the algorithm (in theory, fit to a mean-zero response has mean zero).
 
@@ -96,11 +113,11 @@ $$
 \texttt{Wage} ~ \leftarrow ~ f_1(\texttt{year}) + f_2( \texttt{age}) + f_3(\texttt{education}) + u
 $$
 
-where $f_1$ and $f_2$ are (cubic) *smoothing splines* and $f_3$ is a step function. 
+where $f_1$ and $f_2$ are *smoothing splines* and $f_3$ is a step function. 
 
 
 ```{r, warning=F}
-gam2 <- gam(wage~s(year,4)+s(age,5)+education, data=Wage)
+gam2 <- gam(wage~s(year,4)+s(age,5)+education, data=Wage) # target dfs chosen ad-hoc
 par(mfrow=c(1,3))
 plot(gam2, se=T, col="darkgreen") # syntax simplified since gam2 is a gam object
 par(mfrow=c(1,1))
@@ -161,7 +178,7 @@ ggplot(Wage, aes(x = Wage$wage, y = Gam.pred$fit) ) +
 + We can easily combine different types of smoothers in a GAM:
 
 ```{r, warning=F}
-gam4 <- gam(wage~s(year,df=2)+lo(age,span = 0.2)+education, data=Wage)
+gam4 <- gam(wage~s(year,df=2)+lo(age,span = 0.4, degree = 2)+education, data=Wage)
 par(mfrow=c(1,3))
 plot(gam4, se=T, col="blue") 
 par(mfrow=c(1,1))
@@ -173,7 +190,7 @@ summary(gam4)
 
 **Quick exercise**  
 
-+ Interpret the above diagnostic tests in `summary(gam4)` and make ammendments the the `gam4` specification as necessary.
++ Interpret the above diagnostic tests in `summary(gam4)` and make amendments the the `gam4` specification as necessary.
 
 
 
@@ -185,7 +202,7 @@ summary(gam4)
 
 
 ```{r, warning=F}
-gam5 <- gam(wage~lo(age,year,span = 0.4)+education, data=Wage)
+gam5 <- gam(wage~lo(age,year, span = 0.4, degree = 1)+education, data=Wage)
 summary(gam5)
 
 ```
@@ -213,6 +230,7 @@ par(mfrow=c(1,1))
 
 ```{r, warning=F}
 gam6 <- gam(I(wage>250)~s(year,df=1)+s(age,df=5)+education, family=binomial, data=Wage)
+summary(gam6)
 par(mfrow=c(1,3))
 plot(gam6, se=T, col="orange") # syntax simplified since gam2 is a gam object
 # Standard errors at extreme regressor levels seem rather high
@@ -225,12 +243,26 @@ table(Wage$education,I(Wage$wage>250))
 gam7 <- gam(I(wage>250)~s(year,df=1)+s(age,df=5)+education, 
             family=binomial, data=Wage,
             subset = (education != "1. < HS Grad"))
+summary(gam7)
 plot(gam7, se=T, col="orange") 
 par(mfrow=c(1,1))
 ```
 
 
 ---
+
+
+
+
+
+
+
+
+
+
+
+---
+
 
 **Self-study based on `{mgcv}` package**
 
@@ -241,7 +273,6 @@ par(mfrow=c(1,1))
 3. Check concurvity (generalization of multicollinearity to smooth functions)  
 ```{r}
 library(mgcv)
-
 
 
 ```
