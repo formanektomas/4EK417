@@ -112,13 +112,14 @@ Postupujte podle zadání `Quick Exercise` na řádku 90 skriptu `R11_Direct_Ind
 Bonusový úkol (1b):
 * K závislé proměnné z datsetu vyberte jeden vhodný regresor (spojitá proměnná), zvolte vhodné "cut-points" a generujte regresi na spline křivce (cubic spline) podle vzoru z příkladu `R12_Polynomial_Step_Regression.Rmd`).
 
+---
 
+## Týden 8 (odevzdání do 14. 11. 2021)
 
-
-
-
-
+*  Zpracujte úkoly uvedené ve skriptu `R16_GAM_diamonds_example.R` z Bloku 3 a vyplněný skript odevzdejte
 
 ---
+
+
 
 [Homepage](https://formanektomas.github.io/4EK417/)
