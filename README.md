@@ -91,7 +91,7 @@ Moving beyond linearity
 #### Supporting materials for Block 3  
   
 - [Interactive Course using mgcv (ch. 1,2,4)](https://noamross.github.io/gams-in-r-course/)  
-- [Quantitude podcast S3E03 Principal Components Analysis is your PAL](https://quantitudepod.org/listen/)  
+- [Quantitude podcast S3E03 Principal Components Analysis is your PAL](https://quantitudepod.org/s3e03-principal-components-analysis-is-your-pal/)  
 
 
 ---
