@@ -5,8 +5,8 @@
 #
 #
 rm(list=ls())
-require(lme4) # install.packages("lme4")
-require(lattice) # install.packages("lattice")
+library(lme4) # install.packages("lme4")
+library(lattice) # install.packages("lattice")
 help(package=lme4)
 #
 # Example dataset
@@ -113,15 +113,19 @@ library(nlme)
 Gr.lme <- lme(inv~value+capital, random=~1|firm, Grunfeld)
 summary(Gr.lme)
 #
-Gr.lme.ar <- lme(inv~value+capital, random=~1|firm, cor=corAR1(), Grunfeld)
+Gr.lme.ar <- lme(inv~value+capital, random= ~1|firm, cor=corAR1(form = ~year), Grunfeld)
 summary(Gr.lme.ar)
 #
 # Do we need to account for temporal autocorrelation?
 #
 anova(Gr.lme.ar,Gr.lme)
 #
+# We can control for both heteroscedasticity and serial correlation:
 #
-#
+Gr.lme.general <- lme(inv~value+capital, random= ~1|firm, 
+                 weights = varIdent(form = ~ 1|firm),
+                 cor=corAR1(form = ~year), Grunfeld)
+summary(Gr.lme.general)
 #
 #
 #

@@ -6,17 +6,18 @@ output:
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
-require(knitr)
-require(ggplot2)
-require(dplyr)
-require(nlme)
-require(lme4)
-require(gridExtra)
+library(knitr)
+library(ggplot2)
+library(dplyr)
+library(performance)
+library(nlme)
+library(lme4)
+library(gridExtra)
 library(sjstats)
 ```
 
 
-### Introduction 
+### Longitudinal data: Introduction 
 
 **Definition**: A longitudinal study refers to an investigation where participant outcomes and possibly treatments or exposures are collected at multiple follow-up times.
 
@@ -27,7 +28,10 @@ Repeated measurements and longitudinal data can be viewed as multilevel models:
 * by individuals (children - Level 2) -- for each children, we have multiple weightings.
 
 
-**Data example** Weight measuments of asian childern in the UK. Each child was weighted 1-5 times. 
+**Data example** 
+
+Weight measuments of asian childern in the UK. Each child was weighted 1-5 times. 
+
 
 | Variable    | Description         |
 |-------------|---------------------|
@@ -64,36 +68,43 @@ Looking at the figure, we can try to estimate
 * Specific intercept for each child
 * Specific regression line (slope) for each child
 
-***
+---
 
-## Model with random intercept
+## LME - model with random intercept
 
 
-$$\textit{weight}_{ij} = \beta_0 + \beta_1 \textit{age}_{ij} + \beta_2 \textit{age}^2_{ij} + u_j + \varepsilon_{ij}$$
+$$\textit{weight}_{ij} = \beta_0 + \beta_1 \textit{age}_{ij} + \beta_2 \textit{age}^2_{ij} + u_j + \varepsilon_{ij},$$
 where we observe $i$-th weightings for $j=1, \dots, n$ individuals/children. 
 
-### Syntax example: `lme()` from the `{nlme}` package
+#### Syntax example: `lme()` from the `{nlme}` package
 
 ```{r}
 child.mod1 <- lme(weight~age+I(age^2),random=~1|id,data=child)
 summary(child.mod1)
 ```
 
-* Note how variability (st. dev.) of $u_j$ and $\varepsilon_{it}$ are reported.  
+* Note how variance (st. dev.) of $u_j$ and $\varepsilon_{it}$ are reported.  
 
 * st. dev. of $u_j$ `(Intercept)` describes sq.root of variance among individuals.
 
+* In our example, RE are child-specific. RE variance (st. dev.) describes variability associated with differences among children.
 
 
-### Syntax example: `lmer()` from the `{lme4}` package
+#### Syntax example: `lmer()` from the `{lme4}` package
 ```{r}
 child.mod1a <-lmer(weight~age+I(age^2)+(1|id),data=child)
 summary(child.mod1a)
 # ICC
 # Intercept Variance / (Intercept Variance + Residual Variance)
 (ICC<- 0.8571/(0.8571+0.5478))
-icc(child.mod1a)
+# Differences between children explain ~61% of the variance that’s “left over” after the variance explained by our fixed effects.
+#
+performance::icc(child.mod1a)
 ```
+
+--- 
+
+#### Plot fitted values of the LME model with RE on intercept
 
 
 ```{r}
@@ -101,7 +112,7 @@ ggplot(child, aes(age, fitted(child.mod1), group=as.factor(id), color=as.factor(
   geom_line()+
   geom_point()+
   theme_minimal()+
-  labs(title = "Fitted values (random intercept)")+
+  labs(title = "Fitted values (LME with random intercept)")+
   theme(legend.position="none")
 ```
 
@@ -109,44 +120,49 @@ ggplot(child, aes(age, fitted(child.mod1), group=as.factor(id), color=as.factor(
 
 ## Model with random slopes
 
-We observe greater variability among individuals than within individuals. 
+* We can allow for differences between the global trajectory and the trajectories for each child.
 
-We can allow for differences bewteen the global trajectory and the trajectories for each child.
-
-Trajectory for each child would be represented by a separate line and the slope of that line varies from child to child.
+* Trajectory for each child would be represented by a separate line and the slope of that line varies from child to child.
 
 
 $$\textit{weight}_{ij} = (\beta_0 + u_{0j}) + (\beta_1 + u_{1j}) \textit{age}_{ij} + \beta_2 \textit{age}^2_{ij} + \varepsilon_{ij}$$
 $$\textit{weight}_{ij} = \underbrace{\beta_0 + \beta_1 \textit{age}_{ij} + \beta_2 \textit{age}^2_{ij}}_{fixed} + \underbrace{u_{0j} +u_{1j}\,\textit{age}_{ij} }_{random} + \varepsilon_{ij}$$
 
-
+#### LME estimation: RE on the intercept and `age`:
 
 
 ```{r}
-(child.mod2<-lme(weight~age+I(age^2),random=~age|id,data=child))
-# Extract "Regression table" for the fixed effects
-summary(child.mod2)$tTable 
+#lme() syntax example
+child.mod2<-lme(weight~age+I(age^2),random=~age|id,data=child)
+summary(child.mod2) 
 # lmer()  syntax example
-(child.mod2a <-lmer(weight~age+I(age^2)+(1+age|id),data=child))
+#
+child.mod2a <-lmer(weight~age+I(age^2)+(1+age|id),data=child)
+summary(child.mod2a)
 ```
 
-* We can see that the `Residual` (idiosyncratic) variability has decreased. 
-* There is a positive correlation between the two random effects. 
+* We can see that the `Residual` (idiosyncratic) variance has decreased 
+    + from `0.55` (random intercept only), 
+    + to `0.33` (random intercept and slope). 
+
+* There is a non-zero (positive) correlation between the two random effects. 
 
 
 ----
 
-#### We can test $H_0$ of the two random effects $u$ being uncorrelated: 
+#### We can test null hypothesis of the two random effects $u$ being uncorrelated: 
 
 * Note that independence between $\varepsilon_{ij}$ and $u_j$ is assumed.
 
 * We test if the correlation between $u_{0j}$ and $u_{1j}$ is equal to zero or not. 
 
-* We do this by establishing a new model with uncorrelated errors (additional restriction imposed) & comparing the two models:
+* Not rejecting the null hypothesis simplifies our model (one less coeffcient to estimate).  
+
+* Test is performed by establishing a new model with uncorrelated errors (additional restriction imposed) & comparing the two models:
 
 ```{r}
-(child.mod2a<-lme(weight~age+I(age^2),random = list(id=pdDiag(~age)),data=child))
-summary(child.mod2a)$tTable # Estimated fixed effects do not differ much from "mod2"
+child.mod2a<-lme(weight~age+I(age^2),random = list(id=pdDiag(~age)),data=child)
+summary(child.mod2a) # Estimated fixed effects do not differ much from "mod2"
 anova(child.mod2a, child.mod2) # Compare the two models using F-test
 ```
 
@@ -159,14 +175,32 @@ The $p$-value shows that we do not reject the null hypothesis, i.e. correlation 
 Likelihood ratio test:   $LR = 2 (L_{ur}-L_r)$
 
 ```{r}
-test = 2*(logLik(child.mod2a,REML=TRUE) - logLik(child.mod1, REML=TRUE))
+# "Manual" LR test
+test = 2*(logLik(child.mod2a,REML=F) - logLik(child.mod1, REML=F))
 mean(pchisq(test,df=c(0,1),lower.tail=FALSE)) # p-value of the chisq statistic
+# LR test though the anova() function
 child.mod1.1 <- update(child.mod1,method="ML") # restricted
 child.mod2a.1 <- update(child.mod2a,method="ML") # unrestricted
 anova(child.mod2a.1,child.mod1.1)
 ```
 
-The Likelihood ratio test suggests that we need a model with random slopes.
+* The Likelihood ratio test suggests that we need a model with random slopes.
+    + With large sample sizes, p-values based on the likelihood ratio are generally considered okay.
+    + With small samples, use the Kenward-Roger or Satterthwaite approximations (for REML models) from the `pbkrtest` package. 
+   
+   
+**Note:** 
+
+* `REML` stands for restricted maximum likelihood and it is the default estimator for LME models.  
+* `ML` stands for maximum likelihood. However, `ML` estimates are known to be biased - they may underestimate variance of the random effects.  
+
+* With `REML` being usually less biased, `REML` estimates of variance components are generally preferred. 
+    + In previous models, we skipped setting estimation method and left it at default (`REML`).  
+
+* `REML` assumes that the fixed effects structure is correct. You should always use `ML` when comparing models with different fixed effects. 
+    + In our example, fixed effects are identical, so the `ML` syntax used for *LR* test is just illustrative. 
+
+Even though we use `ML` to compare models, we should report parameter estimates from `REML`-estimated model, as `ML` may underestimate variance of the random effects.
 
 
 ----
@@ -192,9 +226,11 @@ ggplot(child, aes(age, fitm2, group=as.factor(id), color=as.factor(id)))+
 ```
 
 
-Figure shows a higher weight average for boys, and also a higher variability among boys that increases with their age.
+* Figure shows a higher weight average for boys, and also a higher variability among boys that increases with their age.
 
-A first step is to include the child sex and its interaction with age as a fixed effect in the model, i.e.:
+* Generally, we want **random effect to have at least five levels** (approximatelly). So, we fit sex (a two level factor: male or female) as a fixed, not random, effect.
+
+* We include child's sex and its interaction with age as a fixed effect in the model, i.e.:
 
 
 
@@ -202,19 +238,19 @@ $$\textit{weight}_{ij} = (\beta_0  + u_{0j}) + \delta_0 \textit{sex}_j + (\beta_
 $$\textit{weight}_{ij} = \underbrace{\beta_0 + \delta_0 \textit{sex}_j + \beta_1 \textit{age}_{ij} + \beta_2 \textit{age}^2_{ij}+\beta_3 (\textit{sex}_j \times \textit{age}_{ij})}_{fixed} + \underbrace{u_{0j} +u_{1j}\,\textit{age}_{ij} }_{random} + \varepsilon_{ij}$$
 
 ```{r}
-(child.mod3<-lme(weight~age+sex+age:sex+I(age^2),random=list(id=pdDiag(~age)),
-                data=child))
-summary(child.mod3)$tTable # note that "sex" is a binary factor
+child.mod3<-lme(weight~age+sex+age:sex+I(age^2),random=list(id=pdDiag(~age)),
+                data=child)
+summary(child.mod3) # note that "sex" is a binary factor
 ```
 
-The variable sex is significant but the interaction is not.
+The variable `sex` is significant but the interaction is not.
 
 Interpretation: On average, boys are heavier than girls but average rate of linear growth does not differ.
 
-***
+---
 
 
-#### Heteroskedasticity
+#### Heteroscedasticity
 
 Until now, we have assumed mixed models with constant variance such that:
 
@@ -223,11 +259,11 @@ $$\mathbf{\textit{y}} = \mathbf{\textit{X }} \mathbf{\beta} + \mathbf{\textit{Z 
 This assumption does not hold in many situations:
 
 * When the variance increases as long as the magnitude of the response
-variable increases.
-* When the variances are different for each group.
-* When the variability depends on the explanatory variable.
+variable increases. 
+* When the variances are different for each group (each child in our example). 
+* When the variability depends on magnitudes of explanatory variables. 
 
-In those situations, a better option is to model the variance as a functions of the covariates, a grouping factor or the mean of the response...
+In those situations, we used heteroscedasticity-robust estimates: we model the variance as a functions of the covariates, a grouping factor or the mean of the response...
 
 
 
@@ -246,3 +282,6 @@ plot(child.mod5, resid(., type="p") ~ fitted(.), abline=0)
 ```
 
 * For a detailed discussion on assumptions in LME models, see e.g. [https://ademos.people.uic.edu/Chapter18.html](https://ademos.people.uic.edu/Chapter18.html)
+
+
+
