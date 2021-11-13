@@ -6,14 +6,14 @@ output:
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
-require(knitr)
-require(ggplot2)
-require(dplyr)
-require(nlme)
-require(lme4)
-require(gridExtra)
-require(lattice)
-require(RLRsim)
+library(knitr)
+library(ggplot2)
+library(dplyr)
+library(nlme)
+library(lme4)
+library(gridExtra)
+library(lattice)
+library(RLRsim)
 ```
 
 ## Hierarchical data example
@@ -45,7 +45,9 @@ require(RLRsim)
 Achieve <- read.csv("data/Achieve.csv")
 Achieve$gender <- as.factor(Achieve$gender)
 str(Achieve)
-length(unique(Achieve$class)) # note that class numbering is school-specific
+length(unique(Achieve$class)) # note that class numbering is school-specific (class Nos start from one)
+Achieve$classID <- paste0(Achieve$school,Achieve$class)  
+length(unique(Achieve$classID))
 length(unique(Achieve$school)) # number of schools
 length(unique(Achieve$corp)) # number of corporations
 ```
@@ -138,7 +140,11 @@ intervals(M4)
    + `gender`   is student-specific (Level 1, `i`)  
    + school is at level 3, with `k` index  
    
-* Random effect added for intercept and gender (which is binary, so beta coefficient is not a true slope)  
+* Random effect for intercept and gender (which is binary, so beta coefficient is not a true slope).   
+* **Note:** with RE on gender, we control for the grouping effects of schools/classes on gender-based differences in reading (not the other way around). 
+    + `random = ~1+gender|school/class` is OK (multiple schools/classes)
+    + `random = ~1+gevocab|gender` is NOT OK (gender has only two levels)
+
 
 $$
 \texttt{geread}_{ijk} = \beta_0 + \beta_1 \texttt{gevocab}_{ijk}
@@ -147,10 +153,11 @@ $$
 $$
 
 
+
 ```{r}
 M5 <- lme(geread~gevocab+clenroll+gender, random = ~1+gender|school/class, data = Achieve)
 summary(M5)
 ```
 
 
-* By comparing random effects for `gender`, we can see that gender-based reading score differences are relatively prominent at the school level (school-by-school differences), while they are relatively negligible at the class level (within a given school).
+* Gender-based reading score variability is relatively prominent at the school level (school-by-school differences), while it is relatively negligible at the class level (within a given school).

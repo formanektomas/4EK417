@@ -51,7 +51,7 @@ lme.w.3 <-
 #
 #
 ## 6
-#  Include "union" as fixed effect at level 2 (state), 
+#  Enhance previous model by including "union" as fixed effect at level 2 (state), 
 #  .. by expanding the lme.w.2 / lme.w.3 model
 lme.w.4 <- 
 

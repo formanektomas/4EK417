@@ -6,14 +6,15 @@ output:
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
-require(knitr)
-require(ggplot2)
-require(dplyr)
-require(nlme)
-require(lme4)
-require(gridExtra)
-require(lattice)
-require(RLRsim)
+library(knitr)
+library(ggplot2)
+library(dplyr)
+library(nlme)
+library(lme4)
+library(performance)
+library(gridExtra)
+library(lattice)
+library(RLRsim)
 ```
 
 ## Hierarchical data (grouped, multilevel)
@@ -38,20 +39,23 @@ Multilevel structures can be the result of experimental design. For example, con
 * Level 2) individuals aggregated in districts  
 * Level 3) districts aggregated to several regions  
 
-
+---
 
 ## Empirical example - Data
 
 [High School & Beyond](https://en.wikipedia.org/wiki/High_School_and_Beyond]) is a representative survey of U.S. public and Catholic high schools conducted by the National Center for Education Statistics (NCES). Data come from 160 schools, the average sample size per school is approximately 45 students.
 
+* We are interested in the influence student's socio-economic status on math achievements
+
+#### Data description:
 
 | Variable | Description                                                          |
 |----------|----------------------------------------------------------------------|
 | School   |  a factor identifying the school that the studend attends            |
 | Sex      |  Female or Male                                                      |
 | Sector   |  Public or private                                                   |
-| SES      |  a standardized scale of   socio-economic status                     |
-| MathAch  |  a measure of mathematics   achievement                              |
+| SES      |  a standardized scale of socio-economic status                       |
+| MathAch  |  a measure of mathematics achievement                                |
 | CSES     |  SES centered about the mean of the SES values for a corresponding school  |
 
 
@@ -61,12 +65,16 @@ str(MathAchieve)
 ```
 
 
-This is how we can compute a new variable `CSES`, the centered individual `SES` using `{dplyr}` package. `CSES` is the relative standing on the `SES` measure for a student within school. We need this so that intercept is the mean achievement for the school.
+* **Note:** This is how we can compute a new variable `CSES`, the centered individual `SES` using `{dplyr}` package. `CSES` is the relative standing on the `SES` measure for a student within school. We need this so that intercept is the mean achievement for the school.
  
 ```{r}
-MathAchieve %>% group_by(School) %>% mutate(CSES = floor(100*(SES-mean(SES)))/100) %>% ungroup
+MathAchieve %>% 
+  group_by(School) %>% 
+  mutate(CSES = floor(100*(SES-mean(SES)))/100) %>% # ?floor
+  ungroup
 ```
 
+---
 
 ## Empirical example - Model estimation
 
@@ -80,7 +88,9 @@ $$y_i = \beta_0 + \beta_1 x_i + \varepsilon_i$$
 
 $$ \textit{MathAch}_i = \beta_0 + \beta_1 \textit{CSES}_i + \varepsilon_i$$ 
 
-We estimate $\textit{MathAch}$ as a function of relative socioeconomic status. This model ignores that the students attend different schools. Please note that index $i$-th index corresponds to individuals (students).
+* We estimate $\textit{MathAch}$ as a function of relative socioeconomic status.  
+* This model ignores that the students attend different schools.  
+* Please note that index $i$ corresponds to individuals (students).
 
 
 ```{r}
@@ -93,6 +103,7 @@ plot(MathAchieve$CSES,MathAchieve$MathAch,cex=.5,col="grey")
 abline(ml0,col=2,lwd=3)
 ```
 
+---
 
 ##### Now, we want to evaluate differences between schools.
 
@@ -101,14 +112,16 @@ abline(ml0,col=2,lwd=3)
 $$y_{ij} = \beta_{0j} + \beta_1 x_{ij} + \varepsilon_{ij}$$
 where the index $j$ indicates the school of the student.
 
-With $\beta_{0j}$, we specify a separate intercept for each school. Indeed, what we include is a categorical variable with as many categories as schools. The next model considers `School` as a fixed effect.
+* With $\beta_{0j}$, we specify a separate intercept for each school.  
+* What we include is a categorical variable with as many categories as schools.  
+* The next model considers `School` as a fixed effect.
 
 
 ```{r}
 (lm(MathAch ~ CSES + School-1, data = MathAchieve))
 ```
 
-You can see that the amount of $\beta_{0j}$ parameters estimated is overwheliming. 
+* You can see that the amount of $\beta_{0j}$ parameters estimated is overwhelming.  
 
 We could generalize (i.e. complicate) the model by allowing for different `CSES` slope for each school (note the index $j$ for the slope $\beta_{1j}$):
 
@@ -121,16 +134,16 @@ Complex.mod <- lm(MathAch ~ School + CSES:School-1, data = MathAchieve)
 # output not shown due to complexity and small relevance
 ```
 
-In most cases, we are not interested in these *particular school* effects, but in the population of schools -- in order to compare schools with different characteristics.
+* In most cases, we are not interested in these *particular school* effects, but in the population of schools -- in order to compare schools with different characteristics.
 
 ---- 
 
-## ME - Multilevel model for group means
+## LME - Multilevel model for group means
 
 Hierarchical, nested examples:
 
 * Students within schools (two levels).
-* Students within classrooms within schools (three levels, hypotetical example).
+* Students within classrooms within schools (three levels, hypothetical example, we don't have data for this).
 
 
 ##### Next Figure illustrates `MathAchieve` variability by schools and within schools (we took a subsample of schools with IDs `91`, `3`, etc.)
@@ -145,7 +158,7 @@ grid.arrange(
 ```
 
 
-For hierarchical ME estimation, we specify two levels in the model:
+For hierarchical LME estimation, we specify two levels in the model:
 
 * Level 1: $y_{ij} = \beta_{0j} + \varepsilon_{ij}$
     + where index $i$ corresponds to individuals and $j$ to schools.
@@ -196,18 +209,18 @@ summary(ml1)
 
 ##### Hence, $\hat{\beta}_{0j} = 12.637 + \hat{u}_j$
 
-##### Residuals $\hat{u}_j$ may be extracted as:
+##### Residuals $\hat{u}_j$ may be extracted as: 
+
 ```{r}
 fixef(ml1)-(predict(ml1, newdat=list(School=c("91","3","31","52","74"))))
 ```
 
-------
 
 ##### Alternatively, we can plot of $\hat{\beta}_{0j}$ and confidence intervals (using `lmer()` package)
 
-```{r, echo=F}
+```{r, echo=F, message=F}
 ml2<-lmer(MathAch~1+(1|School),data=MathAchieve)
-rr1 <- ranef(ml2, condVar = TRUE)
+rr1 <- lme4::ranef(ml2, condVar = TRUE)
 qqmath(rr1)
 ```
 
@@ -225,54 +238,58 @@ ggplot(rr1, aes(as.numeric(grp),condval))+
     coord_flip()
 ```
 
-### Quick note on variance
+---
 
-If we had considered a fixed effect model (OLS) `y~1`, we would get a single variance $\hat{\sigma}^2$, obtained from `summary(lm(MathAch~1, ...))$sigma`, identical to the variance of $y$:
+#### Quick note on variance
+
+* If we had considered a fixed effect model (OLS) `y~1`, we would get a single variance $\hat{\sigma}^2$, obtained from `summary(lm(MathAch~1, ...))$sigma`, identical to the variance of $y$:
 
 ```{r}
 summary(lm(MathAch~1, data=MathAchieve))$sigma^2
 var(MathAchieve$MathAch)
 ```
 
-Considering a random effects model, `ml1 <- lme(MathAch~1,random=~1|School, ...)`, we have $\sigma^2_u$ and $\sigma^{2}_{\varepsilon}$. 
+* Considering a random effects model, `ml1 <- lme(MathAch~1,random=~1|School, ...)`, we have $\sigma^2_u$ and $\sigma^{2}_{\varepsilon}$. 
 
-The total variability of the data is:
+* Given model specification, total variability in the dependent variable can be expressed as:
 $var(y_{ij}) = \sigma^{2}_{\varepsilon} + \sigma^2_u$ i.e. the variability within the schools plus the variability among the schools. 
 
 ```{r}
 VarCorr(ml1)
 ```
 
-Note the difference between `var(MathAch)` and $\hat{\sigma}^2_{\varepsilon} + \hat{\sigma}^2_u$ is related to the ML estimation method, see e.g. discussion [here](https://stats.stackexchange.com/questions/275620/why-is-the-estimated-variance-of-a-random-effect-not-equal-to-the-variance-of-it)
+* The difference between `var(MathAch)` and $\hat{\sigma}^2_{\varepsilon} + \hat{\sigma}^2_u$ is related to ML estimation method, see e.g. discussion [here](https://stats.stackexchange.com/questions/275620/why-is-the-estimated-variance-of-a-random-effect-not-equal-to-the-variance-of-it)
 
-***
+--- 
 
 #### The intra-class correlation coefficient ($ICC$) is
 $$\textit{ICC}=\frac{\sigma^2_u}{\sigma^2_u+\sigma^2_{\varepsilon}} = \frac{2,93^2}{2,93^2+6,26^2} \doteq 0,18$$
 
-* Correlation of the outcome variable, measured between students from a given school, is equal to 0.18.
+* "Correlation" of the outcome variable, measured between students from a given school, is equal to 0.18. 
 
 ----- 
 
 ### Testing random effect relevance
 
 
-$H_0: y_{ij} = \beta_0 + \varepsilon_{ij}.$
+* Null hypothesis - random effects are superfluous, restricted model is sufficient 
+    + $H_0: y_{ij} = \beta_0 + \varepsilon_{ij}.$
 
-$H_1: y_{ij} = \beta_0 + u_j + \varepsilon_{ij}.$
+* Alternative hypothesis - LME model improves fit to the data
+    + $H_1: y_{ij} = \beta_0 + u_j + \varepsilon_{ij}.$
 
 
 ```{r}
 ml1a <-update(ml1, method="ML")
 lm1 <- lm(MathAch~1,data=MathAchieve)
-exactLRT(ml1a,lm1)
+RLRsim::exactLRT(ml1a,lm1) # Restricted Likelihood Ratio Tests for additive and linear mixed models
 ```
 
 
 ------ 
 
 
-## Hierarchical model with fixed and random slopes
+## Hierarchical LME model with fixed slope
 
 
 ### CSES-regressor as fixed effect
@@ -316,10 +333,12 @@ ggplot(fits)+
 
 ----------
 
-#### Hypothesis testing:
+#### Specification test:
 
 
-Besides the $t$-test of statistical significance for `CSES`, we may  perform a Likelihood Ratio Test for the fixed effects by means of maximum likelihood (**ML not REML**):
+Besides the $t$-test of statistical significance for `CSES`, we may  perform a Likelihood Ratio Test for the fixed effects by means of maximum likelihood (ML not REML): 
+
+* Null hypothesis: fixed effects on `CSES` are superfluous for describing variability of dependent variable.  
 
 ```{r}
 ml2a <-update(ml2, method="ML")
@@ -328,9 +347,9 @@ anova(ml1a,ml2a)
 
 ------ 
 
-### CSES as random effect
+### CSES-regressor as fixed effect
 
-In this model, we assume that the relationship between the response variable and the explanatory variables could be different for each of the units at Level 2, i.e. the relationship may change from school to school. 
+* In this model, we assume that the relationship between the response variable and the explanatory variables could be different for each of the units at Level 2, i.e. the relationship may change from school to school. 
 
 We generalize the previous model by allowing for a random slope for each group (school): 
 
@@ -344,7 +363,7 @@ We generalize the previous model by allowing for a random slope for each group (
 Putting the equations together, we have:
  
  $$y_{ij}=  \underbrace{\beta_0 + \beta_1 x_{ij}}_{\textit{fixed effects}} + \underbrace{u_{0j} + u_{1j} x_{ij} }_{\textit{random effects}} + \varepsilon_{ij}$$
- ME model assumptions:
+ LME model assumptions:
  
  $$ \bigg(\matrix{u_{0j} \\ u_{1j}}\bigg) \sim N(\mathbf{0},\mathbf{G})$$
  $$\mathbf{G} =  \bigg(\matrix{\sigma^2_{u_0} & \sigma_{u_0u_1} \\ \sigma_{u_1u_0} & \sigma^2_{u_1}}\bigg)$$
@@ -359,11 +378,18 @@ ml3 <- lme(MathAch ~ CSES, random = ~CSES|School, data=MathAchieve)
 summary(ml3)
 ```
 
-
-
 * The slope is $+2.19$ and the variance of the slopes among schools is $0.833^2$. 
 * On average, we predict an increase of $2.19$ units in the math achievement score when CSES increases one unit. 
 
+
+#### ICC
+```{r}
+performance::icc(ml3)
+```
+
+* Differences between schools explain 19% of “remaining” variance – i.e. after the variance explained by fixed effects is subtracted.
+
+---
 
 #### Plot of fitted values:
 (note the school-specific slopes)
@@ -380,10 +406,10 @@ ggplot(fits)+
 
 ---
 
-#### Hypothesis testing: random slope redundancy 
+#### Testing model specification: random slope redundancy 
 
 
-In order to test if the random effect in slope (generalization of the model) is justified (against fixed slopes):
+* We test if the random effect on slope (generalization of the model) is justified (last model is tested against fixed slopes):
 
 ```{r}
 ml3a <-update(ml3, method="ML")
@@ -393,14 +419,24 @@ anova(ml2a,ml3a)
 
 -----
 
-#### Hypothesis testing: independence of $u_0$ and $u_1$ random effects
+#### Testing model specification: independence of $u_0$ and $u_1$ random effects
 
 
-$\sigma_{u_0u_1}$ (the covariance between the intercepts of the groups and the slopes) is an estimated parameter. 
+* $\sigma_{u_0u_1}$ (the covariance between the intercepts of the groups and the slopes) is an estimated parameter. 
 
-In order to simplify our model and its interpretation, we may want to test $H_0: \sigma_{u_0u_1} = 0$ against  $H_1: \sigma_{u_0u_1} \neq 0$:
+* In order to simplify our model and its interpretation, we may want to test $H_0: \sigma_{u_0u_1} = 0$ against  $H_1: \sigma_{u_0u_1} \neq 0$. 
 
-* To do so, we estiate a restricted model (note the `pdDiag()` argument) and compare the results with the unrestricted model:
+* Under the null hypothesis, we can write: 
+
+$$y_{ij}=  \underbrace{\beta_0 + \beta_1 x_{ij}}_{\textit{fixed effects}} + \underbrace{u_{0j} + u_{1j} x_{ij} }_{\textit{random effects}} + \varepsilon_{ij},$$
+
+ 
+ $$ \bigg(\matrix{u_{0j} \\ u_{1j}}\bigg) \sim N(\mathbf{0},\mathbf{G}),$$
+ $$\mathbf{G} =  \bigg(\matrix{\sigma^2_{u_0} & 0 \\ 0 & \sigma^2_{u_1}}\bigg).$$
+
+
+
+* To perform the test, we estimate a restricted model (note the `pdDiag()` argument) and compare the results with the unrestricted model:
 
 ```{r}
 ml3b <- lme(MathAch~CSES,random = list(School=pdDiag(~CSES)),
@@ -416,7 +452,8 @@ anova(ml3a,ml3b)
 
 ### CSES as random effect + Sector as fixed effect at Level 2
 
-We can add a new variable: `Sector` (factor: Public/Private), this is a Level 2 variable: varies only at the school level.
+* Note that `Sector` has only two levels (hence, random effects should not be implemented)   
+* We can add a new variable: `Sector` (factor: Public/Private), this is a Level 2 variable: varies only at the school level.
 
 * Level 1: $y_{ij} ~= \beta_{0j} + \beta_{1j}x_{ij} + \varepsilon_{ij}$
 
@@ -456,4 +493,7 @@ ggplot(fits2)+
   theme_minimal()
 ```
 
-Private schools have higher average: $+2.79$ and lower slope: $-1.34$ than Public schools. 
+Private schools have higher average: $+2.79$ and lower slope (with a difference in slope equal to $-1.34$) than Public schools. 
+
+--- 
+
