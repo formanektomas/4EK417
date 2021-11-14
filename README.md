@@ -112,7 +112,7 @@ Moving beyond linearity
 
 - [Introduction to LMEs in R](https://ourcodingclub.github.io/tutorials/mixed-models/)  
 - [Mixed models in R](https://m-clark.github.io/mixed-models-with-R/)  
-- [Vignette for lme4 package](https://cran.r-project.org/web/packages/lme4/vignettes/lmer.pdf/)  
+- [Vignettes for lme4 package](https://cran.r-project.org/web/packages/lme4/vignettes/)  
 
 
 --- 
