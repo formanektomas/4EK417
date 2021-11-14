@@ -65,7 +65,7 @@ str(MathAchieve)
 ```
 
 
-* **Note:** This is how we can compute a new variable `CSES`, the centered individual `SES` using `{dplyr}` package. `CSES` is the relative standing on the `SES` measure for a student within school. We need this so that intercept is the mean achievement for the school.
+* **Note:** This is how we can compute a new variable `CSES`, the centered individual `SES` using `{dplyr}` package. `CSES` is the relative standing on the `SES` measure for a student within school. We need this for simplified interpretation of parameters.
  
 ```{r}
 MathAchieve %>% 
@@ -218,7 +218,7 @@ fixef(ml1)-(predict(ml1, newdat=list(School=c("91","3","31","52","74"))))
 
 ##### Alternatively, we can plot of $\hat{\beta}_{0j}$ and confidence intervals (using `lmer()` package)
 
-```{r, echo=F, message=F}
+```{r}
 ml2<-lmer(MathAch~1+(1|School),data=MathAchieve)
 rr1 <- lme4::ranef(ml2, condVar = TRUE)
 qqmath(rr1)
@@ -347,7 +347,7 @@ anova(ml1a,ml2a)
 
 ------ 
 
-### CSES-regressor as fixed effect
+### CSES-regressor with random effect
 
 * In this model, we assume that the relationship between the response variable and the explanatory variables could be different for each of the units at Level 2, i.e. the relationship may change from school to school. 
 
@@ -452,8 +452,8 @@ anova(ml3a,ml3b)
 
 ### CSES as random effect + Sector as fixed effect at Level 2
 
-* Note that `Sector` has only two levels (hence, random effects should not be implemented)   
-* We can add a new variable: `Sector` (factor: Public/Private), this is a Level 2 variable: varies only at the school level.
+* `Sector` has only two levels (factor: Public/Private)  
+* We can add a new variable: `Sector`. It varies only at the school level. Also, we can use `Sector:CSES` interaction (Sector-specific slope of the CSES variable).
 
 * Level 1: $y_{ij} ~= \beta_{0j} + \beta_{1j}x_{ij} + \varepsilon_{ij}$
 
@@ -489,7 +489,7 @@ anova(ml3b,ml4a)
 fits2 <- MathAchieve %>% select(CSES, School, Sector)
 fits2$fit <- fitted(ml4)
 ggplot(fits2)+
-  geom_line(aes(CSES,fit, group=School, color=Sector), size=1.2)+
+  geom_line(aes(CSES,fit, group=School, color=Sector),alpha=0.7, size=1.2)+
   theme_minimal()
 ```
 
