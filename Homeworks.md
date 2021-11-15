@@ -120,6 +120,11 @@ Bonusový úkol (1b):
 
 ---
 
+## Týden 9 (odevzdání do 21. 11. 2021)
+
+*  Zpracujte úkol podle zadání ze cvičení dne 15.11 a vyplněný skript odevzdejte  
+
+---
 
 
 [Homepage](https://formanektomas.github.io/4EK417/)
