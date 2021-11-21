@@ -20,4 +20,7 @@ install.packages(c("ggplot2",
                    "VGAM",
                    "MASS",
                    "glmmML",
-                   "effects"), dependencies=T)
+                   "effects",
+                   "bife",
+                   "spatialprobit",
+                   "ggmap"), dependencies=T)

@@ -84,6 +84,14 @@ confusionMatrix(pred2, observed.def, positive="1", prevalence=preval)
 # https://en.wikipedia.org/wiki/McNemar%27s_test
 # ..  to determine whether the row and column marginal frequencies are equal
 #
+# See also details in:
+# https://topepo.github.io/caret/measuring-performance.html
+#
+# Cohen's kappa
+# It is generally thought to be a more robust measure than simple percent 
+# agreement calculation, as ?? takes into account the possibility of the 
+# agreement occurring by chance.
+# 
 #
 #
 # {ROCR} Visualizing the Performance of Scoring Classifiers
@@ -153,12 +161,14 @@ arrows(0,0,1,1,lty=2, code=0)
 # .. a high sensitivity (TPR), one should pick a lower threshold.
 # .. at the expense of higher false positive rate (FPR).
 #
+# Some "automatic" selection methods are available:
+# https://www.r-bloggers.com/2019/02/some-r-packages-for-roc-curves/
 #
 #
 #
 #
 # Alternatively, {ROCR} built-in ROC convex hull - a ROC (=tpr vs fpr) curve 
-# with concavities (which represent suboptimal choices of cutoff) removed 
+# with concavities removed  (those represent sub-optimal choices of cutoff) 
 plot(performance(pred,"rch"))
 arrows(0,0,1,1,lty=2, code=0)
 #

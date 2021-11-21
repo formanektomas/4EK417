@@ -53,10 +53,14 @@ allEffects(t.1) # type="response" is the default setting
 # This default setting can be "overriden" by arguments to allEffects
 ?allEffects
 allEffects(t.1, typical = median) # applies only to age, median instead of mean
+#
 # proportions of the Factors can be set arbitrarily:
-allEffects(t.1, given.values = c(Female1=0.5)) # Note the Female1 syntax
-# or combined:
-allEffects(t.1, typical = median, given.values = c(Female1=0.5)) 
+# .. Note how the Pclass*Age effect changes (men vs women)
+allEffects(t.1, given.values = c(Female1=0)) # Note the Female1 syntax
+allEffects(t.1, given.values = c(Female1=1)) # Note the Female1 syntax
+#
+# Arguments can be combined:
+allEffects(t.1, typical = median, given.values = c(Female1=1)) 
 #
 #
 #

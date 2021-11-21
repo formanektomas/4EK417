@@ -1,0 +1,156 @@
+---
+title: "Binary Choice Models with Fixed Effects"
+output:
+  html_document: default
+---
+
+```{r setup, include=FALSE}
+library(knitr)
+library(ggplot2)
+library(dplyr)
+library(bife)
+```
+
+
+### Introduction 
+
+In econometrics, fixed effects binary choice models are important tools for panel data analysis. The package `bife` provides a new approach suggested by Stammann, Heiss, and McFadden (2016) to estimate logit and probit panel data models for binary-response variable
+
+$$P(y_{it}=1|\mathbf{x}_{it},\alpha_i) = 
+G(\mathbf{x}_{it}\mathbf{\beta}+\alpha_i), \qquad i=1, \dots, N, \quad t=1, \dots , T.$$
+
+* where $G$ is a logistic function or CDF of Normal distribution.  
+
+* The dependent variable $y_{it}$ is binary.   
+
+* Stric exogeneity is assumed: $E(\varepsilon_{it}|\mathbf{X}_i,\alpha_i)=0$.  
+
+* Conditional independence: $y_{i1}, \dots, y_{iT}$ are independent conditional on $(\mathbf{x}_{it},\alpha_i)$.
+
+* For detailed description of the model, see e.g. Wooldridge: Econometric analysis of cross section and panel data (2010), chapters 15.8.2 and 15.8.3.
+
+* Fixed effect is used in econometrician's sense of having a time-constant dummy for each individual. All other parameters in the model are referred to as structural parameters.
+
+
+* We are primarily interested in estimating the parameters $\mathbf{\beta}$, but the model also includes individual fixed effects $\alpha_i$. We don't make any assumptions about the marginal distribution of $\alpha_i$ or its correlation with the regressors.
+
+The estimator implemented in this package is based on maximum likelihood estimation (ML) of both $\mathbf{\beta}$ and $\alpha_1,\dots,\alpha_N$. 
+
+* `bife()` applies a pseudo-demeaning algorithm proposed by Stammann, Heiss, and McFadden (2016). Its computational costs are lower by orders of magnitude if $N$ is reasonably large.
+
+* Importantly, for FE logit/probit, the ML estimator is not consistent ($N\rightarrow \infty$) and  the problem can be severe if $T$ is small. [Stammann, Heiss, and McFadden (2016)](https://www.econstor.eu/bitstream/10419/145837/1/VfS_2016_pid_6909.pdf). See also see `{bife}` package vignette or Wooldridge (2010) for details. 
+
+* To tackle this problem, `{bife}` provides an analytical and a jackknife bias correction for the structural parameters $\mathbf{\beta}$ and the average partial effects (Hahn and Newey 2004). Package is well suited to analyse big micro-data where $N$ and/or $T$ are large.
+
+Package provides methods to:
+
+  - `bife()`  - estimate binary choice models with fixed effects with/-out bias correction
+  - `apeff_bife()`  - compute average partial effects2 with/-out bias correction
+
+
+(An alternative to full ML estimation of all parameters is a conditional maximum likelihood estimator which conditions out $\alpha_1,\dots,\alpha_N$ and only estimates $\mathbf{\beta}$. It is for example available with `survival::clogit()` and is consistent under the usual regularity conditions. The problem with this estimator is that its computational burden increases dramatically for larger $T$ values and that partial effects cannot be consistently estimated since this would require estimates of $\alpha_1,\dots,\alpha_N$.)
+
+
+---
+
+
+## Example: Hyslop (1999) - Large N
+
+**Modelling probabily of labor force participation** 
+
+
+```{r}
+dta <- bife::psid
+str(dta)
+```
+
+Example inspired by Hyslop (1999) who analysed the labor force participation of married women in a classical balanced panel. The sample was obtained from the **Panel Study of Income Dynamics** and contains information about $N=$ `r nrow(dta)/length(unique(dta$TIME))` women that were observed over $T=$ `r length(unique(dta$TIME))` years.
+
+| Variable | Description                |
+|----------|----------------------------|
+| ID       | individual identifier      |
+| LFP      | labor force participation  |
+| KID1     | # of kids 0-2              |
+| KID2     | # of kids 3-5              |
+| KID3     | # of kids 6-17             |
+| INCH     | income husband             |
+| AGE      | age of woman               |
+| TIME     | time identifier            |
+
+```{r, warning=FALSE}
+ggplot(dta)+geom_boxplot(aes(factor(TIME),AGE, fill=factor(LFP)))
+```
+
+
+
+To analyse the labor force participation of married women, we specify the following model:
+
+$$LFP_{it}=\beta_1 AGE_{it}+\beta_2(INCH/1000)_{it}+\beta_3 KID1_{it}+\beta_4 KID2_{it}+\beta_5 KID3_{it}+\alpha_i+\varepsilon_{it},$$
+
+where $LFP_{it}$ indicates the labor force participation of a married woman, $AGE_{it}$ refers to the age, $(INCH/1000)_{it}$ is the husbands income in thousand dollars, and the $KID\ast_{it}$ variables refer to the number of kids in a certain age group.
+
+
+* `bife()`-based estimation:  
+* *Logit* is the default setting, for *Probit*, use `model="probit"`  
+
+
+```{r}
+mod_logit <- bife(LFP ~ AGE + I(INCH / 1000) + KID1 + KID2 + KID3 | ID, data = dta)
+summary(mod_logit)
+```
+
+The parameters of binary outcome variables are difficult to interpret quantitatively. In econometrics, partial effects 
+$$\frac{\partial Pr(y_{it}=1) }{\partial x_{iij}}$$
+
+are of more interest. Neither `glm()` nor `survival::clogit()` provide a routine to compute partial effects. `{bife}` package provides the function `get_APEs()` to compute average partial effects based on the estimated model provided by `bife()`.
+
+```{r}
+APES1 <- get_APEs(mod_logit)
+summary(APES1)
+```
+
+
+--- 
+
+#### Bias correction 
+
+* A widespread reason that prevents the use of non-linear fixed effects models in practice is the so-called incidental parameter bias problem (IPP) first mentioned by Neyman and Scott (1948).  
+* Fortunately, for classical panel data sets, like in this example, there already exist several asymptotic bias corrections tackling the IPP (see Fernández-Val and Weidner (2018) for an overview).  
+* `{bife}` package provides a post-estimation routine that applies the analytical bias correction derived by Fernández-Val (2009).
+
+* [http://www.econometricsbysimulation.com/2013/12/incidental-parameters-problem-with.html](http://www.econometricsbysimulation.com/2013/12/incidental-parameters-problem-with.html)  
+* [https://stats.stackexchange.com/questions/185998/incidental-parameter-problem](https://stats.stackexchange.com/questions/185998/incidental-parameter-problem)
+
+
+```{r}
+stat_bc <- bias_corr(mod_logit)
+summary(stat_bc)
+APES2 <- get_APEs(stat_bc)
+summary(APES2)
+```
+
+
+--- 
+
+#### Probit
+
+`bife()` also offers the opportunity to estimate fixed effects probit models by specifiying `model = "probit"`.
+
+```{r}
+mod_probit <- bife(LFP ~ AGE + I(INCH / 1000) + KID1 + KID2 + KID3 | ID, 
+                   data = dta, model = "probit")
+mod_probit <- bias_corr(mod_probit)
+summary(mod_probit)
+```
+
+Although the structural parameters are different compared to the logit model due to a different normalization, the average partial effects are similiar:
+
+```{r}
+APES3 <- get_APEs(mod_probit)
+summary(APES3)
+```
+
+---
+
+
+This example was based on lecture by [Daniel Czarnowske, Florian Heiss, Amrei Stammann](https://cran.r-project.org/web/packages/bife/vignettes/howto.html) and slightly modified.
