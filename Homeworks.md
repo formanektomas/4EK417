@@ -126,5 +126,12 @@ Bonusový úkol (1b):
 
 ---
 
+## Týden 10 (odevzdání do 28. 11. 2021)
+
+*  Zpracujte úkol podle zadání ze skriptu `R02_LPM_Logit_Probit.R` (Quick exerice, začínající na ř. 257)  
+*  Vyplněný skript (včetně svého komentáře k výsledkům odevzdejte prostřednictvím inisu).
+
+--- 
+
 
 [Homepage](https://formanektomas.github.io/4EK417/)
