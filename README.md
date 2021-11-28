@@ -131,6 +131,11 @@ Moving beyond linearity
 
 #### Materials for Block 6
 
+
+#### Supporting materials for Block 6
+
+- [Ben Lambert: A graduate course in econometrics, videos 54 to 74](https://www.youtube.com/watch?v=Sqy_b5OSiXw&list=PLwJRxp3blEvaxmHgI2iOzNP6KGLSyd4dz&index=55)  
+
 ---
 
 
