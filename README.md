@@ -123,6 +123,10 @@ Moving beyond linearity
 
 + [Download R scripts (zip)](https://github.com/formanektomas/4EK417/raw/master/Block5/Block5.zip)  
 
+#### Supporting materials for Block 5
+
+- [R package `effects`](https://www.jstatsoft.org/article/view/v087i09)  
+- [R package `effects` for multinomial and proportional-odds logit models](https://www.jstatsoft.org/article/view/v032i01) 
 
 --- 
 
