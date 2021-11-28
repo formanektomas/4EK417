@@ -48,7 +48,7 @@ $$
 * For some $r$th regressor $x$, we can write   
 
 $$
-\mathbf{S}_r(\mathbf{W}) = \frac{\partial E [\mathbf{y}|\mathbf{x}_r]}{\partial \mathbf{x}_r^{\prime}} = \phi\left((\mathbf{I}_n -  \rho \mathbf{W})^{-1} \bar{\mathbf{x}}_r \beta_r \right) \odot (\mathbf{I}_n -  \rho \mathbf{W})^{-1} \mathbf{I}_n \beta_r
+\mathbf{S}_r(\mathbf{W}) = \frac{\partial E [\mathbf{y}|\mathbf{x}_r]}{\partial \mathbf{x}_r^{\prime}} = \phi\left(\left[(\mathbf{I}_n -  \rho \mathbf{W})^{-1} \bar{\mathbf{x}}_r \beta_r \right] \odot (\mathbf{I}_n -  \rho \mathbf{W})^{-1} \mathbf{I}_n \beta_r \right)
 $$
 where $\mathbf{S}_r(\mathbf{W})$ is an $(N \times N)$ matrix with dimension given by the number of spatial units, and the $\odot$ symbol stands for Hadamard product (element-wise matrix multiplication). 
 

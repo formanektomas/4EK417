@@ -28,12 +28,20 @@ logLik(t.1)
 library(lmtest)
 lrtest(t.0,t.1)
 #
+# Marginal effects:
+mfx::logitmfx(Survived ~ Pclass + Female + Age, 
+              data=Titanic, atmean = F)
+mfx::logitmfx(Survived ~ Pclass + Female + Age 
+              + Pclass:Female + Pclass:Age + Female:Age, 
+              data=Titanic, atmean = F)
+#
 #
 # As we use interaction elements in Logistic models, 
-# APEs become "hard" to calculate.
-# Package {effects} can be used to provide similar information/output:
+# APEs become "hard" to calculate/interpret.
+# Package {effects} can be used to provide information/output:
 #
 library(effects)
+?allEffects
 allEffects(t.1) # type="response" is the default setting
 # note that "Age" is split into 5 intervals, with representative 
 # "rounded" values as labels.
@@ -73,6 +81,9 @@ plot(allEffects(t.1), type="response" ) # type="response"
 #
 ## Plotting the effects - "individually"
 #
+?effects::effect 
+# note the syntax: 
+# effect(term, mod, vcov.=vcov, ...)
 ?plot.eff
 # 
 plot(effect("Pclass*Female", t.1), type="response")
@@ -102,7 +113,7 @@ plot(effect("Pclass*Female*Age", t.1), type="response")
 rm(list=ls())
 library("carData")
 Arrests <- Arrests
-Arrests$year <- factor(Arrests$year)
+# Arrests$year <- factor(Arrests$year)
 ?Arrests
 str(Arrests)
 head(Arrests,10)
@@ -120,7 +131,7 @@ summary(Arr.0)
 ## 1 Amend the model to include both interactions
 #
 #
-## 2 Produce effects tables for the amended model, use default settings,
+## 2 Produce effects tables for the amended model, use default settings (type="response"),
 ##   Plot all effects at once.
 #
 #

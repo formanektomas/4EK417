@@ -53,6 +53,7 @@ In rural areas a community corresponds to a village, while an urban community is
 BDHS <- read.table("data/BDHS.txt", header = TRUE)
 BDHS$comm <- factor(BDHS$comm)
 str(BDHS)
+summary(BDHS)
 mean(BDHS$antemed) # Overall proportion of antenatal care indicator
 ``` 
  

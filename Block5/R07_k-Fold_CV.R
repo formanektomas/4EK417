@@ -36,7 +36,7 @@ library(AER) # install.packages("AER")
 data("SwissLabor")
 ?SwissLabor
 # We transform the dependent variable into a binary (dummy) variable
-SwissLabor$parti <- ifelse(participation == "yes",1,0)
+SwissLabor$parti <- ifelse(SwissLabor$participation == "yes",1,0)
 attach(SwissLabor)
 #
 #
@@ -59,21 +59,53 @@ PROB.FITa <- glm(parti ~ age+ I(age^2)+income+education + I(income^2),
 summary(PROB.FITa)
 #
 #
+# Compare IC for the models:
+AIC(OLS.FIT)
+AIC(LOG.FIT)
+AIC(PROB.FIT)
+AIC(OLS.FITa)
+AIC(LOG.FITa)
+AIC(PROB.FITa)
 #
 #
 library(cvTools) # install.packages("cvTools")
 #
+# CV using "MAPE"
+cv.OLS <- cvFit(OLS.FIT, data = SwissLabor, y = SwissLabor$parti, cost = mape, 
+                K = 10, R = 100, predictArgs = list(type="response"), seed = 1234)
+cv.LOG <- cvFit(LOG.FIT, data = SwissLabor, y = SwissLabor$parti, cost = mape, 
+                K = 10, R = 100, predictArgs = list(type="response"), seed = 1234)
+cv.PROB <- cvFit(PROB.FIT, data = SwissLabor, y = SwissLabor$parti, cost = mape, 
+                 K = 10, R = 100, predictArgs = list(type="response"), seed = 1234)
+cv.OLSa <- cvFit(OLS.FITa, data = SwissLabor, y = SwissLabor$parti, cost = mape, 
+                 K = 10, R = 100, predictArgs = list(type="response"), seed = 1234)
+cv.LOGa <- cvFit(LOG.FITa, data = SwissLabor, y = SwissLabor$parti, cost = mape, 
+                 K = 10, R = 100, predictArgs = list(type="response"), seed = 1234)
+cv.PROBa <- cvFit(PROB.FITa, data = SwissLabor, y = SwissLabor$parti, cost = mape, 
+                  K = 10, R = 100, predictArgs = list(type="response"), seed = 1234)
+#
+# Evaluation table and evaluation plot for k-fold CV output
+cvFits <- cvSelect(OLS=cv.OLS,LOG=cv.LOG, PROB=cv.PROB, 
+                   OLS.A=cv.OLSa, LOG.A=cv.LOGa, PROB.A=cv.PROBa)
+cvFits
+summary(cvFits)
+plot(cvFits, method = "density")
+
+
+
 help(package=cvTools) 
 #
 ?cvFit 
 # mind the default predict() output for glm() objects, use predictArgs() !! 
 #
 # Since the response is a binary variable, an appropriate cost function is
-Cost <- function(r, pi = 0) mean(abs(r-pi) > 0.5)
+Cost <- function(r, pi) mean(abs(r-pi) > 0.5)
 # where r is the observed response and pi is the predicted probability of success
 # cost function returns the error rate for cutoff 0.5
 # .. function syntax is not a very intuitive. You may want to check:
 # https://stackoverflow.com/questions/16781551/cost-function-in-cv-glm-of-boot-library-in-r 
+#
+# Here, Cost returns the ratio of classified cases 
 #
 cv.OLS <- cvFit(OLS.FIT, data = SwissLabor, y = SwissLabor$parti, cost = Cost, 
                 K = 10, R = 100, predictArgs = list(type="response"), seed = 1234)
@@ -98,7 +130,7 @@ plot(cvFits, method = "density")
 #
 #
 #
-#
+## Example repeated with same results, using the {boot} package
 #
 library(boot)
 ?cv.glm 
@@ -106,6 +138,7 @@ library(boot)
 # Since the response is a binary variable, an appropriate cost function is
 Cost <- function(r, pi = 0) mean(abs(r-pi) > 0.5)
 # .. cost function repeated - it is the same for cvFit() and cv.glm() 
+# .. see Help section, Examples, of ?cv.glm()
 #
 # See "Value" section in help for cv.glm:
 #
@@ -121,7 +154,8 @@ cv.glm(SwissLabor, PROB.FIT, cost=Cost, K=10)$delta
 cv.glm(SwissLabor, OLS.FITa, cost=Cost, K=10)$delta
 cv.glm(SwissLabor, LOG.FITa, cost=Cost, K=10)$delta
 cv.glm(SwissLabor, PROB.FITa, cost=Cost, K=10)$delta
-# compare to
+#
+# compare the first delta components to:
 summary(cvFits)
 #
 #
