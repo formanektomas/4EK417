@@ -67,16 +67,16 @@ mean(BDHS$antemed) # Overall proportion of antenatal care indicator
 
 For gaussian response variable, we might use linear mixed effects (LME) model such as:
 
-$E(y_{ij}|u_i) = \beta_0 + u_{0i} + \varepsilon_{ij}, ~~~ u_{0i} \sim N(0, \sigma^2_u) ~~~ \varepsilon_{ij} \sim N(0, \sigma^2)$
+$E(y_{ij}|u_j) = \beta_0 + u_{0j} + \varepsilon_{ij}, ~~~ u_{0j} \sim N(0, \sigma^2_u) ~~~ \varepsilon_{ij} \sim N(0, \sigma^2)$
 
 
 Given our binary response variable `antemed`, logistic regression model is used:
 
 
-$\textit{logit}(p_{ij}) = \log\bigg(\frac{p_{ij}}{1-p_{ij}}\bigg) = \beta_0 + u_{0i} + \varepsilon_{ij}$
+$\textit{logit}(p_{ij}) = \log\bigg(\frac{p_{ij}}{1-p_{ij}}\bigg) = \beta_0 + u_{0j} + \varepsilon_{ij}$
 
 * $\beta_0$ is the overall intercept for all comunities,
-* $u_{0i}$ is the random effect for the $i$-th community. 
+* $u_{0j}$ is the random effect for the $j$-th community. 
 
 
 
@@ -89,9 +89,9 @@ summary(fit)
 ```
 
 
-$\hat{\beta}_0 = 0.148$. Intercept for $i$-th community is: $0.148 + \hat{u}_{0i}$, variance of $u_{0i}$ is 1.464
+$\hat{\beta}_0 = 0.148$. Intercept for $j$-th community is: $0.148 + \hat{u}_{0j}$, variance of $u_{0j}$ is 1.464
 
-The likelihood ratio statistic for testing the null hypothesis that variance of $u_{0i}$ is 0 can be done as two model comparision: by comparing the two-level model, with the corresponding single-level
+The likelihood ratio statistic for testing the null hypothesis that variance of $u_{0j}$ is 0 can be done as two model comparision: by comparing the two-level model, with the corresponding single-level
 model (without the level 2 random effect).
 
 ```{r}
@@ -109,7 +109,7 @@ qqmath(ranef(fit, condVar=TRUE),strip=FALSE)$comm
 
 ### Now we include maternal age (`mage`) as an explanatory variable in the model.
 
-First we center `mage`, then estimate the model using the centered value `magec`  
+* First we center `mage`, then estimate the model using the centered value `magec`  
 
 * This approach simplifies interpretation of $\beta_0$ and $u_0$ elements. 
 
@@ -138,7 +138,7 @@ xyplot(predprob ~ magec, data = datapred, groups = comm, type = "l", col = "dark
 
 On the scale of the linear predictor, the estimated model can be described as follows: 
 
-$\widehat{\textit{logit}(p_{ij})} = \widehat{\log\bigg(\frac{p_{ij}}{1-p_{ij}}\bigg)} = 0.145 -0.032 \textit{magec}  + \hat{u}_{0i}$
+$\widehat{\textit{logit}(p_{ij})} = \widehat{\log\bigg(\frac{p_{ij}}{1-p_{ij}}\bigg)} = 0.145 -0.032 \textit{magec}  + \hat{u}_{0j}$
 
 ```{r}
 summary(ranef(fit2)$comm$`(Intercept)`)
@@ -188,9 +188,9 @@ where
 
 $$ z_{ij} = -0.490 - 0.005 \textit{magec}_{ij} + 0.403 \textit{welthc}_{ij} + 0.545 \textit{meduc2}_{ij}+  1.305 \textit{meduc3}_{ij}$$
 
-For example, given model `fit3` and community $i$, for a woman of mean age `(magec=0)`, and no education `(meduc2=meduc3=0)`, the forecast is:
+For example, given model `fit3` and community $j$, for a woman of mean age `(magec=0)`, and no education `(meduc2=meduc3=0)`, the forecast is:
 
-$$ \widehat{log\bigg(\frac{p_{ij}}{1-p_{ij}}\bigg)} = (-0.490 + \hat{u}_i) + 0.403\, \textit{wealthc}_{ij}$$
+$$ \widehat{log\bigg(\frac{p_{ij}}{1-p_{ij}}\bigg)} = (-0.490 + \hat{u}_j) + 0.403\, \textit{wealthc}_{ij}$$
 
 Also, fitted values $\hat{p}_{ij}$ (`type="response"`) can be produced as
 
@@ -207,8 +207,8 @@ head(predict(fit3, type="response")) # fitted "success" probabilities.
 In the previous model, effects of maternal age, education and household wealth are assumed to be the same in each community (no random effects on slopes). We will now relax this assumption and fit a random slope (coefficient) for wealth to allow its effect to vary across communities.
 
 
-$$ log\bigg(\frac{p_{ij}}{1-p_{ij}}\bigg) = \beta_0 + \beta_1 \textit{magec}_{ij} + \beta_3 \textit{meduc}_{ij} + \beta_4 \textit{welthc}_{ij} + \beta_5 \textit{wealthc}_{ij} + u_{0i} + u_{4i} \textit{wealthc}_{ij} + \varepsilon_{ij} $$
-Note that the new term $u_{4i}$ has been added to the model and that the $\beta_4$ coefficient of `wealthc` has been generalized into: $\beta_{4i} = \beta_4 + u_{4i}$
+$$ log\bigg(\frac{p_{ij}}{1-p_{ij}}\bigg) = \beta_0 + \beta_1 \textit{magec}_{ij} + \beta_3 \textit{meduc}_{ij} + \beta_4 \textit{welthc}_{ij} + u_{0j} + u_{4j} \textit{wealthc}_{ij} + \varepsilon_{ij} $$
+Note that the new term $u_{4i}$ has been added to the model and that the $\beta_4$ coefficient of `wealthc` has been generalized into: $\beta_{4j} = \beta_4 + u_{4j}$
 
 ```{r}
 fit4 <- glmer(antemed~magec+meduc+wealthc + (1|comm) + (0+wealthc|comm), data = BDHS, family=binomial("logit"))
