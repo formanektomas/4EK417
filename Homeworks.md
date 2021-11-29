@@ -133,5 +133,12 @@ Bonusový úkol (1b):
 
 --- 
 
+## Týden 11 (odevzdání do 5. 12. 2021)
+
+*  Zpracujte úkol podle zadání ze skriptu `R09_ME_models_binary.Rmd` (Assignment, začínající na ř. 251)  
+*  Vyplněný skript (včetně svého komentáře k výsledkům odevzdejte prostřednictvím inisu).
+
+---
+
 
 [Homepage](https://formanektomas.github.io/4EK417/)
