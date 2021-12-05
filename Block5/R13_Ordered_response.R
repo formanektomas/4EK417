@@ -54,7 +54,11 @@ summary(lm(pctstck~age+educ+female+black+choice+wealth89+prftshr
 head(pension)
 summary(pension)
 pension$choice <- as.factor(pension$choice)
-pension$pctsk <- as.factor(pension$pctstck) # dep. var must be a factor
+pension$pctsk <- as.ordered(pension$pctstck) # dep. var must be a factor
+#
+class(pension$pctsk)
+summary(pension$pctsk)
+#
 Ordered.probit <- polr(pctsk~age+educ+female+black+choice+wealth89
                        +prftshr+finc35+finc50+finc75+finc100+finc101, 
                        data=pension, Hess = T, method="probit")
@@ -66,8 +70,8 @@ Ordered.logit <- polr(pctsk~age+educ+female+black+choice+wealth89
 summary(Ordered.probit)
 summary(Ordered.logit)
 #
-require("lmtest") # instal.packages("lmtest")
-require("AER") # install.packages("AER")
+library("lmtest") # instal.packages("lmtest")
+library("AER") # install.packages("AER")
 coeftest(Ordered.probit)
 coeftest(Ordered.logit)
 #

@@ -215,36 +215,8 @@ plot(allEffects(multi.FIT2), type="probability",
      style = "stacked",colors = c("blue", "red", "orange"),
      rug=F)
 plot(effect("educ*black", multi.FIT2), type="probability")
+plot(effect("exper*black", multi.FIT2), type="probability")
 #
-#
-#
-#
-#
-#
-#
-#
-#
-### Example 2: Travel mode selection as a function of various exogenous variables
-#
-library(AER) # install.packages(AER)
-rm(list=ls())
-data("TravelMode",package="AER")
-?TravelMode
-Travel <- multinom(mode~size+income+gcost+wait, data=TravelMode)
-summary(Travel)
-coeftest(Travel)
-#
-## Model evaluation
-logLik(Travel)
-lrtest(Travel)
-#  McFadden's pseudo-R-squared = 1 - (deviance(UR)/deviance(null.model))
-null.m2 <- multinom(mode~1, data=TravelMode)
-summary(null.m2)
-cat("McFadden's pseudo-R-squared =", 1- (deviance(Travel)/deviance(null.m2)) )
-#
-## Confusion matrix
-predict2 <- predict(Travel, type="class")
-confusionMatrix(data = predict2, reference = TravelMode$mode)
 #
 #
 #
