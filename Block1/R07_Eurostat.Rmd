@@ -20,7 +20,7 @@ output: html_document
 # Note the "eval=FALSE" argument: {r} chunk is not run.
 # .. to install the package each time Markdown file is compiled (not recommended),
 # .. just remove the "eval=FALSE" argument.
-install.packages("eurostat")
+install.packages("eurostat") # instalation from CRAN
 ```
 
 
@@ -28,9 +28,9 @@ install.packages("eurostat")
 
 ## Using the package
 
-* [Cheat sheet: eurostat R package](https://github.com/rstudio/cheatsheets/raw/master/eurostat.pdf)
-* [Tutorial (vignette) for the eurostat R package](http://ropengov.github.io/eurostat/articles/website/eurostat_tutorial.html)
-* [Detailed documentation for eurostat functions](http://ropengov.github.io/eurostat/reference/index.html)
+* [Cheat sheet: eurostat R package](https://raw.githubusercontent.com/rstudio/cheatsheets/main/eurostat.pdf)
+* [Tutorial (vignette) for the eurostat R package](https://ropengov.github.io/eurostat/articles/eurostat_tutorial.html)
+* [Detailed documentation for eurostat functions](http://ropengov.github.io/eurostat/index.html)
 
 --- 
 
@@ -81,6 +81,7 @@ With `search_eurostat()`, you can search the table of contents for particular te
 
 ```{r}
 # kable() generates tabular (formatted) output in Rmd files
+# .. fixed=F allows for complex/flexible matching, vs the default "as is" setting
 kable(search_eurostat(".*unemployment.*rates.*NUTS", fixed=F))
 kable(search_eurostat(".*Unemployment.*rates.*NUTS", fixed=F))
 ```
@@ -112,21 +113,20 @@ Download the data:
 Un.DF <- get_eurostat("lfst_r_lfu3rt", time_format = "num") # note the simplified time format
 dim(Un.DF)
 str(Un.DF)
-Un.DF[,1:5] %>% 
+UnemploymentDF <- Un.DF %>% 
   mutate(unit = as.factor(unit),
          age = as.factor(age),
          sex = as.factor(sex),
          geo = as.factor(geo),
-         isced11 = as.factor(isced11)) %>% 
-  summary()
-head(Un.DF,10) # note the "value" variable - it contains Unemployment rates for a given "row"
+         isced11 = as.factor(isced11))
+summary(UnemploymentDF) # note the "values" variable - it contains Unemployment rates for a given "row"
 ```
 
 
 By default, variable identification is provided through Eurostat **codes**.
 
 * To get human-readable labels instead, we can use `label_eurostat()` function
-* Good for orientation in the dataset, NOT for `gather()` , `spread()` data handling
+* Labels are good for orientation in the dataset, NOT for wider/longer data handling and other data manipulations.
 
 
 ```{r, echo=T, message=F}
@@ -214,7 +214,10 @@ Un.DF %>%
 
 ### **Example 2: Choropleth (infomap) of unemployment**
 
-Same Unemployment dataset as in **Example 1**.  
+We continue with the previously used Unemployment dataset as in **Example 1** (i.e. not with data from Quick exercise).  
+
+The following tasks will be performed:  
+
 * `Y15-74` i.e. age group *from 15 to 74 years*  
 * Select data for 2017  
 * Total unemployment only (no M/F/T)  
@@ -244,7 +247,7 @@ ggplot()+
 
 ---
 
-**Quick assignment:** Add Netherlands (`NL`) to the infomap (Example 2).
+**Quick assignment:** Add Netherlands (`NL`) to the infomap.
 
 --- 
 
@@ -270,16 +273,22 @@ Un.DF %>%
 Unempl <- Un.DF %>% 
   filter(age == "Y15-74", time >= 2010, sex == "T", isced11 == "TOTAL") %>% # filter variables
   filter(geo %in% c("AT","CZ","DE","HU","PL","SK")) %>% # subset of countries
-  spread(key = "geo", value = "values") # convert to wide format
-head(Unempl) # wide format, not a TS/zoo object
-Unempl.zoo <- zoo(Unempl[,-c(1:4)], order.by = Unempl$time) # drop columns
+  pivot_wider(names_from = "geo", values_from = "values") # convert to wider format
+head(Unempl) # wider format, not a TS/zoo object
+# Here, I choose to drop columns that have zero variability 
+# (given the filtering that was performed in previous steps)
+# plus the time column (as information is contained in the zoo object)
+Unempl.zoo <- zoo(Unempl[,-c(1:5)], order.by = Unempl$time) 
+class(Unempl.zoo)
 head(Unempl.zoo)
 ```
 
+---
 
 #### Quarterly data - {eurostat} to `zoo` - example (TS)
 
-* Transforming Eurostat data into TS using '{zoo}'  
+* Second example on transforming Eurostat data into TS using '{zoo}'  
+* This time, we use quarterly data (for monthly data, steps are analogous)  
 
 
 First, we download a new dataset that contains quarterly data: `lfsq_urgan`
@@ -299,15 +308,15 @@ Un.Q %>%
 Un.2Q <- Un.Q %>% 
   filter(age == "Y15-74", time >= 2010, sex == "T", citizen == "FOR") %>% # filter variables
   filter(geo %in% c("AT","CZ","DE")) %>% # subset of countries
-  spread(key = "geo", value = "values") # convert to wide format
-head(Un.2Q) # wide format, not a TS object
-Un.Q.zoo <- zoo(Un.2Q[,-c(1:5)], order.by = as.yearqtr(Un.2Q$time)) # drop columns
+  pivot_wider(names_from = "geo", values_from = "values") # convert to wide format
+head(as.data.frame(Un.2Q)) # wide format, not a TS object
+# Note the "order.by = as.yearqtr" syntax
+# .. I drop redundant columns
+Un.Q.zoo <- zoo(Un.2Q[,-c(1:5)], order.by = as.yearqtr(Un.2Q$time)) 
 head(Un.Q.zoo)
-autoplot(Un.Q.zoo) # from the {ggplot2} package, works well with TS
-
+# Simple TS plotting from the {ggplot2} package
+autoplot(Un.Q.zoo) 
 ```
-
-
 --- 
 
 

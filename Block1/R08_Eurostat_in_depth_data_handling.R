@@ -26,7 +26,7 @@ colnames(mydata) <- c("ID", "Time", "DEBT", "GDP")
 mydata$ID <- as.factor(c("CZ","CZ","AT","AT")) 
 mydata # Original data.frame
 #
-## melt() command is analogous to gather() from {tidyr}
+## melt() command is analogous to pivot_longer() from {tidyr}
 ?melt.data.frame
 # To melt a dataset, we restructure it into a format where each measured variable 
 # (DEBT and GDP) is in its own row, along with all the variables needed 
@@ -40,7 +40,7 @@ molten
 #
 #
 #
-## dcast() is similar to spread() from {tidyr}, offers additional functionality
+## dcast() is similar to pivot_wider() from {tidyr}, offers additional functionality
 ?dcast # if casting into a data.frame, acast() for arrays, matrices, ...
 # Melted data may be cast in different shapes
 # The dcast() function starts with melted data and reshapes it using a formula:

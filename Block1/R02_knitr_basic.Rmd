@@ -67,7 +67,7 @@ plot(cars)
 
 3. Test for heteroskedasticity (e.g. Breusch-Pagan test from the `{lmtest}` package).  
 
-4. Show diagnostic plots for the estimted model and provide interpretation.  
+4. Show diagnostic plots for the estimated model and provide interpretation.  
 
 
 ```{r}

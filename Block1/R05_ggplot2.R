@@ -79,7 +79,7 @@ ggplot(small, aes(x=carat,y=price))+ # note the `+` syntax
 ggplot(small, aes(x=carat,y=price))+ 
   geom_point(aes(colour=cut))+
   ggtitle("Price ~ carat plot example")+
-  facet_wrap(~cut) # this layer defines facets
+  facet_wrap(~cut) # defines facets, you can try adding: scales = "free"
 #
 # [E]
 # Say, we want all facets in one column:

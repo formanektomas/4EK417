@@ -9,7 +9,7 @@ output: html_document
 > ### Learning Objectives
 >
 > * Select certain columns in a data frame with the **`dplyr`** function `select`.
-> * Select certain rows in a data frame according to filtering conditions with the **`dplyr`** function `filter` .
+> * Filter certain rows in a data frame according to filtering conditions with the **`dplyr`** function `filter` .
 > * Link the output of one **`dplyr`** function to the input of another function with the 'pipe' operator `%>%`.  
 > * Add new columns to a data frame that are functions of existing columns with `mutate`.  
 > * Use `summarize` and `group_by` to split a data frame into groups of observations, apply summary statistics for each group, and then combine the results.
@@ -22,10 +22,10 @@ output: html_document
 
 * **`dplyr`** is a package for making tabular data manipulation easier. 
 
-* It pairs nicely with **`tidyr`** which enables you to swiftly convert between different data formats for plotting and analysis.
+* It pairs nicely with **`tidyr`** package and functionality.
 
 * To learn more about **`dplyr`** and **`tidyr`** , you may want to check out this
-[handy data transformation with **`dplyr`** cheatsheet](https://github.com/rstudio/cheatsheets/raw/master/data-transformation.pdf) and this [one about **`tidyr`**](https://github.com/rstudio/cheatsheets/raw/master/data-import.pdf).
+[handy data transformation with **`dplyr`** cheatsheet](https://github.com/rstudio/cheatsheets/blob/main/data-transformation.pdf) and this [one about **`tidyr`**](https://github.com/rstudio/cheatsheets/blob/main/tidyr.pdf).
 
 
 ```{r, echo=F, warning=F, message = F}
@@ -136,7 +136,7 @@ You can also **nest functions** (i.e. one function inside of another), like this
 select(filter(NUTS2.DF, Year <= 2011, NUTS0 == "SI"), Year, NUTS2, TotPopNr)
 ```
 
-* This is handy, but can be difficult to read if too many functions are nested, as `R` evaluates the expression from the inside out (in this case, filtering, then selecting).
+* This is handy, but can be difficult to read if too many functions are nested, as `R` evaluates the expression from the inside out (in this case, filtering is done first, then selecting).
 
 --- 
 
@@ -155,17 +155,20 @@ NUTS2.DF %>%
   select(Year, NUTS2, TotPopNr)
 ```
 
-* The pipe operator `%>%` takes the object on its left and passes it as the first argument to the function on its right, we don't need to explicitly include the data frame as an argument to the `filter()` and `select()` functions any more.
+* The pipe operator `%>%` takes the object on its left and passes it as the **first argument to the function on its right**,  
+* we don't need to explicitly include the data frame as an argument to the `filter()` and `select()` functions any more.
 
 * In the above code, we use the pipe to send the `NUTS2.DF` dataset first through `filter()` to keep rows where `Year` is $\leq$ 2011 AND `NUTS0 == "SI"`, then through `select()` to keep only the `Year`, `NUTS2` and `TotPopNr` columns. 
+    * In our example, you can reverse the steps and still get the same results. 
+    * However, this is not a general case & the **ordering of steps matters!**
 
 * Some may find it helpful to read the pipe like the word **then**. 
 
-* The **`dplyr`** functions by themselves are somewhat simple, but by combining them into linear workflows with the pipe, we can accomplish more complex manipulations of data frames.
+* The **`dplyr`** functions by themselves can be somewhat simple, but by combining them into linear workflows with the pipe, we can accomplish complex manipulations of data frames.
 
 * Many types of functions (from different packages) can be used in pipes.  
 
-* If we want to create a new object using the pipe operater, we do it the usual way: we use `<-` operator and assign a name to the new object:
+* If we want to create a new object using the pipe, we do it the usual way: we use `<-` operator and assign a name to the new object:
 
 ```{r}
 NUTS.SI <- NUTS2.DF %>%
@@ -180,10 +183,10 @@ NUTS.SI # display the new objec (df)
 
 **Quick exercise 1:** 
 
-Complete `R` script below as follows, using the `NUTS2.DF` data frame: 
+Complete `R` script below as follows, based on the `NUTS2.DF` data frame: 
 
-* Retrieve GDP data for Austria: filter for Austria (`"AT"`) AND Years 2015 or later,
-* Select columns: Year, NUTS2, GDP_MIO_EUR,
+* Retrieve GDP data for Austria: filter for Austria (`"AT"`), Czechia (`"CZ"`)AND Year 2015,
+* Select columns: NUTS2, GDP_MIO_EUR,
 * Use the pipe syntax
 
 ```{r}
@@ -200,7 +203,7 @@ Complete `R` script below as follows, using the `NUTS2.DF` data frame:
 # For Slovenia, calculate GDP per capita (in EUR)
 NUTS2.DF %>%
   filter(NUTS0 == "SI") %>%
-  mutate(GDPpc = (GDP_MIO_EUR/TotPopNr)*1000000) %>%
+  mutate(GDPpc = (GDP_MIO_EUR/TotPopNr)*1000000) %>% # conversion to EUR from mioEUR
   head(10) # pipes work with non-dplyr commands as well (if dplyr is loaded)
 ```
 
@@ -262,8 +265,10 @@ SISK <- NUTS2.DF %>%
   filter(NUTS0 %in% c("SI","SK")) %>%
   group_by(NUTS2) %>% 
   mutate(GDP_lag1 = lag(GDP_MIO_EUR, k = 1), PopAvg = mean(TotPopNr)) %>% 
-  ungroup()
-head(SISK,20)
+  ungroup() %>% 
+  arrange(NUTS2,Year) %>% 
+  select(Year,NUTS2,GDP_MIO_EUR,GDP_lag1,PopAvg)
+head(as.data.frame(SISK),20)
 ```
 
 
@@ -291,7 +296,7 @@ NUTS2.DF %>%
 
 # Joining data from multiple datasets
 
-Read in additional dataset 
+* Here, we start by reading-in some additional dataset 
 
 | Variable    | Description                                                     |
 |-------------|-----------------------------------------------------------------|
@@ -327,11 +332,14 @@ NewDF %>%
 
 --- 
 
-**Alternative ordering od data.frames to join:** Start with `Unem` and *append* `NUTS2.DF` dataset (`left_join()` works within the pipe operator sequence)
+Now, we join the two dataframes again - using `left_join()`, but using **alternative ordering od data.frames to join:**  
+
+* Start with `Unem` (on the left) and *append* `NUTS2.DF` dataset.  
+* The `left_join()` command works easily within the pipe operator sequence.  
 
 ```{r, message = FALSE,}
 # Show output - head of the table only
-Unem %>% 
+Unem %>% # in the pipe, Unem becomes the first argument to left_join()
   left_join(NUTS2.DF, by = c("Year", "NUTS2")) %>% 
   arrange(NUTS2,Year) %>% 
   head(12)
@@ -341,25 +349,25 @@ Unem %>%
 
 * All observations in the `left` dataset (`Unem`) are preserved.
 
-* Observations for `2010` in `NUTS2.DF` are NOT *imported*, as there is no such combination of `"Year", "NUTS2"` in the `Unem` dataset.
+* Observations for `2010` in `NUTS2.DF` are NOT *imported*, as there is no such combination of `"Year", "NUTS2"` in the `Unem` dataset (i.e. on the left).
 
 * `inner_join()` , `right_join()` are available in `dplyr` package.
 
 * Joining by columns of different names:  
-    + Say, `Year` variable is in both DFs, but `NUTS2` IDs are in `geo` column of the second DF:  
+    + Say, `Year` variable is in both DFs, but `NUTS2` region-IDs of the DF1 are in a corresponding `geo` column of the second DF:  
     + `left_join(DF1,DF2, by = c("Year", "NUTS2"="geo"))`  
     + With pipes, `DF1` is implicit, comes from the previous "line" of the pipe
     
 
-* Sometimes, `merge()` from the `base` packge may be a reasonable alternative to `join` commands from `dplyr`.  
+* Sometimes, `merge()` from the `base` package may be a reasonable alternative to `join` commands from `dplyr`.  
 
 ---
 
 **Quick exercise:**
 
 * Start with the `NUTS2.DF` dataset
-* Filter for year 2015 & NUTS2 regions in Germany
-* For the NUTS2 regions above, append all corresponding data from the `Unem` dataset
+* Filter for year 2015 & NUTS2 regions in Germany (`"DE"`)
+* For the NUTS2 regions selected (filtered), append all corresponding data from the `Unem` dataset
 * Create new dataframe: save ID column(s), Unemployment and GDP data into a new DF
 * Arrange output by NUTS2 ID
 * Use pipe operator syntax, show the output 
