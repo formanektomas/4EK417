@@ -210,7 +210,7 @@ dim(GDPSpain)
 
 * However, with longer-format, we only have one value item in each row. The remaining columns (items in each row) provide identification to our observation. 
 
-* Panel data format and *Long(er) format* are differet: 
+* Panel data format and *Long(er) format* are different: 
     * Following on our example, say, we want to store `GDP` and `Unemployment` in a long format. Here, the long format requires four columns: `Year`, `State`, `Unit` ("GDP","Unemployment"),`Value` (observed data). 
 
 

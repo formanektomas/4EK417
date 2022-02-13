@@ -185,7 +185,7 @@ NUTS.SI # display the new objec (df)
 
 Complete `R` script below as follows, based on the `NUTS2.DF` data frame: 
 
-* Retrieve GDP data for Austria: filter for Austria (`"AT"`), Czechia (`"CZ"`)AND Year 2015,
+* Retrieve GDP data for Austria: filter for Austria (`"AT"`), Czechia (`"CZ"`) AND Year 2015,
 * Select columns: NUTS2, GDP_MIO_EUR,
 * Use the pipe syntax
 
