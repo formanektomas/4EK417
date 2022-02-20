@@ -105,10 +105,14 @@ ggplot_na_imputations(tsAirgap, impKalman.Airgap, tsAirgapComplete)
 
 Package `{Amelia}` supports time series MI:
 
+
+ + IP (Imputation & Posterior distribution-based method), EM (Expectation maximisation algorithms)  
+    + `Amelia` combines **PMM** techniques and **MVN** distribution modelling  
  + We may include time polynomials up to third order as additional variables in the covariance matrix.  
  + Another option is using time lagged variables (leads, lags).  
- + Bootstrap approach is used to account for the variance of paramters in a function used to produce imputations.  
+ + Bootstrap approach is used to account for the variance of parameters in a function used to produce imputations.  
  + For details, see e.g. https://papers.ssrn.com/sol3/papers.cfm?abstract_id=2996611
+ + or https://gking.harvard.edu/amelia
  
 ---
 
@@ -132,8 +136,19 @@ Based on the Freetrade dataset: *Economic and political data on nine developing 
 library(Amelia)
 summary(freetrade) 
 missmap(freetrade) # description of missing data in "freetrade" data
+#
+# Say, we are interested in estimating this type of model:
+# .. complete cases estimation used
+summary(lm(tariff ~ polity + pop + gdp.pc + year + country,
+          data = freetrade))
 ```
 
+
++ When performing multiple imputation, the first step is to identify the variables to include in the imputation model.
+
+    * `a.out <- amelia(freetrade, m = 5, ts = "year", cs = "country")`
+
++ Many variables that are recorded over time within a cross-sectional unit are observed to vary smoothly over time. In such cases, knowing the observed values of observations close in time to any missing value may enormously aid the imputation of that value. However, the exact pattern may vary over time within any cross-section. 
 
 + Amelia can build a general model of patterns within variables across time by creating a sequence of polynomials of the time index.  
 
@@ -142,12 +157,16 @@ $$ y_{it} = \beta_0 + \beta_1 t + \beta_2 t^2 + \beta_3 t^3 + u_{it}$$
 
 ---  
 
-For a **second-order polynomial and the `tariff` series**, we may do MI as follows:  
-* MI is applied to all series with missing data,  
-* All available series are used for MI (ID variables need to be listed separately)  
-* `polytime = 2` coefficients apply to all CS units (will be relaxed later)  
+As we combine MI and *second-order polynomial time trend*, we may do MI as follows:  
+
+* All available series are used for MI (ID variables (TS and CS) need to be listed separately)  
+* `polytime = 2` by default, estimated time-dynamics coefficients apply to all CS units (i.e. are NOT CS-specific -- this will be relaxed next)   
 * `p2s` controls calculation details displayed  
-* Here, we only display results for `tariff`  
+
+Note:
+* MI is applied to all series with missing data (Multiple imputation involves imputing m values for each missing cell, observations remain unchanged),  
+* In this example, we mostly focus on the  `tariff` variable
+
 
 ```{r}
 set.seed(100)
@@ -157,6 +176,10 @@ tscsPlot(a.out, cs = "Malaysia", main = "MI with Amelia",
          var = "tariff", ylim = c(-10, 60))
 compare.density(a.out, var = "tariff") #not specific to Malaysia
 plot(a.out) # overall basic Imputation information plot
+
+# compare original dataset vs 1st imputation (of the total 5 imputations)
+head(freetrade,20) # original data
+head(a.out$imputations$imp1,20) # impuation No. 1
 ```
 
 
@@ -164,7 +187,7 @@ plot(a.out) # overall basic Imputation information plot
 
 #### We can impute TS with trends that are specific to each cross-sectional unit:
 
-* `intercs` is a logical argument indicating if the time effects of polytime should vary across the cross-section.
+* `intercs` is a logical argument indicating if the time effects of *polytime* should vary across the cross-section.
 
 ```{r}
 set.seed(120)
@@ -185,6 +208,8 @@ plot(a.out.time) # overall basic Imputation information plot
 
 * leads and lags are only used for the `tariff` series (user input, can be amended)
 
+* `lags` - a vector of numbers or names indicating columns in the data that should have their lags included in the imputation model. (leads by analogy)
+
 ```{r}
 set.seed(140)
 a.out2 <- amelia(freetrade, ts = "year", cs = "country", lags = "tariff",
@@ -196,7 +221,23 @@ plot(a.out2) # overall basic Imputation information plot
 ```
  
  + Calculation time for the last imputation task increases considerably.
- 
+
+
+#### Estimation can be repeated with the imputed data:
+
+```{r}
+b.out <- NULL
+se.out <- NULL
+for(i in seq_len(a.out2$m)) {
+  ols.out <- lm(tariff ~ polity + pop + gdp.pc + year + country, data = a.out2$imputations[[i]])
+  b.out <- rbind(b.out, ols.out$coef)
+  se.out <- rbind(se.out, coef(summary(ols.out))[, 2])
+}
+# Not as nice as the {mice} package functionality, yet sufficient:
+combined.results <- mi.meld(q = b.out, se = se.out)
+combined.results
+round(cbind(t(combined.results$q.mi),t(combined.results$se.mi)),5)
+```
 
 
 ---
