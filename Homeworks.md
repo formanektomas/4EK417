@@ -40,7 +40,20 @@ layout: default
 
 ---
 
+## Týden 2 (odevzdání do 26. 2.)
 
+* Stažení zajímavého datasetu z webové databáze (Eurostat, WB, ČSÚ, Yahoo) prostřednictvím vhodného balíčku R. Úprava dat pomocí `dplyr` a pipe operátoru, vizualizace.
+
+Příklad zpracování:  
+
+* Úkol může být založen na  skriptu `R07_Eurostat.Rmd`.  
+* Na rozídl od `Quick exercise` ale nepoužijete dataset "nama_10r_2coe".   
+* Svůj dataset vyhledejte pomocí funkce `search_eurostat()`, klíčová slova a tedy použitý dataset bude dle uvážení každého studenta.   
+* U bodů 2. až 5. budete postupovat analogicky k zadání pro "nama_10r_2coe" (vyberte "zajímavou" proměnnou/jednotku měření, skupinu států/regionů, atd).  
+* **Pozor:** před vizualizací dat v `ggplot()` zkontrolujte rozměr výsledné tabulky pomocí `dim()`. Při správném filtrování musí počet řádků odpovídat zobrazovaným datům. (Např: HDP pro 10 regionů a 5 let = 50 řádků.) Tato kontrola musí být součástí odevzdaného úkolu.  
+* Doprovoďte Váš výstup stručným slovním komentářem (popište zvolené proměnné).
+
+* Jako bonus (za 2 body) můžete odevzdat vřešený úkol, který se nachází na konci skriptu `R11_Missing_data.R`
 
 ---
 
