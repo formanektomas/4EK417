@@ -16,6 +16,11 @@ data(meuse)
 
 + Heavy metal concentrations are from composite samples of an area of approximately 15 m x 15 m (i.e. each *point* on a map represents a 15m by 15m square).  
 
+> #### Outline  
+> 1) `{sp}` and `{sf}` formats  
+> 2) plotting data in `{sp}`  
+> 3) semivariogram calculation  
+
 ```{r}
 str(meuse)
 ```
@@ -47,7 +52,7 @@ sp::coordinates(meuse) = ~x+y # ?sp::coordinates
 class(meuse)
 head(meuse)
 proj4string(meuse)
-proj4string(meuse) <- CRS("+init=epsg:28992") # ?gstat::variogram
+proj4string(meuse) <- CRS("+init=epsg:28992") 
 proj4string(meuse)
 ```
 
@@ -87,7 +92,7 @@ Besides points, we may use "raster" data:
 ```{r}
 data(meuse.grid) # we read-in a grid (map)
 coordinates(meuse.grid) = ~x+y
-proj4string(meuse.grid) <- CRS("+init=epsg:28992") # ?gstat::variogram
+proj4string(meuse.grid) <- CRS("+init=epsg:28992") 
 gridded(meuse.grid) = TRUE
 class(meuse.grid)
 # The above-shown Zinc concentrations seem to follow (inversely) from distances to the river:
@@ -113,8 +118,8 @@ The `variogram()` function takes two arguments: the first denotes how one or mor
 
 ```{r}
 
-lzn.vgm <- variogram(log(zinc)~1, meuse) # calculates sample variogram values 
-lzn.vgm # 15 groups, # obs per group, repr. distance, gamma, isotropy assumed
+SV <- variogram(log(zinc)~1, meuse) # calculates sample variogram values 
+SV # 15 groups, # obs per group, repr. distance, gamma, isotropy assumed
 ```
 
 
@@ -124,7 +129,7 @@ For the `fit.variogram()` function, a sample variogram is the first argument. Th
 
 
 ```{r}
-lzn.fit <- fit.variogram(lzn.vgm, model=vgm(psill=1, model="Sph", range=900, nugget=1)) # fit model
+lzn.fit <- fit.variogram(SV, vgm("Sph")) # fit model
 #
 # psill = Partial sill = Sill - Nugget (initiall value for fitting psill)
 # "Sph" - fit to spherical "model"/curve
@@ -132,7 +137,7 @@ lzn.fit <- fit.variogram(lzn.vgm, model=vgm(psill=1, model="Sph", range=900, nug
 # nugget=1 - basically, adds nugget to model; if missing, nugget is omitted
 # 
 lzn.fit
-plot(lzn.vgm, lzn.fit) # plot the fitted variogram and the observed variogram on the same graph
+plot(SV, lzn.fit) # plot the fitted variogram and the observed variogram on the same graph
 ```
 
 ----- 
@@ -142,17 +147,25 @@ plot(lzn.vgm, lzn.fit) # plot the fitted variogram and the observed variogram on
 **Gaussian** semivariance wrt distance:
 
 ```{r}
-lzn.gau <- fit.variogram(lzn.vgm, model=vgm(psill=1, "Gau", range=900, nugget=1)) # fit model
+lzn.gau <- fit.variogram(SV, vgm("Gau")) # fit model
 lzn.gau
-plot(lzn.vgm, lzn.gau) 
+plot(SV, lzn.gau) 
 ```
 
 **Exponential** semivariance wrt distance:
 
 ```{r}
-lzn.exp <- fit.variogram(lzn.vgm, model=vgm(psill=1, "Exp", range=900, nugget=1)) # fit model
+lzn.exp <- fit.variogram(SV, vgm("Exp")) # fit model
 lzn.exp
-plot(lzn.vgm, lzn.exp) 
+plot(SV, lzn.exp) 
+```
+
+We can use the `fit.variogram()` function to select the *best* function for variogram fitting:
+
+```{r}
+lzn.select <- fit.variogram(SV, vgm(c("Exp","Sph","Gau","Mat"))) # fit model
+lzn.select
+plot(SV, lzn.select) 
 ```
 
 

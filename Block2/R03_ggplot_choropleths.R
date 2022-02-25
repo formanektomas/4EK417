@@ -12,20 +12,20 @@ rm(list = ls())
 #
 # Get the spatial data for NUTS regions in {sf} format
 options(readr.default_locale=readr::locale(tz="Europe/Berlin"))
-df60 <- eurostat::get_eurostat_geospatial(resolution = 60)
+map20 <- giscoR::gisco_get_nuts()
 #
 #
 # Example of map for Germany - NUTS 2
-Germany60 <- df60 %>%   
+Germany20 <- map20 %>%   
   dplyr::filter(LEVL_CODE == 2 & CNTR_CODE %in% ("DE")) %>% 
   dplyr::select(NUTS_ID)
 # ggplot2 map
 ggplot() + 
-  geom_sf(data = Germany60)
+  geom_sf(data = Germany20)
 #
 # LAEA geometry
 laea = st_crs("+proj=laea +lat_0=51 +lon_0=11") 
-GermanyLAEA <- st_transform(Germany60,laea)
+GermanyLAEA <- st_transform(Germany20,laea)
 ggplot() + 
   geom_sf(data = GermanyLAEA)
 #
@@ -37,9 +37,6 @@ ggplot() +
 #
 # 1) Read in a dataset 
 #
-rm(list = ls())
-# NUTS2-level map
-df60 <- eurostat::get_eurostat_geospatial(resolution = 60, nuts_level = "2")
 #
 # Macroeconomic data
 # .. Disposable income of private households by NUTS 2 regions
@@ -52,25 +49,27 @@ Income.DF <- Income.DF %>%
          direct = as.factor(direct),
          na_item = as.factor(na_item))
 #
-summary(Income.DF)
-labels <- label_eurostat(Income.DF, fix_duplicated = T)[1,]
-labels
+summary(Income.DF) # single variable for differet CS and TS observations
+labels <- label_eurostat(Income.DF, fix_duplicated = T)
+t(labels[1,])
 #
-# 2) Simplify data for our example: at NUTS2 level
+# 2) Filtering data for NUTS2 level
 Income.DF <- Income.DF %>% 
   dplyr::filter(nchar(as.character(geo)) == 4) 
-# note that the "nchar()" does nothing here as all data are NUTS2 already (ID is 4-digit)
+# NUTS2 ID is 4-digit
+# note that the "nchar()" does nothing here as all data are NUTS2 already 
 # .. generally, NUTS1 and NUTS0 summarized data would be present in Eurostat datasets
 summary(Income.DF)
 #
 # 3) Merge with {sf} spatial data
 # .. if you want LAEA geometry, use map-transformation before joining.
 # when joining sf and df object, sf object must go first to preserve (geometry), i.e. sf format
-Income.sf <- df60 %>% 
-  dplyr::left_join(Income.DF, by = c(  "NUTS_ID"="geo")) #   
+# inner_joins is used, because map contains different NUTS levels and we only need NUTS2.
+Income.sf <- map20 %>% 
+  dplyr::inner_join(Income.DF, by = c(  "NUTS_ID"="geo")) #   
 # note the number of rows: not all NUTS2 regions have data for all years
-# .. geo becomes character vector, which is OK
-summary(Income.sf) # PPS/Hab for all NUTS2 regions and for two years + shapefiles
+#
+summary(Income.sf) # PPS/Hab for all NUTS2 regions and years + shapefiles
 #
 #
 # 4) Plot the data 
@@ -113,28 +112,38 @@ ggplot(Plot1DF) +
 #
 # 4b) Plot 2010 & 2015, Germany and Austria 
 #
+# 1st DF with PPS information for the two countries (sf format)
 Plot2DF <- Income.sf%>%   
   dplyr::filter(time %in% c(2010,2015) & CNTR_CODE %in% c("DE","AT"))
 head(Plot2DF) # note that data is in "long format"
 tail(Plot2DF) # some columns are redundant (geo/id...)
 #
+# 2nd DF with supplementary information to be used in the plot - NUTS0 borders.
+borders <- map20 %>%   
+  dplyr::filter(LEVL_CODE == 0 & CNTR_CODE %in% c("DE","AT")) %>%
+  dplyr::select(NUTS_ID)
+#
 ggplot(Plot2DF) +
   geom_sf(aes(fill = values)) +
   scale_fill_gradientn('PPS/Hab', colours=brewer.pal(9, "Greens"))+
+  geom_sf(data=borders, color = "black", lwd=1, fill=NA) + # borders - from own DF
   ggtitle("PPS per capita") +
   facet_wrap(~time, ncol=2)+
   theme_bw()
 #
-# 4b) can be simplified into single pipeline:
+# 4b) can be simplified into single pipeline (borders come from separate DF) :
 Income.sf%>%   
   dplyr::filter(time %in% c(2010,2015) & CNTR_CODE %in% c("DE","AT")) %>% 
   ggplot() +
     geom_sf(aes(fill = values)) +
     scale_fill_gradientn('PPS/Hab', colours=brewer.pal(9, "Greens"))+
+    geom_sf(data=borders, color = "darkred", lwd=1, fill=NA) + # borders - from own DF
     ggtitle("PPS per Habitant") +
     facet_wrap(~time, ncol=2)+
     theme_bw()
 #
+#
+#### Another example: Spain & Portugal
 #
 # 4c) Plot 2015, Spain
 Plot3DF <- Income.sf%>%   
@@ -160,14 +169,14 @@ Plot4DF <- Income.sf%>%
   dplyr::filter(time %in% c(2010) & CNTR_CODE %in% c("ES","PT"))
 Plot4DF
 #
-borders <- df60 %>%   
+borders <- map20 %>%   
   dplyr::filter(LEVL_CODE == 0 & CNTR_CODE %in% c("ES","PT")) %>%
   dplyr::select(NUTS_ID)
 #
 ggplot() + # note the changed data argument...
   geom_sf(data=Plot4DF, aes(fill = values)) + # data for choropleth
-  scale_fill_gradientn('PPS/Hab', colours=brewer.pal(9, "Purples"))+ # scale and colors
-  geom_sf(data=borders, color = "gray30", lwd=1, fill=NA) + # borders - from own DF
+  scale_fill_gradientn('PPS/Hab', colours=brewer.pal(9, "Oranges"))+ # scale and colors
+  geom_sf(data=borders, color = "gray30", lwd=1.3, fill=NA) + # borders - from own DF
   labs(title="PPS per Habitant", y="Latitude", x="Longitude")+ # labels
   coord_sf(xlim = c(-10, 5), ylim = c(35, 45))+ # map range
   theme_light()  # theme
@@ -181,6 +190,7 @@ ggplot() + # note the changed data argument...
 ## Plot a choropleth as follows:
 ## - Spain and Portugal
 ## - 2010 and 2015 (use facets - organize in one column)
+## - use LAEA
 ## - add state borders.
 ## - use "Greens" palette with 7 levels
 #
@@ -192,7 +202,7 @@ ggplot() + # note the changed data argument...
 # Plot4DF repeated (in case "changed" during Q.E.2)
 Plot4DF <- Income.sf%>%   
   dplyr::filter(time %in% c(2010) & CNTR_CODE %in% c("ES"))
-borders <- df60 %>%   
+borders <- map20 %>%   
   dplyr::filter(LEVL_CODE == 0 & CNTR_CODE %in% c("ES")) %>%
   dplyr::select(NUTS_ID)
 #
@@ -225,7 +235,7 @@ P1 +
 #
 #
 #
-#### Simple choropleths with {ggplot2} - binary data
+#### Simple choropleths with {ggplot2} - binary and/or categorical data
 #
 # Say, we want to plot the data for Germany, 2015
 # and distinguish only above-average from below-average (Germany-wide) values:

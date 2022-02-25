@@ -91,9 +91,9 @@ idwmodel2 %>%
 
 ```{r, warning=F, message=F}
 # 1
-lzn.vgm <- variogram(log(zinc)~1, meuse) # calculates sample variogram values 
+SV <- variogram(log(zinc)~1, meuse) # calculates sample variogram values 
 # 2 
-lzn.fit <- fit.variogram(lzn.vgm, model=vgm(psill=1, "Sph", range=900, nugget=1))
+lzn.fit <- fit.variogram(SV, vgm("Sph"))
 # 3
 lzn.kriged <- krige(log(zinc) ~ 1, meuse, meuse.grid, model=lzn.fit)
 head(lzn.kriged) # show krigged values and the variances of predictions
