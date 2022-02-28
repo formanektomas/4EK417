@@ -57,5 +57,19 @@ Příklad zpracování:
 
 ---
 
+## Týden 3 (odevzdání do 6. 3. 2022)
+
+Vizualizace prostorových dat v R - kartogram (infomapa)
+
+* Pro tento úkol můžete použít data z Eurostatu, ideálně na úrovni NUTS2 nebo NUTS3. 
+    + Pro vhodnou proměnnou zobrazte infomapu, např. podle vzoru ze skriptu `R02_ggplot_choropleths.R`  
+    + Použijte alespoň dva různé způsoby zobrazení dat (různé projekce, státy, časová období, NUTS úroveň, atd.).  
+    + Pokud pracujete se státy jako Francie nebo Španělsko, je vhodné z datasetu odstranit zámořská území (např. ostrovy). 
+    + Úkol zpracujte samostatně, prosím každého o vyznačení datasetu do Google docs (odkaz Vám byl zaslán emailem).
+    + Před vizualizací dat v `ggplot()` zkontrolujte rozměr datasetu. 
+
+
+
+--- 
 
 [Homepage](https://formanektomas.github.io/4EK417/)
