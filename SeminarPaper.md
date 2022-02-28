@@ -4,11 +4,11 @@ layout: default
 
 # Seminární práce (odevzdání, peer review, úprava podle připomínek, prezentace):
 
-* Studenti zpracují a odevzdají seminární práci individuálně - termín: 23. 11.   
+* Studenti zpracují a odevzdají seminární práci individuálně - termín: 22. 4.   
 * Každý student provede peer review (vzájemné hodnocení): dvou dalších seminárních prací
-  - přidělení seminárek k hodnocení: 25. 11.,
-  - odevzdání vyplněných recenzních formulářů - termín 3. 12.
-* Zapracování připomínek z peer review a odevzdání závěrečné verze seminární práce - termín 17. 12. 
+  - přidělení seminárek k hodnocení: 25. 4.,
+  - odevzdání vyplněných recenzních formulářů - termín 3. 5.
+* Zapracování připomínek z peer review a odevzdání závěrečné verze seminární práce - termín 15. 5. 
 
 ---
 
