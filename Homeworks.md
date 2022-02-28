@@ -67,7 +67,9 @@ Vizualizace prostorových dat v R - kartogram (infomapa)
     + Pokud pracujete se státy jako Francie nebo Španělsko, je vhodné z datasetu odstranit zámořská území (např. ostrovy). 
     + Úkol zpracujte samostatně, prosím každého o vyznačení datasetu do Google docs (odkaz Vám byl zaslán emailem).
     + Před vizualizací dat v `ggplot()` zkontrolujte rozměr datasetu. 
-
+    
+* Odevzdejte ve formátu `.Rmd` nebo Rmd zkompilované do `html/pdf/docx` výstupu   
+    + u zkompilovaných výstupů musejí být viditelné použité příkazy, tj. nastavení `echo=T` (je defaultní).
 
 
 --- 
