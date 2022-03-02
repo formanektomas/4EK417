@@ -2,6 +2,7 @@
 #
 library(dplyr)
 library(eurostat)
+library(giscoR)
 library(sf)
 library(ggplot2)
 library(RColorBrewer)
@@ -14,7 +15,7 @@ rm(list = ls())
 ## and cast it as a sf object
 #
 options(readr.default_locale=readr::locale(tz="Europe/Berlin"))
-df60 <- eurostat::get_eurostat_geospatial(resolution = 60)
+df20 <- giscoR::gisco_get_nuts()
 # Get GDP data (annual, NUTS2)
 GDP.DF <- eurostat::get_eurostat("nama_10r_2gdp", time_format = "num") 
 summary(GDP.DF)
@@ -26,7 +27,7 @@ GDP.CE <- GDP.DF %>%
   dplyr::filter(NUTS0 %in% c(c("AT","CZ","DE","HU","PL","SK")))
 summary(GDP.CE)
 # Merge with {sf} spatial data
-GDP.sf <- df60 %>% 
+GDP.sf <- df20 %>% 
   dplyr::inner_join(GDP.CE, by = c("NUTS_ID" = "geo"))   
 # Plot the data 
 ggplot(GDP.sf) +
@@ -50,7 +51,7 @@ centroids <- st_transform(centroids, 4326)
 coords <- sf::st_coordinates(centroids) # object 1: matrix of coordinates
 colnames(coords) <- c("long","lat")
 # IDs
-CE_IDs <- st_drop_geometry(CE_sf[,"geo"]) # object 2: vector of CS-unit IDs
+CE_IDs <- st_drop_geometry(CE_sf[,"NUTS_ID"]) # object 2: vector of CS-unit IDs
 IDs <- CE_IDs[,1] # make a vector with IDs
 #
 #

@@ -2,6 +2,7 @@
 #
 library(dplyr)
 library(eurostat)
+library(giscoR)
 library(sf)
 library(ggplot2)
 library(RColorBrewer)
@@ -13,7 +14,7 @@ rm(list = ls())
 ## Get the spatial data for NUTS regions and cast it as a sf object
 #
 options(readr.default_locale=readr::locale(tz="Europe/Berlin"))
-df60 <- eurostat::get_eurostat_geospatial(resolution = 60)
+df20 <- giscoR::gisco_get_nuts()
 # Get Unemployment data (annual, NUTS2)
 U.DF <- eurostat::get_eurostat("lfst_r_lfu3rt", time_format = "num") 
 summary(U.DF)
@@ -25,9 +26,9 @@ U.CE <- U.DF %>%
   dplyr::filter(NUTS0 %in% c(c("AT","CZ","DE","HU","PL","SI","SK"))) 
 summary(U.CE) # check data dimension
 # Merge with {sf} spatial data
-U.sf <- df60 %>% 
+U.sf <- df20 %>% 
   dplyr::inner_join(U.CE, by = c("NUTS_ID" = "geo")) %>% 
-  arrange(geo)  
+  arrange(NUTS_ID)  
 # Plot the data 
 ggplot(U.sf) +
   geom_sf(aes(fill = values)) +
@@ -49,7 +50,7 @@ centroids <- st_transform(centroids, 4326)
 coords <- sf::st_coordinates(centroids) 
 colnames(coords) <- c("long","lat")
 # IDs
-CE_IDs <- st_drop_geometry(CE_sf[,"geo"]) 
+CE_IDs <- st_drop_geometry(CE_sf[,"NUTS_ID"]) 
 IDs <- CE_IDs[,1] 
 # nb - distance based with tau = 200 km
 nb200km <- dnearneigh(coords, d1=0, d2=200, longlat=T, row.names = IDs)

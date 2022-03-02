@@ -5,14 +5,15 @@
 library(ggplot2)
 library(dplyr)
 library(eurostat)
+library(giscoR)
 library(sf)
 rm(list = ls())
 # Get the spatial data for NUTS regions 
 options(readr.default_locale=readr::locale(tz="Europe/Berlin"))
-df60 <- get_eurostat_geospatial(resolution = 60)
+df20 <- giscoR::gisco_get_nuts()
 #
 # Select Central EU countries
-CE.sf <- df60 %>%   
+CE.sf <- df20 %>%   
   dplyr::filter(LEVL_CODE == 2 & CNTR_CODE %in% c("AT","CZ","DE","HU","PL","SK")) %>% 
   dplyr::select(NUTS_ID,CNTR_CODE) 
 #
@@ -137,7 +138,7 @@ plot(nbKNN6, coords, col = "black", add = T)
 # .. (most model estimations use nb objects as inputs)
 #
 #
-Poland.sf <- df60 %>%   
+Poland.sf <- df20 %>%   
   dplyr::filter(LEVL_CODE == 2 & CNTR_CODE %in% "PL") %>% 
   dplyr::select(NUTS_ID) 
 plot(Poland.sf)
