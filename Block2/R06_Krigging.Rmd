@@ -36,12 +36,12 @@ meuse %>%
 
 ----
 
-* Prepare data for spatial analysis (IDW, krigging)
+* Prepare data for spatial analysis (IDW, krigging) by making the DF *spatially aware*:
 
 
 ```{r, warning=F}
 coordinates(meuse) = ~x+y
-proj4string(meuse) <- CRS("+init=epsg:28992") # ?gstat::variogram
+proj4string(meuse) <- CRS("+init=epsg:28992")
 coordinates(meuse.grid) = ~x+y
 proj4string(meuse.grid) <- CRS("+init=epsg:28992") 
 ```
