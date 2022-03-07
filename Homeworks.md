@@ -74,7 +74,7 @@ Vizualizace prostorových dat v R - kartogram (infomapa)
 
 --- 
 
-## Týden 4 (odevzdání do 13. 3. 2021)
+## Týden 4 (odevzdání do 13. 3. 2022)
 
 Testování prostorové (ne)závislosti v R 
 
