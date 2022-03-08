@@ -55,14 +55,14 @@ IDs <- CE_IDs[,1]
 # nb - distance based with tau = 200 km
 nb200km <- dnearneigh(coords, d1=0, d2=200, longlat=T, row.names = IDs)
 # W matrix
-W.matrix <- nb2listw(nb200km) 
+W_matrix <- nb2listw(nb200km) 
 #
 #
 ## Step 3
 ## Preliminary testing
 ## Getis's clustering analysis is only valid for positive spatial auto-correlation
 #
-moran.test(CE_sf$values, W.matrix, na.action=na.omit)
+moran.test(CE_sf$values, W_matrix, na.action=na.omit)
 #
 #
 ## Step 4:  Cluster identification using G*
@@ -72,7 +72,7 @@ moran.test(CE_sf$values, W.matrix, na.action=na.omit)
 ?include.self
 #
 # Search for clusters in the U.data (unemployment) variable 
-# .. We use "W.matrix" weights.
+# .. We use "C_star" weights.
 # .. A high positive z-score for a feature indicates there
 # .. is an apparent concentration of high density values within its neighbourhood of
 # .. a certain distance (hot spot), and vice versa (cold spot). A z-score near zero
@@ -85,17 +85,22 @@ moran.test(CE_sf$values, W.matrix, na.action=na.omit)
 # .. also, we use include.self() for G* formula
 # .. and leave this function out for G formula
 #
-W.matrix <- nb2listw(include.self(nb200km), style="B")
+# C* matrix
+C_star <- nb2listw(include.self(nb200km), style="B")
 # show z-score, plus the underlying G*, E(G*) and var(G*)
-localG(CE_sf$values, W.matrix, return_internals = T)
-# save z-score for subsequent analysis
-CE_sf$LocG <- localG(CE_sf$values, W.matrix)
-CE_sf$LocG
+localG(CE_sf$values, C_star, return_internals = T)
+G_star <- localG(CE_sf$values, C_star, return_internals = T)
+G_star_m <- attributes(localG(CE_sf$values, C_star, return_internals = T))$internals %>% 
+  as.data.frame()
+G_star_m 
+# save z-score & p-values for subsequent analysis
+CE_sf$LocG <- localG(CE_sf$values, C_star)
+CE_sf$LocGpval <- G_star_m$`Pr(z != E(G*i))`
 #
-# We may want to plot cluster data for "significant" z-scores only
+# We may want to plot cluster data for "significant" z-scores only, 5% sig. level only
 CE_sf$lG <- 0
-CE_sf[CE_sf$LocG < -3.289, "lG"] <- -1 # significant cold-spot (approx)
-CE_sf[CE_sf$LocG > 3.289, "lG"] <- 1 # significant hot-spot
+CE_sf[CE_sf$LocG < 0 & CE_sf$LocGpval < 0.05, "lG"] <- -1 # significant cold-spot 
+CE_sf[CE_sf$LocG > 0 & CE_sf$LocGpval < 0.05, "lG"] <- 1 # significant hot-spot
 hist(CE_sf$lG)
 #
 # Plot coldspots and hotspots
@@ -103,7 +108,7 @@ hist(CE_sf$lG)
 ggplot(CE_sf) +
   geom_sf(aes(fill = lG)) +
   scale_fill_gradient2('Unemployment \nHotspots \n(Red) \nColdspots \n(Blue)', 
-                       low = "blue", mid = "white", high = "red")+
+                       low = "blue", mid = "grey90", high = "red")+
   ggtitle("Unemployment hotspots and coldspots, 2017, NUTS2 level") +
   theme_bw()
 #
