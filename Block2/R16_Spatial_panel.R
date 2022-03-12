@@ -43,8 +43,8 @@ Pdata$KIS_bar <- rep(Avgs$A.KIS, times = 1, each = 6)
 #
 ## Plot the Unemployment data
 options(readr.default_locale=readr::locale(tz="Europe/Berlin"))
-df60 <- eurostat::get_eurostat_geospatial(resolution = 60, year=2013)
-df60 %>% 
+df20 <- giscoR::gisco_get_nuts(year=2013)
+df20 %>% 
   dplyr::inner_join(Pdata, by = "NUTS_ID") %>% 
   filter(time == 2009 | time == 2014) %>% 
   ggplot() +
@@ -100,7 +100,7 @@ time <- length(unique(Pdata$time))
 #
 # ?impacts
 set.seed(1128)
-imp1 <- spdep::impacts(Lag_mod, listw = CE_data.listw, time = time, R = 1000)
+imp1 <- spatialreg::impacts(Lag_mod, listw = CE_data.listw, time = time, R = 1000)
 imp2 <- summary(imp1, zstats = T, short = T)
 imp2
 plot(imp1$sres$direct[,1:3])
@@ -130,7 +130,7 @@ for(j in 16:100) {
                   LeeYu = T, Hess = F)
   sumLagmod <- summary(Lag_mod)
   #
-  imp1 <- spdep::impacts(Lag_mod, listw = CE.listw, time = 6, R = 1000)
+  imp1 <- spatialreg::impacts(Lag_mod, listw = CE.listw, time = 6, R = 1000)
   imp2 <- summary(imp1, zstats = T, short = T)
   #
   s2.df <- rbind(s2.df, c(j*10, Lag_mod$logLik, sumLagmod$ARCoefTable[1,1], sumLagmod$ARCoefTable[1,2],

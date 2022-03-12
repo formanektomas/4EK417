@@ -29,10 +29,10 @@ plot(CE_data[ , c(4,7,8)])
 # 
 # U_pc_2012              Dependent variable, the general rate of unemployment 
 #                        for a NUTS2 region i at time t (2012)
-# EUR_HAB_EU_2011        region’s GDP per capita (current EUR prices of 2011) 
+# EUR_HAB_EU_2011        region?s GDP per capita (current EUR prices of 2011) 
 #                        expressed as percentage of EU average
 # EUR_HAB_EU_2010 
-# TechEmp_2012           percentage of employees working in the “high-tech industry” 
+# TechEmp_2012           percentage of employees working in the ?high-tech industry? 
 #                        (NACE r.2 code HTC) in a given region and t = 2012
 # NUTS_ID                NUTS2 region-identifier (NUTS.2010)
 # long, lat              coordinates of regions' centroids
@@ -74,12 +74,12 @@ M1.df <- cbind(M1.df,IDs)
 #
 # Plot eigenvectors 1 to 9:
 options(readr.default_locale=readr::locale(tz="Europe/Berlin"))
-df60 <- eurostat::get_eurostat_geospatial(resolution = 60, year="2010")
+df20 <- giscoR::gisco_get_nuts(year="2010")
 # Merge with M1.df - MEM
-MEM.sf <- df60 %>%
+MEM.sf <- df20 %>%
   dplyr::inner_join(M1.df[,c(1:9,28)], by = c("NUTS_ID" = "IDs"))  
 #
-map.df.l <- melt(data = MEM.sf, id.vars = c("id", "geometry", "FID", "NUTS_ID"), 
+map.df.l <- melt(data = MEM.sf, id.vars = c("NUTS_ID", "geometry", "FID"), 
                  measure.vars = c("V1", "V2", "V3","V4", "V5", "V6","V7", "V8", "V9"))
 # Plot the data 
 ggplot(map.df.l) + # map.df.l is not an sf object (dataframe)

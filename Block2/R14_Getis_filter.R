@@ -21,10 +21,10 @@ plot(CE_data[ , c(4,7,8)])
 # 
 # U_pc_2012              Dependent variable, the general rate of unemployment 
 #                        for a NUTS2 region i at time t (2012)
-# EUR_HAB_EU_2011        region’s GDP per capita (current EUR prices of 2011) 
+# EUR_HAB_EU_2011        region?s GDP per capita (current EUR prices of 2011) 
 #                        expressed as percentage of EU average
 # EUR_HAB_EU_2010 
-# TechEmp_2012           percentage of employees working in the “high-tech industry” 
+# TechEmp_2012           percentage of employees working in the ?high-tech industry? 
 #                        (NACE r.2 code HTC) in a given region and t = 2012
 # NUTS_ID                NUTS2 region-identifier (NUTS.2010)
 # long, lat              coordinates of regions' centroids
@@ -82,17 +82,17 @@ localG(CE_data$U_pc_2012, nb2listw(nb250km, style="B"), return_internals = T)
 # Spatial filter for unemployment
 U.Ftr <- localG(CE_data$U_pc_2012, nb2listw(nb250km, style="B"), return_internals = T)
 Getis.m <- as.data.frame(attr(U.Ftr, which = "internals")) # retrieve "internals"
-CE_data$U_ddot <- CE_data$U_pc_2012 * (Getis.m$EG/Getis.m$G ) # "multiplicative filter"
+CE_data$U_ddot <- CE_data$U_pc_2012 * (Getis.m$'E(Gi)'/Getis.m$Gi ) # "multiplicative filter"
 #
 # Spatial filter for log.GDP
 GDP.Ftr <- localG(CE_data$log.GDP, nb2listw(nb250km, style="B"), return_internals = T)
 Getis.m2 <- as.data.frame(attr(GDP.Ftr, which = "internals")) # retrieve "internals"
-CE_data$lGDP_ddot <- CE_data$log.GDP * (Getis.m2$EG/Getis.m2$G ) # "multiplicative filter"
+CE_data$lGDP_ddot <- CE_data$log.GDP * (Getis.m2$'E(Gi)'/Getis.m2$Gi ) # "multiplicative filter"
 #
 # Spatial filter for TechEmp_2012
 Tech.Ftr <- localG(CE_data$TechEmp_2012, nb2listw(nb250km, style="B"), return_internals = T)
 Getis.m3 <- as.data.frame(attr(Tech.Ftr, which = "internals")) # retrieve "internals"
-CE_data$Tech_ddot <- CE_data$TechEmp_2012 * (Getis.m3$EG/Getis.m3$G ) # "multiplicative filter"
+CE_data$Tech_ddot <- CE_data$TechEmp_2012 * (Getis.m3$'E(Gi)'/Getis.m3$Gi ) # "multiplicative filter"
 #
 #
 # Note the change in spatial dependency (we allow for negative sp. dep.)
@@ -132,17 +132,17 @@ for(jj in 16:100) {
   # U_pc filtering
   U.Ftr <- localG(CE_data$U_pc_2012, nb2listw(nb, style="B"), return_internals = T)
   Getis.m <- as.data.frame(attr(U.Ftr, which = "internals")) # retrieve "internals"
-  CE_data$U_ddot <- CE_data$U_pc_2012 * (Getis.m$EG/Getis.m$G ) # "multiplicative filter"
+  CE_data$U_ddot <- CE_data$U_pc_2012 * (Getis.m$'E(Gi)'/Getis.m$Gi ) # "multiplicative filter"
   #
   # Spatial filter for log.GDP
   GDP.Ftr <- localG(CE_data$log.GDP, nb2listw(nb, style="B"), return_internals = T)
   Getis.m2 <- as.data.frame(attr(GDP.Ftr, which = "internals")) # retrieve "internals"
-  CE_data$lGDP_ddot <- CE_data$log.GDP * (Getis.m2$EG/Getis.m2$G ) # "multiplicative filter"
+  CE_data$lGDP_ddot <- CE_data$log.GDP * (Getis.m2$'E(Gi)'/Getis.m2$Gi ) # "multiplicative filter"
   #
   # Spatial filter for TechEmp_2012
   Tech.Ftr <- localG(CE_data$TechEmp_2012, nb2listw(nb, style="B"), return_internals = T)
   Getis.m3 <- as.data.frame(attr(Tech.Ftr, which = "internals")) # retrieve "internals"
-  CE_data$Tech_ddot <- CE_data$TechEmp_2012 * (Getis.m3$EG/Getis.m3$G ) # "multiplicative filter"
+  CE_data$Tech_ddot <- CE_data$TechEmp_2012 * (Getis.m3$'E(Gi)'/Getis.m3$Gi ) # "multiplicative filter"
   #
   LRM <- lm(U_ddot ~ lGDP_ddot+Tech_ddot, data = CE_data)
   sLRM <- summary(LRM)
