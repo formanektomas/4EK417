@@ -95,7 +95,7 @@ Testování prostorové (ne)závislosti v R
 
 ## Týden 5 (odevzdání do 20. 3. 2022)
 
-Doplňte `Quick Exercise` ze skriptu `R11_Direct_Indirect_Effects.R` - postupujte podle zadání, formulovaného na cvičení v týdnu 5.
+Doplňte skript `R10_Spatial_lag_model.R` - postupujte podle zadání, formulovaného na cvičení v týdnu 5.
 
 ---
 
