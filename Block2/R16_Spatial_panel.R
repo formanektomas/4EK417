@@ -5,6 +5,7 @@ library(ggplot2)
 library(RColorBrewer)
 library(splm) 
 library(dplyr)
+library(spdep)
 # 
 # 
 rm(list=ls())
