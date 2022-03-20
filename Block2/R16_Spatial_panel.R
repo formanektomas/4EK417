@@ -10,6 +10,7 @@ library(spdep)
 # 
 rm(list=ls())
 Pdata <- read.csv("datasets/PanelData.csv")
+PdataF <- plm::pdata.frame(Pdata,index = c("NUTS_ID", "time"))
 str(Pdata)
 summary(Pdata)
 #
@@ -37,7 +38,7 @@ summary(Pdata)
 # Individual (within) means for CRE estimation....
 Avgs <- Pdata %>% group_by(NUTS_ID) %>% arrange(time) %>% mutate(time=ceiling(rank(time)/6)) %>% 
   group_by(NUTS_ID, time) %>% 
-  summarise(A.EUR_HAB_EU=mean(EUR_HAB_EU), A.KIS=mean(KIS), A.HTC=mean(HTC)) %>% ungroup
+  summarise(A.EUR_HAB_EU=mean(EUR_HAB_EU), A.KIS=mean(KIS), A.HTC=mean(HTC)) %>% ungroup()
 Pdata$EUR_HAB_EU_bar <- rep(Avgs$A.EUR_HAB_EU, times = 1, each = 6)
 Pdata$HTC_bar <- rep(Avgs$A.HTC, times = 1, each = 6)
 Pdata$KIS_bar <- rep(Avgs$A.KIS, times = 1, each = 6)
@@ -63,7 +64,8 @@ summary(coords)
 IDs <- Pdata[Pdata$Y2011==1,"NUTS_ID"]
 nb <- dnearneigh(coords, d1=0, d2=240, longlat=T, row.names = IDs)
 CE_data.listw <- nb2listw(nb)
-# Note: should you plot the data, use NUTS rev. 2010
+W_matrix <- nb2mat(nb)
+# 
 #
 #
 #
@@ -72,10 +74,14 @@ CE_data.listw <- nb2listw(nb)
 #
 ### Model estimaton 
 #
-#
 # Provide model formula separately, for syntax simplicity
 fm1 <- U_pc ~ EUR_HAB_EU + HTC +HUClstr +I(HTC*HUClstr) + EUR_HAB_EU_bar + HTC_bar 
 #
+#
+#  Pesaran, M.H. (2004), General Diagnostic Tests for Cross Section Dependence in Panels
+#
+rwtest(fm1, data = Pdata, w = W_matrix, 
+       index = c("NUTS_ID", "time"), model = "within")
 #
 # ML - pooled regression
 ?spml
