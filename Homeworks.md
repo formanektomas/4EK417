@@ -99,7 +99,7 @@ Doplňte skript `R10_Spatial_lag_model.R` - postupujte podle zadání, formulova
 
 ---
 
-## Týden 6 (odevzdání do 26. 3. 2022)
+## Týden 6 (odevzdání do 27. 3. 2022)
 
 Zpracujte rozšířený abstrakt své seminární práce - popište vybrané téma (motivace, výzkumný záměr), popište data, popište preferovanou odhadovou metodu. Jaký je Váš konkrétní cíl? Jaké vidíte potenciální problémy či komplikace? Případně uveďte zpracovaný model a/nebo dílčí výstupy odhadu. Rozsah 1-2 strany A4 (cca 400-800 slov).  
 
