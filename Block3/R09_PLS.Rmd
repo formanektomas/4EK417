@@ -101,6 +101,7 @@ It is often simpler to judge the RMSEPs by plotting them:
 
 ```{r}
 plot(RMSEP(PLS1), legendpos = "topright")
+selectNcomp(PLS1, method = "onesigma", plot = TRUE)
 ```
 
 ---
@@ -139,21 +140,6 @@ Pred1<- predict(PLS1, ncomp = 1)
 cbind(Hitters$Salary,Pred1)[1:10,]
 ```
 
---- 
-
-### Componet selection through CV may be performed using a summary plot 
-
-(Almost the same way as in PCR):
-
-
-```{r}
-Data1 <- data.frame(y1 = I(matrix(y,nrow = 263)), X1=I(matrix(X,nrow = 263)))
-str(Data1)
-PLS2 <- plsr(y1 ~ X1, ncomp = 10, validation = "CV", method = "oscorespls", scale=T, data = Data1)
-# note that selectNcomp() requires "data=Data.Frame.Name" argument in the plsr() 
-# ... and note how the matrix X is part of the Data1 dataframe
-selectNcomp(PLS2, method = "onesigma", plot = TRUE)
-```
 ---- 
 
 ## Quick exercise:
