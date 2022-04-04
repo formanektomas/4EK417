@@ -122,6 +122,20 @@ Zpracujte rozšířený abstrakt své seminární práce - popište vybrané té
 
 ---
 
+## Týden 8 (odevzdání do 10. 4. 2022)
+
+*  Pro tento úkol můžete vyjít z dat, která jste použili v týdnu 7
+
+* Proveďte PCR regresi (PCA analýza + regrese na hlavních komponentách) a PLS regresi. Využijte příklady ze cvičení jako vzor.  
+    * Výstup (vizualizace, vyhodnocení, predikce) proveďte podle vzoru ze cvičení - např. podle `R07_PCA_PCR.Rmd`.  
+
+* Odevzdejte ve formátu `.Rmd` nebo Rmd zkompilované do `html/pdf/docx` výstupu   
+    + u zkompilovaných výstupů musejí být viditelné použité příkazy, tj. nastavení `echo=T` (je defaultní).  
+
+Bonusový úkol:
+* K závislé proměnné ze svého datsetu vyberte jeden vhodný regresor (spojitá proměnná), zvolte vhodné "cut-points" (alespoň 2) a generujte regresi na spline křivce (cubic spline) podle vzoru z příkladu `R12_Polynomial_Step_Regression.Rmd`).
+
+
 ---
 
 [Homepage](https://formanektomas.github.io/4EK417/)
