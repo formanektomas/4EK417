@@ -1,0 +1,287 @@
+---
+title: "Geographically weighted regression models"
+subtitle: "Local regression"
+output:
+  html_document: default
+---
+
+
+# Libraries
+
+```{r message=FALSE, warning=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)  
+library(sf)
+library(sp)
+library(rgdal)
+library(rgeos)
+library(tmap)
+library(tmaptools)
+library(spgwr)
+library(grid)
+library(gridExtra)
+# Change the presentation of decimal numbers to 4 and avoid scientific notation
+options(prompt="R> ", digits=4, scipen=999)
+```
+
+# Motivation
+
+- GWR is a nonparametric multivariate model which can indicate/control for **non-stationarity that may take place** across space (the study area).
+
+- It can be used to identify **how (locally weighted) regression coefficients may vary** across space (the study area).
+
+## Objectives of the example:
+
+- Explore linear model limitations
+- Run a GWR and observe its parameters across space
+- Visualize output
+
+
+# Preliminary materials
+
+- [Introduction to locally weighted regressions](https://youtu.be/Vf7oJ6z2LCc)
+- [Introduction to Geographically Weighted Regressions](https://youtu.be/CpH8B2SiqdM) 
+- [spgwr package](https://cran.r-project.org/web/packages/spgwr/spgwr.pdf)
+
+## Read non-spatial data
+
+```{r}
+Census.Data <-read.csv("datasets/practicaldata.csv")
+glimpse(Census.Data)
+```
+
+
+## Read spatial information
+
+```{r}
+Output.Areas2 <- read_sf("datasets/Camden_oa11/Camden_oa11.shp")
+glimpse(Output.Areas2)
+```
+
+# Merge datasets, transform it into a `sf` object
+
+```{r}
+OA.Census <- merge(Output.Areas2, Census.Data, by.x="OA11CD", by.y="OA")
+OA.Census2 <- st_as_sf(OA.Census)
+```
+
+# Run linear model
+
+
+Let us  run a linear model to understand the global relationship between our variables in our study area.
+
+- **Dependent variable:**  The percentage of people with qualifications
+- **Independent (predictor) variables:** the percentages of unemployed economically active adults and White British ethnicity 
+
+```{r}
+model <- lm(Qualification ~ Unemployed + White_British, data = Census.Data)
+summary(model)
+
+```
+
+## Model diagnostics
+
+This model has an adjusted R-squared value of 0.463. So we can assume 46% of the variance can be explained by the model. We can also observe the influences of each of the variables. However, **the overall fit of the model and each of the coefficients may vary across space** if we consider different parts of our study area. It is, therefore, worth considering the standardized residuals from the model to help us understand and improve our future models.
+
+A residual is the difference between the predicted and observed values for an observation in the model. **Models with lower r-squared values would have greater residuals on average** as the data would not fit the modeled regression line as well. Standardized residuals are represented as Z-scores where 0 represent the predicted values.
+
+If you plot a linear model (i.e. our model object), R will print out four different plots of which are useful for evaluating the model fit. These are very briefly summarized as:
+
+- Residuals vs Fitted: considers the relationship between the actual and the predicted data. The more dispersed the residuals are, the weaker the R2 should be. This can be useful to identify outlines too.The fit also tells us if the residuals are non-linearly distributed.
+ 
+- Normal Q-Q: Demonstrates the extent to which the residuals are normally distributed. Normal residuals should fit the straight line well.
+
+- Scale-Location: Shows if the residuals are spread equally across the full range of the predictors. If the values in this chart display a linear positive relationship, it suggests that the residuals spread wider and wider for greater values (this is known as **heteroscedasticity**).
+
+- Residuals vs Leverage: Identifies outliers, high-leverage points and influential observations. This plot is pretty difficult to interpret and there are other means of identifying these values.
+
+More information on these plots is [here](https://data.library.virginia.edu/diagnostic-plots/)
+
+```{r}
+par(mfrow=c(2,2))
+plot(model)
+```
+
+If you want to print just one of the plots you can enter which = n within the `plot()` function. i.e. plot(model, which = 3)
+
+# Map residuals
+
+Map the spatial distribution of the residuals
+
+- Create a column vector of the residuals
+```{r}
+resids <- residuals(model)
+```
+
+
+```{r}
+map.resids <- cbind(OA.Census2, resids) 
+```
+
+```{r}
+glimpse(map.resids)
+```
+
+No renaming is needed if we use `map.resids2` as it is a `sf` object
+
+
+-  map the residuals using the quickmap function from tmap
+
+```{r}
+qtm(map.resids, fill = "resids")
+```
+
+
+If there is a geographic pattern in the residuals, it is possible that an unobserved variable may be influencing the dependent variable
+
+# Geographically weighted regression
+
+> GWR is the term introduced by Fotheringham, Charlton and Brunsdon (1997, 2002) to describe a family of regression models in which the **coefficients are allowed to vary spatially**. *GWR uses the coordinates of each sample point* or zone centroid, as a target point for a form of spatially weighted least squares regression (for some models the target points can be separately defined, e.g. as grid intersection points, rather than observed data points).
+
+> Formal definition of the GWR model: [(de Smith et al, 2015)](http://www.spatialanalysisonline.com/HTML/?geographically_weighted_regres.htm)
+
+
+## Calculate kernel bandwidth
+
+- Use an adaptive kernel, function built into `{spgwr}`:
+
+```{r}
+Coordinates <-  sf::st_centroid(OA.Census[1])
+Centroids <- st_coordinates(Coordinates)
+GWRbandwidth <- gwr.sel(Qualification ~ Unemployed + White_British, data = OA.Census, adapt = T, coords = Centroids)
+```
+
+When using and `sf` object, observation coordinates have to be given
+
+## Run the GWR model
+
+```{r}
+gwr.model = gwr(Qualification ~ Unemployed + White_British,
+                data = OA.Census, coords = Centroids,
+                adapt=GWRbandwidth,
+                hatmatrix=TRUE,
+                se.fit=TRUE) 
+```
+
+Print results
+
+```{r}
+gwr.model
+```
+
+
+## Create results dataframe 
+
+```{r}
+results <-as.data.frame(gwr.model$SDF)
+names(results)
+```
+
+## Map results
+
+- Bind the results to `OA.Census` polygon.
+
+```{r}
+gwr.map <- cbind(OA.Census, as.matrix(results))
+```
+
+```{r}
+gwr.map2 <- st_as_sf(gwr.map)
+```
+
+
+The variable names followed by the name of our original data frame (i.e. OA.Census.Unemployed) are the coefficients of the model.
+
+```{r}
+qtm(gwr.map, fill = "localR2")
+```
+
+- Spatial distribution of White_British
+
+```{r}
+map1 <- tm_shape(gwr.map2) + 
+  tm_fill("White_British",
+          n = 5,
+          style = "quantile")  +
+  tm_layout(frame = FALSE,
+            legend.text.size = 0.5,
+            legend.title.size = 0.6)
+map1
+```
+
+- Coefficients of  White_British
+
+
+```{r}
+map2 <- tm_shape(gwr.map2) +
+  tm_fill("White_British.1",
+          n = 5,
+          style = "quantile",
+          title = "WB Coefficient") +
+  tm_layout(frame = FALSE,
+            legend.text.size = 0.5,
+            legend.title.size = 0.6)
+map2
+```
+
+
+- Spatial distribution of Unemployed 
+
+```{r}
+map3 <- tm_shape(gwr.map) +
+  tm_fill("Unemployed",
+          n = 5,
+          style = "quantile") +
+  tm_layout(frame = FALSE,
+            legend.text.size = 0.5,
+            legend.title.size = 0.6)
+map3
+```
+
+- Coefficients of Unemployed
+
+```{r}
+map4 <- tm_shape(gwr.map) +
+  tm_fill("Unemployed.1",
+          n = 5,
+          style = "quantile",
+          title = "Ue Coefficient") +
+  tm_layout(frame = FALSE,
+            legend.text.size = 0.5,
+            legend.title.size = 0.6)
+map4 
+```
+
+
+
+# Summarising visualization using Grid Extra
+
+```{r, message=F,warning=F}
+# creates a clear grid
+grid.newpage()
+
+# assigns the cell size of the grid, in this case 2 by 2
+pushViewport(viewport(layout=grid.layout(2,2)))
+
+# prints a map object into a defined cell   
+print(map1, vp=viewport(layout.pos.col = 1, layout.pos.row =1))
+print(map2, vp=viewport(layout.pos.col = 2, layout.pos.row =1))
+print(map3, vp=viewport(layout.pos.col = 1, layout.pos.row =2))
+print(map4, vp=viewport(layout.pos.col = 2, layout.pos.row =2))
+```
+
+----
+
+## Acknowledgement:
+
+
+Adapted from: 
+
+[https://rpubs.com/quarcs-lab/tutorial-gwr1](https://rpubs.com/quarcs-lab/tutorial-gwr1)
+
+Additional information drawn from:
+
+[Guy Lansley & James Cheshire (2016)](https://data.cdrc.ac.uk/tutorial/an-introduction-to-spatial-data-analysis-and-visualisation-in-r).  
+
+Mendez C. (2020).  Geographically weighted regression models: A tutorial using the spgwr package in R. R Studio/RPubs. Available at <https://rpubs.com/quarcs-lab/tutorial-gwr1> 
+
