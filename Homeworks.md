@@ -135,6 +135,16 @@ Zpracujte rozšířený abstrakt své seminární práce - popište vybrané té
 Bonusový úkol:
 * K závislé proměnné ze svého datsetu vyberte jeden vhodný regresor (spojitá proměnná), zvolte vhodné "cut-points" (alespoň 2) a generujte regresi na spline křivce (cubic spline) podle vzoru z příkladu `R12_Polynomial_Step_Regression.Rmd`).
 
+---
+
+## Týden 9 (odevzdání do 17. 4. 2022)
+
+*  Pro tento úkol můžete vyjít z dat, která jste použili v týdnu 7 a 8
+
+* Odhadněte GAM funkci, použijte alespoň 3 různé specifikace (kombinace smoothning spline, local regression), proveďte diagnostické testy podle vzoru z cvičení.
+
+* Odevzdejte ve formátu `.Rmd` nebo Rmd zkompilované do `html/pdf/docx` výstupu   
+    + u zkompilovaných výstupů musejí být viditelné použité příkazy, tj. nastavení `echo=T` (je defaultní).  
 
 ---
 
