@@ -146,6 +146,14 @@ Bonusový úkol:
 * Odevzdejte ve formátu `.Rmd` nebo Rmd zkompilované do `html/pdf/docx` výstupu   
     + u zkompilovaných výstupů musejí být viditelné použité příkazy, tj. nastavení `echo=T` (je defaultní).  
 
+
+---
+
+## Týden 11 (odevzdání do 1. 5. 2022)
+
+* Podle instrukcí předaných na cvičení dne 25.4. doplňte (vyřešte zadání) ze skriptu `R06_LME_wagepanel_hierarchical_data.R`.
+
+
 ---
 
 [Homepage](https://formanektomas.github.io/4EK417/)
