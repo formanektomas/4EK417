@@ -1,1 +1,1 @@
-## Binary dependent variable models
+## Models for binary & limited dependent variables
