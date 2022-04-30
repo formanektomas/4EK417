@@ -42,7 +42,7 @@ mfx::logitmfx(Survived ~ Pclass + Female + Age
 #
 library(effects)
 ?allEffects
-allEffects(t.1) # type="response" is the default setting
+allEffects(t.0) # type="response" is the default setting
 # note that "Age" is split into 5 intervals, with representative 
 # "rounded" values as labels.
 #
@@ -84,7 +84,9 @@ plot(allEffects(t.1), type="response" ) # type="response"
 ?effects::effect 
 # note the syntax: 
 # effect(term, mod, vcov.=vcov, ...)
-?plot.eff
+?plot.eff  
+# see the predictor-effects-gallery.pdf file 
+# in Description for additional examples
 # 
 plot(effect("Pclass*Female", t.1), type="response")
 plot(effect("Pclass*Age", t.1), type="response")
@@ -101,6 +103,13 @@ plot(effect("Female*Age", t.1), type="response",
 # even if not included in the original model:
 plot(effect("Pclass*Female*Age", t.1), type="response")
 #
+# The "interaction" is just for visualization, 
+# same (or better) complex visualization can be produced by:
+plot(effect(c("Female","Pclass","Age"), t.1), type="response")
+#
+# or, rearrange the plot
+plot(effect(c("Pclass","Female","Age"), t.1), type="response",
+     lattice=list(layout=c(3, 2)))
 #
 #
 #
