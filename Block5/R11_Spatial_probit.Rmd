@@ -140,7 +140,7 @@ Estimate marginal effects (average direct, indirect and total impacts) for the S
 ```{r, warning=F}
 # replicate LeSage et al. (2011), Table 4, p.1018
 # SAR probit model effects estimates for the 0-3-month time horizon
-spdep::impacts(fit1)
+impacts(fit1)
 ```
 
 -----
