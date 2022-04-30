@@ -118,7 +118,7 @@ Moving beyond linearity
 
 --- 
 
-## Block 5: Binary dependent variables: selected methods and models
+## Block 5: Models for binary & limited dependent variables
 
 #### Materials for Block 5
 
