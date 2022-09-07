@@ -1,8 +1,66 @@
 #### Missing data & Multiple Imputation (MI) ####
 #
 #
+#### Brief introduction to NA data in R:
 #
 #
+rm(list=ls())
+#
+#
+# 
+#
+#### Dealing with missing data - 'NA' values
+#
+#
+#
+v1 <- c(-10, 5, 3, 0, NA, 1, -1, NA, 4)
+class(v1)
+length(v1)
+summary(v1) # No. of NA values is displayed
+# 
+# Some specific features of NA handling by R:
+#
+v1 >= 0 # (NA >= 0) is evaluated as NA
+mean(v1)    
+range(v1)   
+# mean(), var(), sd()
+# and other basic data analyses may not be performed
+# unless NA's are dealt with properly.
+#
+mean(v1, na.rm=TRUE) # NA values are ignored during the calculation
+#
+#
+is.na(v1) # Tests the objects, returns TRUE if object (vector element) is NA.
+which(is.na(v1)) # returns the indices of TRUE values within a vector (object)
+#
+v2 <- v1[!is.na(v1)] # All non-NA values from v1 are saved to v2,
+v3 <- c(na.omit(v1)) # same result as from the line above.
+#
+#
+# 
+#
+# Missing values: Loading external data files with missing values (NAs)
+#
+# By default, only "NA" values and empty data fields get interpreted as NA's.
+# (in logical, numeric, integer and complex fields)
+# Other NA's (na.strings), such as "..." or "Missing value" must be
+# explicitly passed to the read.table / read.csv function
+#
+#
+USA <- read.csv("datasets/USA_states.csv")
+# Amended from the state.x77 dataset from the Datasets package
+fix(USA) # Are there missing values? How are they encoded?
+str(USA) 
+# Note the class of variable with missinterpreted NA values...
+#
+## Assignment 3
+?read.csv
+## Amend the following "read.csv" command on line 161 to import the "USA_states.csv" file
+## properly. 
+USA <- read.csv("datasets/USA_states.csv", na.strings = c("...", ))
+#
+#
+#### Missing data & regression analysis
 #
 rm(list=ls())
 wageData <- read.csv("datasets/wage1.csv")
