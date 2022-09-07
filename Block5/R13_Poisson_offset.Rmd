@@ -1,0 +1,282 @@
+---
+title: "Count data and Poisson regression - accounting for offset (exposure)"
+output: html_document
+---
+
+```{r, include=F}
+library(AER)
+library(ggplot2)
+library(lmtest)
+library(RcmdrMisc)
+# read in datasets
+#
+lung <- read.table("data/lung.txt",header=TRUE)
+lung$city <- as.factor(lung$city)
+lung$age <- as.factor(lung$age)
+```
+
+--- 
+
+### Offset (exposure) in Poisson regression models  
+
+<p style="margin-bottom:1cm;">  
+
+* Poisson regression may be used for rate data, where the rate is a count of events divided by some measure of that unit's exposure (some particular unit of observation).  
+
+* For example, individuals are not followed the same amount of time - six cases over 1 year should not amount to the same as six cases over 10 years. 
+
+* Generally, event rates can be calculated as events per observational exposure (unit of time, area, size of city-population, etc.). 
+
+* This allows the observation window to vary for each unit, while keeping comparable observations (scales).  
+
+* In Poisson regression, unit exposure is handled as `offset`.  
+
+* If the rate is count/exposure, multiplying both sides of the equation by exposure moves it to the right side of the equation.  
+
+* When both sides of the equation are log-transformed, the final model contains **1 x log(exposure)** as a term that is added to the regression coefficients.  
+
+----  
+
+### Formal description
+
+<p style="margin-bottom:1cm;"> 
+
+$$
+\begin{align}
+\text{Poisson model with equal exposure for all }~i = 1,2, \dots, N: & & \\
+& & \\
+\log(\mu_i) &= \beta_0 + \beta_1x_i  & ({\rm counts})&  \\
+& & \\
+\text{For different exposure times, we can use rates:} & & \\
+& & \\
+\log\bigg(\frac{\mu_i}{{\rm time}_i}\bigg) &= \beta_0 + \beta_1x_i & ({\rm rates})&  \\
+& & \\
+ &\Rightarrow  \\
+ & & \\
+\log(\mu_i) - \log({\rm time}_i) &= \beta_0 + \beta_1x_i  \\
+& & \\
+ &\Rightarrow  \\
+ & & \\
+\log(\mu_i) &= \beta_0 + \beta_1x_i + 1\times \log({\rm time}_i) & ({\rm still\ rates})& \\
+& & \\
+\text{where}~[1\times \log({\rm time}_i)]~\text{is the offset term}. & & \\
+& & \\
+& & \\
+& & \\
+\text{ Important note:}& & \\
+& & \\
+\log(\mu_i) &= \beta_0 + \beta_1x_i + 1\times \log({\rm time}_i) & & \\
+& & \\
+&\ne  \\
+& & \\
+\log(\mu_i) &= \beta_0 + \beta_1x_i + \beta_2\times \log({\rm time}_i)\quad {\rm when}\ \beta_2 \ne 1  & ({\rm counts\ again})&
+\end{align}
+$$
+
+
+* With our example, using **offset** is not the same as including the corresponding variable (log-transformed or not) into the regression equation! 
+
+* Exposue/offset can be handled in `R`-estimated count data models as follows:
+
+> `Pois_model <- glm( y ~ x + offset(log(time)), data=df, family=poisson )`
+
+* For predictions, offset is handled automatically. Say, we have two dataframes: `df` and `df_pred`, with the same structure (columns `y, x, time`). Predictions can be produced simply (log-transformation of the offset/exposure variable is performed automatically). 
+
+> `predict(Pois_model, newdata = df_pred, type = "response")`
+
+---  
+
+---  
+
+### Empirical example - lung cancer cases in four cities (Denmark)
+
+
+#### Data description
+
+* Dataset contains counts of incident lung cancer cases and population size in four Danish cities, observations are organized by age groups.  
+
+* Variables:
+   - **city** is a factor with levels: `Fredericia`, `Horsens`, `Kolding`, and `Vejl`,  
+   - **age** a factor with levels `40-54`, `55-59`, `60-64`, `65-69`, `70-74`, and `75+`,  
+   - **pop** the number of inhabitants (per row of dataset - i.e. per city per age group),  
+   - **cases** the number of lung cancer cases, recorded during the years 1968 - 1971 (dependent variable covers 4 years).   
+
+* We want to model how the expected number of lung cancer counts varies by age.  
+
+
+```{r}
+head(lung)
+# simple plot:
+boxplot(cases~age,data=lung,col="bisque")
+```
+
+---
+
+#### GLM, estimation, exposure ignored:
+
++ First, we consider `age` as a single regressor:  
+
+
+```{r}
+lungmod1 <- glm(cases ~ age, family=poisson, data=lung)
+summary(lungmod1)
+lmtest::lrtest(lungmod1)
+```
+
+
+* The Proposed model is not statistically different from a Null model. 
+
+* For illustrative purposes, paramater interpretation would be as follows (given significant model and regressors):  
+
+   - $\exp(2.11021) = 8.24$ is the expected count of cancer cases among individuals aged 40 - 54 (the reference group),  
+   - $\exp(2.11021 - 0.03077) = 8.00$ is the expected count of cancer cases among individuals aged 55 - 59,  
+   - $\exp(-0.0377) = 0.97$ is the 55 - 59 age group counts being 0.97 "times less" than the base group.  
+   
+--- 
+
+* We can try to improve the model by controlling for the city (factor).  
+   - This is not an adequate exposure control - We can control for different city-sizes, but not for actual age-group sizes (per city).
+   
+   
+```{r}
+lungmod1b <- glm(cases ~ age+city, family=poisson, data=lung)
+summary(lungmod1b)
+lmtest::lrtest(lungmod1b)
+```   
+   
+  
+   
+
+--- 
+
+---
+
+#### GLM, estimation with offset:
+
+* Previous approach (model) ignores the fact that each observed city and age group has a different size (city population). 
+
+* It may be of more interest to know the `rate per person`, (plus, our data cover 4 years of observation).
+
+* Hence, instead of the regression equation
+
+$$
+\log \mu_i = 
+\beta_0 + 
++ \beta_1 \text{Age55-59}_i
++ \beta_2 \text{Age60-64}_i
++ \beta_3 \text{Age65-69}_i
++ \beta_4 \text{Age70-74}_i
++ \beta_5 \text{Age75plus}_i,
+$$
+
+* We should use:
+
+$$
+\log \left( \frac{\mu_i}{\text{pop}_i} \right)  = 
+\beta_0 +
++ \beta_1 \text{Age55-59}_i
++ \beta_2 \text{Age60-64}_i
++ \beta_3 \text{Age65-69}_i
++ \beta_4 \text{Age70-74}_i
++ \beta_5 \text{Age75plus}_i,
+$$
+
+* where the LHS-parenthesis element is a rate (counts / per person in the age group / per 4 years).  
+
+* As the disease is relatively rare, and becasue of the 4-year period, additional human readability can be achieved by expressing the rate in terms of: counts / per year / per 10,000 individuals (in the age group).  
+
+* Now, the expression $\frac{10,000}{4} \left( \frac{\mu_i}{\text{pop}_i} \right)$ can be cast as $\left( \frac{\mu_i}{\frac{\text{pop}_i}{2,500}} \right)$ in order to declare offset conveniently:  
+
+
+```{r}
+lungmod2 <- glm(cases ~ age + offset(log(pop/2500)), family=poisson, data=lung)
+summary(lungmod2)
+# To compare Proposed model with a Null model (including offset), we use anova():
+NullModel <- glm(cases ~ 1, offset = (log(pop/2500)), family=poisson, data=lung)
+anova(NullModel,lungmod2,test="Chisq")
+```
+
+
+---
+
+#### Parameter interpretation
+
+```{r}
+lmtest::coeftest(lungmod2)[,]
+```
+
+**`Intercept`**  
+
+* $\exp(\hat{\beta}_0) = \exp(1.962) = 7.112$ is the expected annual disease rate per 10,000 individuals aged `40 - 54`.  
+
+<p style="margin-bottom:1cm;"> 
+
+**`age55-59`**  
+
+* $\exp(\hat{\beta}_0 + \hat{\beta}_1) = \exp(1.962 + 1.082) = 20.992$ is the expected annual disease rate per 10,000 individuals aged `55 - 59`.
+
+* Also, $\exp(\hat{\beta}_1) = \exp(1.082) = 2.951$ can be interpreted in terms of $\frac{\exp(\hat{\beta}_0 + \hat{\beta}_1)}{\exp(\hat{\beta}_0)} = \exp(\hat{\beta}_1) = \exp(1.082) = 2.951$ - i.e. it is the relative rate (RR) of cases per 10,000 person per year, when comparing `55 - 59` and `40 - 54` age groups.  
+
+<p style="margin-bottom:1cm;"> 
+
+
+`etc.`
+
+---  
+
+---  
+
+
+#### Prediction from an estimated model with offset:
+
+* Coefficient $\hat{\beta}_0 = 1.962$ and $\exp(\hat{\beta}_0) = 7.112$ relate to the relative rate (RR), i.e. case per 10,000 person (of the reference age group) per year. 
+
+<p style="margin-bottom:1cm;">
+
+
+
+* To obtain predicted counts on the response-scale (for a specific age group within a given city with a corresponding population size and for the 4-year period), one has to make the following transformation (for the baseline age group `40 - 54`):
+
+$$
+\log(\mu_i) = 
+\log \left( \frac{\text{pop}_i}{2500} \right) + \hat{\beta}_0
+$$
+
+* Note: For the age group `55 - 59`, we just add $\hat{\beta}_1$ to the RHS of  expression above$\dots$  
+
+* Say, for the first row in our dataset (city = `Fredericia`, age group `40 - 54`, `pop = 3.059`), we have: 
+
+$$
+\log(\mu_1) = 
+\log \left( \frac{3,059}{2,500} \right) + 1.962 = 2.164
+$$
+
+* Now, we can exponentiate the above value to obtain $\mu_1 = \exp(2.164) = 8.702$, which is the expected disease count for `Fredericia`, for the age group `40 - 54` and for the full 4-year period.
+
+* The above results can be observed from:
+
+
+
+```{r}
+lung[c(1,6),]
+predict(lungmod2, newdata = lung[c(1,6),], type = "link", se.fit = T)
+predict(lungmod2, newdata = lung[c(1,6),], type = "response", se.fit = T)
+```
+
+
+**Quick exercise:**
+
+* Show calculation for the prediction generated from row 6 of the dataset (link-scale and response-scale predicted values are provided in the output above).
+
+<p style="margin-bottom:1cm;">
+
+--- 
+
+
+
+**Additional discussion**
+
+* [Cross-Validated website / question](https://stats.stackexchange.com/questions/175349/in-a-poisson-model-what-is-the-difference-between-using-time-as-a-covariate-or?noredirect=1&lq=1)  
+
+
+https://stackoverflow.com/questions/61351280/offset-in-glm-vs-predict-glm-in-r

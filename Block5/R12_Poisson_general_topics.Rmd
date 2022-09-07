@@ -1,0 +1,427 @@
+---
+title: "Count data and Poisson regression"
+output: html_document
+---
+
+```{r, include=F}
+library(AER)
+library(ggplot2)
+library(lmtest)
+library(RcmdrMisc)
+# read in datasets
+#
+species<-read.table("data/species.txt",header=TRUE)
+species$pH<-factor(species$pH, labels=c("Low","Medium","High"))
+```
+
+---
+
+
+### General count-model description
+
+
+The dependent variable is a count variable, takes on non-negative integer values: $\textbf{0}, 1,2,3,\dots$
+
+* Poisson regression model describes the relationship between a Poisson-distributed response variable and one or more explanatory variables.  
+
+* The Poisson model predicts the number of occurrences of an event with a mean that depends on a set of exogenous regressors $\boldsymbol{X}$.
+
+
+$$
+P(y_i=h|\boldsymbol{x}_i) = \frac{e^{-\mu_i} \mu_i^h}{h!}, 
+\qquad h = 0,1,2,\dots
+$$  
+
+* The expected number of events (occurrences, counts) *per period* is given as: 
+       
+$$
+\mu_i = E[y_i|\boldsymbol{x}_i] = 
+\text{var}[y_i|\boldsymbol{x}_i] =  
+e^{(\boldsymbol{x}_i^{\prime} \boldsymbol{\beta})} = 
+e^{\beta_0 + \beta_1 x_{i1} + \dots + \beta_p x_{ip}}, 
+$$
+
+   * Note the $E[y_i|\boldsymbol{x}_i] = \text{var}[y_i|\boldsymbol{x}_i]$ property that follows from Poisson distribution.  
+   
+   
+<p style="margin-bottom:2cm;">  
+
++ In a regression-model scenario, we expect $y_i$  to be -some- function of regressors: $\boldsymbol{x}_i^{\prime}= (1, x_{i1}, \dots, x_{ip})$.
+
+
+
+* The most common model formulation is the log-linear model:  
+
+$$
+\log \mu_i \,= \, \boldsymbol{x}_i^{\prime} \boldsymbol{\beta} \, = \,
+\beta_0 + \beta_1 x_{i1} + \dots + \beta_p x_{ip},,
+$$
+
+   * where 
+     + $\boldsymbol{x}_i$ is a vector of exogenous regressors,  
+     + $\boldsymbol{\beta}$ is a vector of coefficients,
+     
+     
+$~$
+
+
+
+     
+
+<p style="margin-bottom:1cm;">
+
+     
+* **Marginal effects:** For any $j$-th regressor (note that we can write $\partial x_j$ instead of $\partial x_{ij}$): 
+   
+$$
+\frac{\partial \mu_i }{\partial x_{j}} = 
+\frac{\partial E[y_i|\boldsymbol{x}_i] }{\partial x_{j}} = 
+\frac{\partial e^{(\boldsymbol{x}_i^{\prime} \boldsymbol{\beta})} }{\partial x_{j}} = 
+\mu_i\beta_j.
+$$
+
+* The above expression can be re-arranged as
+
+$$
+\frac{\frac{\partial \mu_i}{\mu_i}}{ ~~\partial x_{j}~~}= \beta_j, 
+\quad \text{for}~i=1,2,\dots,N,
+$$
+
+* and using the approximative properties of log-transformation:
+
+$$
+\%\Delta E[y_i|\boldsymbol{x}_i] \approx (100 \beta_j)\Delta x_j.
+$$
+  
+
+* From the log-linear model:  
+
+$$
+\log \mu_i = \boldsymbol{x}_i^{\prime} \boldsymbol{\beta} = 
+\beta_0 + \beta_1 x_{i1} + \dots + \beta_p x_{ip},
+$$
+
+* we can see that $\log(\mu_i)$ has a linear relationship with the predictors.
+
+* Also, $e^{\beta_j}$ represents a multiplier effect of the $j$-th predictor on $\mu$. This is often interpreted in terms of IRR/RR  
+
+   + IRR - incidence rate ratio  (for count data)  
+   + RR - relative risk (for rates, see next script)  
+
+> **IRR/RR interpretation example**  
+>  
+> Consider a single-regressor model, with predictor $x$.  
+>  
+> Say, $x$ has two values: $x_1$ and $x_2$, with a (small) difference of 1 among them: $x_2 = x_1 +1$.   
+> $\mu_1 = E(y_1 | x_1)$ and $\mu_2 = E(y_2 | x_2)$  
+>  
+>  
+> If $\beta_1$ = 0, then $e^{\beta_1} = 1$ and $\mu_2$ is the same as $\mu_1$. Here, $\mu$ is not related to $x$.  
+>  
+> If $\beta_1$  > 0, then $e^{\beta_1} > 1$ and $\mu_2$ is $e^{\beta_1}$ **times larger** than $\mu_1$.  
+>  
+> If $\beta_1$  < 0, then $e^{\beta_1} < 1$ and $\mu_2$ is $e^{\beta_1}$ **times smaller** than $\mu_1$.
+
+
+---  
+
+---
+
+### Estimation of a Poisson model 
+
+* Typically, parameters of the regression model are estimated uling maximum likelihood techniques. From the conditional probability equation
+
+
+$$
+P(y_i=h|\boldsymbol{x}_i) = \frac{e^{-\mu_i} \mu_i^h}{h!}, 
+\qquad h = 0,1,2,\dots
+$$  
+
+* and one can formulate the log-likelihood function as:  
+
+
+$$
+LL = 
+\sum_{i=1}^N \left[ 
+- \mu_i + y_i \boldsymbol{x}_i^{\prime} \boldsymbol{\beta} - \log y_i!
+\right].
+$$
+
+* Note that the last element ($\log y_i!$) does not depend on $\boldsymbol{\beta}$.  
+
+* Hence, parameter estimation ($LL$ maximization based on first order conditions) is often based on the simplified version, cast e.g. as:
+
+
+$$
+LL = 
+\sum_{i=1}^N \left[ 
+y_i \boldsymbol{x}_i^{\prime} \boldsymbol{\beta}
+- \exp(\boldsymbol{x}_i^{\prime} \boldsymbol{\beta})   
+\right].
+$$
+
+* Finally, Hessian can be used to produce a variance-covariance matrix of coefficient estimates:
+
+$$
+\text{Hessian: }
+\frac{\partial^2 LL}{\partial \boldsymbol{\beta} \, \partial \boldsymbol{\beta}^{\prime}} =
+- \sum_{i=1}^N \mu_i \boldsymbol{x}_i\boldsymbol{x}_i^{\prime}
+$$
+
+* For an estimated model (once we obtain $\hat{\mu}_i = \boldsymbol{x}_i^{\prime} \hat{\boldsymbol{\beta}}$), we can write the variance-covariance matrix as:
+
+
+$$
+\text{cov}(\boldsymbol{\hat{\beta}}) = 
+\left[
+\sum_{i=1}^N \hat{\mu}_i \boldsymbol{x}_i\boldsymbol{x}_i^{\prime}
+\right] ^{-1}.
+$$
+
+
+--- 
+
+---  
+
+
+### Emprical example - Count of species and soil-related features
+
+
+#### Data description
+
+* Longterm agricultural experiment, 90 grassland plots, each 25m $\times$ 25m,
+differing in **biomass**, **soil pH** and **species richness** (the count of species is the dependent variable). 
+
+* The plots were classified according to a 3-level factor as *high*, *medium* or *low* pH with 30 plots in each level.
+
+
+Species richness declines with increasing biomass. We want to: 
+
+1) quantify the dynamics  
+2) evaluate whether the slope differs with soil pH. 
+
+---
+
+#### Model estimation
+
+* We can start with a linear model, estimated by OLS: 
+
+```{r}
+
+summary(lm(Species~Biomass+pH,data=species))
+```
+1. the linear model can lead to the prediction of negative counts  
+2. the variance of the response variable is likely to increase with the mean (heteroscedasticy)  
+3. the errors will not be normally distributed (problematic inference) 
+4. zeros are difficult to handle in transformations 
+
+---
+
+#### GLM, estimated by ML using the Poisson distribution:
+
++ Overall model evaluation (significance of the Proposed model)
+
+```{r}
+m1<-glm(Species~Biomass+pH,family=poisson,data=species)
+summary(m1)
+```
+
+where:
+
++ **Null Deviance** = $2(LL$(Saturated Model) - $LL$(Null Model)$)$,  
+
++ **Residual Deviance** = $2(LL$(Saturated Model) - $LL$(Proposed Model)$)$, 
+
++ df for the Null Model = $n - 1$,  
+
++ df for the Proposed model = $n - (p + 1)$.
+
++ The Saturated Model generates perfect fit ($y_i = \hat{y}_i$ for $\forall i$). 
+
+   * Unlike Saturated Model (each data point has its own parameter), the Null Model assumes the exact "opposite", in that is assumes one parameter for all of the data points, which means you only estimate 1 parameter (i.e. a trivial model is estimated, based on intercept).   
+   * The Proposed Model (model being evaluated) assumes you can explain your data points with $p$ parameters + an intercept term, so you have $p+1$ parameters.   
+
+<p style="margin-bottom:1cm;">       
+
+* If **Null Deviance** is really small, it means that the Null Model explains the data pretty well. Likewise with **Residual Deviance**.
+
+* If you want to compare the Proposed model with the Null model, you can look at **Likelihood ratio**, which can be defined as
+  
+   **(Null Deviance - Residual Deviance)** $\sim \chi^2_p$,  
+     
+   which is the same as  
+     
+   $2(LL_{\text{Proposed}} - LL_{\text{Null}}) \sim \chi^2_p$  
+     
+   (under $H_0$ of Null model being equivalent to Proposed model)  
+   with df(Proposed) - df(Null) = (n-(p+1))-(n-1) = p
+
+
+* All relevant $LL$ values can be observed from:
+
+```{r}
+# Proposed Model and Null Model 
+(lm_Test <- lmtest::lrtest(m1))
+# Saturated Model, manual calculation
+l_saturated<-c()
+for(i in 1:90){
+l_saturated[i] <- species$Species[i]*try(log(species$Species[i]),T) - species$Species[i] - log(factorial(species$Species[i]))
+} 
+# there is no occurence of y_i=0 in our dataset, 
+# but it is typical & should be controlled for in Poiss distr. / LL calculation
+# NOTE: for y_i = 0, the expression evaluates at 0 by definition
+l_sat<-sum(l_saturated,na.rm=T)
+l_sat
+#-209.5951 ###log likelihood for the Saturated model
+```
+
+Hence, one can reproduce the **Null Deviance** and **Residual Deviance** as:
+
+```{r}
+# Null Deviance
+(Null_Deviance <- 2*(l_sat - lm_Test$LogLik[2]))
+#
+# Residual Deviance
+(Residual_Deviance <- 2*(l_sat - lm_Test$LogLik[1]))
+```
+
+And we can see that **Likelihood ratio** is identical to **Null Deviance - Residual Deviance**:
+
+```{r}
+lm_Test$Chisq # LR value from the lrtest()
+Null_Deviance - Residual_Deviance # manual calculation
+```
+
+---
+
+#### Parameter interpretation
+
+```{r}
+lmtest::coeftest(m1)[,]
+```
+
+**`Intercept`**  
+
+* $\exp(2.713) = 15.068$ is the expected count of species for `Biomass = 0` and `pH` at the reference level (Low). Note: this is a "mechanical" interpretation of the intercept; plausibility of `Biomass = 0` is ignored here.
+
+**`Biomass`**  
+
+* A 1-unit change in `Biomass` implies a number of species to become $exp(-0.128) = 0.880$ "times less" (ceteris paribus `pH`).  
+
+etc.
+
+---  
+
+---  
+
+#### Model with main effects & interaction elements (interpretation exercise):
+
+```{r}
+m2<-glm(Species~Biomass+pH+Biomass:pH,family=poisson,data=species)
+summary(m2)
+```
+
++ A 1-unit change in the `Biomass` implies a number of species of $exp(-0.262) = 0.769$ "times less" in soil with low `pH`.  
++ A 1-unit change in `Biomass` implies a number of species of $exp(-0.262 + 0.123) = 0.870$ times less in soil with medium `pH`.  
++ A 1-unit change in the `Biomass` implies a number of species of $exp(-0.262 + 0.155) = 0.898$ times less in soil with high `pH`.  
+
+
++ **Note**: While coefficents can be exponentiated easily, we need to use the *delta method* to produce `s.e.` on the scale of exponentiated coefficients, eg: 
+
+```{r}
+# Intercept
+exp(m2$coefficients[1])
+DeltaMethod(m2,"exp(b0)")
+# Biomass effect with medium pH in soil:
+DeltaMethod(m2,"exp(b1+b4)")
+```
+
+--- 
+
+<p style="margin-bottom:1cm;">  
+
+#### Output visualization
+
+
+```{r, echo=T, message=F}
+predm2 <- predict(m2, se.fit = T, type = "response")
+species <- cbind(species,predm2)
+#
+ggplot(species, aes(x=Biomass,y=Species))+
+  geom_point(aes(colour=pH))+
+  ggtitle("Species ~ Biomass & pH")+ 
+  geom_ribbon( aes(ymin = fit-(2*se.fit), ymax = fit+(2*se.fit), fill=pH), alpha = .35) +
+  geom_line( aes(y = fit, color=pH), size = 1) +
+  theme_minimal()
+# (confidence interval approximated by +/- 2*s.e.)
+```
+ 
+---  
+
+---  
+
+### Overdispersion in Poisson-based models, Quasi-Poisson (QMLE) 
+
+* Negative Binomial distribution (and models), Zero-inflated models and Hurdle models are discussed separately.  
+
+**Motivation**
+
+* Poisson distribution assumes 
+$$
+\mu_i = E[y_i|\boldsymbol{x}_i] = \text{var}[y_i|\boldsymbol{x}_i]
+$$
+
+
+* This assumption is often violated with real data (typically caused by highly skewed distributions of the dependent variable):
+
+$$
+E[y_i|\boldsymbol{x}_i] < \text{var}[y_i|\boldsymbol{x}_i]
+$$
+
+* This situation (overdispersion) does not affect parameter estimation (no additional bias is introduced into the MLE). However, s.e. estimates based on the Hessian (as shown above) would be biased.
+
+*  Generally, one can consider *under-dispersion* as well - but it is much less common.  
+
+
+* For a general description and testing, relationship between mean value and variance can be generalized into:
+
+$$
+\text{var}[y] = \mu + \alpha \mu,
+$$
+* $\alpha$ is the dispersion parameter, $\alpha = 0$ leads to the classical Poisson distribution, while $\alpha > 0$ and $\alpha < 0$ account for overdispersion and underdispersion respectively.  
+
+* In `R`, the package `{AER}` implements a dispersion test based on the formula:
+
+$$
+\text{var}[y] \, = \, (1 + \alpha) \cdot \mu \, = \, \text{dispersion} \cdot \mu
+$$  
+
+   * with $H_0:  \text{dispersion}  = 1$ against a "greater than 1" alternative (a two-sided $H_1$ can be used).  
+
+```{r}
+AER::dispersiontest(m1) # model without interactions is used here
+```
+
+
+* In our example, $H_0$ is not rejected.  
+* For illustrative purposes, we show how to control for dispersion in s.e. estimates (and corresponding $z$-scores and $p$-values):
+
+```{r}
+# Model estimated by MLE
+# Dispersion argument has to be provided manually
+summary(m1, dispersion = 1.069068) 
+# Also, QMLE can be applied "directly" (robust covariance matrix is estimated automatically) 
+summary(glm(Species~Biomass+pH,family=quasipoisson,data=species))
+# Note the small difference in the estimated dispersion parameters
+# Parameter estimates are not affected.
+#
+# Robust covariance matrix is provided in: Greene, Econometric Analysis (8th ed.), ch. 18.4.1.
+```
+
+**Additional discussion & tests:** 
+
+* Greene, Econometric Analysis (8th ed.), ch. 18.4.  
+* [https://www.datascienceblog.net/post/machine-learning/interpreting_generalized_linear_models/](https://www.datascienceblog.net/post/machine-learning/interpreting_generalized_linear_models/)  
++ [Deviance of Poisson regression](https://hal.archives-ouvertes.fr/hal-02335439/document)
+
+--- 
