@@ -21,8 +21,19 @@ layout: default
 *	Přiložte soubor se skriptem (kódem) R – opakovatelnost a průkaznost analýzy 
 (používejte `set.seed()` (při bootstrapu, apod.), soubor musí obsahovat všechny úpravy a odhady na souboru – ve správném pořadí  – opakovatelnost)
 
+---  
 
---- 
+# Seminární práce (odevzdání, peer review, úprava podle připomínek, prezentace):
+
+* Studenti zpracují a odevzdají seminární práci individuálně - termín: 25. 11.  
+ 
+* Každý student provede peer review (vzájemné hodnocení): dvou dalších seminárních prací
+  - přidělení seminárek k hodnocení: do 28. 11.,  
+  - odevzdání vyplněných recenzních formulářů - termín 6. 12.  
+
+* Zapracování připomínek z peer review a odevzdání závěrečné verze seminární práce - termín 18. 12.  
+
+---  
 
 **Témata SP**
 
