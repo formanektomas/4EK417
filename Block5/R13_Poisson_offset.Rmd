@@ -45,31 +45,31 @@ $$
 \begin{align}
 \text{Poisson model with equal exposure for all }~i = 1,2, \dots, N: & & \\
 & & \\
-\log(\mu_i) &= \beta_0 + \beta_1x_i  & ({\rm counts})&  \\
+\log(\mu_i) &= \beta_0 + \beta_1x_i  & (\textit{counts})&  \\
 & & \\
 \text{For different exposure times, we can use rates:} & & \\
 & & \\
-\log\bigg(\frac{\mu_i}{{\rm time}_i}\bigg) &= \beta_0 + \beta_1x_i & ({\rm rates})&  \\
+\log\bigg(\frac{\mu_i}{\textit{time}_i}\bigg) &= \beta_0 + \beta_1x_i & (\textit{rates})&  \\
 & & \\
  &\Rightarrow  \\
  & & \\
-\log(\mu_i) - \log({\rm time}_i) &= \beta_0 + \beta_1x_i  \\
+\log(\mu_i) - \log(\textit{time}_i) &= \beta_0 + \beta_1x_i  \\
 & & \\
  &\Rightarrow  \\
  & & \\
-\log(\mu_i) &= \beta_0 + \beta_1x_i + 1\times \log({\rm time}_i) & ({\rm still\ rates})& \\
+\log(\mu_i) &= \beta_0 + \beta_1x_i + 1\times \log({\textit{time}_i) & ({\textit{still rates})& \\
 & & \\
-\text{where}~[1\times \log({\rm time}_i)]~\text{is the offset term}. & & \\
+\text{where}~[1\times \log(\textit{time}_i)]~\text{is the offset term}. & & \\
 & & \\
 & & \\
 & & \\
 \text{ Important note:}& & \\
 & & \\
-\log(\mu_i) &= \beta_0 + \beta_1x_i + 1\times \log({\rm time}_i) & & \\
+\log(\mu_i) &= \beta_0 + \beta_1x_i + 1\times \log(\textit{time}_i) & & \\
 & & \\
 &\ne  \\
 & & \\
-\log(\mu_i) &= \beta_0 + \beta_1x_i + \beta_2\times \log({\rm time}_i)\quad {\rm when}\ \beta_2 \ne 1  & ({\rm counts\ again})&
+\log(\mu_i) &= \beta_0 + \beta_1x_i + \beta_2\times \log(\textit{time}_i)\quad {\textit{when}\ \beta_2 \ne 1  & (\textit{counts\ again})&
 \end{align}
 $$
 
