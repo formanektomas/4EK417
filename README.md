@@ -36,6 +36,8 @@ University of Economics, Prague
 - [R](https://www.r-project.org/) / [RStudio](https://www.rstudio.com/products/RStudio/)  
 - [stackoverflow](https://stackoverflow.com/tags/r/info)  
 
+- [Enders, C.K., Applied Missing Data Analysis (2022)](https://www.appliedmissingdata.com/)
+
 
 ---
 
