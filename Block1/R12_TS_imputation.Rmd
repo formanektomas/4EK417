@@ -33,7 +33,7 @@ imputeTS::ggplot_na_distribution(tsAirgap) # {imputeTS} function, based on ggplo
 + For these intervals, information about the amount of missing values are shown  
 
 ```{r}
-ggplot_na_intervals(tsAirgap)
+ggplot_na_distribution2(tsAirgap)
 ```
 
 #### Print stats about the missing data
@@ -152,15 +152,16 @@ summary(lm(tariff ~ polity + pop + gdp.pc + year + country,
 
 + Amelia can build a general model of patterns within variables across time by creating a sequence of polynomials of the time index.  
 
-+ If, for example, tariffs vary smoothly over time, then we make the modeling assumption that there exists some polynomial that describes the economy in cross-sectional unit $i$ at time $t$ as ($3^{rd}$ order polynomial is a maximum):  
++ If, for example, tariffs vary smoothly over time, then we make the modeling assumption that there exists some polynomial that describes the economy in cross-sectional unit $i$ at time $t$ as ($3^{rd}$ order polynomial is a maximum order that can be used in Amelia):  
 $$ y_{it} = \beta_0 + \beta_1 t + \beta_2 t^2 + \beta_3 t^3 + u_{it}$$
 
 ---  
 
-As we combine MI and *second-order polynomial time trend*, we may do MI as follows:  
+As we combine MI and *third-order polynomial time trend*, we may do MI as follows:  
 
-* All available series are used for MI (ID variables (TS and CS) need to be listed separately)  
-* `polytime = 2` by default, estimated time-dynamics coefficients apply to all CS units (i.e. are NOT CS-specific -- this will be relaxed next)   
+* All available series are used for MI (ID variables - TS and CS - have to be provided)  
+* `polytime = 2` is used by default - so this argument has to be set to 3 for a 3rd order polynomial.  
+* The estimated time-dynamics coefficients apply to all CS units (i.e. are NOT CS-specific -- this will be relaxed next).   
 * `p2s` controls calculation details displayed  
 
 Note:
@@ -170,7 +171,7 @@ Note:
 
 ```{r}
 set.seed(100)
-a.out <- amelia(freetrade, m=5, ts = "year", cs = "country", polytime = 2, p2s = 2) # EM: expectation maximization (ML-base method)
+a.out <- amelia(freetrade, m=5, ts = "year", cs = "country", polytime = 3, p2s = 2) # EM: expectation maximization (ML-base method)
 summary(a.out)
 tscsPlot(a.out, cs = "Malaysia", main = "MI with Amelia",
          var = "tariff", ylim = c(-10, 60))
@@ -187,7 +188,9 @@ head(a.out$imputations$imp1,20) # impuation No. 1
 
 #### We can impute TS with trends that are specific to each cross-sectional unit:
 
-* `intercs` is a logical argument indicating if the time effects of *polytime* should vary across the cross-section.
+* `intercs` is a logical argument indicating if the time effects of *polytime* should vary across the cross-section,  
+* we use 2nd order polynomials here.  
+
 
 ```{r}
 set.seed(120)
@@ -206,7 +209,7 @@ plot(a.out.time) # overall basic Imputation information plot
 
 #### We can add leads and lags to calculate the imputation (along with trends specific to each cross-sectional unit):
 
-* leads and lags are only used for the `tariff` series (user input, can be amended)
+* leads and lags are only used for the `tariff` series (user-defined setting is applied, can be amended)
 
 * `lags` - a vector of numbers or names indicating columns in the data that should have their lags included in the imputation model. (leads by analogy)
 
@@ -244,6 +247,8 @@ round(cbind(t(combined.results$q.mi),t(combined.results$se.mi)),5)
 
 
 Additional MI approaches (using prior information, etc.) and evaluation procedures can be observed from:
+
+[Enders, C.K., Applied Missing Data Analysis (2022)](https://www.appliedmissingdata.com/)
 
 https://www.jstatsoft.org/article/view/v045i07  
 

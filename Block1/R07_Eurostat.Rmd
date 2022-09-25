@@ -13,18 +13,7 @@ output: html_document
 * visualization. 
 
 
-### Installation
-
-
-```{r install, eval=FALSE, echo=T}
-# Note the "eval=FALSE" argument: {r} chunk is not run.
-# .. to install the package each time Markdown file is compiled (not recommended),
-# .. just remove the "eval=FALSE" argument.
-install.packages("eurostat") # instalation from CRAN
-```
-
-
---- 
+---  
 
 ## Using the package
 
@@ -50,6 +39,7 @@ install.packages("eurostat") # instalation from CRAN
 ```{r, echo=T, message=F, warning=F}
 options(readr.default_locale=readr::locale(tz="Europe/Berlin"))
 library(eurostat)
+library(sf)
 library(knitr)
 library(tidyr)
 library(dplyr)
