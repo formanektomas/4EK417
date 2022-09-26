@@ -44,7 +44,9 @@ Obecná doporučení pro práci s R (domácí úkoly)
 
 ---
 
-## Týden 2 (odevzdání do 2.10.)
+
+## Týden 2 (odevzdání do 2.10.)  
+
 
 * Vyřešte úkol, který se nachází na konci skriptu `R11_Missing_data.R`  **2b**   
 
@@ -53,6 +55,7 @@ Obecná doporučení pro práci s R (domácí úkoly)
     - Úkol může být založen na postupech ze skriptu `R07_Eurostat.Rmd` (ale nepoužívejte přímo datasety z tohoto skriptu).  
     - **Pozor:** před vizualizací dat zkontrolujte rozměr použité tabulky - pomocí příkazu `dim()`. Při správném filtrování musí počet řádků odpovídat zobrazovaným datům. (Např: zobrazuji řady s HDP pro 10 regionů a 5 let = 50 řádků.) Tato kontrola musí být součástí odevzdaného úkolu.  
     - Doprovoďte Váš výstup stručným slovním komentářem (popište zvolené proměnné).  
+    - Abychom zamezili duplicitám, uveďte Vámi zvolený dataset (kod datasetu + slovni popis) na Google docs (stejný sešit jako u prvního úkolu, nový list).  
 
 
 
