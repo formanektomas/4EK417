@@ -7,6 +7,7 @@ layout: default
 
 **Domácí úkoly odevzdávejte v `Rmd` (Markdown) formátu nebo Rmd zkompilované do `html/pdf/docx` výstupu.**  
 - U zkompilovaných výstupů musejí být viditelné použité příkazy, tj. nastavení `echo=T` (je defaultní).
+- **U nezkompilovaných úkolů (.Rmd) dbejte na to, aby skript seběhl - přiložte data nebo zadejte kód, který data stáhne (eurostat), případně který otevře dataset z Vámi zvoleného balíčku.**  
 
 
 Obecná doporučení pro práci s R (domácí úkoly)
@@ -42,6 +43,19 @@ Obecná doporučení pro práci s R (domácí úkoly)
 * Každý bude pracovat s vlastním datasetem (viz Google sheet, odkaz bude zaslán e-mailem)
 
 ---
+
+## Týden 2 (odevzdání do 2.10.)
+
+* Vyřešte úkol, který se nachází na konci skriptu `R11_Missing_data.R`  **2b**   
+
+* Stažení zajímavého datasetu z databáze Eurostat, na úrovni NUTS2/NUTS3, prostřednictvím balíčku R.   **3b**   
+    - Úprava dat pomocí `dplyr` a pipe operátoru (filtrování "vhodných" dat podle Vašeho uvážení), jednoduchá vizualizace dat pomocí `ggplot2`.  
+    - Úkol může být založen na postupech ze skriptu `R07_Eurostat.Rmd` (ale nepoužívejte přímo datasety z tohoto skriptu).  
+    - **Pozor:** před vizualizací dat zkontrolujte rozměr použité tabulky - pomocí příkazu `dim()`. Při správném filtrování musí počet řádků odpovídat zobrazovaným datům. (Např: zobrazuji řady s HDP pro 10 regionů a 5 let = 50 řádků.) Tato kontrola musí být součástí odevzdaného úkolu.  
+    - Doprovoďte Váš výstup stručným slovním komentářem (popište zvolené proměnné).  
+
+
+
 
 
 ---
