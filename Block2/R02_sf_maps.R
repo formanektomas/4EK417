@@ -83,7 +83,7 @@ df1 <- giscoR::gisco_get_nuts(resolution = 01)
 #
 # Compare NUTS2 region CZ02 at 1:20mio and 1:1mio resolution:
 #
-df20 %>% # CZ02 at 1:60mio
+df20 %>% # CZ02 at 1:20mio
   dplyr::filter(LEVL_CODE == 2 & grepl("CZ02", NUTS_ID)) %>%
   dplyr::select(NUTS_ID) %>% st_geometry() %>% plot(main="1:60 mio resolution")
 #
@@ -183,23 +183,23 @@ sf::st_intersection(okresy, D1) %>% # LAU1 with D1 only
 # A tibble: 18 x 2
 # NAZ_LAU1         total_length
 # <chr>                     [m]
-#  1 Pøerov                 56377.
-#  2 Benešov                50980.
-#  3 Žïár nad Sázavou       42657.
-#  4 Vyškov                 38162.
+#  1 P?erov                 56377.
+#  2 Bene?ov                50980.
+#  3 ???r nad S?zavou       42657.
+#  4 Vy?kov                 38162.
 #  5 Brno-venkov            36872.
-#  6 Nový Jièín             31768.
-#  7 Praha-východ           27706.
-#  8 Ostrava-mìsto          26807.
+#  6 Nov? Ji??n             31768.
+#  7 Praha-v?chod           27706.
+#  8 Ostrava-m?sto          26807.
 #  9 Jihlava                24334.
-# 10 Kromìøíž               23348.
-# 11 Pelhøimov              22576.
-# 12 Brno-mìsto             18318.
-# 13 Havlíèkùv Brod         12443.
-# 14 Karviná                10186.
-# 15 Prostìjov               8225.
+# 10 Krom????               23348.
+# 11 Pelh?imov              22576.
+# 12 Brno-m?sto             18318.
+# 13 Havl??k?v Brod         12443.
+# 14 Karvin?                10186.
+# 15 Prost?jov               8225.
 # 16 Praha                   6521.
-# 17 Praha-západ             2129.
+# 17 Praha-z?pad             2129.
 # 18 Opava                    859.
 #
 #
