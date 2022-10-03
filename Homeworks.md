@@ -58,6 +58,24 @@ Obecná doporučení pro práci s R (domácí úkoly)
     - Abychom zamezili duplicitám, uveďte Vámi zvolený dataset (kod datasetu + slovni popis) na Google docs (stejný sešit jako u prvního úkolu, nový list).  
 
 
+--- 
+
+## Týden 3 (odevzdání do 9. 10. 2022)
+
+Vizualizace prostorových dat v R - kartogram (infomapa)
+
+* Pro tento úkol použijte data z Eurostatu, která jste stáhli v rámci úkolu z minulého týdne (ideálně data na úrovni NUTS2 nebo NUTS3). 
+    + Pro vhodnou proměnnou zobrazte infomapu, např. podle vzoru ze skriptu `R02_ggplot_choropleths.R`  
+    + Použijte alespoň dva různé způsoby zobrazení dat (různé projekce, různé státy, časová období, NUTS úrovně, atd.).  
+    + Pokud pracujete se státy jako Francie nebo Španělsko, je vhodné z datasetu odstranit zámořská území. 
+    + Před vizualizací dat v `ggplot()` zkontrolujte rozměr datasetu.  
+    
+* Odevzdejte ve formátu Rmd, ideálně již zkompilovaného do `html/pdf/docx` výstupu
+    + u zkompilovaných výstupů musejí být viditelné použité příkazy, tj. nastavení `echo=T` (je defaultní).   
+    + u nezkompilovaných skriptů musí být přiložen dataset nebo skript musí data stáhnout (z Eurostatu).  
+
+
+--- 
 
 
 
