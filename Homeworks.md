@@ -77,6 +77,19 @@ Vizualizace prostorových dat v R - kartogram (infomapa)
 
 --- 
 
+## Týden 4 (odevzdání do 16. 10. 2022)
+
+Prostorová struktura: stanovení matice sousednosti v `R`
+
+* Pro tento úkol použijte data z Eurostatu, která jste stáhli v rámci úkolu z minulého týdne (ideálně data na úrovni NUTS2 nebo NUTS3). 
+    + Použijte alespoň dva různé způsoby stanovení prostorové struktury (vzdálenost mezi centroidy, kNN, společná hranice.).  
+    + Vizualizujte prostorovou strukturu na mapě.  
+    
+* Odevzdejte ve formátu Rmd, ideálně již zkompilovaného do `html/pdf/docx` výstupu
+    + u zkompilovaných výstupů musejí být viditelné použité příkazy, tj. nastavení `echo=T` (je defaultní).   
+    + u nezkompilovaných skriptů musí být přiložen dataset nebo skript musí data stáhnout (z Eurostatu).  
+    + Pozor: odevzdání úkolu v jiném formátu bude penalizováno ztrátou bodů. 
+
 
 
 ---
