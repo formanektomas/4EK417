@@ -81,7 +81,7 @@ Vizualizace prostorových dat v R - kartogram (infomapa)
 
 Prostorová struktura: stanovení matice sousednosti v `R`
 
-* Pro tento úkol použijte data z Eurostatu, která jste stáhli v rámci úkolu z minulého týdne (ideálně data na úrovni NUTS2 nebo NUTS3). 
+* Pro tento úkol použijte data (tj. regiony), která jste stáhli v rámci úkolu z minulého týdne (ideálně data na úrovni NUTS2 nebo NUTS3). 
     + Použijte alespoň dva různé způsoby stanovení prostorové struktury (vzdálenost mezi centroidy, kNN, společná hranice.).  
     + Vizualizujte prostorovou strukturu na mapě.  
     
