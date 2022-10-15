@@ -78,6 +78,7 @@ Vizualizace prostorových dat v R - kartogram (infomapa)
 --- 
 
 ## Týden 4 (odevzdání do 16. 10. 2022)
+## Pozor: vzhledem k chybnému/pozdnímu  otevření odevzdávárny je termín odevzdání posunut o týden, tj. do 23.10. 
 
 Prostorová struktura: stanovení matice sousednosti v `R`
 
