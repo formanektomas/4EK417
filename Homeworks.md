@@ -92,6 +92,22 @@ Prostorová struktura: stanovení matice sousednosti v `R`
     + Pozor: odevzdání úkolu v jiném formátu bude penalizováno ztrátou bodů. 
 
 
+--- 
+
+## Týden 5 (odevzdání do 23. 10. 2022)
+
+Testování prostorové (ne)závislosti v R 
+
+* Pro tento úkol můžete vyjít z dat, která jste použili v týdnu 3  - pokud jde o data na úrovni NUTS2 nebo NUTS3 (volte data tak, abyste měli alespoň 30 prostorových jednotek).  
+        
++ Zvolte jednu proměnnou (a jedno období pozorování - ideálně co nejblíže roku 2022) a proveďte **Moranův test** na prostorovou nezávislost.  
+
++ Použijte alespoň dva různé způsoby definice prostorové struktury (vzdálenost, vzdálenost + kNN, společná hranice) k ověření robustnosti výsledků vůči změnám prostorové struktury.  
+
++ Slovně okomentujte výsledky.
+
++ Zopakujte pro test prostorové nezávislosti založený na statistice **Gearyho C**.  
+
 
 ---
 
