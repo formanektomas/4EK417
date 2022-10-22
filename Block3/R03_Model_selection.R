@@ -107,7 +107,7 @@ best.info$adjr2[ii]
 #
 # A functional method for obtaining regressors & estimating selected LRM:
 ii <- which.min(best.info$bic)
-name.info <- (best.info$which[ii, ]==TRUE)
+name.info <- (best.info$which[ii, ])
 VariableSet <- names(name.info[name.info==TRUE])
 VariableSet # show output
 VariableSet <- VariableSet[-1] # remove Intercept
@@ -149,7 +149,7 @@ fwd.info$rsq[iifwd]
 fwd.info$adjr2[iifwd]
 #
 iifwd <- which.min(fwd.info$bic)
-name.info <- (fwd.info$which[iifwd, ]==TRUE)
+name.info <- (fwd.info$which[iifwd, ])
 VariableSet <- names(name.info[name.info==TRUE])
 VariableSet <- VariableSet[-1]
 cat(VariableSet, sep="+")
@@ -184,7 +184,7 @@ back.info$adjr2[iib]
 #
 # A functional method for obtaining regressors & estimating selected LRM:
 iib <- which.min(back.info$bic)
-name.info <- (back.info$which[iib, ]==TRUE)
+name.info <- (back.info$which[iib, ])
 VariableSet <- names(name.info[name.info==TRUE])
 VariableSet <- VariableSet[-1]
 cat(VariableSet, sep="+")
