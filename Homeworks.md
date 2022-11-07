@@ -111,4 +111,25 @@ Testování prostorové (ne)závislosti v R
 
 ---
 
+## Týden 8 (odevzdání do 13. 11. 2022)
+
+*  Každý si vyberte vhodný dataset (optimálně takový, který má "mnoho" proměnných - potenciálních regresorů), například ze seznamu zde:  
+    + https://vincentarelbundock.github.io/Rdatasets/datasets.html
+    + Použijete-li data z balíčku, nepřikládatejte csv soubor,
+    + místo toho **načtěte data pomocí `R`-kódu (z balíčku)**.
+    + Vyberete-li jiný dataset (než z výše uvedeného seznamu), srozumitelně popište svá data a soubor přiložte.
+    + Informaci o vybraném souboru zaznamenejte na Google dokument (stejný jako u předchozích úkolů) - a ověřte si, zda už se souborem nepracuje někdo jiný.  
+
+* V datasetu vhodně vyberte závislou proměnnou a proveďte výběr regresorů pomocí (a) stepwise regrese a (b) pomocí některé varianty penalizované regrese (kritériem by měly být predikční vlastnosti modelu.
+    * Výstup (vizualizace, vyhodnocení, predikce) proveďte podle vzorových skriptů ze cvičení (jste-li zvyklí pracovat s jinými balíčky/funkcemi, můžete je použít).  
+
+* Odevzdejte ve formátu `.Rmd`, ideálně již zkompilované do `html/pdf/docx` výstupu   
+    + u zkompilovaných výstupů musejí být viditelné použité příkazy, tj. nastavení `echo=T` (je defaultní).  
+
+
+
+--- 
+
+
+
 [Homepage](https://formanektomas.github.io/4EK417/)
