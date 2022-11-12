@@ -58,13 +58,13 @@ Plot interpretation:
 
 + As we hold $\texttt{age}$ and $\texttt{education}$ fixed, $\texttt{wage}$ increases slightly with $\texttt{year}$.  
 
-+ If we fix $\texttt{year}$ and $\texttt{education}$, than $\texttt{wage}$ tends to be highest for intermediate values of  $\texttt{age}$ and lowest for the very young and very old workers.  
++ If we fix $\texttt{year}$ and $\texttt{education}$, $\texttt{wage}$ tends to be highest for intermediate values of  $\texttt{age}$ and lowest for the very young and very old workers.  
 
 --- 
 
 ## GAM models using the `{gam}` package:
 
-* `gam(y ~ s(x1,4) + lo(x2) + Factor, data=Mydata)
+* `gam(y ~ s(x1,4) + lo(x2) + Factor, data=Mydata)`
 
 #### `gam::gam()` uses smoothing splines and local regression, default values and syntax shown:
 
