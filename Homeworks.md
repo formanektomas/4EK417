@@ -130,6 +130,23 @@ Testování prostorové (ne)závislosti v R
 
 --- 
 
+## Týden 9 (odevzdání do 20. 11. 2022)
+
+*  Pro tento úkol můžete vyjít z dat, která jste použili v týdnu 8
+
+* Proveďte PLS regresi. Využijte příklady ze cvičení jako vzor.  
+    * Výstup (vizualizace, vyhodnocení, predikce) podle vzoru ze cvičení.  
+
+* K závislé proměnné ze svého datsetu vyberte jeden vhodný regresor (spojitá proměnná), zvolte "cut-points" podle svého uvážení (alespoň 2) a generujte regresi na spline křivce (cubic spline).   
+* K závislé proměnné ze svého datsetu vyberte jeden vhodný regresor a odhadněte závislost pomocí "lokální regrese" (jako vzor použijte příklad ze cvičení).
+
+
+* Odevzdejte ve formátu `.Rmd` nebo Rmd zkompilované do `html/pdf/docx` výstupu   
+    + u zkompilovaných výstupů musejí být viditelné použité příkazy, tj. nastavení `echo=T` (je defaultní). 
+    + výslovně upozorňuji nejmenovanou studentku, že není dobrý nápad, posílat R skript, ve kterém se odkazuje na soubor, který není přiložen (důsledky pro funkčnost kódu jsou zřejmé, dopady na bodové ohodnocení úkolu také). 
+
+--- 
+
 
 
 [Homepage](https://formanektomas.github.io/4EK417/)
