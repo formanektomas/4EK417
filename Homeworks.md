@@ -147,7 +147,7 @@ Testování prostorové (ne)závislosti v R
 
 --- 
 
-# Týden  10 (odevzdání do 26. 11. 2022)
+# Týden  10 (odevzdání do 27. 11. 2022)
 
 *  Pro tento úkol můžete vyjít z dat, která jste použili v týdnu 8 a 9
 
