@@ -147,6 +147,22 @@ Testování prostorové (ne)závislosti v R
 
 --- 
 
+# Týden  10 (odevzdání do 26. 11. 2022)
+
+*  Pro tento úkol můžete vyjít z dat, která jste použili v týdnu 8 a 9
+
+* S využitím svého datasetu odhadněte GAM model - specifikace modelu podle vlastního uvážení.  
+* Použijte alespoň 3 různé specifikace (kombinace smoothning splines, local regression).
+* Proveďte diagnostické testy GAM modelu podle vzoru z cvičení, testy interpretujte a model podle potřeby upravte.
+
+* Odevzdejte ve formátu `.Rmd` nebo Rmd zkompilované do `html/pdf/docx` výstupu   
+    + u zkompilovaných výstupů musejí být viditelné použité příkazy, tj. nastavení `echo=T` (je defaultní). 
+
+* **Tento úkol je za 10 bodů (max).**
+
+
+--- 
+
 
 
 [Homepage](https://formanektomas.github.io/4EK417/)
