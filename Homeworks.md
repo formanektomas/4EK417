@@ -174,6 +174,10 @@ Testování prostorové (ne)závislosti v R
     + Proveďte diagnostické testy (vzájemná nezávislost náhodných efektů, statistická významnost náhodných efektů),  
     + Použijte příklady ze cvičení jako předlohu (návod).  
 
+* Odevzdejte ve formátu `.Rmd` nebo Rmd zkompilované do `html/pdf/docx` výstupu   
+    + u zkompilovaných výstupů musejí být viditelné použité příkazy, tj. nastavení `echo=T` (je defaultní). 
+
+
 ---
 
 
