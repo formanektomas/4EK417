@@ -163,6 +163,18 @@ Testování prostorové (ne)závislosti v R
 
 --- 
 
+## Týden 11 (odevzdání do 4. 12. 2022)
+
+*  Vyberte si vhodný dataset obsahující panelová/longitudinální/hierarchicky organizovaná data, například ze seznamu zde  
+    + [https://vincentarelbundock.github.io/Rdatasets/datasets.html](https://vincentarelbundock.github.io/Rdatasets/datasets.html),  
+    + vyberete-li jiný dataset, srozumitelně popište svá data (např. v úvodu Rmd souboru). 
+
+* Sestavte vhodný regresní model a odhadněte pomocí LME přístupu.  
+    + Vyzkoušejte různé specifikace (náhodný efekt na interceptu, náhodný efekt u regresoru),  
+    + Proveďte diagnostické testy (vzájemná nezávislost náhodných efektů, statistická významnost náhodných efektů),  
+    + Použijte příklady ze cvičení jako předlohu (návod).  
+
+---
 
 
 [Homepage](https://formanektomas.github.io/4EK417/)
