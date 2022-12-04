@@ -46,6 +46,7 @@ allEffects(t.0) # type="response" is the default setting
 # note that "Age" is split into 5 intervals, with representative 
 # "rounded" values as labels.
 #
+allEffects(t.1)
 ## 1
 # By default, all covariates -not included in a term- are set to their means
 # .. Example: in "Pclass*Female effect", age = mean(age)

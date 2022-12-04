@@ -4,9 +4,10 @@ output: html_document
 ---
 
 ```{r setup, include=FALSE}
+library(sf)
+library(osmdata)
 library(spatialprobit)
 library(spatialreg)
-library(ggmap)
 ```
 
 ## General description of a spatial probit model
@@ -103,13 +104,14 @@ The dataset contains 673 observations on 3 streets in New Orleans and can be use
 ```{r, message=FALSE}
 data(Katrina)
 str(Katrina)
+Katrina_sf <- st_as_sf(Katrina, coords = c("long", "lat"), crs = 4326) 
 
 ```
 
 #### Map of the area analyzed
 
 ```{r, message=FALSE}
-qmplot(long, lat, data = Katrina, maptype="roadmap", source="osm")
+mapview::mapview(Katrina_sf)
 ```
 
 * Using the data, we replicate some output from the paper: J. P. LeSage, R. K. Pace, N. Lam, R. Campanella and X. Liu (2011), New Orleans business recovery in the aftermath of Hurricane Katrina Journal of the Royal Statistical Society A, 174.
