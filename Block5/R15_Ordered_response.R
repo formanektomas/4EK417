@@ -264,7 +264,8 @@ pred2[1:6,] # Cumulative probabilities
 #
 # Nominal effects relax this assumption by allowing one or more regression
 # parameters to vary with j. For details, see 
-# http://cran.r-project.org/web/packages/ordinal/vignettes/clm_tutorial.pdf
+# https://cran.r-project.org/web/packages/ordinal/vignettes/clm_article.pdf
+# https://cran.r-project.org/web/packages/ordinal/vignettes/clmm2_tutorial.pdf
 #
 #
 # Say, we want to allow "choice" and "female" coeffs to vary across j:
@@ -307,7 +308,7 @@ wine <- wine
 ?wine # {ordinal} package
 # Dependent variable
 # rating: ordered factor with 5 levels
-#         1 = “least bitter” and 5 = “most bitter”
+#         1 = ?least bitter? and 5 = ?most bitter?
 # Regressors
 # "temperature' and "contact" between juice and skins can be controlled
 # when crushing grapes during wine production.

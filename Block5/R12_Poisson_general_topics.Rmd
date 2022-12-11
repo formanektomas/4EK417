@@ -17,7 +17,7 @@ species$pH<-factor(species$pH, labels=c("Low","Medium","High"))
 ---
 
 
-### General count-model description
+### Introduction to Poisson: count-model description
 
 
 The dependent variable is a count variable, takes on non-negative integer values: $\textbf{0}, 1,2,3,\dots$
@@ -137,7 +137,7 @@ P(y_i=h|\boldsymbol{x}_i) = \frac{e^{-\mu_i} \mu_i^h}{h!},
 \qquad h = 0,1,2,\dots
 $$  
 
-* and one can formulate the log-likelihood function as:  
+* we can formulate the log-likelihood function as:  
 
 
 $$
@@ -149,7 +149,7 @@ $$
 
 * Note that the last element ($\log y_i!$) does not depend on $\boldsymbol{\beta}$.  
 
-* Hence, parameter estimation ($LL$ maximization based on first order conditions) is often based on the simplified version, cast e.g. as:
+* Hence, parameter estimation ($LL$ maximization based on first order conditions) is often based on the simplified version, which can be cast as:
 
 
 $$
@@ -190,15 +190,20 @@ $$
 #### Data description
 
 * Longterm agricultural experiment, 90 grassland plots, each 25m $\times$ 25m,
-differing in **biomass**, **soil pH** and **species richness** (the count of species is the dependent variable). 
+differing in 
 
-* The plots were classified according to a 3-level factor as *high*, *medium* or *low* pH with 30 plots in each level.
+    + **biomass**,   
+    + **soil pH**, classified into a 3-level factor as *high*, *medium* or *low* pH, with 30 plots in each level.  
+    + **species richness** (count of species is the dependent variable).  
 
 
-Species richness declines with increasing biomass. We want to: 
 
-1) quantify the dynamics  
-2) evaluate whether the slope differs with soil pH. 
+Species richness declines with increasing biomass (nature of this property lies mostly outside the scope of our analysis). 
+
+We want to: 
+
+1) quantify the dynamics with respect to **biomass** 
+2) evaluate whether the slope differs with **soil pH**. 
 
 ---
 
@@ -213,7 +218,7 @@ summary(lm(Species~Biomass+pH,data=species))
 1. the linear model can lead to the prediction of negative counts  
 2. the variance of the response variable is likely to increase with the mean (heteroscedasticy)  
 3. the errors will not be normally distributed (problematic inference) 
-4. zeros are difficult to handle in transformations 
+4. observed zeros (dependent variable) are *difficult to handle*.
 
 ---
 
@@ -230,20 +235,27 @@ where:
 
 + **Null Deviance** = $2(LL$(Saturated Model) - $LL$(Null Model)$)$,  
 
+    + The Saturated Model generates perfect fit ($y_i = \hat{y}_i$ for $\forall i$).  
+    + Saturated Model (each data point has its own parameter).  
+<p style="margin-bottom:1cm;">
+
 + **Residual Deviance** = $2(LL$(Saturated Model) - $LL$(Proposed Model)$)$, 
 
-+ df for the Null Model = $n - 1$,  
+    + df for the Null Model = $n - 1$,  
+    + Unlike Saturated Model (each data point has its own parameter), the Null Model assumes the exact "opposite", in that is assumes one parameter for all of the data points, which means you only estimate 1 parameter (i.e. a trivial model is estimated, based on intercept).  
+<p style="margin-bottom:1cm;">    
 
-+ df for the Proposed model = $n - (p + 1)$.
 
-+ The Saturated Model generates perfect fit ($y_i = \hat{y}_i$ for $\forall i$). 
+* The **Proposed Model** (model being evaluated) assumes you can explain your data points with $p$ parameters + an intercept term, so you have $p+1$ parameters.   
 
-   * Unlike Saturated Model (each data point has its own parameter), the Null Model assumes the exact "opposite", in that is assumes one parameter for all of the data points, which means you only estimate 1 parameter (i.e. a trivial model is estimated, based on intercept).   
-   * The Proposed Model (model being evaluated) assumes you can explain your data points with $p$ parameters + an intercept term, so you have $p+1$ parameters.   
+    + df for the Proposed model = $n - (p + 1)$. 
+
 
 <p style="margin-bottom:1cm;">       
 
-* If **Null Deviance** is really small, it means that the Null Model explains the data pretty well. Likewise with **Residual Deviance**.
+* If **Null Deviance** is really small, it means that the Null Model explains the data pretty well.  
+
+*  Likewise with **Residual Deviance**: small value means Proposed model explains data well.
 
 * If you want to compare the Proposed model with the Null model, you can look at **Likelihood ratio**, which can be defined as
   
@@ -285,7 +297,7 @@ Hence, one can reproduce the **Null Deviance** and **Residual Deviance** as:
 (Residual_Deviance <- 2*(l_sat - lm_Test$LogLik[1]))
 ```
 
-And we can see that **Likelihood ratio** is identical to **Null Deviance - Residual Deviance**:
+And we can see that **Likelihood ratio** test-value is identical to **Null Deviance - Residual Deviance**:
 
 ```{r}
 lm_Test$Chisq # LR value from the lrtest()
@@ -294,7 +306,7 @@ Null_Deviance - Residual_Deviance # manual calculation
 
 ---
 
-#### Parameter interpretation
+### Poisson model: Parameter interpretation
 
 ```{r}
 lmtest::coeftest(m1)[,]
