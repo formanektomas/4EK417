@@ -8,6 +8,9 @@ library(sf)
 library(osmdata)
 library(spatialprobit)
 library(spatialreg)
+library(gmm)
+# https://stackoverflow.com/questions/63511986/error-package-or-namespace-load-failed-for-gmm-in-dyn-loadfile-dllpath-dl
+# 
 ```
 
 ## General description of a spatial probit model
