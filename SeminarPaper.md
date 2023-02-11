@@ -25,6 +25,8 @@ layout: default
 
 # Seminární práce (odevzdání, peer review, úprava podle připomínek, prezentace):
 
+* Odsouhlasení tématu seminární práce s vyučujícím prostřednictvím e-mailu, do konce 8. týdne (do 6.4.).
+
 * Studenti zpracují a odevzdají seminární práci individuálně - termín: 25. 11.  
  
 * Každý student provede peer review (vzájemné hodnocení): dvou dalších seminárních prací
