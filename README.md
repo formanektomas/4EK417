@@ -54,7 +54,7 @@ University of Economics, Prague
 
 + [Download presentation slides for Block 2](https://github.com/formanektomas/4EK417/raw/master/Block2/Block_2.pdf)  
 + [Download R scripts (zip)](https://github.com/formanektomas/4EK417/raw/master/Block2/Block2.zip)  
-+ [Rowe and Arribas-Bel, Spatial Modelling for Data Scientists - a textbook](https://gdsl-ul.github.io/san/spatial_analysis_notes.pdf)  
++ [Rowe and Arribas-Bel, Spatial Modelling for Data Scientists - a textbook](https://gdsl-ul.github.io/san/)  
 
 
 #### Supporting materials for Block 2
