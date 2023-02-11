@@ -23,31 +23,28 @@ layout: default
 
 ---  
 
-# Seminární práce (odevzdání, peer review, úprava podle připomínek, prezentace):
+# Seminární práce (harmonogram odevzdání)
 
-* Odsouhlasení tématu seminární práce s vyučujícím prostřednictvím e-mailu, do konce 8. týdne (do 6.4.).
+* Odsouhlasení tématu seminární práce s vyučujícím: prostřednictvím e-mailu, do konce 8. týdne (do 6.4.).
 
-* Studenti zpracují a odevzdají seminární práci individuálně - termín: 25. 11.  
+* Studenti zpracují a odevzdají seminární práci individuálně, do konce 11. týdne (do 28.4.).  
  
 * Každý student provede peer review (vzájemné hodnocení): dvou dalších seminárních prací
-  - přidělení seminárek k hodnocení: do 28. 11.,  
-  - odevzdání vyplněných recenzních formulářů - termín 6. 12.  
+  - přidělení seminárek k hodnocení: do 30. 4.,  
+  - odevzdání vyplněných recenzních formulářů - termín 5. 5.  
 
-* Zapracování připomínek z peer review a odevzdání závěrečné verze seminární práce - termín 18. 12.  
+* Zapracování připomínek z peer review a odevzdání závěrečné verze seminární práce - termín 14. 5.  
 
 ---  
 
 **Témata SP**
 
-1. Zpracování / rozpracování aplikační části DP.  
-2. Zpracování existující (již publikované) vědecké studie (Working paper) nebo její části  
+1. Zpracování / rozpracování aplikační části DP (jedná-li se o ekonometrické téma související s náplní kurzu).  
+2. Zpracování existující (již publikované) vědecké studie (Journal article, Working paper) nebo její části  
    - aplikace (a zjednodušení) postupu na ekonomiku ČR nebo SR
    - v případě nejasností konzultujte volbu práce s vyučujícím  
 3. Jiný typ seminární práce, vycházející z analýzy v prostředí R  
-   - zadání je potřeba odsouhlasit (emailem) s vyučujícím.
-
-
-4. Odhad modelů vycházejících z učebnice APLIKOVANÁ EKONOMETRIE (Hušek, 2009), pouze kapitoly  4 až 9.
+4. Odhad modelů vycházejících z učebnice APLIKOVANÁ EKONOMETRIE (Hušek, 2009), pouze kapitoly  4 až 9. 
 
 --- 
 
