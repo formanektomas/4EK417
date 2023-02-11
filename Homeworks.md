@@ -23,7 +23,7 @@ Obecná doporučení pro práci s R (domácí úkoly)
 ---
 
 
-## Týden 1 (odevzdání do 25.9.)
+## Týden 1 (odevzdání do 19.2.)
 
 
 
