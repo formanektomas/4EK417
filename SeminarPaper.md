@@ -9,9 +9,9 @@ layout: default
 **Základní  informace:**
 
 *	Bodové ohodnocení: max 50 bodů. Hodnotí se  
-  +	Odevzdání práce k vzájemnému hodnocení (peer review)
-  +	Peer review: řádné a smysluplné vyplnění  formuláře (2x)
-  +	Následná úprava práce a vypořádání připomínek z peer review
+      +	Odevzdání práce k vzájemnému hodnocení (peer review)  
+      +	Peer review: řádné a smysluplné vyplnění  formuláře (2x)  
+      + Následná úprava práce a vypořádání připomínek z peer review  
 
 *	Studenti seminární práci vypracují individuálně.  
 *	Rozsah práce:  cca 15 stran (max. 25 stran včetně grafických a tabulkových příloh).
