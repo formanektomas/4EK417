@@ -11,7 +11,10 @@ layout: default
 ## Supporting literature:
 
 + Hastie, T. et al., [The Elements of
-Statistical Learning](https://web.stanford.edu/~hastie/ElemStatLearn/).  
+Statistical Learning](https://web.stanford.edu/~hastie/ElemStatLearn/).   
++ [Enders, C.K., Applied Missing Data Analysis (2022)](https://www.appliedmissingdata.com/)  
++ [Rowe and Arribas-Bel, Spatial Modelling for Data Scientists - a textbook](https://gdsl-ul.github.io/san/)  
+
 
 
 --- 
@@ -28,10 +31,6 @@ Statistical Learning](https://web.stanford.edu/~hastie/ElemStatLearn/).
 
 + [https://vincentarelbundock.github.io/Rdatasets/datasets.html](https://vincentarelbundock.github.io/Rdatasets/datasets.html)
 + [https://r-dir.com/reference/datasets.html](https://r-dir.com/reference/datasets.html)
-
----
-
-[Old website for the course (no longer updated)](https://sites.google.com/site/econometricseminar/4ek417) 
 
 
 --- 
