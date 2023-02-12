@@ -236,6 +236,11 @@ head(as.data.frame(Wider_NewDF))
 # Transform back to longer format
 Longer_NewDF <- pivot_longer(Wider_NewDF, cols = 3:4, names_to="Unit", values_to="Value")
 head(as.data.frame(Longer_NewDF),12)
+# 
+# Alternatively, for TS-based analysis, we can transform the dataset
+# to have all entries for a given year in a single row:
+TS_wider <- pivot_wider(NewDF, names_from = c(State,Unit), values_from = "Value")
+head(as.data.frame(TS_wider))
 ```
 
 ---
@@ -263,6 +268,13 @@ dim(UnDF)
 
 
 2) Use the `pivot_longer()` command to transform the wider-format data back to the original longer format & show output
+
+```{r}
+# 
+```
+
+3) Using the `pivot_wider()` command, convert `UnDF` to a TS-type wide format & show output. You want TS-data output, with M/F/T unemployment levels in each country as new variables (e.g. "AT_F" for female unemployment in Austria).
+
 
 ```{r}
 # 
