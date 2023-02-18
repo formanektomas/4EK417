@@ -119,8 +119,8 @@ ggplot(GDP.Data, aes(x = year, y = NY.GDP.PCAP.KD, color=country)) +
 # Say, we want to include population (millions) volume for all countries 
 # in the newData data.frame for the years 1960 - 2012
 # 
-WDIsearch('population')
-WDIsearch('.*population.*total')
+pop <- WDIsearch('population')
+pop2 <- WDIsearch('.*population.*total')
 WDIsearch('.*population..total')
 #
 dat.POP <- WDI(indicator="SP.POP.TOTL", 
@@ -132,15 +132,13 @@ head(dat.POP)
 # Lets tranform the data, we want population in millions:
 # Lets round to 3 dec. numbers - information saved up to thousands of people
 dat.POP$SP.POP.TOTL <- round(dat.POP$SP.POP.TOTL/1000000, 3)
-# Change the corresponding variable name accordingly
-names(dat.POP) <- c("iso2c", "country", "POP.in.Millions", "year")
 #
 head(dat.POP)
 names(dat.POP)
 #
 #
 # Plot population data
-ggplot(dat.POP, aes(x = year, y = POP.in.Millions, color=country)) + 
+ggplot(dat.POP, aes(x = year, y = SP.POP.TOTL, color=country)) + 
   geom_line() + 
   xlab('Year') + 
   ylab('Total population in millions')
@@ -166,14 +164,14 @@ tail(GDP.Data)
 # A more convenient approach: merge() function or tidyverse() functions
 #
 ?merge
-merged.Data <- merge(GDP.Data, dat.POP, by = c("iso2c", "year","country"))
+merged.Data <- merge(GDP.Data, dat.POP, by = c("iso2c", "iso3c","year","country"))
 View(merged.Data)
 # 
 #
 # Alternatively, we can use dplyr():
 #
-require(dplyr)
-Merged.DF <- left_join(GDP.Data, dat.POP, by = c("iso2c", "year", "country"))
+library(dplyr)
+Merged.DF <- left_join(GDP.Data, dat.POP, by = c("iso2c", "iso3c","year", "country"))
 head(Merged.DF)
 #
 #
@@ -183,7 +181,7 @@ head(Merged.DF)
 ## a) Use the online WDI database to retrieve the following data:
 ##    - Unemployment (you can  use total or relative values)
 ##    - data for some 3 - 5 countries (e.g.: the V4 group: CZ,SK,PL,HU)
-##    - data for at least 10 years (say, 2006 to 20115).
+##    - data for at least 10 years (say, 2006 to 2015).
 ##      
 ##
 ## b) Plot the data using ggplot2
