@@ -5,7 +5,7 @@ layout: default
 
 --- 
 
-**Domácí úkoly odevzdávejte v `Rmd` (Markdown) formátu - zkompilované do `html/pdf/docx` výstupu.**  
+**Domácí úkoly zpracujte v `Rmd` (Markdown) formátu, odevzdávejte ZKOMPILOVANÉ do `html/pdf/docx` výstupu.**  
 - U zkompilovaných výstupů musejí být viditelné použité příkazy, tj. nastavení `echo=T` (je defaultní).  
 
 
