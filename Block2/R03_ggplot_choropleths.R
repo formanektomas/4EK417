@@ -126,7 +126,7 @@ borders <- map20 %>%
 ggplot(Plot2DF) +
   geom_sf(aes(fill = values)) +
   scale_fill_gradientn('PPS/Hab', colours=brewer.pal(9, "Greens"))+
-  geom_sf(data=borders, color = "black", lwd=1, fill=NA) + # borders - from own DF
+  geom_sf(data=borders, color = "black", linewidth=1, fill=NA) + # borders - from own DF
   ggtitle("PPS per capita") +
   facet_wrap(~time, ncol=2)+
   theme_bw()
@@ -137,7 +137,7 @@ Income.sf%>%
   ggplot() +
     geom_sf(aes(fill = values)) +
     scale_fill_gradientn('PPS/Hab', colours=brewer.pal(9, "Greens"))+
-    geom_sf(data=borders, color = "darkred", lwd=1, fill=NA) + # borders - from own DF
+    geom_sf(data=borders, color = "darkred", linewidth=1, fill=NA) + # borders - from own DF
     ggtitle("PPS per Habitant") +
     facet_wrap(~time, ncol=2)+
     theme_bw()
@@ -176,7 +176,7 @@ borders <- map20 %>%
 ggplot() + # note the changed data argument...
   geom_sf(data=Plot4DF, aes(fill = values)) + # data for choropleth
   scale_fill_gradientn('PPS/Hab', colours=brewer.pal(9, "Oranges"))+ # scale and colors
-  geom_sf(data=borders, color = "gray30", lwd=1.3, fill=NA) + # borders - from own DF
+  geom_sf(data=borders, color = "gray30", linewidth=1.3, fill=NA) + # borders - from own DF
   labs(title="PPS per Habitant", y="Latitude", x="Longitude")+ # labels
   coord_sf(xlim = c(-10, 5), ylim = c(35, 45))+ # map range
   theme_light()  # theme
@@ -209,15 +209,15 @@ borders <- map20 %>%
 P1 <- ggplot() + 
   geom_sf(data=Plot4DF, aes(fill = values)) + # data for choropleth
   scale_fill_gradientn('PPS/Hab', colours=brewer.pal(9, "Greens"))+ # scale and colors
-  geom_sf(data=borders, color = "gray30", lwd=1, fill=NA) + # borders - from own DF
-  labs(title="PPS per Habitant", y="Latitude", x="Longitude")+ # labels
+  geom_sf(data=borders, color = "gray30", linewidth=1, fill=NA) + # borders - from own DF
+  labs(title="PPS per Habitant - Spain", y="Latitude", x="Longitude")+ # labels
   coord_sf(xlim = c(-11, 5), ylim = c(34, 44.5))+ # map range
   theme_light()  # theme
 #
 CI <- ggplot() + # Canary Islands
   geom_sf(data=Plot4DF, aes(fill = values)) + # data for choropleth
   scale_fill_gradientn(name=NULL, colours=brewer.pal(9, "Greens"))+ # scale and colors
-  geom_sf(data=borders, color = "gray30", lwd=1, fill=NA) + # borders - from own DF
+  geom_sf(data=borders, color = "gray30", linewidth=1, fill=NA) + # borders - from own DF
   coord_sf(xlim = c(-18, -13), ylim = c(27.5, 29.5))+ # map range
   theme_minimal()+
   theme(axis.title = element_blank(), # strip-down the inset plot
