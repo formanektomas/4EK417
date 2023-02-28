@@ -45,6 +45,18 @@ Zkompilovaný html/pdf/docx soubor s úkolem odevzdejte prostřednictvím odevzd
 
 * **Bonus:** Vyřešte úkol, který se nachází na konci skriptu `R11_Missing_data.R`. Odevzdejte jako zkompilovaný Rmd soubor ve formátu html/pdf/docx, buď samostatně, nebo přiložte k předchozí úloze.   **2b**   
 
+---
+
+## Týden 3 (odevzdání do 5. 3.)
+
+Vizualizace prostorových dat - kartogram (infomapa).
+Zkompilovaný html/pdf/docx soubor s úkolem odevzdejte prostřednictvím odevzdávárny v insisu. 
+
+* Pro tento úkol můžete použít data z Eurostatu, která jste stáhli v rámci úkolu z minulého týdne (ideálně data na úrovni NUTS2 nebo NUTS3). 
+    + Pro vhodnou proměnnou zobrazte infomapu. 
+    + Použijte alespoň tři různé způsoby zobrazení dat (různé projekce, různé státy, časová období (fazety grafu), atd.).  
+    + Pokud pracujete se státy jako Francie nebo Španělsko, lze pro přehlednost z mapy odstranit zámořská území. 
+    + Před vizualizací dat v `ggplot()` si zkontrolujte rozměr datasetu.  
 
 ---
 
