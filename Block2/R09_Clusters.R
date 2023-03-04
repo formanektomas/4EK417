@@ -14,7 +14,7 @@ rm(list = ls())
 ## Get the spatial data for NUTS regions and cast it as a sf object
 #
 options(readr.default_locale=readr::locale(tz="Europe/Berlin"))
-df20 <- giscoR::gisco_get_nuts()
+map1 <- giscoR::gisco_get_nuts()
 # Get Unemployment data (annual, NUTS2)
 U.DF <- eurostat::get_eurostat("lfst_r_lfu3rt", time_format = "num") 
 summary(U.DF)
@@ -26,7 +26,7 @@ U.CE <- U.DF %>%
   dplyr::filter(NUTS0 %in% c(c("AT","CZ","DE","HU","PL","SI","SK"))) 
 summary(U.CE) # check data dimension
 # Merge with {sf} spatial data
-U.sf <- df20 %>% 
+U.sf <- map1 %>% 
   dplyr::inner_join(U.CE, by = c("NUTS_ID" = "geo")) %>% 
   arrange(NUTS_ID)  
 # Plot the data 
@@ -38,31 +38,27 @@ ggplot(U.sf) +
 #
 #
 ## Step 2
-## Centroids, IDs, nb and W matrix ("listw")
-## for spatial data used
+## Centroids and W matrix 
 #
-# centroids
-laea = st_crs("+proj=laea +lat_0=51 +lon_0=11") 
-CE_sf <- U.sf %>% 
-  st_transform(laea)
-centroids <- sf::st_centroid(CE_sf)
-centroids <- st_transform(centroids, 4326)
-coords <- sf::st_coordinates(centroids) 
-colnames(coords) <- c("long","lat")
-# IDs
-CE_IDs <- st_drop_geometry(CE_sf[,"NUTS_ID"]) 
-IDs <- CE_IDs[,1] 
-# nb - distance based with tau = 200 km
-nb200km <- dnearneigh(coords, d1=0, d2=200, longlat=T, row.names = IDs)
-# W matrix
-W_matrix <- nb2listw(nb200km) 
+centroids <- sf::st_centroid(st_geometry(U.sf)) # find centroids
+head(centroids)
+#
+nb200km <- dnearneigh(centroids, d1=0, d2=200, row.names = U.sf$NUTS_ID)
+summary(nb200km)
+#
+plot(U.sf[,"CNTR_CODE"], border="white", reset=FALSE,
+     main=paste("Distance based neighbours"))
+plot(nb200km, centroids, add=TRUE)
+#
+W.matrix <- nb2listw(nb200km) 
+summary(W.matrix) 
 #
 #
 ## Step 3
 ## Preliminary testing
 ## Getis's clustering analysis is only valid for positive spatial auto-correlation
 #
-moran.test(CE_sf$values, W_matrix, na.action=na.omit)
+moran.test(U.sf$values, W.matrix, na.action=na.omit)
 #
 #
 ## Step 4:  Cluster identification using G*
@@ -88,27 +84,29 @@ moran.test(CE_sf$values, W_matrix, na.action=na.omit)
 # C* matrix
 C_star <- nb2listw(include.self(nb200km), style="B")
 # show z-score, plus the underlying G*, E(G*) and var(G*)
-localG(CE_sf$values, C_star, return_internals = T)
-G_star <- localG(CE_sf$values, C_star, return_internals = T)
-G_star_m <- attributes(localG(CE_sf$values, C_star, return_internals = T))$internals %>% 
+localG(U.sf$values, C_star, return_internals = T)
+G_star <- localG(U.sf$values, C_star, return_internals = T)
+G_star_m <- attributes(localG(U.sf$values, C_star, return_internals = T))$internals %>% 
   as.data.frame()
 G_star_m 
 # save z-score & p-values for subsequent analysis
-CE_sf$LocG <- localG(CE_sf$values, C_star)
-CE_sf$LocGpval <- G_star_m$`Pr(z != E(G*i))`
+U.sf$LocG <- localG(U.sf$values, C_star) 
+# same z-score can be imported from G_star_m$`Z(G*i)`
+U.sf$LocGpval <- G_star_m$`Pr(z != E(G*i))`
 #
 # We may want to plot cluster data for "significant" z-scores only, 5% sig. level only
-CE_sf$lG <- 0
-CE_sf[CE_sf$LocG < 0 & CE_sf$LocGpval < 0.05, "lG"] <- -1 # significant cold-spot 
-CE_sf[CE_sf$LocG > 0 & CE_sf$LocGpval < 0.05, "lG"] <- 1 # significant hot-spot
-hist(CE_sf$lG)
+U.sf$locG <- "0"
+U.sf[U.sf$LocG < 0 & U.sf$LocGpval < 0.05, "locG"] <- "Low" # significant cold-spot 
+U.sf[U.sf$LocG > 0 & U.sf$LocGpval < 0.05, "locG"] <- "High" # significant hot-spot
+U.sf$locG <- as.factor(U.sf$locG)
 #
 # Plot coldspots and hotspots
 #
-ggplot(CE_sf) +
-  geom_sf(aes(fill = lG)) +
-  scale_fill_gradient2('Unemployment \nHotspots \n(Red) \nColdspots \n(Blue)', 
-                       low = "blue", mid = "grey90", high = "red")+
+ggplot(U.sf) +
+  geom_sf(aes(fill = locG)) +
+  scale_fill_manual(values = c("0" = "grey",
+                                "High" = "red",
+                                "Low" = "blue"))+
   ggtitle("Unemployment hotspots and coldspots, 2017, NUTS2 level") +
   theme_bw()
 #
