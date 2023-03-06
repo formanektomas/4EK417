@@ -60,5 +60,21 @@ Zkompilovaný html/pdf/docx soubor s úkolem odevzdejte prostřednictvím odevzd
 
 ---
 
+## Týden 4 (odevzdání do 12. 3.)
+
+Pro tento úkol použijte data (mapu i sledovanou proměnnou), která jste stáhli v rámci úkolu z minulého týdne (ideálně data na úrovni NUTS2 nebo NUTS3, abyste měli cca 100 prostorových jednotek/regionů).
+
+* Prostorová struktura: stanovení matice sousednosti v `R`
+    + Použijte alespoň dva různé způsoby stanovení prostorové struktury (vzdálenost mezi centroidy, kNN, společná hranice).  
+    + Vizualizujte prostorovou strukturu na mapě.  
+ 
+* Testy prostorové závislosti   
+    + Zvolte jednu proměnnou (a jedno období pozorování - ideálně co nejblíže roku 2023) a proveďte **Moranův test** na prostorovou nezávislost.  
+    + Použijte alespoň dva různé způsoby definice prostorové struktury (vzdálenost, vzdálenost + kNN, společná hranice) k ověření robustnosti výsledků Moranova testu vůči změnám prostorové struktury.  
+    + Slovně okomentujte výsledky.
+    + Zopakujte pro test prostorové nezávislosti založený na statistice **Gearyho C**.  
+
+
+--- 
 
 [Homepage](https://formanektomas.github.io/4EK417/)
