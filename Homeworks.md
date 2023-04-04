@@ -74,6 +74,21 @@ Pro tento úkol použijte data (mapu i sledovanou proměnnou), která jste stáh
     + Slovně okomentujte výsledky.
     + Zopakujte pro test prostorové nezávislosti založený na statistice **Gearyho C**.  
 
+--- 
+
+## Týden 8 (odevzdání do 16. 4. 2021)
+
+*  Každý si vyberte vhodný dataset, například ze seznamu zde:  
+    + https://vincentarelbundock.github.io/Rdatasets/datasets.html
+    + Použijete-li data z balíčku, nepřikládatejte csv soubor,
+    + místo toho použijte `R`-kód, např. : `MyData <- PackageName::DatasetName`.
+    + Vyberete-li jiný dataset, srozumitelně popište svá data a soubor přiložte.
+
+* Proveďte stepwise regresi, podle skriptu z bloku 3: `R03_Model_selection.R`
+    * Proveďte alespoň dvě varianty výběru (best subset, forward, backwards), výstupy srovnejte (vizualizace, vyhodnocení)
+
+* Úkol je za 10 bodů, odevzdejte jako obvykle zkompilovaný výstup (Rmd do PDF nebo html)
+
 
 --- 
 
