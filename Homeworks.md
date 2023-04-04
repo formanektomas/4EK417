@@ -76,7 +76,7 @@ Pro tento úkol použijte data (mapu i sledovanou proměnnou), která jste stáh
 
 --- 
 
-## Týden 8 (odevzdání do 16. 4. 2021)
+## Týden 8 (odevzdání do 16. 4. 2023)
 
 *  Každý si vyberte vhodný dataset, například ze seznamu zde:  
     + https://vincentarelbundock.github.io/Rdatasets/datasets.html
