@@ -89,6 +89,22 @@ Pro tento úkol použijte data (mapu i sledovanou proměnnou), která jste stáh
 
 * Úkol je za 10 bodů, odevzdejte jako obvykle zkompilovaný výstup (Rmd do PDF nebo html)
 
+--- 
+
+## Týden 10 (odevzdání do 23. 4. 2023)
+
+* Pro tento úkol můžete vyjít z dat, která jste použili v týdnu 8 (potřebujete vhodný - spojitý - regresor)   
+*  Každý si vyberte vhodný dataset, například ze seznamu zde:  
+    + https://vincentarelbundock.github.io/Rdatasets/datasets.html
+    + Použijete-li data z balíčku, nepřikládatejte csv soubor,
+    + místo toho použijte `R`-kód, např. : `MyData <- PackageName::DatasetName`.
+    + Vyberete-li jiný dataset, srozumitelně popište svá data a soubor přiložte.
+
+* Proveďte regresi závislé proměnné na spline křivkách , podle skriptu z bloku 3: `R13_Splines.Rmd` (odhad, predikce), případně použijte lokální regresi podle skriptu `R14_Local regression.Rmd`  
+    * Proveďte alespoň tři varianty (cubic splines, natural splines, smoothing spline, local regression) a výstupy srovnejte (vizualizace, vyhodnocení)  
+
+* Úkol je za 10 bodů, odevzdejte jako obvykle zkompilovaný výstup (Rmd do PDF nebo html)
+
 
 --- 
 
