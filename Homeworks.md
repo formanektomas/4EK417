@@ -103,7 +103,27 @@ Pro tento úkol použijte data (mapu i sledovanou proměnnou), která jste stáh
 * Proveďte regresi závislé proměnné na spline křivkách , podle skriptu z bloku 3: `R13_Splines.Rmd` (odhad, predikce), případně použijte lokální regresi podle skriptu `R14_Local regression.Rmd`  
     * Proveďte alespoň tři varianty (cubic splines, natural splines, smoothing spline, local regression) a výstupy srovnejte (vizualizace, vyhodnocení)  
 
+* Úkol je za 10 bodů, odevzdejte jako obvykle zkompilovaný výstup (Rmd do PDF nebo html)  
+
+--- 
+
+## Týden 11 (odevzdání do 7. 5. 2023)
+
+* Pro tento úkol můžete vyjít z dat, která jste použili v předchozích týdnech   
+*  Každý si vyberte vhodný dataset, například ze seznamu zde:  
+    + https://vincentarelbundock.github.io/Rdatasets/datasets.html
+    + Použijete-li data z balíčku, nepřikládatejte csv soubor,
+    + místo toho použijte `R`-kód, např. : `MyData <- PackageName::DatasetName`.
+    + Vyberete-li jiný dataset, srozumitelně popište svá data a soubor přiložte.
+
+* S využitím svého datasetu odhadněte GAM model - specifikace modelu podle vlastního uvážení.  
+* Použijte alespoň 3 různé specifikace (kombinace smoothning splines, local regression).  
+* Proveďte diagnostické testy GAM modelu podle vzoru z cvičení, testy interpretujte a model podle potřeby upravte.  
+
 * Úkol je za 10 bodů, odevzdejte jako obvykle zkompilovaný výstup (Rmd do PDF nebo html)
+
+
+
 
 
 --- 
