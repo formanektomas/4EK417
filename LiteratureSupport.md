@@ -7,7 +7,7 @@ layout: default
 + James, G. et al., [An Introduction to Statistical Learning](https://www.statlearning.com/).  
 + Greene, W.H., Econometric analysis.  
 + [ISLR course - textbook, slides, videos ("playlist sections")](https://www.r-bloggers.com/2014/09/in-depth-introduction-to-machine-learning-in-15-hours-of-expert-videos/).  
-+ [ISLR course - videos only]([https://www.youtube.com/@dataschool/playlists](https://www.youtube.com/@dataschool/playlists?view=50&sort=dd&shelf_id=10))
++ [ISLR course - videos only](https://www.youtube.com/playlist?list=PLoROMvodv4rOzrYsAxzQyHb8n_RWNuS1e)
 
 ## Supporting literature:
 
