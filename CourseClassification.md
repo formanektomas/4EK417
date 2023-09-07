@@ -20,7 +20,7 @@ Hodnocení – stupnice
 
 * **Podrobné informace a požadavky k seminární práci** [zde](./SeminarPaper.html)
 
-
+---   
 
 * **Home assignments**
 
@@ -28,11 +28,12 @@ Hodnocení – stupnice
     (cvičení je v ponděli, odevzdání vždy do neděle 23:59, viz odevzdávárna).  
  + Vysvětlete/popište získané výsledky (interpretace testů, odhadnutých mezních efektů, atd.)
 
-Formát odevzdávaných úkolů:  
+    Formát odevzdávaných úkolů:  
 
 + `Rmd` (R markdown) soubor + zkompilovaný výstup (pdf/Word/HTML) + dataset podle potřeby (není-li součástí balíčku `R`)  
 + `qmd` (quarto) soubor + + zkompilovaný výstup (pdf/Word/HTML) + dataset podle potřeby  
-  
+
+---    
   
 * **Okruhy k testu**
   + Termín bude upřesněn
