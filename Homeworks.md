@@ -5,8 +5,9 @@ layout: default
 
 --- 
 
-**Domácí úkoly zpracujte v `Rmd` (Markdown) formátu, odevzdávejte ZKOMPILOVANÉ do `html/pdf/docx` výstupu.**  
-- U zkompilovaných výstupů musejí být viditelné použité příkazy, tj. nastavení `echo=T` (je defaultní).  
+**Domácí úkoly zpracujte v `Rmd` (Markdown), nebo `qmd` (quarto) formátu, odevzdávejte ZKOMPILOVANÉ do `html/pdf/docx` výstupu.**  
+- U zkompilovaných výstupů musejí být viditelné použité příkazy, tj. nastavení `echo=T` (je defaultní).
+- Podle potřeby přiložte dataset.  
 
 
 Obecná doporučení pro práci s R (domácí úkoly)
@@ -23,104 +24,12 @@ Obecná doporučení pro práci s R (domácí úkoly)
 ---
 
 
-## Týden 1 (odevzdání do 19.2.)
+## Týden 1 (odevzdání do 24.9.)
 
 Vypracujte zadání ve skriptu `R02b_data_handling_exercise.Rmd`.
 Zkompilovaný html/pdf/docx soubor odevzdejte prostřednictvím odevzdávárny v insisu. 
 
 (filtrování údajů typu Date: např. `date >= "1980-01-01"` )
-
-
----
-
-## Týden 2 (odevzdání do 26. 2.)  
-
-Zkompilovaný html/pdf/docx soubor s úkolem odevzdejte prostřednictvím odevzdávárny v insisu. 
-
-* Stažení zajímavého datasetu z databáze Eurostat/WDI, na úrovni NUTS2/NUTS3 (Eurostat), prostřednictvím balíčku R.   **5b**   
-    - Úprava dat pomocí `dplyr` a pipe operátoru: filtrování "vhodných" ukazatelů podle Vašeho uvážení, popište, jaká data jste vybrali (případně proč), proveďte jednoduchou vizualizaci dat pomocí `ggplot2`.  
-    - Úkol může být založen na postupech ze skriptu `R07_Eurostat.Rmd` (ale nepoužívejte přímo datasety z tohoto skriptu).  
-    - **Pozor:** před vizualizací dat zkontrolujte rozměr použité tabulky - pomocí příkazu `dim()`. Při správném filtrování musí počet řádků odpovídat zobrazovaným datům. (Např: zobrazuji řady s HDP pro 10 regionů a 5 let = 50 řádků.) Tato kontrola musí být součástí odevzdaného úkolu.  
-    - Doprovoďte Váš výstup stručným slovním komentářem (popište zvolené proměnné).
-
-* **Bonus:** Vyřešte úkol, který se nachází na konci skriptu `R11_Missing_data.R`. Odevzdejte jako zkompilovaný Rmd soubor ve formátu html/pdf/docx, buď samostatně, nebo přiložte k předchozí úloze.   **2b**   
-
----
-
-## Týden 3 (odevzdání do 5. 3.)
-
-Vizualizace prostorových dat - kartogram (infomapa).
-Zkompilovaný html/pdf/docx soubor s úkolem odevzdejte prostřednictvím odevzdávárny v insisu. 
-
-* Pro tento úkol můžete použít data z Eurostatu, která jste stáhli v rámci úkolu z minulého týdne (ideálně data na úrovni NUTS2 nebo NUTS3). 
-    + Pro vhodnou proměnnou zobrazte infomapu. 
-    + Použijte alespoň tři různé způsoby zobrazení dat (různé projekce, různé státy, časová období (fazety grafu), atd.).  
-    + Pokud pracujete se státy jako Francie nebo Španělsko, lze pro přehlednost z mapy odstranit zámořská území. 
-    + Před vizualizací dat v `ggplot()` si zkontrolujte rozměr datasetu.  
-
----
-
-## Týden 4 (odevzdání do 12. 3.)
-
-Pro tento úkol použijte data (mapu i sledovanou proměnnou), která jste stáhli v rámci úkolu z minulého týdne (ideálně data na úrovni NUTS2 nebo NUTS3, abyste měli cca 100 prostorových jednotek/regionů).
-
-* Prostorová struktura: stanovení matice sousednosti v `R`
-    + Použijte alespoň dva různé způsoby stanovení prostorové struktury (vzdálenost mezi centroidy, kNN, společná hranice).  
-    + Vizualizujte prostorovou strukturu na mapě.  
- 
-* Testy prostorové závislosti   
-    + Zvolte jednu proměnnou (a jedno období pozorování - ideálně co nejblíže roku 2023) a proveďte **Moranův test** na prostorovou nezávislost.  
-    + Použijte alespoň dva různé způsoby definice prostorové struktury (vzdálenost, vzdálenost + kNN, společná hranice) k ověření robustnosti výsledků Moranova testu vůči změnám prostorové struktury.  
-    + Slovně okomentujte výsledky.
-    + Zopakujte pro test prostorové nezávislosti založený na statistice **Gearyho C**.  
-
---- 
-
-## Týden 8 (odevzdání do 16. 4. 2023)
-
-*  Každý si vyberte vhodný dataset, například ze seznamu zde:  
-    + https://vincentarelbundock.github.io/Rdatasets/datasets.html
-    + Použijete-li data z balíčku, nepřikládatejte csv soubor,
-    + místo toho použijte `R`-kód, např. : `MyData <- PackageName::DatasetName`.
-    + Vyberete-li jiný dataset, srozumitelně popište svá data a soubor přiložte.
-
-* Proveďte stepwise regresi, podle skriptu z bloku 3: `R03_Model_selection.R`
-    * Proveďte alespoň dvě varianty výběru (best subset, forward, backwards), výstupy srovnejte (vizualizace, vyhodnocení)
-
-* Úkol je za 10 bodů, odevzdejte jako obvykle zkompilovaný výstup (Rmd do PDF nebo html)
-
---- 
-
-## Týden 10 (odevzdání do 23. 4. 2023)
-
-* Pro tento úkol můžete vyjít z dat, která jste použili v týdnu 8 (potřebujete vhodný - spojitý - regresor)   
-*  Každý si vyberte vhodný dataset, například ze seznamu zde:  
-    + https://vincentarelbundock.github.io/Rdatasets/datasets.html
-    + Použijete-li data z balíčku, nepřikládatejte csv soubor,
-    + místo toho použijte `R`-kód, např. : `MyData <- PackageName::DatasetName`.
-    + Vyberete-li jiný dataset, srozumitelně popište svá data a soubor přiložte.
-
-* Proveďte regresi závislé proměnné na spline křivkách , podle skriptu z bloku 3: `R13_Splines.Rmd` (odhad, predikce), případně použijte lokální regresi podle skriptu `R14_Local regression.Rmd`  
-    * Proveďte alespoň tři varianty (cubic splines, natural splines, smoothing spline, local regression) a výstupy srovnejte (vizualizace, vyhodnocení)  
-
-* Úkol je za 10 bodů, odevzdejte jako obvykle zkompilovaný výstup (Rmd do PDF nebo html)  
-
---- 
-
-## Týden 11 (odevzdání do 7. 5. 2023)
-
-* Pro tento úkol můžete vyjít z dat, která jste použili v předchozích týdnech   
-*  Každý si vyberte vhodný dataset, například ze seznamu zde:  
-    + https://vincentarelbundock.github.io/Rdatasets/datasets.html
-    + Použijete-li data z balíčku, nepřikládatejte csv soubor,
-    + místo toho použijte `R`-kód, např. : `MyData <- PackageName::DatasetName`.
-    + Vyberete-li jiný dataset, srozumitelně popište svá data a soubor přiložte.
-
-* S využitím svého datasetu odhadněte GAM model - specifikace modelu podle vlastního uvážení.  
-* Použijte alespoň 3 různé specifikace (kombinace smoothning splines, local regression).  
-* Proveďte diagnostické testy GAM modelu podle vzoru z cvičení, testy interpretujte a model podle potřeby upravte.  
-
-* Úkol je za 10 bodů, odevzdejte jako obvykle zkompilovaný výstup (Rmd do PDF nebo html)
 
 
 
