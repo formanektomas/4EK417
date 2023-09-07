@@ -24,10 +24,14 @@ Hodnocení – stupnice
 
 * **Home assignments**
 
-  + Vždy odevzdejte nejpozději den před následujícím cvičením 
-  (cvičení je v ponděli, odevzdání vždy do neděle 23:59).
-  + V kódech používejte komentáře
-  + Nedávejte do odevzdávaného skriptu příkazy k instalaci balíčků
+ + Vždy odevzdejte nejpozději den před následujícím cvičením 
+    (cvičení je v ponděli, odevzdání vždy do neděle 23:59, viz odevzdávárna).  
+ + Vysvětlete/popište získané výsledky (interpretace testů, odhadnutých mezních efektů, atd.)
+
+Formát odevzdávaných úkolů:  
+
++ `Rmd` (R markdown) soubor + zkompilovaný výstup (pdf/Word/HTML) + dataset podle potřeby (není-li součástí balíčku `R`)  
++ `qmd` (quarto) soubor + + zkompilovaný výstup (pdf/Word/HTML) + dataset podle potřeby  
   
   
 * **Okruhy k testu**
