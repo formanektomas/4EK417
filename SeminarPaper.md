@@ -25,15 +25,15 @@ layout: default
 
 # Seminární práce (harmonogram odevzdání)
 
-* Odsouhlasení tématu seminární práce s vyučujícím: prostřednictvím e-mailu, do konce 8. týdne (do 6.4.).
+* Odsouhlasení tématu seminární práce s vyučujícím: prostřednictvím e-mailu, do konce 8. týdne (do 10.11.).
 
-* Studenti zpracují a odevzdají seminární práci individuálně, do konce 11. týdne (do 28.4.).  
+* Studenti zpracují a odevzdají seminární práci individuálně, do konce 11. týdne (do *pátku* 1.12.).  
  
 * Každý student provede peer review (vzájemné hodnocení): dvou dalších seminárních prací
-  - přidělení seminárek k hodnocení: do 30. 4.,  
-  - odevzdání vyplněných recenzních formulářů - termín 5. 5.  
+  - přidělení seminárek k hodnocení: do 4. 12.  
+  - odevzdání vyplněných recenzních formulářů - termín 10. 12.  
 
-* Zapracování připomínek z peer review a odevzdání závěrečné verze seminární práce - termín 14. 5.  
+* Zapracování připomínek z peer review a odevzdání závěrečné verze seminární práce - termín 17.12.  
 
 ---  
 
@@ -44,18 +44,18 @@ layout: default
    - aplikace (a zjednodušení) postupu na ekonomiku ČR nebo SR
    - v případě nejasností konzultujte volbu práce s vyučujícím  
 3. Jiný typ seminární práce, vycházející z analýzy v prostředí R  
-4. Odhad modelů vycházejících z učebnice APLIKOVANÁ EKONOMETRIE (Hušek, 2009), pouze kapitoly  4 až 9. 
+4. Odhad modelů vycházejících z učebnice APLIKOVANÁ EKONOMETRIE (Hušek, 2009), pouze kapitoly  2 až 8. 
 
 --- 
 
 **Obsahové požadavky na seminární práci:**
 
 
-1. Použití metod a postupů probíraných na kurzu.
-2. Korektní ekonometrická verifikace použitých regresních modelů: významnost odhadu (t, R2, F, LR, atd.), autokorelace, heteroskedasticita, multikolinearita, u ČŘ stacionarita, resp. kointegrace. 
-3. Ekonomická interpretace výsledků (Jsou získané odhady v souladu s ekonomickou teorií? Na co ukazuje odchylka od očekávaného výsledku?). 
-4. Srovnání provedených odhadů (s jinými publikovanými odhady, interpretace rozdílů mezi jednotlivými státy / odhadnutými modely vlastní práce).
-5. Ke splnění zvoleného cíle (analýzy) často postačí relativně jednoduchý postup / analytická metoda. Rozhodnete-li se použít sofistikovanější metody, zejména metody neprobírané na kurzu, musejí být tyto metody v seminární práci správně aplikovány (předpoklady, postup, interpretace výsledků).
+1. Použití metod a postupů probíraných na kurzu.  
+2. Korektní ekonometrická verifikace použitých regresních modelů: významnost odhadu, heteroskedasticita, testy vhodné pro modely na časových řadách, testy vhodné pro modely na prostorových datech.  
+3. Ekonomická interpretace výsledků (Jsou získané odhady v souladu s ekonomickou teorií? Na co ukazuje odchylka od očekávaného výsledku?).  
+4. Srovnání provedených odhadů (s jinými publikovanými odhady, interpretace rozdílů mezi jednotlivými státy / odhadnutými modely vlastní práce).   
+5. Ke splnění zvoleného cíle (analýzy) často postačí relativně jednoduchý postup / analytická metoda. Rozhodnete-li se použít sofistikovanější metody, zejména metody neprobírané na kurzu, musejí být tyto metody v seminární práci správně aplikovány (předpoklady, postup, interpretace výsledků).  
 
 
 ---
@@ -65,7 +65,8 @@ layout: default
 1. Číslování stran, rovnic, tabulek a grafů.  
 2. Seznam použité literatury (včetně korektních odkazů v textu).  
 3. Abstrakt (cca. 1/2 strany).  
-4. Přiložený soubor s daty a úplný kód k analýze v prostředí R (opakovatelnost).  
+4. Přiložený soubor s daty a úplný kód k analýze v prostředí R (opakovatelnost).
+5. Název seminární práce ("Seminární práce" není vhodný název).  
 
 ---
 
