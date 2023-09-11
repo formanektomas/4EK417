@@ -94,12 +94,12 @@ toc[grep(".*unemployment.*rates.*NUTS", toc$title, ignore.case = T),]$title
 As an example, let's choose the **Unemployment rates by sex, age and NUTS 2 regions (%)** dataset	`lfst_r_lfu3rt`
 
 * All datasets are available through a web browser (see the last string in the web address)
-* http://appsso.eurostat.ec.europa.eu/nui/show.do?dataset=lfst_r_lfu3rt
+* https://ec.europa.eu/eurostat/databrowser/view/lfst_r_lfu3rt/default/table?lang=en
 
 Download the data:
 
 ```{r, message=F}
-# http://appsso.eurostat.ec.europa.eu/nui/show.do?dataset=lfst_r_lfu3rt
+# https://ec.europa.eu/eurostat/databrowser/view/lfst_r_lfu3rt/default/table?lang=en
 Un.DF <- get_eurostat("lfst_r_lfu3rt", time_format = "num") # note the simplified time format
 dim(Un.DF)
 str(Un.DF)
