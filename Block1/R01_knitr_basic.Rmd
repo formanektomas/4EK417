@@ -108,8 +108,7 @@ ___
 Required/assumed `R` knowledge and skills (and references to self-study materials, if necessary)
 
 1. Basic `R` syntax, working with common objects such as vectors, dataframes, matrices. Referencing styles: `[,]` and `$`. Reading and writing `csv` and similar data formats. Linear regression in `R` & corresponding tests.  
-    + `R03_basic_data_handling.R` as in Block 1.  
-    + Any text or course located on [Stack Overflow for R](https://stackoverflow.com/tags/r/info)
+    + You can use any text or course located on [Stack Overflow for R](https://stackoverflow.com/tags/r/info)
     
 2. Basic knowledge of data plotting using `graphics` and `ggplot2` packages.  
     + `R05_ggplot2.R` as in Block 1.  

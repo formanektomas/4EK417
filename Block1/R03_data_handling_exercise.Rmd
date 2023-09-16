@@ -17,6 +17,7 @@ library(ggplot2)
 Stocks <- read.csv("datasets/Stocks.csv")
 Stocks$time <- as.Date(Stocks$time)
 summary(Stocks)
+head(Stocks,20)
 summary(as.factor(Stocks$stock))
 ```
 
