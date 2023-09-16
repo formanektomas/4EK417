@@ -76,9 +76,11 @@ University of Economics, Prague
 - [GADM maps and data](https://gadm.org/)  
 - [Interactive Course using mgcv (ch. 3)](https://noamross.github.io/gams-in-r-course/)  
 - R Package **RCzechia** : run `install.packages("RCzechia")`  
-- [Spatial autocorrelation - RPubs tutorial](https://rpubs.com/quarcs-lab/spatial-autocorrelation)
-- [Introduction to CS spatial regression models](https://www.researchgate.net/publication/373759152_Introduction_to_Cross-Section_Spatial_Econometric_Models_with_Applications_in_R)
+- [Spatial autocorrelation - RPubs tutorial](https://rpubs.com/quarcs-lab/spatial-autocorrelation)  
+- [Introduction to CS spatial regression models](https://www.researchgate.net/publication/373759152_Introduction_to_Cross-Section_Spatial_Econometric_Models_with_Applications_in_R)  
 
+- [ARSET - Fundamentals of Remote Sensing (NASA on-line course)](https://appliedsciences.nasa.gov/get-involved/training/english/arset-fundamentals-remote-sensing)  
+- [ARSET - Applied Remote Sensing (NASA on-line courses)](https://appliedsciences.nasa.gov/what-we-do/capacity-building/arset)  
 
 ---
 
