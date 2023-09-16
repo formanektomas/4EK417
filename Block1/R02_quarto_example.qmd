@@ -1,0 +1,58 @@
+---
+title: "Quarto_example"
+format: html
+---
+
+## Quarto
+
+Quarto enables you to weave together content and executable code into a finished document. To learn more about Quarto see <https://quarto.org>.
+
+## Running Code
+
+When you click the **Render** button a document will be generated that includes both content and the output of embedded code. You can embed code like this:
+
+```{r}
+1 + 1
+```
+
+You can add options to executable code like this 
+
+```{r}
+#| echo: false
+2 * 2
+```
+
+The `echo: false` option disables the printing of code (only output is displayed).
+
+--- 
+
+$\LaTeX$ can be implemented the same way as in `Rmd` files:
+
+* `$y_t = \beta_0 + \beta_1 x_t + \varepsilon_t$`  
+* generates  
+* $y_t = \beta_0 + \beta_1 x_t + \varepsilon_t$ 
+
+
+--- 
+
+#### The same applies for estimation and plotting outuputs:
+
+```{r}
+#| label: fig-airquality
+#| fig-cap: "Temperature and ozone level."
+#| warning: false
+
+library(ggplot2)
+
+ggplot(airquality, aes(Temp, Ozone)) + 
+  geom_point() + 
+  geom_smooth(method = "loess")
+```
+
+
+---
+
+Quarto cheat-sheet <https://rstudio.github.io/cheatsheets/html/quarto.html>
+
+
+

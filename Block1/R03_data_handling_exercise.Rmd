@@ -1,0 +1,43 @@
+---
+title: "Data handling with {tidyverse} packages"
+output: html_document
+---
+
+```{r}
+library(tidyr)
+library(dplyr)
+library(ggplot2)
+```
+
+# Stock data
+
+### Quick data handling exercise
+
+```{r}
+Stocks <- read.csv("datasets/Stocks.csv")
+Stocks$time <- as.Date(Stocks$time)
+summary(Stocks)
+summary(as.factor(Stocks$stock))
+```
+
+**Tasks**
+
+1. Use the following data range: 1980-Jan to 1989-Dec.
+
+2. Drop "crsp" stock from the dataset
+
+3. Plot the data using ggplot2
+
+4. Generate first lags of stock returns (use dplyr functionality to create the lagged variables before you convert the dataset to a wide format for estimation in Step 5)
+
+5. Use OLS to estimate the following model:
+
+$\text{ibm}_t = \beta_0 + \beta_1 \text{ibm}_{t-1} + \beta_2 \text{mobil}_{t-1} + \beta_3 \text{ge}_{t-1} + \varepsilon_t$
+
+ 
+
+    
+
+```{r}
+
+```

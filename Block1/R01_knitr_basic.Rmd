@@ -1,0 +1,132 @@
+---
+title: "Knitr & R basics for the course 4EK417"
+author: "Insert your name here"
+date: "`r Sys.Date()`"
+output:
+  html_document:
+    df_print: paged
+---
+
+
+# Outline of this script:
+
+* R Markdown - quick review of the `.Rmd` format and functionality
+* R basics for the course 4EK417
+
+
+---
+
+## R Markdown - quick review 
+
+> This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+For a simple cheatsheet, go to: `RStudio: File > Help > Cheatsheets > R Markdown Cheat Sheet`  
+
+When you *click* the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r}
+summary(cars)
+```
+
+You can hide the `summary(cars)` R code from the knitted output:
+(this is done using the `echo=FALSE` parameter)  
+
+Note: two empty spaces at the end of a line force a line return
+
+* Lists are insterted using `*`
+* Horizontal lines `---`
+* Headings are produced using `#`, `##`, etc. 
+* Math expression are inserted through $\LaTeX$ syntax: `$\hat{\beta}_1$` translates to $\hat{\beta}_1$, `$\sigma_i^2$` becomes $\sigma_i^2$, etc.
+
+---
+
+# Heading 1
+is produced using `# Heading 1`,  
+
+## Heading 2  
+is produced using `## Heading 2`, etc.  
+
+### Heading 3  
+
+-----
+
+#### `R` code \& output can be inserted using code "chunks":  
+
+
+```{r}
+summary(cars)
+```
+
+Additional information on the data:
+```{r, echo=T}
+str(cars)
+```
+
+
+You can also embed plots, for example:
+
+```{r, echo=T}
+plot(cars)
+```
+
+Alternatively, you can hide the plot command `plot(cars)` from the `html` output, using `echo=FALSE`:
+
+```{r, echo=FALSE}
+plot(cars)
+```
+
+--- 
+
+## Quick exercise
+
+1. Estimate and save a linear regression model `mpg <- f(hp,wt,vs)` using the `mtcars` dataset from the `{datasets}` package.  
+
+2. Print the estimation results (regression table) and provide interpretation.  
+
+3. Test for heteroskedasticity (e.g. Breusch-Pagan test from the `{lmtest}` package).  
+
+4. Show diagnostic plots for the estimated model and provide interpretation.  
+
+
+```{r}
+
+
+```
+
+___    
+   
+
+
+### Markdown use in the course 4EK417:  
+
+**All home assignments for the course shall be submitted in the `Rmd` format**, with `echo=TRUE` set for all `R` chunks.
+
+--- 
+
+## R basics for the course 4EK417 
+
+Required/assumed `R` knowledge and skills (and references to self-study materials, if necessary)
+
+1. Basic `R` syntax, working with common objects such as vectors, dataframes, matrices. Referencing styles: `[,]` and `$`. Reading and writing `csv` and similar data formats. Linear regression in `R` & corresponding tests.  
+    + `R03_basic_data_handling.R` as in Block 1.  
+    + Any text or course located on [Stack Overflow for R](https://stackoverflow.com/tags/r/info)
+    
+2. Basic knowledge of data plotting using `graphics` and `ggplot2` packages.  
+    + `R05_ggplot2.R` as in Block 1.  
+    + [ggplot2 web page](https://ggplot2.tidyverse.org/) 
+    
+3. Basic knowledge of time series handling within `R`, with some focus on the `zoo` package. 
+    + [quick reference for the package](https://cran.r-project.org/web/packages/zoo/vignettes/zoo-quickref.pdf)  
+
+
+##### Additional data handling tools and functions - necessary for this course - will be discussed in Block 1.  
+
++ For data handling, the `R` scripts provided in this course are based `tideverse` packages (mostly `tidyr` and `dplyr`).  
++ If you are used to other tools (say, you want to use `data.table` functions in a home assignment), it is not a problem.  
+
+
+--- 
+
+    
+
+
