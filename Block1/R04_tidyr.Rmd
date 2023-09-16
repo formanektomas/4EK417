@@ -18,12 +18,12 @@ suppressPackageStartupMessages({
 
 This tutorial covers selected *basics topics* of data handling based on the `tidyr` package. 
 
-* General data handling \& processing
-* Simple `ggplot2` plots (long format required)
+* General data handling \& processing  
+* Simple `ggplot2` plots (long format required)  
 
-Usage for transforming data from wide(r) to long(er) formats and vice versa:
-* Eurostat: data in long format, wide format often required for regression analysis 
-* Panel data analysis 
+Usage for transforming data from wide(r) to long(er) formats and vice versa:  
+* Eurostat: data in long format, wide format often required for regression analysis  
+* Panel data analysis  
 
 --- 
 

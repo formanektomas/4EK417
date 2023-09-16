@@ -26,7 +26,7 @@ output: html_document
 | Command              | Description                                          |  
 |----------------------|------------------------------------------------------|  
 | `get_eurostat_toc()` | Download table of contents of Eurostat datasets      |  
-| `search_eurostat()`  | Retrieve (grep) datasets titles from Eurostat        |  
+| `search_eurostat()`  | Retrieve datasets titles from Eurostat (regex syntax)     |  
 | `get_eurostat()`     | Read Eurostat data                                   |  
 | `label_eurostat()`   | Get Eurostat code descriptions                       |  
 | `get_eurostat_geospatial()`   | Download geospatial data from GISGO         |  

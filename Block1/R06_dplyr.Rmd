@@ -240,7 +240,7 @@ Show population dentisty by NUTS2 regions
 # .. serves for illustration only - NUTS2 to NUTS0 averages are not weighted by population
 NUTS2.DF %>%
   filter(Year == 2016) %>%
-  mutate(GDPpc = (GDP_MIO_EUR/TotPopNr)*1000000) %>%
+  mutate(GDPpc = (GDP_MIO_EUR/TotPopNr)*1e+6) %>% # 1e+06 = 1*10^6 = 1.000.000 and can be used in R syntax
   group_by(NUTS0) %>% 
   summarize(mean_GDPpc = mean(GDPpc, na.rm = TRUE)) 
 ```
@@ -264,7 +264,7 @@ SISK <- NUTS2.DF %>%
   select(-Area) %>% 
   filter(NUTS0 %in% c("SI","SK")) %>%
   group_by(NUTS2) %>% 
-  mutate(GDP_lag1 = lag(GDP_MIO_EUR, k = 1), PopAvg = mean(TotPopNr)) %>% 
+  mutate(GDP_lag1 = dplyr::lag(GDP_MIO_EUR), PopAvg = mean(TotPopNr)) %>% 
   ungroup() %>% 
   arrange(NUTS2,Year) %>% 
   select(Year,NUTS2,GDP_MIO_EUR,GDP_lag1,PopAvg)
@@ -282,7 +282,7 @@ NUTS2.DF %>%
   select(-Area, -TotPopNr) %>% 
   filter(NUTS0 == "SI") %>%
   group_by(NUTS2) %>% 
-  mutate(GDP_lag1 = lag(GDP_MIO_EUR, k = 1)) %>% 
+  mutate(GDP_lag1 = dplyr::lag(GDP_MIO_EUR)) %>% 
   ungroup() %>% 
   arrange(NUTS2,Year) # sorts by NUTS2, then by Year - both ascending
 ```
@@ -300,7 +300,7 @@ NUTS2.DF %>%
 
 | Variable    | Description                                                     |
 |-------------|-----------------------------------------------------------------|
-| Year        |  time identification of the observation 2011 - 2016. Compared to `NUTS2.DF`, there is  **no 2010**   daata  |
+| Year        |  time identification of the observation 2011 - 2016. Compared to `NUTS2.DF`, there is  **no 2010**   data  |
 | NUTS2       |  NUTS2 id   **(same 113 regions) **                                 |
 | Unem        |  Unemployment rate in %                                         |
 
