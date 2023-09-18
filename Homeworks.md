@@ -26,7 +26,7 @@ Obecná doporučení pro práci s R (domácí úkoly)
 
 ## Týden 1 (odevzdání do 24.9.)
 
-Vypracujte zadání ve skriptu `R02b_data_handling_exercise.Rmd`.
+Vypracujte zadání ve skriptu `R03_data_handling_exercise.Rmd`.
 Zkompilovaný html/pdf/docx soubor odevzdejte prostřednictvím odevzdávárny v insisu. 
 
 (filtrování údajů typu Date: např. `date >= "1980-01-01"` )
