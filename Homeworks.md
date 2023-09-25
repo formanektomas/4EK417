@@ -34,13 +34,14 @@ Zkompilovaný html/pdf/docx soubor odevzdejte prostřednictvím odevzdávárny v
 
 --- 
 
-## Týden 2 (odevzdání do 1.10.)  
+
+## Týden 2 (odevzdání do 1.10.)   
 
 * Stažení zajímavého datasetu z databáze Eurostat/WDI, na úrovni NUTS2/NUTS3 (Eurostat), prostřednictvím balíčku R.  
     - Úprava dat pomocí `dplyr` a pipe operátoru: filtrování "vhodných" ukazatelů podle Vašeho uvážení, popište, jaká data jste vybrali (případně proč), proveďte jednoduchou vizualizaci dat pomocí `ggplot2`.  
     - Úkol může být založen na postupech ze skriptu `R07_Eurostat.Rmd` (ale nepoužívejte přímo datasety z tohoto skriptu).  
     - **Pozor:** před vizualizací dat zkontrolujte rozměr použité tabulky - pomocí příkazu `dim()`. Při správném filtrování musí počet řádků datasetu odpovídat zobrazovaným datům. (Např: zobrazuji řady s HDP pro 10 regionů a 5 let = 50 řádků.) Tato kontrola musí být součástí odevzdaného úkolu.  
-    - Doprovoďte Váš výstup stručným slovním komentářem (popište zvolené proměnné).
+    - Doprovoďte Váš výstup stručným slovním komentářem (popište zvolené proměnné).  
 
 ---
 
