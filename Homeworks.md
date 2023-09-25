@@ -34,7 +34,7 @@ Zkompilovaný html/pdf/docx soubor odevzdejte prostřednictvím odevzdávárny v
 
 --- 
 
-## Týden 2 (odevzdání do 30. 9.)  
+## Týden 2 (odevzdání do 1.10.)  
 
 * Stažení zajímavého datasetu z databáze Eurostat/WDI, na úrovni NUTS2/NUTS3 (Eurostat), prostřednictvím balíčku R.  
     - Úprava dat pomocí `dplyr` a pipe operátoru: filtrování "vhodných" ukazatelů podle Vašeho uvážení, popište, jaká data jste vybrali (případně proč), proveďte jednoduchou vizualizaci dat pomocí `ggplot2`.  
