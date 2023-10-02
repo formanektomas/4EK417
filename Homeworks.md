@@ -45,5 +45,21 @@ Zkompilovaný html/pdf/docx soubor odevzdejte prostřednictvím odevzdávárny v
 
 ---
 
+## Týden 3 (odevzdání do 8. 10.)
+
+Vizualizace prostorových dat v R - kartogram (infomapa)
+
+* Pro vhodnou proměnnou zobrazte infomapu, např. podle vzoru ze skriptu `R02_ggplot_choropleths.R`   
+    + Zobrazte alespoň tří různé infomapy (různé projekce, různé státy, časová období, NUTS úrovně, atd.).  
+    + Pokud pracujete se státy jako Francie nebo Španělsko, je vhodné z datasetu odstranit zámořská území. 
+    + Před vizualizací dat v `ggplot()` zkontrolujte rozměr datasetu.
+    + Použití dat z Eurostatu není podmínkou, lze využít WDI nebo jinou databázi se státy celého světa (mapy z `giscoR`)
+    
+* u zkompilovaných Rmd výstupů musejí být viditelné všechny použité příkazy, tj. nastavení `echo=T` (je defaultní).   
+
+
+
+---   
+
 
 [Homepage](https://formanektomas.github.io/4EK417/)
