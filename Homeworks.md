@@ -57,7 +57,22 @@ Vizualizace prostorových dat v R - kartogram (infomapa)
     
 * u zkompilovaných Rmd výstupů musejí být viditelné všechny použité příkazy, tj. nastavení `echo=T` (je defaultní).   
 
+---
 
+## Týden 4 (odevzdání do 15. 10.)
+
+Pro tento úkol lze použít data (mapu i sledovanou proměnnou), která jste stáhli v rámci úkolu z minulého týdne - **pouze pokud máte z minulého úkolu k dispozici alespoň 50 pozorování/regionů** (ideálně na úrovni NUTS2 nebo NUTS3).
+
+* Prostorová struktura: stanovení matice sousednosti v `R`
+    + Použijte alespoň dva různé způsoby stanovení prostorové struktury (vzdálenost mezi centroidy, kNN, společná hranice).  
+    + Vizualizujte prostorovou strukturu na mapě.  
+ 
+* Testy prostorové závislosti   
+    + Zvolte jednu proměnnou (a jedno období pozorování - ideálně co nejblíže roku 2023) a proveďte **Moranův test** na prostorovou nezávislost.  
+    + Použijte alespoň dva různé způsoby definice prostorové struktury (vzdálenost, vzdálenost + kNN, společná hranice) k ověření robustnosti výsledků Moranova testu vůči změnám prostorové struktury.  
+    + Slovně okomentujte výsledky Moranova testu.
+
+**Upozornění:** Vyhněte se nekompletním datasetům, které obsahují `NA` hodnoty u sledovaných geo-kódovaných proměnných. Na matici **W** chybějící pozorování proměnné nemá vliv, `moran.test()` umí pracovat s chybějícími daty, ale `moran.plot()` ani `geary.test()` nejsou kompatibilní s chybějícími hodnotami.
 
 ---   
 
