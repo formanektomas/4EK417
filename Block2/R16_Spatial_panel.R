@@ -107,7 +107,7 @@ time <- length(unique(Pdata$time))
 #
 # ?impacts
 set.seed(1128)
-imp1 <- spatialreg::impacts(Lag_mod, listw = CE_data.listw, time = time, R = 1000)
+imp1 <- impacts(Lag_mod, listw = CE_data.listw, time = time, R = 1000)
 imp2 <- summary(imp1, zstats = T, short = T)
 imp2
 plot(imp1$sres$direct[,1:3])
@@ -137,7 +137,7 @@ for(j in 16:100) {
                   LeeYu = T, Hess = F)
   sumLagmod <- summary(Lag_mod)
   #
-  imp1 <- spatialreg::impacts(Lag_mod, listw = CE.listw, time = 6, R = 1000)
+  imp1 <- impacts(Lag_mod, listw = CE.listw, time = 6, R = 1000)
   imp2 <- summary(imp1, zstats = T, short = T)
   #
   s2.df <- rbind(s2.df, c(j*10, Lag_mod$logLik, sumLagmod$ARCoefTable[1,1], sumLagmod$ARCoefTable[1,2],
