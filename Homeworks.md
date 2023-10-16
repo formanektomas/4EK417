@@ -76,7 +76,7 @@ Pro tento úkol lze použít data (mapu i sledovanou proměnnou), která jste st
 
 ---   
 
-## Týden 5 (odevzdání do 15. 10.)
+## Týden 5 (odevzdání do 22. 10.)
 
 Odhad regresního modelu s prostorovou závislostí (spatial lag model, nebo spatial Durbin model).  
 - Jako závislou proměnnou využijte například znečištění ovzduší na úrovni NUTS2 regionu, případně jiný vhodný typ proměnné, získané na základě postupu probíraného na cvičení (`R02b_raster_data_terra_package.R` - zastavěnost, obdělávaná půda, atd.).  
