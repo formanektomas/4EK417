@@ -76,5 +76,16 @@ Pro tento úkol lze použít data (mapu i sledovanou proměnnou), která jste st
 
 ---   
 
+## Týden 5 (odevzdání do 15. 10.)
+
+Odhad regresního modelu s prostorovou závislostí (spatial lag model, nebo spatial Durbin model).  
+- Jako závislou proměnnou využijte například znečištění ovzduší na úrovni NUTS2 regionu, případně jiný vhodný typ proměnné, získané na základě postupu probíraného na cvičení (`R02b_raster_data_terra_package.R` - zastavěnost, obdělávaná půda, atd.).  
+- Jako regresor lze použít vhodný makroekonomický ukazatel, získaný z Eurostatu (HDP/capita, relativní počet pracovníků ve vybraném NACEr2 oboru, který odpovídá zvolené závislé proměnné - průmysl a doprava, zemědělství, dále např. hustota obyvatel, atd.). Pro svůj model zvolte 1 až 2 regresory.  
+- Otestuje prostorovou závislost endogenní proměnné, proveďte diagnostické testy (viz skript `R10_Spatial_lag_model.R`). Pokud to situace umožní (tj. podle výsledku diagnostických testů) odhadněte regresní model.  
+- V rámci HA5 není třeba hledat specifikaci modelu "aby to vyšlo", důležitý je postup zpracování dat a korektní interpretace testů. Pokud prostorový model nepůjde sestavit, nevadí.  
+
+**Upozornění:** Pro korektní práci s balíčkem `terra` si zkontrolujte, zda máte aktuální verzi `R/RStudio`.
+
+---   
 
 [Homepage](https://formanektomas.github.io/4EK417/)
