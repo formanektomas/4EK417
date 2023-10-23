@@ -86,6 +86,16 @@ Odhad regresního modelu s prostorovou závislostí (spatial lag model, nebo spa
 
 **Upozornění:** Pro korektní práci s balíčkem `terra` si zkontrolujte, zda máte aktuální verzi `R/RStudio`.
 
+--- 
+
+## Týden 6 (odevzdání do 29. 10.)
+
+Zpracujte rozšířený abstrakt své seminární práce - popište vybrané téma (motivace, výzkumný záměr), popište data, popište preferovanou odhadovou metodu. Jaký je Váš konkrétní cíl? Jaké vidíte potenciální problémy či komplikace? Případně uveďte zpracovaný model a/nebo dílčí výstupy odhadu. Rozsah 1-2 strany A4 (cca 400-800 slov).  
+
+--- 
+
+
+
 ---   
 
 [Homepage](https://formanektomas.github.io/4EK417/)
