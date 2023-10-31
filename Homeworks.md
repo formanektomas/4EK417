@@ -94,7 +94,24 @@ Zpracujte rozšířený abstrakt své seminární práce - popište vybrané té
 
 --- 
 
+## Týden 7 (odevzdání do 12. 10.)
 
+*  Každý si vyberte vhodný dataset, například ze seznamu zde:  
+    + https://vincentarelbundock.github.io/Rdatasets/datasets.html
+    + Vyberete-li jiný dataset, srozumitelně popište data.
+    + Závislou proměnnou pro svůj model pečlivě vybírejte, v kontextu datasetu Váš výběr musí dávat smysl -- výběr zdůvodněte.
+    + Vybírejte takový dataset, abyste kromě závislé proměnné měli alespoň dalších 10+ potenciálních regresorů.
+
+* Proveďte stepwise regresi, podle skriptu z bloku 3: `R03_Model_selection.R`
+    * Proveďte alespoň dvě varianty výběru (best subset, forward, backwards), výstupy srovnejte (vizualizace, vyhodnocení)
+ 
+* Proveďte tzv. penalizovanou regresi (alespoň jednu z variant: ridge, LASSO, elastic net).
+
+* Popište/vyhodnoťte predikční vlastnosti.
+
+
+
+--- 
 
 ---   
 
