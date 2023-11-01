@@ -49,6 +49,15 @@ ggplot(data = counties, aes(fill = builtup, label = round(builtup))) +
 #
 #-----------------
 #
+# 2d visualization example
+#
+#
+#
+cropped <- terra::crop(year_2019, counties) # crop
+CZrast <- terra::mask(cropped, counties) # mask to a defined polygon boundary
+terra::plot(CZrast, main = "Built-up raster data")
+plot(counties$geometry, add = T)
+#
 # Example 2: NO2 pollution 
 #
 #-----------------
