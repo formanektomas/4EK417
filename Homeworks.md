@@ -110,6 +110,18 @@ Zpracujte rozšířený abstrakt své seminární práce - popište vybrané té
 * Popište/vyhodnoťte predikční vlastnosti.
 
 
+--- 
+
+## Týden 9 (odevzdání do 19. 11. 2023)
+
+*  Pro tento úkol můžete vyjít z dat, která jste použili v týdnu 7
+
+* Proveďte PCR regresi (PCA analýza + regrese na hlavních komponentách) a PLS regresi. Využijte příklady ze cvičení jako vzor.  
+    * Postup odhadu a predikce proveďte podle vzoru ze cvičení - např. podle `R07_PCA_PCR.Rmd`.  
+
+
+
+
 
 --- 
 
