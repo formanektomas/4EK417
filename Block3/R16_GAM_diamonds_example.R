@@ -12,7 +12,7 @@ library(gam)
 #
 #
 #
-# 1 Estimate OLS model log(price) <- carat + depth + clarity
+# 1 Estimate by OLS the model log(price) <- carat + depth + clarity
 
 
 

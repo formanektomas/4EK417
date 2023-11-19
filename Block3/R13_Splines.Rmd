@@ -74,7 +74,7 @@ plotDF.8 <- cbind(Wage, predm8)
 ggplot(plotDF.8, aes(x = age, y = wage) ) +
   geom_point(col="grey70") +
   geom_ribbon( aes(ymin = lwr, ymax = upr), fill="darkgreen", alpha = .35) +
-  geom_line( aes(y = fit), color="black", size = 1) +
+  geom_line( aes(y = fit), color="black", linewidth = 1) +
   theme_bw()
 #
 # The same result are obtained through the bs() function
@@ -87,7 +87,7 @@ plotDF.SP1 <- cbind(Wage, predSP1)
 ggplot(plotDF.SP1, aes(x = age, y = wage) ) +
   geom_point(col="grey70") +
   geom_ribbon( aes(ymin = lwr, ymax = upr), fill="red", alpha = .35) +
-  geom_line( aes(y = fit), color="black", size = 1) +
+  geom_line( aes(y = fit), color="black", linewidth = 1) +
   theme_bw()
 #
 # The two fitted vectors are identical:
@@ -133,13 +133,13 @@ ggplot(plotDF.SP2, aes(x = age, y = wage) ) + #general
   geom_ribbon( aes(ymin = lwr, ymax = upr), fill="red", alpha = .35) + #manual knots
   geom_ribbon( aes(ymin = plotDF.SP3$lwr, ymax = plotDF.SP3$upr), 
                fill="green", alpha = .35) + #automatic knots
-  geom_line( aes(y = fit), color="red", size = 1) + #manual knots
+  geom_line( aes(y = fit), color="red", linewidth = 1) + #manual knots
   geom_line( aes(y = plotDF.SP3$fit), color="darkgreen", 
-             size = 1) + #automatic knots
+             linewidth = 1) + #automatic knots
   annotate(label = "manually set knots: 25,40,60", geom = "text", 
-           x = 50, y = 30, size = 5, color="darkgreen") +
+           x = 50, y = 30, linewidth = 5, color="darkgreen") +
   annotate(label = "quantile-based knots: `25%` = 33.75, `50%` = 42, `75%` = 51",
-           geom = "text", x = 50, y = 150, size = 5, color="red") +
+           geom = "text", x = 50, y = 150, linewidth = 5, color="red") +
   labs(title = "Comparison of cubic splines, different knots used") +
   theme_bw()
 
@@ -247,7 +247,7 @@ plotDF.NS <- cbind(Wage, predNS)
 ggplot(plotDF.NS, aes(x = age, y = wage) ) +
   geom_point(col="grey70") +
   geom_ribbon( aes(ymin = lwr, ymax = upr), fill="darkgreen", alpha = .35) +
-  geom_line( aes(y = fit), color="darkgreen", size = 1) +
+  geom_line( aes(y = fit), color="darkgreen", linewidth = 1) +
   theme_bw()
 #
 # The same result are obtained through the ns() function
@@ -260,7 +260,7 @@ plotDF.NS2 <- cbind(Wage, predNS2)
 ggplot(plotDF.NS2, aes(x = age, y = wage) ) +
   geom_point(col="grey70") +
   geom_ribbon( aes(ymin = lwr, ymax = upr), fill="darkgreen", alpha = .35) +
-  geom_line( aes(y = fit), color="darkgreen", size = 1) +
+  geom_line( aes(y = fit), color="darkgreen", linewidth = 1) +
   theme_bw()
 #
 # The two fitted vectors are identical:
@@ -292,7 +292,7 @@ plotDF.NS3 <- cbind(Wage, predNS3)
 ggplot(plotDF.NS3, aes(x = age, y = wage) ) +
   geom_point(col="grey70") +
   geom_ribbon( aes(ymin = lwr, ymax = upr), fill="blue", alpha = .35) +
-  geom_line( aes(y = fit), color="blue", size = 1) +
+  geom_line( aes(y = fit), color="blue", linewidth = 1) +
   theme_bw()
 ```
 
@@ -318,12 +318,12 @@ ggplot(plotDF.NS3, aes(x = age, y = wage) ) + #general
   geom_ribbon( aes(ymin = lwr, ymax = upr), fill="blue", alpha = .35) + # ns()
   geom_ribbon( aes(ymin = plotDF.SP3$lwr, ymax = plotDF.SP3$upr), 
                fill="red", alpha = .35) + # bs()
-  geom_line( aes(y = plotDF.SP3$fit), color="red", size = 1) + 
-  geom_line( aes(y = fit), color="blue", size = 1) + # ns()
+  geom_line( aes(y = plotDF.SP3$fit), color="red", linewidth = 1) + 
+  geom_line( aes(y = fit), color="blue", linewidth = 1) + # ns()
   annotate(label = "ns()", geom = "text", 
-           x = 75, y = 130, size = 5, color="blue") +
+           x = 75, y = 130, linewidth = 5, color="blue") +
   annotate(label = "bs()", geom = "text", 
-           x = 75, y = 50, size = 5, color="red") +
+           x = 75, y = 50, linewidth = 5, color="red") +
   labs(title = "Comparison of cubic splines - bs() and natural splines - ns() for K=3") +
   theme_bw()
 
@@ -359,7 +359,7 @@ $$
 + $\sum_{i=1}^n [y_i - g(x_i)]^2$ is a loss function, makes $g(x)$ fit the data.  
 + $g(x)$ can be any function for which the second term is defined.  
 + $\lambda \int \! g''(t)^2 \textit{dt}~$ penalizes high variability in $g(x)$.  
-+ $\lambda$ is a penalty term. For $\lambda=\infty$, smoothing splines lead to OLS fit.  
++ $\lambda$ is a penalty term. For $\lambda \rightarrow \infty$, smoothing splines lead to OLS fit.  
 
 + While $g$ can be any function, it may be shown that $\text{RSS}(g,\lambda)$ has an explicit & unique minimizer: natural cubic spline with $N$ knots at the unique values of $x_i,~i=1,2,\dots,N$. (more precisely, a penalized natural cubic spline with $N$ knots)  
 + With a suitable $\lambda$ parameter, the model is not overparameterized: **effective degrees of freedom** used for estimation $(df_{\lambda})$ decrease from $N$ to 2 as $\lambda$ increases from 0 to $\infty$.  

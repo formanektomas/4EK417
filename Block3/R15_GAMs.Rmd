@@ -4,6 +4,7 @@ output: html_document
 ---
 
 ```{r setup, include=T,warning=FALSE,message=FALSE}
+library(interp)
 library(ggplot2)
 library(ISLR)
 library(splines)
@@ -164,7 +165,7 @@ ggplot(Wage, aes(x = Wage$wage, y = Gam.pred$fit) ) +
   ylim(0,320) +
   xlim(0,320) +
   coord_fixed() + # 1:1 x/y aspect ratio
-  geom_segment(  aes(x=0, y=0, xend=320, yend=320), size = 0.7, color='red', linetype = "dotted")+
+  geom_segment(  aes(x=0, y=0, xend=320, yend=320), linewidth = 0.7, color='red', linetype = "dotted")+
   labs(title = "Actual vs fitted wages") +
   theme_bw()
 ```

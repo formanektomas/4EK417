@@ -62,7 +62,7 @@ upr <- predLREG$fit+(2*predLREG$se.fit)
 ggplot(Wage, aes(x = age, y = wage) ) +
   geom_point(col="grey70") +
   geom_ribbon( aes(ymin = lwr, ymax = upr), fill="red", alpha = .35) +
-  geom_line( aes(y = predLREG$fit), color="red", size = 1) +
+  geom_line( aes(y = predLREG$fit), color="red", linewidth = 1) +
   theme_bw()
 ```
 
@@ -88,7 +88,7 @@ upr <- predLREG$fit+(2*predLREG$se.fit)
 ggplot(Wage, aes(x = age, y = wage) ) +
   geom_point(col="grey70") +
   geom_ribbon( aes(ymin = lwr, ymax = upr), fill="green", alpha = .35) +
-  geom_line( aes(y = predLREG$fit), color="darkgreen", size = 1) +
+  geom_line( aes(y = predLREG$fit), color="darkgreen", linewidth = 1) +
   theme_bw()
 
 
@@ -125,8 +125,8 @@ years <- unique(Wage$age)
 #
 # Besides fitted values, we can plot how the slope of the fit line changes:
 ggplot()+
-  geom_line( aes(y = slope, x = years), color="darkgreen", size = 1 )+
-  geom_hline(yintercept = c(0), linetype="dashed", color='red', size = 0.7)+
+  geom_line( aes(y = slope, x = years), color="darkgreen", linewidth = 1 )+
+  geom_hline(yintercept = c(0), linetype="dashed", color='red', linewidth = 0.7)+
   labs(x = "age", y = "slope of the fitted curve") +
   theme_bw()
 #
@@ -154,14 +154,14 @@ yend3 <- pr.unique[10]+6*slope[10]
 ggplot(Wage, aes(x = age, y = wage) ) +
   geom_point(col="grey70") +
   geom_ribbon( aes(ymin = lwr, ymax = upr), fill="green", alpha = .35) +
-  geom_line( aes(y = predLREG$fit), color="darkgreen", size = 2) +
+  geom_line( aes(y = predLREG$fit), color="darkgreen", linewidth = 2) +
   geom_segment(data = data.frame(x = x1, xend=xend1, y=y1, yend=yend1), 
-               aes(x=x, y=y, xend=xend, yend=yend), size = 1, color='red')+
+               aes(x=x, y=y, xend=xend, yend=yend), linewidth = 1, color='red')+
   geom_segment(data = data.frame(x = x2, xend=xend2, y=y2, yend=yend2), 
-               aes(x=x, y=y, xend=xend, yend=yend), size = 1, color='red')+
+               aes(x=x, y=y, xend=xend, yend=yend), linewidth = 1, color='red')+
   geom_segment(data = data.frame(x = x3, xend=xend3, y=y3, yend=yend3), 
-               aes(x=x, y=y, xend=xend, yend=yend), size = 1, color='red')+
-  geom_vline(xintercept=c(37,52,64), linetype="dashed", color='red', size=0.6)+
+               aes(x=x, y=y, xend=xend, yend=yend), linewidth = 1, color='red')+
+  geom_vline(xintercept=c(37,52,64), linetype="dashed", color='red', linewidth=0.6)+
   theme_bw()
 ```
 
@@ -178,7 +178,7 @@ ggplot(Wage, aes(x = age, y = wage) ) +
 4. Visualize the changing slope /use the `deriv=1` argument/.
 
 
-```{r}
+```{r,message=F,warning=F}
 library(Ecdat)
 data(Diamond)
 str(Diamond)
