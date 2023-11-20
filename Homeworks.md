@@ -120,6 +120,14 @@ Zpracujte rozšířený abstrakt své seminární práce - popište vybrané té
     * Postup odhadu a predikce proveďte podle vzoru ze cvičení - např. podle `R07_PCA_PCR.Rmd`.  
 
 
+--- 
+
+## Týden 10 (odevzdání do 26. 11. 2023)
+
+*  Pro tento úkol můžete vyjít z dat, která jste použili v předchozím týdnu.
+
+* Formulujte a odhadněte GAM model, použijte alespoň 3 různé specifikace (kombinace smoothning spline, local regression), proveďte diagnostické testy podle vzoru z cvičení.
+
 
 
 
