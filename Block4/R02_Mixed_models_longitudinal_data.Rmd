@@ -178,7 +178,7 @@ Likelihood ratio test:   $LR = 2 (L_{ur}-L_r)$
 # "Manual" LR test
 test = 2*(logLik(child.mod2a,REML=F) - logLik(child.mod1, REML=F))
 mean(pchisq(test,df=c(0,1),lower.tail=FALSE)) # p-value of the chisq statistic
-# LR test though the anova() function
+# LR test through the anova() function
 child.mod1.1 <- update(child.mod1,method="ML") # restricted
 child.mod2a.1 <- update(child.mod2a,method="ML") # unrestricted
 anova(child.mod2a.1,child.mod1.1)
@@ -281,7 +281,7 @@ summary(child.mod5)$tTable
 plot(child.mod5, resid(., type="p") ~ fitted(.), abline=0)
 ```
 
-* For a detailed discussion on assumptions in LME models, see e.g. [https://ademos.people.uic.edu/Chapter18.html](https://ademos.people.uic.edu/Chapter18.html)
+
 
 
 

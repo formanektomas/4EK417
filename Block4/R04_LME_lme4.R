@@ -56,7 +56,7 @@ confint(lme.3)
 #
 #
 # A simple plot, describing individual slopes and intercepts:
-xyplot(Reaction ~ Days | Subject, sleepstudy, type = c("g","p","r"),
+xyplot(Reaction ~ Days | Subject, sleepstudy, type = c("g","p","r"), # grid, points, regression line
        index = function(x,y) coef(lm(y ~ x))[1],
        xlab = "Days of sleep deprivation",
        ylab = "Average reaction time (ms)", aspect = "xy")

@@ -165,27 +165,27 @@ For hierarchical LME estimation, we specify two levels in the model:
     + For the simplest model, individual `MathAchieve` is given as School average + individual error.
     + If we consider Schools as a random effect, then $\beta_{0j}$ (the average of each school) would be given by:
   
-* Level 2: $\beta_{0j} = \beta_0 + u_j$
+* Level 2: $\beta_{0j} = \beta_0 + u_{0j}$
     + where $\beta_{0j}$ is average of each school,
     + $\beta_0$ is total average of all schools (all students in all schools), 
-    + $u_j$ is deviation of $j$-th school from total average. 
+    + $u_{0j}$ is deviation of $j$-th school from total average. 
     
     
 Now, we can write the previous model as: 
 
-$$ y_{ij} = \beta_0 + u_j + \varepsilon_{ij}, \quad i=1,\dots,n_j \quad j=1,\dots,m$$
+$$ y_{ij} = \beta_0 + u_{0j} + \varepsilon_{ij}, \quad i=1,\dots,n_j \quad j=1,\dots,m$$
 
 At both levels, we assume 
 
 * $\varepsilon_{ij} \sim N(0,\sigma^{2}_{\varepsilon})$  
 
-* $u_j\sim N(0,\sigma^2_{u})$ and 
+* $u_{0j}\sim N(0,\sigma^2_{u})$ and 
 
 * $\sigma^{2}_{\varepsilon}$ and $\sigma^2_{u}$ are independent.
 
-The mean of $y$ for the $j$-th group is given by $\beta_0 + u_j$.
+The mean of $y$ for the $j$-th group is given by $\beta_0 + u_{0j}$.
 
-* Hence, $u_j$ is the deviation of the mean of $j$-th group from the total average $\beta_0$.
+* Hence, $u_{0j}$ is the deviation of the mean of $j$-th group from the total average $\beta_0$.
 
 Individual level residuals $\varepsilon_{ij}$ are the difference between the value of the response variable of the $i$-th individual and the average of the group (School) they belong to. 
 
@@ -207,9 +207,9 @@ summary(ml1)
 (beta0 <-  fixef(ml1))
 ```
 
-##### Hence, $\hat{\beta}_{0j} = 12.637 + \hat{u}_j$
+##### Hence, $\hat{\beta}_{0j} = 12.637 + \hat{u}_{0j}$
 
-##### Residuals $\hat{u}_j$ may be extracted as: 
+##### Residuals $\hat{u}_{0j}$ may be extracted as: 
 
 ```{r}
 fixef(ml1)-(predict(ml1, newdat=list(School=c("91","3","31","52","74"))))
@@ -276,7 +276,7 @@ $$\textit{ICC}=\frac{\sigma^2_u}{\sigma^2_u+\sigma^2_{\varepsilon}} = \frac{2,93
     + $H_0: y_{ij} = \beta_0 + \varepsilon_{ij}.$
 
 * Alternative hypothesis - LME model improves fit to the data
-    + $H_1: y_{ij} = \beta_0 + u_j + \varepsilon_{ij}.$
+    + $H_1: y_{ij} = \beta_0 + u_{0j} + \varepsilon_{ij}.$
 
 
 ```{r}
@@ -296,7 +296,7 @@ RLRsim::exactLRT(ml1a,lm1) # Restricted Likelihood Ratio Tests for additive and 
 
 * By choosing a common (fixed) slope, we have:
 
-$$y_{ij}=  \underbrace{\beta_0 + \beta_1 x_{ij}}_{\textit{fixed effects}} + \underbrace{u_j }_{\textit{random effect}}+\varepsilon_{ij}$$
+$$y_{ij}=  \underbrace{\beta_0 + \beta_1 x_{ij}}_{\textit{fixed effects}} + \underbrace{u_{0j} }_{\textit{random effect}}+\varepsilon_{ij}$$
 
 #### Model estimation:
 
@@ -325,7 +325,7 @@ $$\textit{MathAch} = 12.65 + 2.19 \cdot \textit{CSES}$$
 fits <- MathAchieve %>% select(CSES, School)
 fits$fit <- fitted(ml2)
 ggplot(fits)+
-  geom_line(aes(CSES,fit, group=School, color=School), size=1.2)+ 
+  geom_line(aes(CSES,fit, group=School, color=School), linewidth=1.2)+ 
   theme_minimal()+
   theme(legend.position="none")
 ```
@@ -398,7 +398,7 @@ performance::icc(ml3)
 fits <- MathAchieve %>% select(CSES, School)
 fits$fit <- fitted(ml3)
 ggplot(fits)+
-  geom_line(aes(CSES,fit, group=School, color=School), size=1.2)+ 
+  geom_line(aes(CSES,fit, group=School, color=School), linewidth=1.2)+ 
   theme_minimal()+
   theme(legend.position="none")
 ```
@@ -489,7 +489,7 @@ anova(ml3b,ml4a)
 fits2 <- MathAchieve %>% select(CSES, School, Sector)
 fits2$fit <- fitted(ml4)
 ggplot(fits2)+
-  geom_line(aes(CSES,fit, group=School, color=Sector),alpha=0.7, size=1.2)+
+  geom_line(aes(CSES,fit, group=School, color=Sector),alpha=0.7, linewidth=1.2)+
   theme_minimal()
 ```
 
