@@ -129,7 +129,12 @@ Zpracujte rozšířený abstrakt své seminární práce - popište vybrané té
 * Formulujte a odhadněte GAM model, použijte alespoň 3 různé specifikace (kombinace smoothning spline, local regression), proveďte diagnostické testy podle vzoru z cvičení.
 
 
+---
 
+## Týden 12 (odevzdání do 10. 12. 2023)
+
+* Podle instrukcí ze cvičení dokončete skript `R08_Interaction_Terms_Logit.R` z bloku 4.  
+* Podle postupu ze cvičení použijte interakční členy vyššího řádu, nejen párové interakční členy.  
 
 --- 
 
