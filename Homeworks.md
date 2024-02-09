@@ -7,7 +7,8 @@ layout: default
 
 **Domácí úkoly zpracujte v `Rmd` (Markdown), nebo `qmd` (quarto) formátu, odevzdávejte i ve ZKOMPILOVANÉ verzi, tj. výstup do `html/pdf/docx` souboru.**  
 - U zkompilovaných výstupů musejí být viditelné použité příkazy, tj. nastavení `echo=T` (je defaultní).
-- Podle potřeby přiložte dataset.  
+- Podle potřeby přiložte dataset.
+- Pokud odevzdáváte úkol v komprimovaném souboru, používejte výhradně **.zip** formát.
 
 
 Obecná doporučení pro práci s R (domácí úkoly)
