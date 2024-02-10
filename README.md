@@ -34,8 +34,8 @@ University of Economics, Prague
 ## Block 1: Data handling in R
 
 + Data manipulation and visualization basics
-+ [Markdown](https://rstudio.com/wp-content/uploads/2015/02/rmarkdown-cheatsheet.pdf) for data/output presentation  
-+ Introduction to Tidyverse packages `tidyr`, `dplyr`, `ggplot2`, pipe operator `%>%`  
++ [Markdown](https://rstudio.com/wp-content/uploads/2015/02/rmarkdown-cheatsheet.pdf) and [Quarto](https://rstudio.github.io/cheatsheets/quarto.pdf) for data & output presentation  
++ Introduction to [Tidyverse](https://www.tidyverse.org/) packages `tidyr`, `dplyr`, `ggplot2`, pipe operator `%>%`  
 + Importing data from major databases (Eurostat, IMF, Yahoo finance, etc.)  
 + Missing data, multiple imputation  
 
