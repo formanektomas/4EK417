@@ -35,7 +35,11 @@ $\LaTeX$ can be implemented the same way as in `Rmd` files:
 
 --- 
 
-#### The same applies for estimation and plotting outuputs:
+#### Estimation and plotting:
+
+- Again, similar to Markdown, with added features  
+
+
 
 ```{r}
 #| label: fig-airquality
@@ -49,6 +53,10 @@ ggplot(airquality, aes(Temp, Ozone)) +
   geom_smooth(method = "loess")
 ```
 
+
+Using the `#|label: fig-airquality` handle, you can reference the figure in your text, by includig `@fig-airquality` cross-reference. For example: 
+
+* @fig-airquality describes air quality.
 
 ---
 

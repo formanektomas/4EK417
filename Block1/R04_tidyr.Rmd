@@ -237,10 +237,19 @@ head(as.data.frame(Wider_NewDF))
 Longer_NewDF <- pivot_longer(Wider_NewDF, cols = 3:4, names_to="Unit", values_to="Value")
 head(as.data.frame(Longer_NewDF),12)
 # 
-# Alternatively, for TS-based analysis, we can transform the dataset
-# to have all entries for a given year in a single row:
+# Alternatively, for TS-based analysis, we can transform the Long dataset
+# to a wide-format that has all entries for a given year in a single row:
 TS_wider <- pivot_wider(NewDF, names_from = c(State,Unit), values_from = "Value")
 head(as.data.frame(TS_wider))
+#
+# Also, the names of the variables in the wide format can be controlled using
+# variable ordering in "names_from"
+TS_wider <- pivot_wider(NewDF, 
+                        names_from = c(Unit,State), 
+                        values_from = "Value",
+                        names_sort = T)
+head(as.data.frame(TS_wider))
+
 ```
 
 ---
@@ -281,6 +290,30 @@ dim(UnDF)
 ```
 
 ---
+
+## Constructing lagged variables  
+
+* `tidyr` , `dplyr` and `pipeline` - based example
+
+```{r}
+UnDF %>% 
+  filter(geo %in% c("CZ","AT")) %>% 
+  group_by(geo,gender) %>%
+  mutate(u=values) %>% 
+  select(-values) %>% 
+  mutate(u_1 = lag(u, order_by = time)) %>%
+  pivot_wider(names_from = c(geo,gender), 
+              values_from = c(u,u_1),
+              names_glue = "{geo}_{gender}_{.value}",
+              names_sort = T) %>% 
+  ungroup() %>% 
+  as.data.frame() %>% 
+  head()
+
+```
+
+
+--- 
 
 ## Final remarks
 

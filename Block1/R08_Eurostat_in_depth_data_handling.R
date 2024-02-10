@@ -47,10 +47,10 @@ molten
 # newdata <- cast(molten, formula, ...)
 #
 # .. the formula takes the form:
-# ..rowvar1 + rowvar2 + …  ~  colvar1 + colvar2 + …
+# ..rowvar1 + rowvar2 + ?  ~  colvar1 + colvar2 + ?
 #
-# .... rowvar1 + rowvar2 + … set of variables that define the rows of new (cast) dataframe
-# .... colvar1 + colvar2 + … variables that define the columns of new dataframe
+# .... rowvar1 + rowvar2 + ? set of variables that define the rows of new (cast) dataframe
+# .... colvar1 + colvar2 + ? variables that define the columns of new dataframe
 # 
 #
 # Example 1 - back to original dataframe
@@ -182,7 +182,7 @@ View(cbind(as.character(unique(GDP$na_item)),as.character(unique(GDP.labels$na_i
 unique(GDP$geo)
 View(cbind(as.character(unique(GDP$geo)),as.character(unique(GDP.labels$geo))))
 # time span of the observations
-range(GDP$time) # we did not use: get_eurostat(..., time_format = "argument")
+range(GDP$TIME_PERIOD) # we did not use: get_eurostat(..., time_format = "argument")
 # seasonal adjustment
 unique(GDP$s_adj)
 View(cbind(as.character(unique(GDP$s_adj)),as.character(unique(GDP.labels$s_adj))))
@@ -202,7 +202,7 @@ GDP.dataset <- GDP %>%
          unit == "CP_MEUR", 
          geo %in% c("CZ", "PL", "AT"),
          s_adj == "SCA",
-         time >= 2000)
+         TIME_PERIOD >= 2000)
 head(as.data.frame(GDP.dataset))
 # each measured variable (GDP) is in its own row, along with all the variables needed 
 # to uniquely identify it (geo and time).
@@ -214,10 +214,10 @@ head(as.data.frame(GDP.dataset))
 # We will now rearrange the data using the dcast() 
 # function so that the data frame contains a column 
 # for GDP in each country. We want individual years as rows.
-GDP.new.dataset <- dcast(GDP.dataset, time ~ geo+na_item, value.var = "values")
+GDP.new.dataset <- dcast(GDP.dataset, TIME_PERIOD ~ geo+na_item, value.var = "values")
 head(GDP.new.dataset)
 library(zoo) # illustration only, not saved to Gl. Env.
-head(zoo(GDP.new.dataset[,-1], order.by = as.yearqtr(GDP.new.dataset$time)),10)
+head(zoo(GDP.new.dataset[,-1], order.by = as.yearqtr(GDP.new.dataset$TIME_PERIOD)),10)
 #
 #
 ## Step 1 - Unemployment ## 
@@ -236,17 +236,17 @@ unique(U.data$s_adj) # Seas. Unadjusted -- Adjusted data (not calendar adjusted)
 unique(U.data$age)  # Y15-74 -- Y20-64
 unique(U.data$unit) # % of active -- % of unemployment -- (000)s person
 unique(U.data$geo)
-range(U.data$time) # quarterly data
+range(U.data$TIME_PERIOD) # quarterly data
 #
 ## Step 2 - Unemployment ##
 # Let's retrieve data for Austria, Czech Republic and Slovakia, 
 # Share of long term on total unemployment (disregard M/F data)
 U.AT_CZ_PL <- U.data %>% 
   filter(indic_em == "LTU", sex == "T", unit == "PC_UNE", s_adj == "SA", age == "Y15-74") %>% 
-  filter(geo %in% c("AT","CZ","PL"), time >= 2000)
+  filter(geo %in% c("AT","CZ","PL"), TIME_PERIOD >= 2000)
 #
 ## Step 3 - Unemployment ##
-U.AT_CZ_PL.ts <- dcast(U.AT_CZ_PL, time ~  geo+indic_em , value.var = "values")
+U.AT_CZ_PL.ts <- dcast(U.AT_CZ_PL, TIME_PERIOD ~  geo+indic_em , value.var = "values")
 head(U.AT_CZ_PL.ts)
 #
 #
@@ -258,7 +258,7 @@ head(U.AT_CZ_PL.ts)
 head(as.data.frame(GDP.new.dataset))
 head(as.data.frame(U.AT_CZ_PL.ts))
 ?base::merge
-Combined.DF <- merge(U.AT_CZ_PL.ts, GDP.new.dataset, by="time")
+Combined.DF <- merge(U.AT_CZ_PL.ts, GDP.new.dataset, by="TIME_PERIOD")
 head(Combined.DF)
 # save your dataframe for subsequent use
 write.csv(Combined.DF, "datasets/GDP_Unem.csv", row.names = F)
@@ -267,7 +267,7 @@ write.csv(Combined.DF, "datasets/GDP_Unem.csv", row.names = F)
 ## Step 2 - convert to TS (zoo) object
 library(zoo)
 head(Combined.DF)
-GDP_Unem.zoo <- zoo(Combined.DF[,-1], order.by = as.yearqtr(Combined.DF$time)) # drop first column
+GDP_Unem.zoo <- zoo(Combined.DF[,-1], order.by = as.yearqtr(Combined.DF$TIME_PERIOD)) # drop first column
 #
 head(GDP_Unem.zoo)
 # Now, the usual data operations on TS may be performed easily
