@@ -35,8 +35,7 @@ ggplot() +
 #
 #### Simple choropleths with {ggplot2}
 #
-# 1) Read in a dataset 
-#
+# 1) Download a dataset from Eurostat
 #
 # Macroeconomic data
 # .. Disposable income of private households by NUTS 2 regions
@@ -53,7 +52,10 @@ summary(Income.DF) # single variable for differet CS and TS observations
 labels <- label_eurostat(Income.DF, fix_duplicated = T)
 t(labels[1,])
 #
+#
 # 2) Filtering data for NUTS2 level
+#    - just a single-step in data simplification,
+#      we keep data for multiple time periods and multiple countries
 Income.DF <- Income.DF %>% 
   dplyr::filter(nchar(as.character(geo)) == 4) 
 # NUTS2 ID is 4-digit
@@ -62,7 +64,7 @@ Income.DF <- Income.DF %>%
 summary(Income.DF)
 #
 # 3) Merge with {sf} spatial data
-# .. if you want LAEA geometry, use map-transformation before joining.
+# .. if you want LAEA geometry, use map-transformation before/after joining.
 # when joining sf and df object, sf object must go first to preserve (geometry), i.e. sf format
 # inner_joins is used, because map contains different NUTS levels and we only need NUTS2.
 Income.sf <- myMap %>% 
@@ -75,7 +77,18 @@ summary(Income.sf) # PPS/Hab for all NUTS2 regions and years + shapefiles
 # 4) Plot the data 
 #
 #
-# We shall use {RColorBrewer} for color-coding
+# 4a) Plot example:  2015 only, Germany only
+Plot1DF <- Income.sf%>%   
+  dplyr::filter(TIME_PERIOD == 2015 & CNTR_CODE %in% ("DE"))
+#
+head(Plot1DF) # we want to plot "values" using the "geometry" entries (on a map)
+# choropleth/infomap is simple to produce
+ggplot(Plot1DF) +
+  geom_sf(aes(fill = values))
+#
+#
+#
+# 4b) Repeat using {RColorBrewer} package
 ?scale_fill_gradientn
 ?brewer.pal
 # The sequential palettes names are 
@@ -86,31 +99,15 @@ summary(Income.sf) # PPS/Hab for all NUTS2 regions and years + shapefiles
 # BrBG PiYG PRGn PuOr RdBu RdGy RdYlBu RdYlGn Spectral
 #
 #
-#
-# 4a) Plot example:  2015 only, Germany only
-#
-Plot1DF <- Income.sf%>%   
-  dplyr::filter(TIME_PERIOD == 2015 & CNTR_CODE %in% ("DE"))
-#
-head(Plot1DF) # we want to plot "values" using the "geometry" entries (on a map)
-#
-# choropleth/infomap is simple to produce
-ggplot(Plot1DF) +
-  geom_sf(aes(fill = values))
-#
-# We will be using RColorBrewer package and brewer.pal() 
 ggplot(Plot1DF) +
   geom_sf(aes(fill = values)) +
   scale_fill_gradientn('PPS/Hab', colours=brewer.pal(9, "Greens"))+
   ggtitle("PPS per Habitant") +
   theme_bw()
 # 
-# Built-in color schemes:
-# ?brewer.pal
 #
 #
-#
-# 4b) Plot 2010 & 2015, Germany and Austria 
+# 4c) Plot 2010 & 2015, Germany and Austria 
 #
 # 1st DF with PPS information for the two countries (sf format)
 Plot2DF <- Income.sf %>%   
@@ -131,7 +128,8 @@ ggplot(Plot2DF) +
   facet_wrap(~TIME_PERIOD, ncol=2)+
   theme_bw()
 #
-# 4b) can be simplified into single pipeline (borders come from separate DF) :
+# 4d) Plotting can be done in single pipeline (still, borders come from separate DF) :
+#
 Income.sf%>%   
   dplyr::filter(TIME_PERIOD %in% c(2010,2015) & CNTR_CODE %in% c("DE","AT")) %>% 
   ggplot() +
@@ -151,11 +149,59 @@ st_write(Income.sf, dsn = "Income.gpkg")
 Inc2 <- st_read("Income.gpkg")
 head(Inc2)
 #
+#
+# 5) binary and/or categorical data
+#
+# Say, we want to plot the data for Germany, 2015
+# and distinguish only above-average from below-average (Germany-wide) values:
+#
+Plot5DF <- Income.sf%>%   
+  dplyr::filter(TIME_PERIOD == 2015 & CNTR_CODE %in% ("DE"))
+#
+meanVal <- mean(Plot5DF$values)
+Plot5DF$RichReg <- as.factor(ifelse(Plot5DF$values >= meanVal,1,0)) # identifies above-avg regions as "rich"
+#
+ggplot(Plot5DF) +
+  geom_sf(aes(fill = RichReg))
+#
+#
+# 
 #-------------
 #
-#### Another example: Spain & Portugal
+## Quick supervised example
 #
-# 4c) Plot 2015, Spain
+# 1) Download data: Eurostat code: road_eqr_zevpc
+#    Share of new zero-emission vehicles in all new vehicles of the same type, 
+#    by type of vehicle and type of motor energy (source: Eurostat, EAFO)
+#    
+# 2) Identify variables (labels) and data structure (NUTS level, time period, etc.)
+#    - use R07_Eurostat.Rmd from Block1 as reference
+#
+# 3) Provide an infomap (choropleth) for the latest (newest) period available
+#    - focus on continental Europe, leave non-EU countries (with NA values) in, maybe drop Turkey
+#      (look at coord_sf() function used in self-study example below)
+#
+
+
+
+
+
+
+
+
+#
+#
+#--------------------------------------------------
+#
+# Additional self-study examples
+#
+#--------------------------------------------------
+#### Spain & Portugal
+#
+# based on data used previously
+# http://appsso.eurostat.ec.europa.eu/nui/show.do?dataset=tgs00026
+#
+# Plot 2015, Spain
 Plot3DF <- Income.sf%>%   
   dplyr::filter(TIME_PERIOD %in% c(2015) & CNTR_CODE %in% c("ES"))
 Plot3DF
@@ -174,7 +220,7 @@ ggplot(Plot3DF) +
   coord_sf(xlim = c(-10, 5), ylim = c(35, 45)) # x <-> longitude, y <-> latitude
 #
 #
-# 4d) Plot 2015, Spain & Portugal, add state border-lines
+# Plot 2015, Spain & Portugal, add state border-lines
 Plot4DF <- Income.sf%>%   
   dplyr::filter(TIME_PERIOD %in% c(2010) & CNTR_CODE %in% c("ES","PT"))
 Plot4DF
@@ -244,19 +290,4 @@ P1 +
 #  
 #
 #
-#
-#### Simple choropleths with {ggplot2} - binary and/or categorical data
-#
-# Say, we want to plot the data for Germany, 2015
-# and distinguish only above-average from below-average (Germany-wide) values:
-#
-# 5) 2015 only, Germany only
-Plot5DF <- Income.sf%>%   
-  dplyr::filter(TIME_PERIOD == 2015 & CNTR_CODE %in% ("DE"))
-#
-meanVal <- mean(Plot5DF$values)
-Plot5DF$RichReg <- as.factor(ifelse(Plot5DF$values >= meanVal,1,0)) # identifies above-avg regions as "rich"
-#
-ggplot(Plot5DF) +
-  geom_sf(aes(fill = RichReg))
 #
