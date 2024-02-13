@@ -5,7 +5,7 @@ layout: default
 
 --- 
 
-**Domácí úkoly zpracujte v `Rmd` (Markdown), nebo `qmd` (quarto) formátu, ve ZKOMPILOVANÉ verzi, tj. výstup do `html/pdf/docx` souboru.**  
+**Domácí úkoly zpracujte v `Rmd` (Markdown), nebo `qmd` (quarto) formátu, odevzdejte ve ZKOMPILOVANÉ verzi, tj. výstup do `html/pdf/docx` souboru.**  
 
 - U zkompilovaných výstupů musejí být viditelné použité příkazy, tj. nastavení `echo=T` (je defaultní).  
 - Podle potřeby přiložte dataset a zdrojový Rmd nebo qmd soubor.  
