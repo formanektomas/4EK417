@@ -68,7 +68,7 @@ savedDF # compare to using write.csv() or similar functions
 #
 #-----------------
 #
-# Example 2: Muliple countries, hexagonal raster
+# Example 2: Muliple countries, NUTS2 regions vs hexagonal raster
 #
 #-----------------
 #
@@ -205,6 +205,8 @@ writeCDF(rEurope, "NO2Europe.nc", overwrite=TRUE, varname="NO2",
 # 
 library(giscoR)
 NUTS3 <- giscoR::gisco_get_nuts(country=c("Germany","Austria","Czechia"),nuts_level = 3)
+NUTS0 <- giscoR::gisco_get_nuts(country=c("Germany","Austria","Czechia"),nuts_level = 0)
+NUTS0 <- select(NUTS0, NUTS_ID)
 
 NUTS3$NO2 <- exactextractr::exact_extract(
   x = rEurope, # source
@@ -215,13 +217,13 @@ NUTS3$NO2 <- exactextractr::exact_extract(
 # 
 summary(NUTS3$NO2)
 # Plot the results
-ggplot(data = NUTS3, aes(fill = NO2, label = round(NO2))) +
-  geom_sf(lwd = 1/3) +
+ggplot(data = NUTS3) +
+  geom_sf(aes(fill = NO2), lwd = 1/3) +
   scale_fill_viridis_c(name = "NO2 air\npollution") +
-  labs(title = "NO2 air pollution infomap)",
+  labs(title = "NO2 air pollution infomap",
        caption = " (c) Copernicus Service Information") +
-  theme(axis.title = element_blank(),
-        plot.caption = element_text(face = "italic"))
+  geom_sf(data=NUTS0, color="white", fill=NA, linewidth=1)+
+  theme_dark()
 
 
 

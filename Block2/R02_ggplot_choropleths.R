@@ -18,7 +18,7 @@ myMap <- giscoR::gisco_get_nuts()
 # Example of map for Germany - NUTS 2
 Germany_NUTS2 <- myMap %>%   
   dplyr::filter(LEVL_CODE == 2 & CNTR_CODE %in% ("DE")) %>% 
-  dplyr::select(NUTS_ID)
+  dplyr::select(NUTS_ID) # ggplot avoids "multiple" plotting (compare plot.sf) so we can drop this line
 # ggplot2 map
 ggplot() + 
   geom_sf(data = Germany_NUTS2)
@@ -55,7 +55,8 @@ t(labels[1,])
 #
 # 2) Filtering data for NUTS2 level
 #    - just a single-step in data simplification,
-#      we keep data for multiple time periods and multiple countries
+#      NOTE: we keep data for multiple time periods and multiple countries
+#            additional filtering is necessary for plotting infomaps
 Income.DF <- Income.DF %>% 
   dplyr::filter(nchar(as.character(geo)) == 4) 
 # NUTS2 ID is 4-digit
@@ -65,8 +66,8 @@ summary(Income.DF)
 #
 # 3) Merge with {sf} spatial data
 # .. if you want LAEA geometry, use map-transformation before/after joining.
-# when joining sf and df object, sf object must go first to preserve (geometry), i.e. sf format
-# inner_joins is used, because map contains different NUTS levels and we only need NUTS2.
+# when joining sf and df object, sf object must go first to preserve (geometry), i.e. the sf format
+# here, inner_joins is used, because map contains different NUTS levels and we only need NUTS2.
 Income.sf <- myMap %>% 
   dplyr::inner_join(Income.DF, by = c(  "NUTS_ID"="geo")) #   
 # note the number of rows: not all NUTS2 regions have data for all years
@@ -77,9 +78,9 @@ summary(Income.sf) # PPS/Hab for all NUTS2 regions and years + shapefiles
 # 4) Plot the data 
 #
 #
-# 4a) Plot example:  2015 only, Germany only
+# 4a) Plot example:  2020 only, Germany only
 Plot1DF <- Income.sf%>%   
-  dplyr::filter(TIME_PERIOD == 2015 & CNTR_CODE %in% ("DE"))
+  dplyr::filter(TIME_PERIOD == 2020 & CNTR_CODE %in% ("DE"))
 #
 head(Plot1DF) # we want to plot "values" using the "geometry" entries (on a map)
 # choropleth/infomap is simple to produce
@@ -107,11 +108,11 @@ ggplot(Plot1DF) +
 # 
 #
 #
-# 4c) Plot 2010 & 2015, Germany and Austria 
+# 4c) Plot 2015 & 2020, Germany and Austria 
 #
 # 1st DF with PPS information for the two countries (sf format)
 Plot2DF <- Income.sf %>%   
-  dplyr::filter(TIME_PERIOD %in% c(2010,2015) & CNTR_CODE %in% c("DE","AT"))
+  dplyr::filter(TIME_PERIOD %in% c(2015,2020) & CNTR_CODE %in% c("DE","AT"))
 head(Plot2DF) # note that data is in "long format"
 tail(Plot2DF) # some columns are redundant (geo/id...)
 #
@@ -122,20 +123,19 @@ borders <- myMap %>%
 #
 ggplot(Plot2DF) +
   geom_sf(aes(fill = values)) +
-  scale_fill_gradientn('PPS/Hab', colours=brewer.pal(9, "Greens"))+
+  scale_fill_gradientn('PPS/Hab', colours=brewer.pal(9, "PuBu"))+
   geom_sf(data=borders, color = "black", linewidth=1, fill=NA) + # borders - from own DF
   ggtitle("PPS per capita") +
-  facet_wrap(~TIME_PERIOD, ncol=2)+
-  theme_bw()
+  facet_wrap(~TIME_PERIOD, ncol=2)
 #
 # 4d) Plotting can be done in single pipeline (still, borders come from separate DF) :
 #
 Income.sf%>%   
-  dplyr::filter(TIME_PERIOD %in% c(2010,2015) & CNTR_CODE %in% c("DE","AT")) %>% 
+  dplyr::filter(TIME_PERIOD %in% c(2015,2020) & CNTR_CODE %in% c("DE","AT")) %>% 
   ggplot() +
     geom_sf(aes(fill = values)) +
-    scale_fill_gradientn('PPS/Hab', colours=brewer.pal(9, "Greens"))+
-    geom_sf(data=borders, color = "darkred", linewidth=1, fill=NA) + # borders - from own DF
+    scale_fill_gradientn('PPS/Hab', colours=brewer.pal(9, "PuBu"))+
+    geom_sf(data=borders, color = "black", linewidth=1, fill=NA) + # borders - from own DF
     ggtitle("PPS per Habitant") +
     facet_wrap(~TIME_PERIOD, ncol=2)+
     theme_bw()
@@ -181,14 +181,6 @@ ggplot(Plot5DF) +
 #    - focus on continental Europe, leave non-EU countries (with NA values) in, maybe drop Turkey
 #      (look at coord_sf() function used in self-study example below)
 #
-
-
-
-
-
-
-
-
 #
 #
 #--------------------------------------------------
@@ -222,7 +214,7 @@ ggplot(Plot3DF) +
 #
 # Plot 2015, Spain & Portugal, add state border-lines
 Plot4DF <- Income.sf%>%   
-  dplyr::filter(TIME_PERIOD %in% c(2010) & CNTR_CODE %in% c("ES","PT"))
+  dplyr::filter(TIME_PERIOD %in% c(2015) & CNTR_CODE %in% c("ES","PT"))
 Plot4DF
 #
 borders <- myMap %>%   
@@ -257,7 +249,7 @@ ggplot() + # note the changed data argument...
 #
 # Plot4DF repeated (in case "changed" during Q.E.2)
 Plot4DF <- Income.sf%>%   
-  dplyr::filter(TIME_PERIOD %in% c(2010) & CNTR_CODE %in% c("ES"))
+  dplyr::filter(TIME_PERIOD %in% c(2015) & CNTR_CODE %in% c("ES"))
 borders <- myMap %>%   
   dplyr::filter(LEVL_CODE == 0 & CNTR_CODE %in% c("ES")) %>%
   dplyr::select(NUTS_ID)
