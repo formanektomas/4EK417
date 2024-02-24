@@ -1,6 +1,13 @@
 ---
 title: "Semivariogram example - Meuse river sediments"
-output: html_document
+output: 
+ html_document:
+  number_sections: false
+  toc: true
+  toc_float: 
+   collapsed: true
+   smooth_scroll: true
+  toc_depth: 3
 ---
 
 ```{r setup, include=FALSE}
@@ -10,16 +17,21 @@ library(gstat)
 data(meuse)
 ```
 
-+ This illustration uses the Meuse dataset included in gstat which comprises of four heavy metals measured in the top soil in a flood plain along the river Meuse.  
+---
+
+> **Outline of the exercise**  
+> 1) `{sp}` and `{sf}` formats  
+> 2) plotting data in `{sp}`  
+> 3) semivariogram calculation  
+
+
+## Meuse dataset
+
++ This illustration uses the Meuse dataset included in `{gstat}` package, which comprises of four heavy metals measured in the top soil in a flood plain along the river Meuse.  
 
 + Apparently, polluted sediment is carried by the river and mostly deposited close to the river bank.  
 
 + Heavy metal concentrations are from composite samples of an area of approximately 15 m x 15 m (i.e. each *point* on a map represents a 15m by 15m square).  
-
-> #### Outline  
-> 1) `{sp}` and `{sf}` formats  
-> 2) plotting data in `{sp}`  
-> 3) semivariogram calculation  
 
 ```{r}
 str(meuse)
@@ -30,7 +42,7 @@ str(meuse)
 * *y* is a numeric vector; Northing (m) in RDH coordinates
 * *cadmium* topsoil cadmium concentration, mg kg-1 soil ("ppm"); zero cadmium values in the original data set have been shifted to 0.2 (half the lowest non-zero value)  
 * *copper*, *lead*, etc. by analogy
-* *dist* distance to the Meuse; obtained from the nearest cell in meuse.grid
+* *dist* distance to the Meuse river; obtained from the nearest cell in meuse.grid
  
 
 ```{r}
@@ -41,7 +53,7 @@ max(meuse$y) - min(meuse$y)
 
 --- 
 
-## Coordinates, `sp` and `sf` formats
+## Coordinates, `sp` vs `sf` 
 
 * The data frame above is not *spatially aware*.
 
@@ -76,7 +88,9 @@ head(meuse)
 
 ---
 
-#### The remaining part of the example is based on `sp` data.
+## `{sp}` package & plotting
+
+**The remaining part of the example is based on `sp` data.**
 
 We can use `sp` plotting functions `spplot()` and `bubble()` as illustrated below (note: the x- and y-axis are the spatial coordinates)
 
@@ -142,7 +156,7 @@ plot(SV, lzn.fit) # plot the fitted variogram and the observed variogram on the 
 
 ----- 
 
-## Fitted semivariograms depend on assumptions/settings used:
+**Fitted semivariograms depend on assumptions/settings used:**
 
 **Gaussian** semivariance wrt distance:
 
@@ -184,5 +198,3 @@ plot(vgm3.dir, vgm3.fit.d, as.table = T)
 ------
 
 For spatio-temporal semivariogram, see e.g. [tutorial here](http://r-video-tutorial.blogspot.com/2015/08/spatio-temporal-kriging-in-r.html)
-
-
