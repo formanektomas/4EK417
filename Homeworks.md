@@ -46,7 +46,7 @@ Bonusový úkol, 2 body navíc: Na datasetu vhodným způsobem ukažte imputaci 
 
 ---   
 
-## Týden 3 (odevzdání do 2. 3.)
+## Týden 3 (odevzdání do 3. 3.)
 
 Vizualizace prostorových dat v R - kartogram (infomapa)
 
