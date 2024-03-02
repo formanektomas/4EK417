@@ -20,7 +20,7 @@ U.DF <- eurostat::get_eurostat("lfst_r_lfu3rt", time_format = "num")
 summary(U.DF)
 # Filter "Central Europe", 2017, Total U, Y15-74   for plotting & analysis
 U.CE <- U.DF %>% 
-  dplyr::filter(time %in% c(2017), nchar(as.character(geo)) == 4) %>% # 2017 & NUTS2 only
+  dplyr::filter(TIME_PERIOD %in% c(2017), nchar(as.character(geo)) == 4) %>% # 2017 & NUTS2 only
   dplyr::filter(age %in% c("Y15-74"), sex %in% ("T"), isced11 == "TOTAL") %>% # age and gender
   dplyr::mutate(NUTS0 = substr(as.character(geo), start=1, stop=2)) %>% # retrieve NUTS0 id from NUTS2
   dplyr::filter(NUTS0 %in% c(c("AT","CZ","DE","HU","PL","SI","SK"))) 

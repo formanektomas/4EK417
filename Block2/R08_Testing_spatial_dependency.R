@@ -20,7 +20,7 @@ GDP.DF <- eurostat::get_eurostat("nama_10r_2gdp", time_format = "num")
 summary(GDP.DF)
 # Filter "Central Europe", 2016, EUR-per-Hab   for plotting & analysis
 GDP.CE <- GDP.DF %>% 
-  dplyr::filter(time %in% c(2016), nchar(as.character(geo)) == 4) %>% # 2016 & NUTS2 only
+  dplyr::filter(TIME_PERIOD %in% c(2016), nchar(as.character(geo)) == 4) %>% # 2016 & NUTS2 only
   dplyr::filter(unit %in% c("EUR_HAB")) %>% # GDP per capita only
   dplyr::mutate(NUTS0 = substr(as.character(geo), start=1, stop=2)) %>% # retrieve NUTS0 id from NUTS2
   dplyr::filter(NUTS0 %in% c(c("AT","CZ","DE","HU","PL","SK")))
