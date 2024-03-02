@@ -81,7 +81,7 @@ meuse_sf <- sf::st_as_sf(meuse)
 class(meuse_sf)
 head(meuse_sf)
 # sf --> sp objects
-meuse <- as(meuse_sf, "Spatial")
+meuse <- sf::as_Spatial(meuse_sf)
 class(meuse)
 head(meuse)
 ```
