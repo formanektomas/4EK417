@@ -58,6 +58,19 @@ Vizualizace prostorových dat v R - kartogram (infomapa)
     + Před vizualizací dat v `ggplot()` zkontrolujte rozměr datasetu.
     + Použití dat z Eurostatu není podmínkou, lze využít WDI nebo jinou databázi (jsou-li dostupné mapy)  
 
+--- 
+
+## Týden 4 (odevzdání do 10. 3.)
+
+Testování prostorové (ne)závislosti v R 
+
+* Pro tento úkol lze použít data (tj. regiony), která jste stáhli v rámci úkolu z minulého týdne - pokud má výběr alespoň 50 pozorování. V opačném případě (malý výbět) najděte jiný dataset (ideálně na úrovni NUTS2 nebo NUTS3), abyste měli dostatek pozorování pro provedení testu.
+
++ Zvolte jednu proměnnou (a jedno období pozorování - ideálně co nejblíže roku 2024) a proveďte **Moranův test** na prostorovou nezávislost.  
+
++ Použijte alespoň dva různé způsoby definice prostorové struktury (vzdálenost, vzdálenost + kNN, společná hranice) k ověření robustnosti výsledků vůči změnám prostorové struktury.  
+
++ Slovně okomentujte výsledky (interpretujte výsedek testu).
 
 ---
 
