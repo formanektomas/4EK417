@@ -20,10 +20,10 @@ CE_data <- read.csv("datasets/NUTS2_data.csv")
 # 
 # U_pc_2012              Dependent variable, the general rate of unemployment 
 #                        for a NUTS2 region i at time t (2012)
-# EUR_HAB_EU_2011        region’s GDP per capita (current EUR prices of 2011) 
+# EUR_HAB_EU_2011        region?s GDP per capita (current EUR prices of 2011) 
 #                        expressed as percentage of EU average
 # EUR_HAB_EU_2010 
-# TechEmp_2012           percentage of employees working in the “high-tech industry” 
+# TechEmp_2012           percentage of employees working in the ?high-tech industry? 
 #                        (NACE r.2 code HTC) in a given region and t = 2012
 # NUTS_ID                NUTS2 region-identifier (NUTS.2010)
 # long, lat              coordinates of regions' centroids
@@ -65,7 +65,7 @@ impacts(spatial.lag, listw= W.matrix)
 impacts.obj <- impacts(spatial.lag, listw= W.matrix, R=500)
 summary(impacts.obj, zstats=T, short=T)
 # 
-plot(impacts.obj)
+# plot(impacts.obj)
 #
 #
 #

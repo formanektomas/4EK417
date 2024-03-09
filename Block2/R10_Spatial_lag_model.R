@@ -22,10 +22,10 @@ plot(CE_data[ , c(4:7)])
 # 
 # U_pc_2012              Dependent variable, the general rate of unemployment 
 #                        for a NUTS2 region i at time t (2012)
-# EUR_HAB_EU_2011        region’s GDP per capita (current EUR prices of 2011) 
+# EUR_HAB_EU_2011        region?s GDP per capita (current EUR prices of 2011) 
 #                        expressed as percentage of EU average
 # EUR_HAB_EU_2010 
-# TechEmp_2012           percentage of employees working in the “high-tech industry” 
+# TechEmp_2012           percentage of employees working in the ?high-tech industry? 
 #                        (NACE r.2 code HTC) in a given region and t = 2012
 # NUTS_ID                NUTS2 region-identifier (NUTS.2010)
 # long, lat              coordinates of regions' centroids
@@ -85,11 +85,12 @@ lm.LMtests(OLS.1, W.matrix, test=c("LMlag", "LMerr", "RLMlag", "RLMerr"))
 #
 # Step 3 Spatial lag model estimation, tests & plots
 #
-?spatialreg::lagsarlm # note e.g. the "Durbin" argument
+?spatialreg::lagsarlm # note e.g. the "Dubin" argument
 spatial.lag <- lagsarlm(U_pc_2012 ~ I(EUR_HAB_EU_2011-EUR_HAB_EU_2010) + TechEmp_2012, 
                         data=CE_data, W.matrix)
 summary(spatial.lag)
-?spatialreg::LR.Sarlm # Test the spatial lag specification against OLS model
+?spatialreg::LR.sarlm # Test the spatial lag specification against OLS model
+LR1.Sarlm(spatial.lag)
 LR.Sarlm(spatial.lag, OLS.1)
 #
 # Test for spatial randomness in residuals from the spatial lag model
