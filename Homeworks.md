@@ -72,6 +72,22 @@ Testování prostorové (ne)závislosti v R
 
 + Slovně okomentujte výsledky (interpretujte výsedek testu).
 
+--- 
+
+## Týden 5 (odevzdání do 17. 3.)
+
+Shluková analýza na prostorových datech v R 
+
+* Pro tento úkol lze použít data (tj. regiony), která jste stáhli v rámci úkolu z minulého týdne - pokud má výběr alespoň 50 pozorování a pokud data vykazují pozitivní prostorovou závislost. V opačném případě najděte jiný dataset (ideálně na úrovni NUTS2 nebo NUTS3), abyste měli dostatek pozorování pro provedení testu.
+
++ Zvolte jednu proměnnou (a jedno období pozorování - ideálně co nejblíže roku 2024) a proveďte shlukovou analýzu - jako vodítko můžete použít skript `R09_LISA_and_clusters.R` z bloku 2.  
+
++ Použijte alespoň dva různé způsoby definice prostorové struktury (vzdálenost, vzdálenost + kNN, společná hranice) k ověření robustnosti výsledků vůči změnám prostorové struktury.  
+
++ Slovně okomentujte výsledky.
+
+
+
 ---
 
 [Homepage](https://formanektomas.github.io/4EK417/)
