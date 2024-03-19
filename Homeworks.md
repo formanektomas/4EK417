@@ -87,7 +87,14 @@ Shluková analýza na prostorových datech v R
 + Slovně okomentujte výsledky.
 
 
+--- 
 
+## Týden 6 (odevzdání do 24. 3.)
+
+* Proveďte stepwise regresi, podle *Assignment 1* ze skriptu z bloku 3: `R03_Model_selection.R`
+    * Proveďte alespoň dvě varianty výběru (best subset, forward, backwards), výstupy srovnejte (vizualizace, vyhodnocení)  
+    
 ---
+
 
 [Homepage](https://formanektomas.github.io/4EK417/)
