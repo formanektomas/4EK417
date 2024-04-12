@@ -1,6 +1,8 @@
 #######################################################
 #
 #
+library(sp)
+library(sf)
 library(ggplot2)
 library(RColorBrewer)
 library(splm) 
@@ -36,12 +38,12 @@ summary(Pdata)
 #
 #
 # Individual (within) means for CRE estimation....
-Avgs <- Pdata %>% group_by(NUTS_ID) %>% arrange(time) %>% mutate(time=ceiling(rank(time)/6)) %>% 
-  group_by(NUTS_ID, time) %>% 
-  summarise(A.EUR_HAB_EU=mean(EUR_HAB_EU), A.KIS=mean(KIS), A.HTC=mean(HTC)) %>% ungroup()
-Pdata$EUR_HAB_EU_bar <- rep(Avgs$A.EUR_HAB_EU, times = 1, each = 6)
-Pdata$HTC_bar <- rep(Avgs$A.HTC, times = 1, each = 6)
-Pdata$KIS_bar <- rep(Avgs$A.KIS, times = 1, each = 6)
+Pdata <- Pdata %>% 
+  arrange(NUTS_ID,time) %>% 
+  group_by(NUTS_ID) %>% 
+  mutate(EUR_HAB_EU_bar=mean(EUR_HAB_EU), 
+         HTC_bar=mean(HTC)) %>% 
+  ungroup()
 #
 ## Plot the Unemployment data
 options(readr.default_locale=readr::locale(tz="Europe/Berlin"))
@@ -58,11 +60,10 @@ df20 %>%
 #
 #
 # Geographic information
-coords <- Pdata[Pdata$Y2011==1,c("long", "lat")]
-coords <- coordinates(coords)
+coords <- Pdata[Pdata$time==2011,c("long", "lat")]
+coords <- sp::coordinates(coords)
 summary(coords)
-IDs <- Pdata[Pdata$Y2011==1,"NUTS_ID"]
-nb <- dnearneigh(coords, d1=0, d2=240, longlat=T, row.names = IDs)
+nb <- dnearneigh(coords, d1=0, d2=240, longlat=T)
 CE_data.listw <- nb2listw(nb)
 W_matrix <- nb2mat(nb)
 # 
@@ -127,7 +128,7 @@ s2.df <- data.frame(max.dist=0, LL=0, Lambda=0, Lambda.SE=0,
                     Interact.IN=0, Interact.IN.SE = 0)
 set.seed(300)
 for(j in 16:100) {
-  nb <- dnearneigh(coords, d1=0, d2=j*10, longlat=T, row.names = IDs)
+  nb <- dnearneigh(coords, d1=0, d2=j*10, longlat=T)
   CE.listw <- nb2listw(nb)
   #
   Lag_mod <- spml(formula = fm1, data = Pdata, index = c("NUTS_ID","time"),
