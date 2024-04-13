@@ -321,9 +321,9 @@ ggplot(plotDF.NS3, aes(x = age, y = wage) ) + #general
   geom_line( aes(y = plotDF.SP3$fit), color="red", linewidth = 1) + 
   geom_line( aes(y = fit), color="blue", linewidth = 1) + # ns()
   annotate(label = "ns()", geom = "text", 
-           x = 75, y = 130, size = 5, color="blue") +
+           x = 75, y = 130, linewidth = 5, color="blue") +
   annotate(label = "bs()", geom = "text", 
-           x = 75, y = 50, size = 5, color="red") +
+           x = 75, y = 50, linewidth = 5, color="red") +
   labs(title = "Comparison of cubic splines - bs() and natural splines - ns() for K=3") +
   theme_bw()
 

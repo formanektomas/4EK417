@@ -45,7 +45,7 @@ ggplot(plotDF.1, aes(x = age, y = wage) ) +
   geom_point(col="grey70") +
   geom_ribbon( aes(ymin = lwr, ymax = upr), fill="blue", alpha = .35) +
   # ribbon first, regression line displayed on top of the ribbon
-  geom_line( aes(y = fit), colour="black", size = 1) +
+  geom_line( aes(y = fit), colour="black", linewidth = 1) +
   theme_bw()
 
 ```
@@ -67,7 +67,7 @@ plotDF.2 <- cbind(Wage, predm2)
 ggplot(plotDF.2, aes(x = age, y = wage) ) +
   geom_point(col="grey70") +
   geom_ribbon( aes(ymin = lwr, ymax = upr), fill="gold", alpha = .75) +
-  geom_line( aes(y = fit), colour="black", size = 1) +
+  geom_line( aes(y = fit), colour="black", linewidth = 1) +
   theme_bw()
 
 ```
@@ -127,7 +127,7 @@ plotDF.4 <- cbind(Wage, predm4)
 ggplot(plotDF.4, aes(x = age, y = wage) ) +
   geom_point(col="grey70") +
   geom_ribbon( aes(ymin = lwr, ymax = upr, fill=ageCut), alpha = .35) +
-  geom_line( aes(y = fit, color=ageCut), size = 1) +
+  geom_line( aes(y = fit, color=ageCut), linewidth = 1) +
   theme_bw()
 ```
  
@@ -169,7 +169,7 @@ plotDF.5 <- cbind(Wage, predm5)
 ggplot(plotDF.5, aes(x = age, y = wage) ) +
   geom_point(col="grey70") +
   geom_ribbon( aes(ymin = lwr, ymax = upr, fill=ageCut3), alpha = .35) +
-  geom_line( aes(y = fit, color=ageCut3), size = 1) +
+  geom_line( aes(y = fit, color=ageCut3), linewidth = 1) +
   theme_bw()
 ```
 
@@ -312,7 +312,7 @@ ggplot(plotDF.8, aes(x = age, y = wage) ) +
 
 (b)  
 + Estimate the restricted function (continuity enforced) using `R`  
-    + note that basis functions $h_1 = (x_i-c_1)_{+}$ and $h_2 = (x_i-c_2)_{+}$ are already estabished in the `R` code above `[l.205-l.206]`.  
+    + note that basis functions $h_1 = (x_i-c_1)_{+}$ and $h_2 = (x_i-c_2)_{+}$ are already estabished in the `R` code above `[l.207-l.208]`.  
 + use `ggplot2` functionality to display fitted values and confidence intervals  
 
 ```{r}
