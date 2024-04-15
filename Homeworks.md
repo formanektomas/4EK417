@@ -100,6 +100,18 @@ Shluková analýza na prostorových datech v R
 
 Zpracujte rozšířený abstrakt své seminární práce - popište vybrané téma (motivace, výzkumný záměr), popište data, popište preferovanou odhadovou metodu. Jaký je Váš konkrétní cíl? Jaké vidíte potenciální problémy či komplikace? Případně uveďte zpracovaný model a/nebo dílčí výstupy odhadu. Rozsah 1-2 strany A4 (cca 400-800 slov).  
 
+
+---
+
+## Týden 10 (odevzdání do 21.4.)
+
+Zpracujte úkol podle zadání ve skriptu `R16_GAM_diamonds_example.R` z Bloku 3.  
+- za bonusové body zpracujte analogický úkol (GAM specifikace) na vlastních datech.  
+
+
+
+
+
 --- 
 
 [Homepage](https://formanektomas.github.io/4EK417/)
