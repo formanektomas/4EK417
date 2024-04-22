@@ -108,6 +108,11 @@ Zpracujte rozšířený abstrakt své seminární práce - popište vybrané té
 Zpracujte úkol podle zadání ve skriptu `R16_GAM_diamonds_example.R` z Bloku 3.  
 - za bonusové body zpracujte analogický úkol (GAM specifikace) na vlastních datech.  
 
+--- 
+
+## Týden 11 (odevzdání do 28.4.)
+
+* Podle instrukcí předaných na cvičení dne 21.4. doplňte (vyřešte zadání) ze skriptu `R06_LME_wagepanel_hierarchical_data.R`.
 
 
 
