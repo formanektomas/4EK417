@@ -4,13 +4,11 @@ output: html_document
 ---
 
 ```{r setup, include=FALSE}
+library(Matrix)
 library(sf)
 library(osmdata)
 library(spatialprobit)
 library(spatialreg)
-library(gmm)
-# https://stackoverflow.com/questions/63511986/error-package-or-namespace-load-failed-for-gmm-in-dyn-loadfile-dllpath-dl
-# 
 ```
 
 ## General description of a spatial probit model
@@ -122,7 +120,7 @@ mapview::mapview(Katrina_sf)
 * [https://www.rsgis.envs.lsu.edu/docs/LeSage-Journal%20of%20Royal%20Statistics-2011.pdf](https://www.rsgis.envs.lsu.edu/docs/LeSage-Journal%20of%20Royal%20Statistics-2011.pdf)
 
 ```{r}
-# (a) 0-3 months time horizon
+# 0-6 months time horizon
 # LeSage et al. (2011) use k=11 nearest neighbors in this case
 nb <- knn2nb(knearneigh(cbind(Katrina$lat, Katrina$long), k=11))
 listw <- nb2listw(nb, style="W")
@@ -133,7 +131,7 @@ nb
 Model is estimated using the Bayesian approach
 
 ```{r, warning=F}
-fit1 <- sarprobit(y1 ~ flood_depth + log_medinc + small_size + large_size +
+fit1 <- sarprobit(y2 ~ flood_depth + log_medinc + small_size + large_size +
   low_status_customers +  high_status_customers + 
   owntype_sole_proprietor + owntype_national_chain, 
   W=W1, data=Katrina, ndraw=600, burn.in = 100, showProgress=F)
@@ -151,8 +149,6 @@ impacts(fit1)
 -----
 
 #### Quick exercise
-
-* Repeat the estimation for `y2` dependent variable (0-6 months re-opening)
 
 * use $k = 15$ for the $kNN$ method.  
 
