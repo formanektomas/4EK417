@@ -114,7 +114,15 @@ Zpracujte úkol podle zadání ve skriptu `R16_GAM_diamonds_example.R` z Bloku 3
 
 * Podle instrukcí předaných na cvičení dne 21.4. doplňte (vyřešte zadání) ze skriptu `R06_LME_wagepanel_hierarchical_data.R`.
 
+---
 
+
+## Týden 12 (odevzdání do 5. 5.)
+
+*  Zpracujte úkol podle zadání ze skriptu `R02_LPM_Logit_Probit.R` (Quick exerice, začínající na ř. 257),   
+*  Připravte alternativní specifikaci modelu s interakčními členy podle vlastního uvážení,   
+*  Zpracujte vyhodnocení predikčních vlastností obou specifikací (confusion matrix, ROC křivka),    
+*  Pro model s interakčními členy ukažte mezní efekty (balíček effects).   
 
 
 --- 
