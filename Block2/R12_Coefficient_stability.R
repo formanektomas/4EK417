@@ -69,7 +69,7 @@ for(j in 16:100) {
                           spatial.lag$rest.se[3], 
                           spatial.lag$rho.se))
 } 
-s2.df <- s2.df[-1,]
+s2.df <- s2.df[-1,] # remove first line of zeros introduced at line 46
 #
 head(s2.df)
 tail(s2.df)

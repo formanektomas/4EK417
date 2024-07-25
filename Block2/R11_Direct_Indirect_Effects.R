@@ -94,9 +94,4 @@ summary(impacts.obj2, zstats=T, short=T)
 ?knearneigh # use k = 4
 ?knn2nb     # use symmetric transformation: sym = T
 W.matrix <- nb2listw()   # use nb2listw with the output from knn2bn
-
-##
-#
-#
-#
 #

@@ -1,6 +1,7 @@
 #######################################################
 #
 #
+library(httr2)
 library(sp)
 library(sf)
 library(ggplot2)
@@ -48,6 +49,8 @@ Pdata <- Pdata %>%
 ## Plot the Unemployment data
 options(readr.default_locale=readr::locale(tz="Europe/Berlin"))
 df20 <- giscoR::gisco_get_nuts(year=2013)
+# df20 <-sf::st_read("datasets/NUTS_RG_60M_2013_4326.geojson")
+#
 df20 %>% 
   dplyr::inner_join(Pdata, by = "NUTS_ID") %>% 
   filter(time == 2009 | time == 2014) %>% 
@@ -111,10 +114,11 @@ set.seed(1128)
 imp1 <- impacts(Lag_mod, listw = CE_data.listw, time = time, R = 1000)
 imp2 <- summary(imp1, zstats = T, short = T)
 imp2
-plot(imp1$sres$direct[,1:3])
-plot(imp1$sres$direct[,4:6])
-plot(imp1$sres$indirect[,1:3])
-plot(imp1$sres$indirect[,4:6])
+# plot(impacts) can be used to assess the mcmc simulation used for inference
+# plot(imp1$sres$direct[,1:3])
+# plot(imp1$sres$direct[,4:6])
+# plot(imp1$sres$indirect[,1:3])
+# plot(imp1$sres$indirect[,4:6])
 #
 #
 #
@@ -208,13 +212,4 @@ abline(v=220, lty=3)
 abline(h=0, lty=3, col="red")
 #
 par(mfrow=c(1,1))
-#
-#
-#
-#
-#
-#
-#
-#
-#
 #

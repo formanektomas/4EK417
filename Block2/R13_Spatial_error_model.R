@@ -12,6 +12,7 @@
 library(spdep)
 library(spatialreg)
 rm(list=ls())
+#
 CE_data <- read.csv("datasets/NUTS2_data.csv")
 head(CE_data, 15)
 tail(CE_data, 10)

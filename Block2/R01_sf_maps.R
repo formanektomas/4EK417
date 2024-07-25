@@ -9,6 +9,7 @@ rm(list=ls())
 ?gisco_get_nuts
 options(readr.default_locale=readr::locale(tz="Europe/Berlin"))
 myMap <- giscoR::gisco_get_nuts()
+# myMap <-sf::st_read("datasets/NUTS_RG_60M_2013_4326.geojson")
 #
 # Inspect downloaded spatial data
 class(myMap)

@@ -89,7 +89,7 @@ lm.LMtests(OLS.1, W.matrix, test=c("LMlag", "LMerr", "RLMlag", "RLMerr"))
 spatial.lag <- lagsarlm(U_pc_2012 ~ I(EUR_HAB_EU_2011-EUR_HAB_EU_2010) + TechEmp_2012, 
                         data=CE_data, W.matrix)
 summary(spatial.lag)
-?spatialreg::LR.sarlm # Test the spatial lag specification against OLS model
+?spatialreg::LR.Sarlm # Test the spatial lag specification against OLS model
 LR1.Sarlm(spatial.lag)
 LR.Sarlm(spatial.lag, OLS.1)
 #

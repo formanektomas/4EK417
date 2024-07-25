@@ -11,6 +11,7 @@
 library(spdep)
 library(spatialreg)
 rm(list=ls())
+#
 CE_data <- read.csv("datasets/NUTS2_data.csv")
 CE_data$log.GDP <- log(CE_data$EUR_HAB_EU_2011)
 head(CE_data, 15)
@@ -218,23 +219,5 @@ abline(h= basic.sLRM$coefficients[3,1]-basic.sLRM$coefficients[3,2],lty=2, col="
 abline(h=0,lty=2)
 abline(v=250, lty=3)
 #
-#
-#
 par(mfrow=c(1,1))
 #
-#
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

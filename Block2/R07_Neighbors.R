@@ -11,6 +11,7 @@ rm(list = ls())
 # Get the spatial data for NUTS regions 
 options(readr.default_locale=readr::locale(tz="Europe/Berlin"))
 map1 <- giscoR::gisco_get_nuts()
+# map1 <-sf::st_read("datasets/NUTS_RG_60M_2013_4326.geojson")
 #
 # Select Central EU countries
 CE.sf <- map1 %>%   

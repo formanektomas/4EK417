@@ -12,7 +12,8 @@ rm(list = ls())
 #
 # Get the spatial data for NUTS regions in {sf} format
 options(readr.default_locale=readr::locale(tz="Europe/Berlin"))
-myMap <- giscoR::gisco_get_nuts()
+myMap <- giscoR::gisco_get_nuts(year = "2013")
+# myMap <-sf::st_read("datasets/NUTS_RG_60M_2013_4326.geojson")
 #
 #
 # Example of map for Germany - NUTS 2
