@@ -1,5 +1,6 @@
 ## Maps and choropleths with {ggplot2}
 #
+library(giscoR)
 library(dplyr)
 library(eurostat)
 library(sf)
@@ -12,7 +13,8 @@ rm(list = ls())
 #
 # Get the spatial data for NUTS regions in {sf} format
 options(readr.default_locale=readr::locale(tz="Europe/Berlin"))
-myMap <- giscoR::gisco_get_nuts(year = "2013")
+myMap <- eurostat::get_eurostat_geospatial(year="2013")
+# myMap <- giscoR::gisco_get_nuts(year = "2013")
 # myMap <-sf::st_read("datasets/NUTS_RG_60M_2013_4326.geojson")
 #
 #
@@ -53,8 +55,16 @@ summary(Income.DF) # single variable for differet CS and TS observations
 labels <- label_eurostat(Income.DF, fix_duplicated = T)
 t(labels[1,])
 #
+# 2a) Simple filtering and plotting (one country, one year to be shown)
+myMap %>% 
+  dplyr::inner_join(Income.DF, by = c(  "NUTS_ID"="geo")) %>% 
+  dplyr::filter(TIME_PERIOD == 2020 & CNTR_CODE == "DE") %>% 
+  ggplot()+
+  geom_sf(aes(fill = values))
+#  
 #
-# 2) Filtering data for NUTS2 level
+# 2b) Advanced filtering, multiple steps, more versatility in output: 
+#    - Start by selecting data for NUTS2 level
 #    - just a single-step in data simplification,
 #      NOTE: we keep data for multiple time periods and multiple countries
 #            additional filtering is necessary for plotting infomaps
@@ -171,16 +181,17 @@ ggplot(Plot5DF) +
 #
 ## Quick supervised example
 #
-# 1) Download data: Eurostat code: road_eqr_zevpc
-#    Share of new zero-emission vehicles in all new vehicles of the same type, 
-#    by type of vehicle and type of motor energy (source: Eurostat, EAFO)
+# 1) Download data: Persons eligible to vote in the 2024 European Parliament 
+#    elections by category of voters - dedicated data collection
+#    Eurostat code: demo_popep
 #    
-# 2) Identify variables (labels) and data structure (NUTS level, time period, etc.)
-#    - use R07_Eurostat.Rmd from Block1 as reference
+# 2) Identify variables (labels) and data structure
+#    
 #
-# 3) Provide an infomap (choropleth) for the latest (newest) period available
-#    - focus on continental Europe, leave non-EU countries (with NA values) in, maybe drop Turkey
-#      (look at coord_sf() function used in self-study example below)
+# 3) Provide a suitable infomap (choropleth)
+#    (maybe try to use spatial voter density)
+#    use: st_df$area <- st_area(sf_df),
+#         units::set_units(area, km^2)   
 #
 #
 #
@@ -191,7 +202,7 @@ ggplot(Plot5DF) +
 #--------------------------------------------------
 #### Spain & Portugal
 #
-# based on data used previously
+# based on PPS data used previously
 # http://appsso.eurostat.ec.europa.eu/nui/show.do?dataset=tgs00026
 #
 # Plot 2015, Spain
