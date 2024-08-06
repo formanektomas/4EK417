@@ -141,16 +141,17 @@ Moving beyond linearity
 
 #### Materials for Block 5
 
++ [Presentation slides based on Block 6 of 4EK416/4EK608](https://github.com/formanektomas/4EK608_4EK416/raw/master/Block6/Block6.pdf)  
 + [Download R scripts (zip)](https://github.com/formanektomas/4EK417/raw/master/Block5/Block5.zip)  
 
 #### Supporting materials for Block 5
 
 - [R package `effects`](https://www.jstatsoft.org/article/view/v087i09)  
-- [R package `effects` for multinomial and proportional-odds logit models](https://www.jstatsoft.org/article/view/v032i01) 
+- [R package `effects` for multinomial and proportional-odds logit models](https://www.jstatsoft.org/article/view/v032i01)  
 
 --- 
 
-## Block 6: Treatment effects
+## Block 6: Analysis of treatment effects
 
 
 #### Materials for Block 6
