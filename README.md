@@ -151,7 +151,7 @@ Moving beyond linearity
 
 --- 
 
-## Block 6: Analysis of treatment effects
+## Block 6: Treatment effects analysis
 
 
 #### Materials for Block 6  
