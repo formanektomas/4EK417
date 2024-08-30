@@ -154,7 +154,9 @@ Moving beyond linearity
 ## Block 6: Analysis of treatment effects
 
 
-#### Materials for Block 6
+#### Materials for Block 6  
+
++ [Download presentation slides for Block 6](https://github.com/formanektomas/4EK417/raw/master/Block6/Block6.pdf)  
 
 
 #### Supporting materials for Block 6
