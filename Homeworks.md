@@ -25,106 +25,13 @@ Obecná doporučení pro práci s R (domácí úkoly)
 
 ---
 
-## Týden 1 (odevzdání do 18.2.)
+## Týden 1 (odevzdání do 22.9.)
 
 Vypracujte zadání ve skriptu `R03_data_handling_exercise.Rmd`.
 Zkompilovaný html/pdf/docx soubor odevzdejte prostřednictvím odevzdávárny v insisu.
 
 --- 
 
-## Týden 2 (odevzdání do 25.2.)
 
-* Stažení zajímavého datasetu z databáze Eurostat/WDI/OECD, (u Eurostatu použijte data na úrovni NUTS2/NUTS3), prostřednictvím balíčku R.  
-    - Orientace v datasetu: Popis ukazatelů, obsažených v datasetu (typově: jaké věkové skupiny jsou sledovány, ...).  
-    - Úprava dat pomocí `dplyr` a pipe operátoru: filtrování "vhodných" ukazatelů podle Vašeho uvážení. Popište, jaká data jste vybrali (případně proč).  
-    - Jednoduchá vizualizace dat pomocí `ggplot2`. Před vizualizací dat ověřte rozměr výsledného datasetu pomocí příkazu `dim()`. Při správném filtrování musí počet řádků datasetu odpovídat zobrazovaným datům. (Např: zobrazuji řady s HDP pro 10 regionů a 5 let -> data frame má 50 řádků v tzv. dlouhém formátu.)
-    - Převod do formátu časových řad (využijte balíček `zoo`).  
-    - Úkol může být založen na postupech ze skriptu `R07_Eurostat.Rmd` (ale nepoužívejte přímo datasety z tohoto skriptu).  
-    - Doprovoďte Váš výstup stručným slovním komentářem (popište zvolené proměnné).  
-
-Bonusový úkol, 2 body navíc: Na datasetu vhodným způsobem ukažte imputaci chybějících dat na jednorozměrné ČŘ, například pomocí balíčku `imputeTS` (v případě potřeby NAs sami vytvořte).
-
----   
-
-## Týden 3 (odevzdání do 3. 3.)
-
-Vizualizace prostorových dat v R - kartogram (infomapa)
-
-* K vizualizaci použijte dva různé datasety: jeden může vycházet z úkolu pro minulý týden, druhý dataset si opět zvolte/vyhledejte na Eurostatu (nebo použijte jiný vhodný zdroj dat).
-
-* Pro Vámi vybrané proměnné zobrazte infomapu, např. podle vzoru ze skriptu `R02_ggplot_choropleths.R`   
-    + Zobrazte alespoň čtyři různé infomapy: použijte různé projekce, různá časová období (použijte fazety), odlišné NUTS úrovně, zobrazte proměnné pro různé sledované skupiny (věkové skupiny, skupiny podle vzdělání, pohlaví, atd.).  
-    + Pokud pracujete se státy jako Francie nebo Španělsko, je vhodné z datasetu odstranit zámořská území (nebo ohraničit oblast zobrazovanou na mapě). 
-    + Před vizualizací dat v `ggplot()` zkontrolujte rozměr datasetu.
-    + Použití dat z Eurostatu není podmínkou, lze využít WDI nebo jinou databázi (jsou-li dostupné mapy)  
-
---- 
-
-## Týden 4 (odevzdání do 10. 3.)
-
-Testování prostorové (ne)závislosti v R 
-
-* Pro tento úkol lze použít data (tj. regiony), která jste stáhli v rámci úkolu z minulého týdne - pokud má výběr alespoň 50 pozorování. V opačném případě (malý výbět) najděte jiný dataset (ideálně na úrovni NUTS2 nebo NUTS3), abyste měli dostatek pozorování pro provedení testu.
-
-+ Zvolte jednu proměnnou (a jedno období pozorování - ideálně co nejblíže roku 2024) a proveďte **Moranův test** na prostorovou nezávislost.  
-
-+ Použijte alespoň dva různé způsoby definice prostorové struktury (vzdálenost, vzdálenost + kNN, společná hranice) k ověření robustnosti výsledků vůči změnám prostorové struktury.  
-
-+ Slovně okomentujte výsledky (interpretujte výsedek testu).
-
---- 
-
-## Týden 5 (odevzdání do 17. 3.)
-
-Shluková analýza na prostorových datech v R 
-
-* Pro tento úkol lze použít data (tj. regiony), která jste stáhli v rámci úkolu z minulého týdne - pokud má výběr alespoň 50 pozorování a pokud data vykazují pozitivní prostorovou závislost. V opačném případě najděte jiný dataset (ideálně na úrovni NUTS2 nebo NUTS3), abyste měli dostatek pozorování pro provedení testu.
-
-+ Zvolte jednu proměnnou (a jedno období pozorování - ideálně co nejblíže roku 2024) a proveďte shlukovou analýzu - jako vodítko můžete použít skript `R09_LISA_and_clusters.R` z bloku 2.  
-
-+ Použijte alespoň dva různé způsoby definice prostorové struktury (vzdálenost, vzdálenost + kNN, společná hranice) k ověření robustnosti výsledků vůči změnám prostorové struktury.  
-
-+ Slovně okomentujte výsledky.
-
-
---- 
-
-## Týden 6 (odevzdání do 24. 3.)
-
-* Proveďte stepwise regresi, podle *Assignment 1* ze skriptu z bloku 3: `R03_Model_selection.R`
-    * Proveďte alespoň dvě varianty výběru (best subset, forward, backwards), výstupy srovnejte (vizualizace, vyhodnocení)  
-    
----
-
-## Týden 7 (odevzdání do 5. 4.)
-
-Zpracujte rozšířený abstrakt své seminární práce - popište vybrané téma (motivace, výzkumný záměr), popište data, popište preferovanou odhadovou metodu. Jaký je Váš konkrétní cíl? Jaké vidíte potenciální problémy či komplikace? Případně uveďte zpracovaný model a/nebo dílčí výstupy odhadu. Rozsah 1-2 strany A4 (cca 400-800 slov).  
-
-
----
-
-## Týden 10 (odevzdání do 21.4.)
-
-Zpracujte úkol podle zadání ve skriptu `R16_GAM_diamonds_example.R` z Bloku 3.  
-- za bonusové body zpracujte analogický úkol (GAM specifikace) na vlastních datech.  
-
---- 
-
-## Týden 11 (odevzdání do 28.4.)
-
-* Podle instrukcí předaných na cvičení dne 21.4. doplňte (vyřešte zadání) ze skriptu `R06_LME_wagepanel_hierarchical_data.R`.
-
----
-
-
-## Týden 12 (odevzdání do 5. 5.)
-
-*  Zpracujte úkol podle zadání ze skriptu `R02_LPM_Logit_Probit.R` (Quick exerice, začínající na ř. 257),   
-*  Připravte alternativní specifikaci modelu s interakčními členy podle vlastního uvážení,   
-*  Zpracujte vyhodnocení predikčních vlastností obou specifikací (confusion matrix, ROC křivka),    
-*  Pro model s interakčními členy ukažte mezní efekty (balíček effects).   
-
-
---- 
 
 [Homepage](https://formanektomas.github.io/4EK417/)
