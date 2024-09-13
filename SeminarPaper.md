@@ -25,21 +25,21 @@ layout: default
 
 # Seminární práce (harmonogram odevzdání)
 
-* **Odsouhlasení tématu** seminární práce s vyučujícím: prostřednictvím e-mailu, během 8. týdne: **do 5.4.**.
+* **Odsouhlasení tématu** seminární práce s vyučujícím: prostřednictvím e-mailu, během 8. týdne: **do 8.11.**.
 
-* Studenti zpracují a odevzdají seminární práci individuálně, během 11. týdne: **do 26.4.**.  
+* Studenti zpracují a odevzdají seminární práci individuálně, během 11. týdne: **do 29.11.**.  
  
 * Každý student provede peer review (vzájemné hodnocení): dvou dalších seminárních prací
-  - přidělení seminárek k hodnocení: **do 30. 4.**  
-  - odevzdání vyplněných recenzních formulářů: **do 7. 5.**  
+  - přidělení seminárek k hodnocení: **do 1. 12.**  
+  - odevzdání vyplněných recenzních formulářů: **do 8. 12.**  
 
-* Zapracování připomínek z peer review a odevzdání závěrečné verze seminární práce - termín **31.5.**  
+* Zapracování připomínek z peer review a odevzdání závěrečné verze seminární práce - termín **3.1.2025.**  
 
 ---  
 
 **Témata SP**
 
-1. Ekonometrická analýza makroekonomických či mikroekonomických dat pomocí metod, probíraných na kurzu.  
+1. Ekonometrická analýza makroekonomických či mikroekonomických dat pomocí metod, probíraných na kurzu (stepwise regrese není vhodné téma SP).  
 2. Zpracování existující (již publikované) vědecké studie (Journal article, Working paper) nebo její části.  
    - aplikace (a zjednodušení) postupu na ekonomiku vybranou ekonomiku (ČR, SR, atd.).
 3. Jiný typ seminární práce, vycházející z analýzy v prostředí R  
