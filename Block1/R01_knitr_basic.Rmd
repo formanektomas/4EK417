@@ -97,13 +97,7 @@ ___
    
 
 
-### Markdown use in the course 4EK417:  
-
-**All home assignments for the course shall be submitted in the `Rmd` format**, with `echo=TRUE` set for all `R` chunks.
-
---- 
-
-## R basics for the course 4EK417 
+## R essentials for the course 4EK417 
 
 Required/assumed `R` knowledge and skills (and references to self-study materials, if necessary)
 

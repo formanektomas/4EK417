@@ -263,7 +263,7 @@ The following long-format dataset contains unemployment data (in %) for Austria,
 
 ```{r}
 UnDF <- read.csv("datasets/UnExercise.csv")
-head(UnDF,12) # only columns 1 to 8 are shown
+head(UnDF,12) # only rows 1 to 12 are shown
 str(UnDF)
 dim(UnDF)
 ``` 
@@ -331,18 +331,18 @@ For detailed discussion on the topic, you may have a look at:
 
 `{tidyr}` provides sufficient functionality for many empirical tasks.
 
-If necessary, additional control over reshaping data may be obtained through the `{reshape2}` package:
+Alternative / additional control over reshaping data may be obtained through the `{reshape2}` package:
 
 * `melt()` from `{reshape2}` expands the functionality of `pivot_longer()`
 * `dcast()` from `{reshape2}` expands the functionality of `pivot_wider()` 
 
 
-For additional information on `{reshape2}`, see:
+For information on `{reshape2}`, see:
 
 + [Tutorial by Timothy Carsel](https://ademos.people.uic.edu/Chapter8.html) 
 + [Tutorial by Sean C. Anderson](https://seananderson.ca/2013/10/19/reshape/) 
 + [reshape2 pdf](https://cran.r-project.org/web/packages/reshape2/reshape2.pdf) 
-+ `R09_Eurostat_in_depth_data_handling.R` (in your `R` working directory for Block 1)  
++ `R08_Eurostat_in_depth_data_handling.R` (in your `R` working directory for Block 1)  
 
 ---
 

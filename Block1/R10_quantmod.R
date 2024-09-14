@@ -39,7 +39,7 @@ AAPL %>%
               addBBands(draw="p");
               addVo();
               addMACD()', 
-              subset='2018',
+              subset='2024',
               theme="white") 
 #
 # https://en.wikipedia.org/wiki/Bollinger_Bands

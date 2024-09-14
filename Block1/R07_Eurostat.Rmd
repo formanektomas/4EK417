@@ -93,7 +93,7 @@ toc[grep(".*unemployment.*rates.*NUTS", toc$title, ignore.case = T),]$title
 
 As an example, let's choose the **Unemployment rates by sex, age and NUTS 2 regions (%)** dataset	`lfst_r_lfu3rt`
 
-* All datasets are available through a web browser (see the last string in the web address)
+* All datasets are available through a web browser
 * https://ec.europa.eu/eurostat/databrowser/view/lfst_r_lfu3rt/default/table?lang=en
 
 Download the data:
@@ -157,14 +157,16 @@ write.csv(Un.DF, "datasets/Unemployment.csv", row.names = F)
 
 We can use `{tidyverse}` and `{ggplot2}` functions to filter and plot data. 
 
-### **Example 1: Unemployment plot for selected countries (long-format data)**
+### **Example 1: Unemployment plot for selected countries (long-format data)**  
+
+Using the `Un.DF`, perform the following data handling (mostly filtering):  
 
 * `Y15-74` i.e. age group *from 15 to 74 years*  
-* Select data 2010 and newer  
+* Years 2010 and newer  
 * Total unemployment only (no M/F/T) structure  
 * All education levels combined
 * Select only: Austria, Czech Republic, Germany, Hungary, Poland, Slovakia  
-* NUTS 0 (State-level)  
+* Show NUTS0 leve only (State-level)  
 
 
 
@@ -205,16 +207,16 @@ Un.DF %>%
 
 ### **Example 2: Choropleth (infomap) of unemployment**
 
-We continue with the previously used Unemployment dataset as in **Example 1** (i.e. not with data from Quick exercise).  
+We continue with the previously used `Un.DF` Unemployment dataset as in **Example 1** (i.e. not with data from Quick exercise).  
 
-The following tasks will be performed:  
+The following tasks (filtering) will be performed:  
 
 * `Y15-74` i.e. age group *from 15 to 74 years*  
-* Select data for 2017  
+* Use data for 2017  
 * Total unemployment only (no M/F/T)  
 * All education levels
-* NUTS 2  
-* Austria, Czech Republic, Germany, Hungary, Poland, Slovakia  
+* Use NUTS2-level data
+* Use only the following countries: Austria, Czech Republic, Germany, Hungary, Poland, Slovakia  
 * Draw choropleth (cartogram, infomap)
 
 ```{r, echo=T, message=F}

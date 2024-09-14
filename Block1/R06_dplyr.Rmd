@@ -301,7 +301,7 @@ NUTS2.DF %>%
 | Variable    | Description                                                     |
 |-------------|-----------------------------------------------------------------|
 | Year        |  time identification of the observation 2011 - 2016. Compared to `NUTS2.DF`, there is  **no 2010**   data  |
-| NUTS2       |  NUTS2 id   **(same 113 regions) **                                 |
+| NUTS2       |  NUTS2 id   (same 113 regions as in the `NUTS2.DF` dataset)                                 |
 | Unem        |  Unemployment rate in %                                         |
 
 ```{r, message = FALSE,}
