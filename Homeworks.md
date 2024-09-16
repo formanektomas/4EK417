@@ -5,7 +5,9 @@ layout: default
 
 --- 
 
-**Domácí úkoly zpracujte v `Rmd` (Markdown), nebo `qmd` (quarto) formátu, odevzdejte ve ZKOMPILOVANÉ verzi, tj. výstup do `html/pdf/docx` souboru.**  
+**Domácí úkoly zpracujte v `Rmd` (Markdown), nebo `qmd` (quarto) formátu,**   
+
+**odevzdejte ve ZKOMPILOVANÉ verzi, tj. výstup do `html/pdf/docx` souboru.**  
 
 - U zkompilovaných výstupů musejí být viditelné použité příkazy, tj. nastavení `echo=T` (je defaultní).  
 - Podle potřeby přiložte dataset a zdrojový Rmd nebo qmd soubor.  
@@ -27,8 +29,10 @@ Obecná doporučení pro práci s R (domácí úkoly)
 
 ## Týden 1 (odevzdání do 22.9.)
 
-Vypracujte zadání ve skriptu `R03_data_handling_exercise.Rmd`.
-Zkompilovaný html/pdf/docx soubor odevzdejte prostřednictvím odevzdávárny v insisu.
+Vypracujte zadání ve skriptu `R03_data_handling_exercise.Rmd`.  
+Zkompilovaný html/pdf/docx soubor odevzdejte prostřednictvím odevzdávárny v insisu.  
+Bonusový úkol (2b): Quick exercise: 3 ze skriptu `R06_dplyr.Rmd` (poslední příklad ze skriptu) 
+
 
 --- 
 
