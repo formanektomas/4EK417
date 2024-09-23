@@ -36,6 +36,22 @@ Bonusový úkol (2b): Quick exercise: 3 ze skriptu `R06_dplyr.Rmd` (poslední p�
 
 --- 
 
+## Týden 2 (odevzdání do 29.9.) - úkol má dvě části
+
+* Stažení zajímavého datasetu z databáze Eurostat/WDI/OECD, (u Eurostatu použijte data na úrovni NUTS2/NUTS3), prostřednictvím balíčku R.  
+    - Orientace v datasetu: Popis ukazatelů, obsažených v datasetu (typově: jaké věkové skupiny jsou sledovány, ...).  
+    - Úprava dat pomocí balíčku `dplyr` a pipe operátoru: filtrování "vhodných" ukazatelů podle Vašeho uvážení. Popište, jaká data jste vybrali (případně proč).  
+    - Jednoduchá vizualizace dat pomocí balíčku `ggplot2`. Před vizualizací dat ověřte rozměr výsledného datasetu pomocí příkazu `dim()`. Při správném filtrování musí počet řádků datasetu odpovídat zobrazovaným datům. (Např: zobrazuji řady s HDP pro 10 regionů a 5 let -> data frame má 50 řádků v tzv. dlouhém formátu.)
+    - Převod do formátu časových řad (využijte balíček `zoo`).  
+    - Úkol může být založen na postupech ze skriptu `R07_Eurostat.Rmd` (ale nepoužívejte přímo datasety z tohoto skriptu).  
+    - Doprovoďte Váš výstup stručným slovním komentářem (popište zvolené proměnné).  
+
+* Vypracujte Assignment 1 (na ř. 275 skriptu `R11_Missing_data.R`)  
+
+* Úkol odevzdejte ve zkompilovaném formátu (html, docx nebo pdf soubor vytvořený/zkompilovaný z markdown či quarto souboru)  
+
+---
+
 
 
 [Homepage](https://formanektomas.github.io/4EK417/)
