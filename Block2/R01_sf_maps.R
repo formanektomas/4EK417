@@ -1,3 +1,4 @@
+library(terra)
 library(dplyr)
 library(giscoR)
 library(sf)
@@ -86,7 +87,7 @@ df1 <- giscoR::gisco_get_nuts(resolution = 01, nuts_id = "CZ02")
 #
 myMap %>% # CZ02 at 1:20mio
   dplyr::filter(LEVL_CODE == 2 & grepl("CZ02", NUTS_ID)) %>%
-  dplyr::select(NUTS_ID) %>% st_geometry() %>% plot(main="1:60 mio resolution")
+  dplyr::select(NUTS_ID) %>% st_geometry() %>% plot(main="1:20 mio resolution")
 #
 df1 %>% # CZ02 at 1:1mio resolution
   dplyr::select(NUTS_ID) %>% st_geometry() %>% plot(main="1:1 mio resolution")
@@ -219,10 +220,14 @@ world %>%
 ############################################################################
 ## Geographic administrative units available from:  gadm.org
 ##
-# Working example based on the gadm.org website and data
-download.file("https://biogeo.ucdavis.edu/data/gadm3.6/Rsf/gadm36_MLT_2_sf.rds",
-              "gadm36_MLT_2_sf.rds")
+library(geodata)
+# 
 #
-malta <- readRDS("gadm36_MLT_2_sf.rds")
-#
+Codes <- geodata::country_codes()
+Codes %>% filter(NAME == "Malta")
+geodata::gadm("MLT",level=2,path=getwd())
+malta <- readRDS("gadm/gadm41_MLT_2_pk.rds")
 plot(malta[,1])
+class(malta)
+malta_sf <- sf::st_as_sf(malta)
+plot(malta_sf[,1])

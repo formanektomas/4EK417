@@ -92,9 +92,8 @@ CZgrid <- st_as_sf(CZgrid)
 #
 CZgrid <- CZgrid[st_is(CZgrid,c("POLYGON", "MULTIPOLYGON")),] # filter (multi)polygons
 CZgrid$PolID <- 1:nrow(CZgrid) # row numbering
-CZgrid # using colnames() does not seem to fix the problem
-CZgrid <- as(CZgrid,"Spatial") # fix sf structure step 1 (sf->sp)
-CZgrid <- st_as_sf(CZgrid)     # fix sf structure step 2 (sp->sf)
+CZgrid 
+st_geometry(CZgrid) <- "geometry"
 CZgrid
 #
 # Calculate average profile and plot the data
@@ -173,7 +172,7 @@ plot(counties[,1])
 cropped <- terra::crop(year_2019, counties) # crop
 CZrast <- terra::mask(cropped, counties) # mask to a defined polygon boundary
 terra::plot(CZrast, main = "Built-up raster data")
-plot(counties$geometry, add = T)
+plot(counties$geometry, add = T, border=2)
 #-----------------
 #
 # calculate average buitup area (proportion) at county level
@@ -241,7 +240,7 @@ plot(EU_NUTS2)
 cropped <- terra::crop(year_2019, EU_NUTS2) # crop
 EU_NUTS2_rast <- terra::mask(cropped, EU_NUTS2) # mask to a defined polygon boundary
 terra::plot(EU_NUTS2_rast, main = "Built-up raster data")
-plot(EU_NUTS2$geometry, add = T)
+plot(EU_NUTS2$geometry, add = T, border=2)
 #
 EU_NUTS2$builtup <- exactextractr::exact_extract(
   x = year_2019, # source
@@ -275,8 +274,7 @@ EUpolygons <- st_as_sf(EUgrid)
 EUpolygons <- EUpolygons[st_is(EUpolygons,c("POLYGON", "MULTIPOLYGON")),] 
 EUpolygons$PolID <- 1:nrow(EUpolygons)
 EUpolygons
-EUpolygons <- as(EUpolygons,"Spatial") # fix sf structure
-EUpolygons <- st_as_sf(EUpolygons) # fix sf structure
+st_geometry(EUpolygons) <- "geometry"
 EUpolygons
 plot(EUpolygons)
 # can be used for exactextract - calculate values from satellite image to each hexagon

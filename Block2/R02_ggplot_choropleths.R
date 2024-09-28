@@ -13,13 +13,13 @@ rm(list = ls())
 #
 # Get the spatial data for NUTS regions in {sf} format
 options(readr.default_locale=readr::locale(tz="Europe/Berlin"))
-myMap <- eurostat::get_eurostat_geospatial(year="2013")
-# myMap <- giscoR::gisco_get_nuts(year = "2013")
-# myMap <-sf::st_read("datasets/NUTS_RG_60M_2013_4326.geojson")
+allNUTSmap <- eurostat::get_eurostat_geospatial(year="2013")
+# allNUTSmap <- giscoR::gisco_get_nuts(year = "2013")
+# allNUTSmap <-sf::st_read("datasets/NUTS_RG_60M_2013_4326.geojson")
 #
 #
 # Example of map for Germany - NUTS 2
-Germany_NUTS2 <- myMap %>%   
+Germany_NUTS2 <- allNUTSmap %>%   
   dplyr::filter(LEVL_CODE == 2 & CNTR_CODE %in% ("DE")) %>% 
   dplyr::select(NUTS_ID) # ggplot avoids "multiple" plotting (compare plot.sf) so we can drop this line
 # ggplot2 map
@@ -44,53 +44,47 @@ ggplot() +
 # .. Disposable income of private households by NUTS 2 regions
 # http://appsso.eurostat.ec.europa.eu/nui/show.do?dataset=tgs00026
 #
-Income.DF <- eurostat::get_eurostat("tgs00026", time_format = "num") 
+# Note: all observations are at the NUTS 2 level (only)
+#
+Income_DF <- eurostat::get_eurostat("tgs00026", time_format = "num") 
 # 
-Income.DF <- Income.DF %>% 
+Income_DF <- Income_DF %>% 
   mutate(unit = as.factor(unit),
          direct = as.factor(direct),
          na_item = as.factor(na_item))
 #
-summary(Income.DF) # single variable for differet CS and TS observations
-labels <- label_eurostat(Income.DF, fix_duplicated = T)
+summary(Income_DF) 
+labels <- label_eurostat(Income_DF, fix_duplicated = T)
 t(labels[1,])
 #
-# 2a) Simple filtering and plotting (one country, one year to be shown)
-myMap %>% 
-  dplyr::inner_join(Income.DF, by = c(  "NUTS_ID"="geo")) %>% 
+# 2) Simple filtering and plotting (one country, one year to be shown)
+allNUTSmap %>% 
+  dplyr::inner_join(Income_DF, by = c(  "NUTS_ID"="geo")) %>% 
   dplyr::filter(TIME_PERIOD == 2020 & CNTR_CODE == "DE") %>% 
   ggplot()+
-  geom_sf(aes(fill = values))
+   geom_sf(aes(fill = values))
 #  
 #
-# 2b) Advanced filtering, multiple steps, more versatility in output: 
-#    - Start by selecting data for NUTS2 level
-#    - just a single-step in data simplification,
-#      NOTE: we keep data for multiple time periods and multiple countries
-#            additional filtering is necessary for plotting infomaps
-Income.DF <- Income.DF %>% 
-  dplyr::filter(nchar(as.character(geo)) == 4) 
-# NUTS2 ID is 4-digit
-# note that the "nchar()" does nothing here as all data are NUTS2 already 
-# .. generally, NUTS1 and NUTS0 summarized data would be present in Eurostat datasets
-summary(Income.DF)
 #
-# 3) Merge with {sf} spatial data
+# 3) Advanced filtering and plotting (example, other approaches are possible)
+#
+# .. Start by merging economid data with {sf} spatial data
 # .. if you want LAEA geometry, use map-transformation before/after joining.
-# when joining sf and df object, sf object must go first to preserve (geometry), i.e. the sf format
-# here, inner_joins is used, because map contains different NUTS levels and we only need NUTS2.
-Income.sf <- myMap %>% 
-  dplyr::inner_join(Income.DF, by = c(  "NUTS_ID"="geo")) #   
-# note the number of rows: not all NUTS2 regions have data for all years
 #
-summary(Income.sf) # PPS/Hab for all NUTS2 regions and years + shapefiles
+# Note: 
+# when joining sf and df object, sf object must go first to preserve (geometry), i.e. the sf format
+#
+Income_SF <- allNUTSmap %>% 
+  dplyr::inner_join(Income_DF, by = c(  "NUTS_ID"="geo")) #   
+#
+Income_SF # PPS/Hab for all NUTS2 regions and all years + map on each row
 #
 #
 # 4) Plot the data 
 #
 #
 # 4a) Plot example:  2020 only, Germany only
-Plot1DF <- Income.sf%>%   
+Plot1DF <- Income_SF%>%   
   dplyr::filter(TIME_PERIOD == 2020 & CNTR_CODE %in% ("DE"))
 #
 head(Plot1DF) # we want to plot "values" using the "geometry" entries (on a map)
@@ -117,18 +111,27 @@ ggplot(Plot1DF) +
   ggtitle("PPS per Habitant") +
   theme_bw()
 # 
+# 4c) Previous plot, values centered around mean, divergent palette used
+Income_SF %>%   
+  dplyr::filter(TIME_PERIOD == 2020 & CNTR_CODE %in% ("DE")) %>% 
+  mutate(cenvals = values - mean(values)) %>% 
+  ggplot() +
+   geom_sf(aes(fill = cenvals)) +
+   scale_fill_gradientn('PPS/Hab', colours=brewer.pal(9, "RdBu"))+
+   ggtitle("PPS per Habitant") +
+   theme_bw()
 #
 #
-# 4c) Plot 2015 & 2020, Germany and Austria 
+# 4d) Plot 2015 & 2020, Germany and Austria 
 #
 # 1st DF with PPS information for the two countries (sf format)
-Plot2DF <- Income.sf %>%   
+Plot2DF <- Income_SF %>%   
   dplyr::filter(TIME_PERIOD %in% c(2015,2020) & CNTR_CODE %in% c("DE","AT"))
 head(Plot2DF) # note that data is in "long format"
 tail(Plot2DF) # some columns are redundant (geo/id...)
 #
 # 2nd DF with supplementary information to be used in the plot - NUTS0 borders.
-borders <- myMap %>%   
+borders <- allNUTSmap %>%   
   dplyr::filter(LEVL_CODE == 0 & CNTR_CODE %in% c("DE","AT")) %>%
   dplyr::select(NUTS_ID)
 #
@@ -139,9 +142,9 @@ ggplot(Plot2DF) +
   ggtitle("PPS per capita") +
   facet_wrap(~TIME_PERIOD, ncol=2)
 #
-# 4d) Plotting can be done in single pipeline (still, borders come from separate DF) :
+# 4e) Plotting can be done in single pipeline (still, borders come from separate DF) :
 #
-Income.sf%>%   
+Income_SF%>%   
   dplyr::filter(TIME_PERIOD %in% c(2015,2020) & CNTR_CODE %in% c("DE","AT")) %>% 
   ggplot() +
     geom_sf(aes(fill = values)) +
@@ -154,8 +157,8 @@ Income.sf%>%
 # Saving data to disk while maintaining spatial awareness
 # - compare to using write.csv()
 #
-Income.sf$FID <- NULL # https://github.com/qgis/QGIS/issues/34613
-st_write(Income.sf, dsn = "Income.gpkg")
+Income_SF$FID <- NULL # https://github.com/qgis/QGIS/issues/34613
+st_write(Income_SF, dsn = "Income.gpkg")
 #
 Inc2 <- st_read("Income.gpkg")
 head(Inc2)
@@ -166,7 +169,7 @@ head(Inc2)
 # Say, we want to plot the data for Germany, 2015
 # and distinguish only above-average from below-average (Germany-wide) values:
 #
-Plot5DF <- Income.sf%>%   
+Plot5DF <- Income_SF%>%   
   dplyr::filter(TIME_PERIOD == 2015 & CNTR_CODE %in% ("DE"))
 #
 meanVal <- mean(Plot5DF$values)
@@ -206,7 +209,7 @@ ggplot(Plot5DF) +
 # http://appsso.eurostat.ec.europa.eu/nui/show.do?dataset=tgs00026
 #
 # Plot 2015, Spain
-Plot3DF <- Income.sf%>%   
+Plot3DF <- Income_SF%>%   
   dplyr::filter(TIME_PERIOD %in% c(2015) & CNTR_CODE %in% c("ES"))
 Plot3DF
 #
@@ -225,11 +228,11 @@ ggplot(Plot3DF) +
 #
 #
 # Plot 2015, Spain & Portugal, add state border-lines
-Plot4DF <- Income.sf%>%   
+Plot4DF <- Income_SF%>%   
   dplyr::filter(TIME_PERIOD %in% c(2015) & CNTR_CODE %in% c("ES","PT"))
 Plot4DF
 #
-borders <- myMap %>%   
+borders <- allNUTSmap %>%   
   dplyr::filter(LEVL_CODE == 0 & CNTR_CODE %in% c("ES","PT")) %>%
   dplyr::select(NUTS_ID)
 #
@@ -260,9 +263,9 @@ ggplot() + # note the changed data argument...
 ## Map with inset object (Canary Islands) - a simplified example
 #
 # Plot4DF repeated (in case "changed" during Q.E.2)
-Plot4DF <- Income.sf%>%   
+Plot4DF <- Income_SF%>%   
   dplyr::filter(TIME_PERIOD %in% c(2015) & CNTR_CODE %in% c("ES"))
-borders <- myMap %>%   
+borders <- allNUTSmap %>%   
   dplyr::filter(LEVL_CODE == 0 & CNTR_CODE %in% c("ES")) %>%
   dplyr::select(NUTS_ID)
 #
