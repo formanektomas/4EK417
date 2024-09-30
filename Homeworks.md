@@ -52,6 +52,21 @@ Bonusový úkol (2b): Quick exercise: 3 ze skriptu `R06_dplyr.Rmd` (poslední p�
 
 ---
 
+## Týden 3 (odevzdání do 6. 10.)
+
+Vizualizace prostorových dat v R - kartogram (infomapa)
+
+* K vizualizaci použijte dva různé datasety: jeden může vycházet z úkolu pro minulý týden, druhý dataset si opět zvolte/vyhledejte na Eurostatu (nebo použijte jiný vhodný zdroj dat).
+
+* Pro Vámi vybrané proměnné zobrazte infomapu, např. podle vzoru ze skriptu `R02_ggplot_choropleths.R`   
+    + Zobrazte alespoň čtyři různé infomapy: použijte různé projekce, různá časová období (použijte fazety), odlišné NUTS úrovně, zobrazte proměnné pro různé sledované skupiny (věkové skupiny, skupiny podle vzdělání, pohlaví, atd.).  
+    + Pokud pracujete se státy jako Francie nebo Španělsko, je vhodné z datasetu odstranit zámořská území (nebo ohraničit oblast zobrazovanou na mapě). 
+    + Před vizualizací dat v `ggplot()` zkontrolujte rozměr datasetu.
+    + Použití dat z Eurostatu není podmínkou, lze využít WDI nebo jinou databázi
+
+
+---  
+
 
 
 [Homepage](https://formanektomas.github.io/4EK417/)
