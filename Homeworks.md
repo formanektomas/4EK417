@@ -71,8 +71,7 @@ Vizualizace prostorových dat v R - kartogram (infomapa)
 
 Interpolace prostorových dat
 
-* Vyřešte úlohu ze skriptu `R06b_Complex_spatial_interpolation_example.Rmd` a odevzdejte ve zkompilovaném formátu (html/docx/pdf).
-* 
+* Vyřešte úlohu ze skriptu `R06b_Complex_spatial_interpolation_example.Rmd` a odevzdejte ve zkompilovaném formátu (html/docx/pdf).  
 * Před zpracováním dat je vhodné podrobně si přečíst doprovodné informace a návod ze skriptu.
 `
 
