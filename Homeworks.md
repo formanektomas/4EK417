@@ -67,6 +67,16 @@ Vizualizace prostorových dat v R - kartogram (infomapa)
 
 ---  
 
+## Týden 4 (odevzdání do 13. 10.)
+
+Interpolace prostorových dat
+
+* Vyřešte úlohu ze skriptu `R06b_Complex_spatial_interpolation_example.Rmd` a odevzdejte ve zkompilovaném formátu (html/docx/pdf).
+* 
+* Před zpracováním dat je vhodné podrobně si přečíst doprovodné informace a návod ze skriptu.
+`
+
+---  
 
 
 [Homepage](https://formanektomas.github.io/4EK417/)
