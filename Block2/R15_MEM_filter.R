@@ -10,6 +10,7 @@
 # Data, data description & plots
 library(dplyr)
 library(eurostat)
+library(sp)
 library(sf)
 library(ggplot2)
 library(RColorBrewer)
@@ -52,7 +53,7 @@ plot(CE_data[ , c(4,7,8)])
 #
 # (a) coordinates and IDs
 coords <- CE_data[,c("long", "lat")]
-coords <- coordinates(coords)
+coords <- sp::coordinates(coords)
 IDs <- CE_data$NUTS_ID
 # (b) identify neighbors given tau distance threshold
 nb250km <- dnearneigh(coords, d1=0, d2=250, longlat=T, row.names = IDs)
@@ -79,7 +80,7 @@ df20 <- giscoR::gisco_get_nuts(year="2010")
 MEM.sf <- df20 %>%
   dplyr::inner_join(M1.df[,c(1:9,28)], by = c("NUTS_ID" = "IDs"))  
 #
-map.df.l <- melt(data = MEM.sf, id.vars = c("NUTS_ID", "geometry", "FID"), 
+map.df.l <- melt(data = MEM.sf, id.vars = c("NUTS_ID", "geometry"), 
                  measure.vars = c("V1", "V2", "V3","V4", "V5", "V6","V7", "V8", "V9"))
 # Plot the data 
 ggplot(map.df.l) + # map.df.l is not an sf object (dataframe)
