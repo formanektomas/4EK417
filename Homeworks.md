@@ -78,4 +78,21 @@ Interpolace prostorových dat
 ---  
 
 
+## Týden 5 (odevzdání do 20. 10.)
+
+Testování prostorové (ne)závislosti a shluková analýza    
+
+* Pro tento úkol lze použít data (tj. regiony), která jste stáhli v rámci úkolu v předchozích týdnech, pokud má výběr alespoň 50 pozorování. V opačném případě (malý výbět) najděte jiný dataset (ideálně na úrovni NUTS2 nebo NUTS3), abyste měli dostatek pozorování pro analýzu.  
+
++ Zvolte jednu proměnnou (a jedno období pozorování - co nejblíže roku 2024 - a proveďte **Moranův test** na prostorovou nezávislost.  
+
++ Použijte alespoň dva různé způsoby definice prostorové struktury (vzdálenost, vzdálenost + kNN, společná hranice) k ověření robustnosti výsledků vůči změnám prostorové struktury.  
+
++ Proveďte shlukovou analýzu (alespoň jeden typ výstupu) - jako vodítko můžete použít skript `R09_LISA_and_clusters.R` z bloku 2.  
+
+
++ Slovně okomentujte výsledky (interpretujte výsledek testu).  
+
+---  
+
 [Homepage](https://formanektomas.github.io/4EK417/)
