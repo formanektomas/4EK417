@@ -95,4 +95,16 @@ Testování prostorové (ne)závislosti a shluková analýza
 
 ---  
 
+## Týden 6 (odevzdání do 8. 11.)
+
+Zpracujte rozšířený abstrakt své seminární práce - popište vybrané téma (motivace, výzkumný záměr), popište data, popište preferovanou odhadovou metodu. Jaký je Váš konkrétní cíl? Jaké vidíte potenciální problémy či komplikace? Případně uveďte zpracovaný model a/nebo dílčí výstupy odhadu. Rozsah 1-2 strany A4 (cca 400-800 slov).   
+- V případě nejasností konzultujte svůj záměr prostřednictvím e-mailu nebo během KH.
+- Upozorňuji, že termín odevzdání vybočuje z běžného režimu (neděle před cvičením).  
+- Hodnoceno pěti body, jako standardní týdenní úkol.
+
+
+
+
+---  
+
 [Homepage](https://formanektomas.github.io/4EK417/)
