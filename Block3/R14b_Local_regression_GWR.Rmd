@@ -13,8 +13,6 @@ knitr::opts_chunk$set(echo = TRUE)
 library(tidyverse)  
 library(sf)
 library(sp)
-library(rgdal)
-library(rgeos)
 library(tmap)
 library(tmaptools)
 library(spgwr)
@@ -37,7 +35,7 @@ options(prompt="R> ", digits=4, scipen=999)
 - Visualize output
 
 
-# Preliminary materials
+# General introduction
 
 - [Introduction to locally weighted regressions](https://youtu.be/Vf7oJ6z2LCc)
 - [Introduction to Geographically Weighted Regressions](https://youtu.be/CpH8B2SiqdM) 
