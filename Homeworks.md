@@ -103,6 +103,26 @@ Zpracujte rozšířený abstrakt své seminární práce - popište vybrané té
 - Hodnoceno pěti body, jako standardní týdenní úkol.
 
 
+## Týden 9 (odevzdání do 22.11.)
+
+* Stepwise a penalizovaná regrese
+  
+* **Upozornění:** zapomněl jsem úkol z týdne 9 zadat včas do insisu a na web kurzu. Termín odevzdání je proto posunut do pátku 22.11., abyste měli čas na vypracování. Děkuji za pochopení.
+
+*  Každý si vyberte vhodný dataset, například ze seznamu zde:  
+    + https://vincentarelbundock.github.io/Rdatasets/datasets.html
+    + Vyberete-li jiný dataset, srozumitelně popište data.
+    + Závislou proměnnou pro svůj model pečlivě vybírejte, v kontextu datasetu Váš výběr musí dávat smysl -- výběr zdůvodněte.
+    + Vybírejte takový dataset, abyste kromě závislé proměnné měli alespoň dalších 10+ potenciálních regresorů.
+
+* Proveďte stepwise regresi, použijte alespoň dvě varianty výběru (best subset, forward, backwards)
+ 
+* Proveďte tzv. penalizovanou regresi (alespoň jednu z variant: ridge, LASSO, elastic net).
+
+* Popište/vyhodnoťte predikční vlastnosti.
+
+
+
 
 
 ---  
