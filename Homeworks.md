@@ -102,6 +102,7 @@ Zpracujte rozšířený abstrakt své seminární práce - popište vybrané té
 - Upozorňuji, že termín odevzdání vybočuje z běžného režimu (neděle před cvičením).  
 - Hodnoceno pěti body, jako standardní týdenní úkol.
 
+---  
 
 ## Týden 9 (odevzdání do 22.11.)
 
@@ -121,8 +122,11 @@ Zpracujte rozšířený abstrakt své seminární práce - popište vybrané té
 
 * Popište/vyhodnoťte predikční vlastnosti.
 
+---  
 
+## Týden 10 (odevzdání do 24.11.)
 
+Zpracujte úkol podle zadání ve skriptu `R16_GAM_diamonds_example.R` z Bloku 3 (odevzdejte ve zkompilované markdown podobě (pdf, html, Word).
 
 
 ---  
