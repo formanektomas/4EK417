@@ -129,6 +129,14 @@ Zpracujte rozšířený abstrakt své seminární práce - popište vybrané té
 Zpracujte úkol podle zadání ve skriptu `R16_GAM_diamonds_example.R` z Bloku 3 (odevzdejte ve zkompilované markdown podobě (pdf, html, Word).
 
 
+--- 
+
+
+## Týden 11 (odevzdání do 1.12.)  
+
+* Zpracujte úkol ze skriptu `R06_LME_wagepanel_hierarchical_data.R`, komentujte výsledky (odevzdejte ve zkompilované markdown podobě (pdf, html, Word).    
+
+
 ---  
 
 [Homepage](https://formanektomas.github.io/4EK417/)
