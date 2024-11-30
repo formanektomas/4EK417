@@ -33,9 +33,9 @@ Log.T <- Log.T[, order(colnames(Log.T), decreasing=T)]
 Log.T
 # for p-hat => 0.5, we predict "success" (default)
 cat("Overall Correct Classification Ratio:", round((Log.T[1,1]+Log.T[2,2])/nrow(data), 3)) 
-cat("Correct Classification ratio for Actual = 1 (in labor force):", 
+cat("Correct Classification ratio for Actual = 1 (default yes):", 
            round(Log.T[1,1]/(sum(Log.T[,1])),3) )
-cat("Correct Classification ratio for Actual = 0 (not in labor force):", 
+cat("Correct Classification ratio for Actual = 0 (default no):", 
            round(Log.T[2,2]/(sum(Log.T[,2])),3) )
 #
 #
@@ -50,9 +50,9 @@ Table.2 <- Table.2[order(rownames(Table.2), decreasing=T),]
 Table.2 <- Table.2[, order(colnames(Table.2), decreasing=T)]
 Table.2
 cat("Overall Correct Classification Ratio:", round((Table.2[1,1]+Table.2[2,2])/nrow(data), 3)) 
-cat("Correct Classification ratio for Actual = 1 (in labor force):", 
+cat("Correct Classification ratio for Actual = 1 (default yes):", 
     round(Table.2[1,1]/(sum(Table.2[,1])),3) )
-cat("Correct Classification ratio for Actual = 0 (not in labor force):", 
+cat("Correct Classification ratio for Actual = 0 (default no):", 
     round(Table.2[2,2]/(sum(Table.2[,2])),3) )
 #
 #
@@ -209,9 +209,9 @@ Table.3 <- Table.3[order(rownames(Table.3), decreasing=T),]
 Table.3 <- Table.3[, order(colnames(Table.3), decreasing=T)]
 Table.3
 cat("Overall Correct Classification Ratio:", round((Table.3[1,1]+Table.3[2,2])/nrow(data), 3))
-cat("Correct Classification ratio for Actual = 1 (in labor force):", 
+cat("Correct Classification ratio for Actual = 1 (default yes):", 
     round(Table.3[1,1]/(sum(Table.3[,1])),3) )
-cat("Correct Classification ratio for Actual = 0 (not in labor force):", 
+cat("Correct Classification ratio for Actual = 0 (default no):", 
     round(Table.3[2,2]/(sum(Table.3[,2])),3) )
 # Comparison of confusion matrices:
 Table.3 # cutoff at yhat = 0.4288332
