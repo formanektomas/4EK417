@@ -137,6 +137,15 @@ Zpracujte úkol podle zadání ve skriptu `R16_GAM_diamonds_example.R` z Bloku 3
 * Zpracujte úkol ze skriptu `R06_LME_wagepanel_hierarchical_data.R`, komentujte výsledky (odevzdejte ve zkompilované markdown podobě (pdf, html, Word).    
 
 
+--- 
+
+
+## Týden 12 (odevzdání do 15. 12.)
+
+* Podle instrukcí ze cvičení dokončete skript `R08_Interaction_Terms_Logit.R` z bloku 4 - sekci "Assignment 1".  
+* Podle postupu ze cvičení použijte interakční členy vyššího řádu, nejen párové interakční členy.  
+
+
 ---  
 
 [Homepage](https://formanektomas.github.io/4EK417/)
