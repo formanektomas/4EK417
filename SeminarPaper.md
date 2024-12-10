@@ -33,7 +33,7 @@ layout: default
   - přidělení seminárek k hodnocení: **do 1. 12.**  
   - odevzdání vyplněných recenzních formulářů: **do 8. 12.**  
 
-* Zapracování připomínek z peer review a odevzdání závěrečné verze seminární práce - termín **3.1.2025.**  
+* Zapracování připomínek z peer review a odevzdání závěrečné verze seminární práce - termín **15.1.2025.**  
 
 ---  
 
