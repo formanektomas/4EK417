@@ -25,15 +25,15 @@ layout: default
 
 # Seminární práce (harmonogram odevzdání)
 
-* **Odsouhlasení tématu** seminární práce s vyučujícím: prostřednictvím e-mailu, během 8. týdne: **do 8.11.**.
+* **Odsouhlasení tématu** seminární práce s vyučujícím: prostřednictvím e-mailu, během 8. týdne: **do 11. 2.**.
 
-* Studenti zpracují a odevzdají seminární práci individuálně, během 11. týdne: **do 29.11.**.  
+* Studenti zpracují a odevzdají seminární práci individuálně, během 11. týdne: **do 2. 5.**.  
  
 * Každý student provede peer review (vzájemné hodnocení): dvou dalších seminárních prací
-  - přidělení seminárek k hodnocení: **do 1. 12.**  
-  - odevzdání vyplněných recenzních formulářů: **do 8. 12.**  
+  - přidělení seminárek k hodnocení: **do 4. 5.**  
+  - odevzdání vyplněných recenzních formulářů: **do 9. 5.**  
 
-* Zapracování připomínek z peer review a odevzdání závěrečné verze seminární práce - termín **15.1.2025.**  
+* Zapracování připomínek z peer review a odevzdání závěrečné verze seminární práce - termín **31.5.2025.**  
 
 ---  
 
@@ -41,9 +41,9 @@ layout: default
 
 1. Ekonometrická analýza makroekonomických či mikroekonomických dat pomocí metod, probíraných na kurzu (stepwise regrese není vhodné téma SP).  
 2. Zpracování existující (již publikované) vědecké studie (Journal article, Working paper) nebo její části.  
-   - aplikace (a zjednodušení) postupu na ekonomiku vybranou ekonomiku (ČR, SR, atd.).
-3. Jiný typ seminární práce, vycházející z analýzy v prostředí R  
-4. Odhad modelů vycházejících z učebnice APLIKOVANÁ EKONOMETRIE (Hušek, 2009), mimo kapitoly 8 (VAR, VECM) a 9 (ARCH, GARCH a odvozené modely). 
+   - aplikace (a zjednodušení) postupu na ekonomiku vybranou ekonomiku (ČR, SR, atd.).  
+3. Aplikační část DP, případně jiný typ seminární práce, vycházející z analýzy v prostředí R.    
+4. Odhad modelů vycházejících z učebnice APLIKOVANÁ EKONOMETRIE (Hušek, 2009), mimo kapitoly 8 (VAR, VECM) a 9 (ARCH, GARCH a odvozené modely).   
 
 --- 
 
@@ -77,7 +77,8 @@ layout: default
     - Přehled literatury (odborné články, ne standardní učebnice VŠE typu mikro/makro)  
 3. Aplikace modelu (2-3 s).  
     - Popis zvoleného modelu,  
-    - Problematika aplikace modelu s ohledem na dostupná data,  
+    - Problematika aplikace modelu s ohledem na dostupná data,
+    - Použité testy (významnost modelu, heteroskedasticita, prostorové testy, atd.),
     - Jiná specifika a omezující faktory.  
 4. Výsledky a interpretace	(cca 7 s).   
 5. Závěr	(1 s).  
