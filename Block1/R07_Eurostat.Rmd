@@ -172,8 +172,11 @@ Using the `Un.DF`, perform the following data handling (mostly filtering):
 
 ```{r}
 Un.DF %>% 
-  filter(age == "Y15-74", TIME_PERIOD >= 2010, sex == "T", isced11 == "TOTAL") %>% 
-  filter(geo %in% c("AT","CZ","DE","HU","PL","SK")) %>% 
+  filter(age == "Y15-74", 
+         TIME_PERIOD >= 2010, 
+         sex == "T", 
+         isced11 == "TOTAL",
+         geo %in% c("AT","CZ","DE","HU","PL","SK")) %>% 
   ggplot(aes(x = TIME_PERIOD, y = values, colour = geo))+ # plot filtered data
     geom_line()+ # choose plot type
     ggtitle("Unemployment rates")+ # Define main title
@@ -224,7 +227,10 @@ The following tasks (filtering) will be performed:
 geodata <- get_eurostat_geospatial(nuts_level = "2")
 # Filter Unemployment dataset for the year 2017
 Un.2017 <- Un.DF %>% 
-  filter(age == "Y15-74", TIME_PERIOD == 2017, sex == "T", isced11 == "TOTAL") %>% 
+  filter(age == "Y15-74", 
+         TIME_PERIOD == 2017, 
+         sex == "T", 
+         isced11 == "TOTAL") %>% 
   filter(nchar(as.character(geo)) == 4) %>% # NUTS2 regions have a 4-digit id
   mutate(NUTS0 = substr(as.character(geo), start=1, stop=2)) %>% # retrieve NUTS0 id from NUTS2
   filter(NUTS0 %in% c("AT","CZ","DE","HU","PL","SK")) 
@@ -253,8 +259,11 @@ ggplot()+
 
 ```{r}
 Un.DF %>% 
-  filter(age == "Y15-74", TIME_PERIOD >= 2010, sex == "T", isced11 == "TOTAL") %>% # filter variables
-  filter(geo %in% c("AT","CZ","DE","HU","PL","SK")) %>% # subset of countries
+  filter(age == "Y15-74", 
+         TIME_PERIOD >= 2010, 
+         sex == "T", 
+         isced11 == "TOTAL",
+         geo %in% c("AT","CZ","DE","HU","PL","SK")) %>% 
   head(10)
 ```
 
@@ -265,8 +274,11 @@ Un.DF %>%
 ```{r}
 # Step 1 - wider format
 Unempl <- Un.DF %>% 
-  filter(age == "Y15-74", TIME_PERIOD >= 2010, sex == "T", isced11 == "TOTAL") %>% # filter variables
-  filter(geo %in% c("AT","CZ","DE","HU","PL","SK")) %>% # subset of countries
+  filter(age == "Y15-74", 
+         TIME_PERIOD >= 2010, 
+         sex == "T", 
+         isced11 == "TOTAL",
+         geo %in% c("AT","CZ","DE","HU","PL","SK")) %>% 
   pivot_wider(names_from = "geo", values_from = "values") # convert to wider format
 head(Unempl) # wider format, not a TS/zoo object
 #
@@ -302,8 +314,11 @@ Un.Q %>%
   summary()
 # Plot unemployment of foreigners (%)
 Un.Q <- Un.Q %>% 
-  filter(age == "Y15-74", TIME_PERIOD >= 2010, sex == "T", citizen == "FOR") %>% # filter variables
-  filter(geo %in% c("AT","CZ","DE")) %>% # subset of countries
+  filter(age == "Y15-74", 
+         TIME_PERIOD >= 2010, 
+         sex == "T", 
+         citizen == "FOR",
+         geo %in% c("AT","CZ","DE")) %>%
   pivot_wider(names_from = "geo", values_from = "values") # convert to wide format
 head(as.data.frame(Un.Q)) # wide format, not a TS object
 # Note the "order.by = as.yearqtr" syntax
