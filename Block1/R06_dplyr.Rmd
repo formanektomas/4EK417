@@ -159,8 +159,8 @@ NUTS2.DF %>%
 * we don't need to explicitly include the data frame as an argument to the `filter()` and `select()` functions any more.
 
 * In the above code, we use the pipe to send the `NUTS2.DF` dataset first through `filter()` to keep rows where `Year` is $\leq$ 2011 AND `NUTS0 == "SI"`, then through `select()` to keep only the `Year`, `NUTS2` and `TotPopNr` columns. 
-    * In our example, you can reverse the steps and still get the same results. 
-    * However, this is not a general case & the **ordering of steps matters!**
+    * In our example, you cannot reverse the steps - if you 'select()' first, there is `NUTS0` to use for filtering. 
+    * **Ordering of steps matters!** (there are special cases when change in order does not affect the output).
 
 * Some may find it helpful to read the pipe like the word **then**. 
 
@@ -203,7 +203,7 @@ Complete `R` script below, based on the `NUTS2.DF` data frame:
 # For Slovenia, calculate GDP per capita (in EUR)
 NUTS2.DF %>%
   filter(NUTS0 == "SI") %>%
-  mutate(GDPpc = (GDP_MIO_EUR/TotPopNr)*1000000) %>% # conversion to EUR from mioEUR
+  mutate(GDPpc = (GDP_MIO_EUR/TotPopNr)*1000000) %>% # conversion to EUR from mioEUR, can use *1e6 as well
   head(10) # pipes work with non-dplyr commands as well (if dplyr is loaded)
 ```
 

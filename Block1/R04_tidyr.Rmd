@@ -1,5 +1,5 @@
 ---
-title: "Wide(r) and long(er) data formats - tranformations using `{tidyr}`"
+title: "Wide(r) and long(er) data formats - transformations using `{tidyr}`"
 output: html_document
 ---
 
