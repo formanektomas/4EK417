@@ -75,8 +75,7 @@ wageData <- read.csv("datasets/wage1.csv")
 # 1) From "wage1.csv", we only retrieve a small data sample, n=50
 #    for further estimation
 # 
-# 2) In our n=50 sample, we simulate 6 and 5 MCAR observations in 2 regressors 
-#    (10 missing values total).
+# 2) In our n=50 sample, we simulate 6 and 5 MCAR observations in 2 regressors. 
 #
 # B) Estimation & model comparison
 #
@@ -129,7 +128,7 @@ mcar.ms[sample3, "tenure"] <- tenure.mean     #
 #
 LRM.ms <- lm(lwage~educ+tenure+female+south, data = mcar.ms)
 summary(LRM.ms)
-# Compare the three models: coefficients and VIFs
+# Compare the coefficients 
 library(lmtest)
 coeftest(LRM.bench) # benchmark
 coeftest(LRM.cc)    # missing data -> negative impact on statistical significance 
@@ -218,8 +217,8 @@ stripplot(imputed.data, pch = 20, cex = 1.2)
 # .. Note how the pmm-based imputed points follow the blue points,
 #
 # Estimation of a model using MI:
-?with
-LRM.mice <- with(imputed.data, lm(mcar.mice$lwage~educ+tenure+female+south))
+?base::with
+LRM.mice <- base::with(imputed.data, lm(mcar.mice$lwage~educ+tenure+female+south))
 # .. ~educ+tenure+female+south come from the "imputed.data"
 # .. note how depvar is taken from the original data frame
 #
