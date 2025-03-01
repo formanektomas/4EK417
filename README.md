@@ -75,6 +75,7 @@ University of Economics, Prague
 - [Rowe and Arribas-Bel, Spatial Modelling for Data Scientists - a textbook](https://gdsl-ul.github.io/san/)  
 - [Simple Features for R](https://r-spatial.github.io/sf/)  
 - [GADM maps and data](https://gadm.org/)  
+- [uber hexagons in R](https://cran.r-project.org/web/packages/h3jsr/vignettes/intro-to-h3jsr.html)  
 - [Interactive Course using mgcv (ch. 3)](https://noamross.github.io/gams-in-r-course/)  
 - R Package **RCzechia** : run `install.packages("RCzechia")`  
 - [Spatial autocorrelation - RPubs tutorial](https://rpubs.com/quarcs-lab/spatial-autocorrelation)  
