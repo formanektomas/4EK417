@@ -46,6 +46,21 @@ Zkompilovaný html/pdf/docx soubor odevzdejte prostřednictvím odevzdávárny v
     - Úkol může být založen na postupech ze skriptu `R07_Eurostat.Rmd` (ale nepoužívejte přímo datasety z tohoto skriptu).  
     - Doprovoďte Váš výstup stručným slovním komentářem (popište zvolené proměnné).  
 
+---
+
+## Týden 3 (odevzdání do 9. 3.)
+
+Vizualizace prostorových dat v R - kartogram (infomapa)
+
+* K vizualizaci použijte dva různé datasety: jeden může vycházet z úkolu pro minulý týden, druhý dataset si opět zvolte/vyhledejte na Eurostatu (nebo použijte jiný vhodný zdroj dat).
+
+* Pro Vámi vybrané proměnné zobrazte infomapu, např. podle vzoru ze skriptu `R02_ggplot_choropleths.R`   
+    + Zobrazte alespoň čtyři různé infomapy: použijte různé projekce, různá časová období (použijte fazety), odlišné NUTS úrovně, zobrazte proměnné pro různé sledované skupiny (věkové skupiny, skupiny podle vzdělání, pohlaví, atd.).  
+    + Pokud pracujete se státy jako Francie nebo Španělsko, je vhodné z datasetu odstranit zámořská území (nebo ohraničit oblast zobrazovanou na mapě). 
+    + Před vizualizací dat v `ggplot()` zkontrolujte rozměr datasetu.
+    + Použití dat z Eurostatu není podmínkou, lze využít WDI nebo jinou databázi
+
++ **Bonus:** pokud pro zobrazení infomapy vyjdete z rasterových dat (vzdálené snímkování, viz skript `R03_raster_data.R`) můžete získat dva body navíc. Podmínkou je použití jiného rasteru a jiného státu, než se kterým jsme pracovali na cvičení.
 
 
 ---  
