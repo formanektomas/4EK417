@@ -63,6 +63,18 @@ Vizualizace prostorových dat v R - kartogram (infomapa)
 + **Bonus:** pokud pro zobrazení infomapy vyjdete z rasterových dat (vzdálené snímkování, viz skript `R03_raster_data.R`) můžete získat dva body navíc. Podmínkou je použití jiného rasteru a jiného státu, než se kterým jsme pracovali na cvičení.
 
 
+===  
+
+## Týden 4 (odevzdání do 16. 3.)
+
+Interpolace prostorových dat
+
+* Vyřešte úlohu ze skriptu `R06b_Complex_spatial_interpolation_example.Rmd` a odevzdejte ve zkompilovaném formátu (html/docx/pdf).  
+* Před zpracováním dat je vhodné podrobně si přečíst doprovodné informace a návod ze skriptu.
+
+
+
+
 ---  
 
 [Homepage](https://formanektomas.github.io/4EK417/)
