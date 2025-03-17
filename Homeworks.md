@@ -72,6 +72,21 @@ Interpolace prostorových dat
 * Vyřešte úlohu ze skriptu `R06b_Complex_spatial_interpolation_example.Rmd` a odevzdejte ve zkompilovaném formátu (html/docx/pdf).  
 * Před zpracováním dat je vhodné podrobně si přečíst doprovodné informace a návod ze skriptu.
 
+---  
+
+## Týden 5 (odevzdání do 23. 3.)
+
+Testování prostorové (ne)závislosti a shluková analýza    
+
+* Pro tento úkol lze použít data (tj. regiony), která jste stáhli v rámci úkolu v předchozích týdnech, pokud má výběr alespoň 40 pozorování. V opačném případě (malý výbět) najděte jiný dataset (ideálně na úrovni NUTS2 nebo NUTS3), nebo upravte filtrování jednotek, abyste měli dostatek pozorování pro analýzu.  
+
++ Zvolte alespoň jednu proměnnou (a jedno období pozorování - co nejblíže roku 2025) a proveďte **Moranův test** na prostorovou nezávislost.  
+
++ Použijte alespoň dva různé způsoby definice prostorové struktury (vzdálenost, vzdálenost + kNN, společná hranice) k ověření robustnosti výsledků vůči změnám prostorové struktury.  
+
++ Proveďte shlukovou analýzu (alespoň jeden typ výstupu) - jako vodítko můžete použít skript `R09_LISA_and_clusters.R`.  
+
++ Slovně okomentujte výsledky.  
 
 
 
