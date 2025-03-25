@@ -90,6 +90,22 @@ Testování prostorové (ne)závislosti a shluková analýza
 
 
 
+--- 
+
+## Týden 6 (odevzdání do 30. 3.) 
+
+Vypracujte `Quick Exercise`, začínající na řádku 90 skriptu `R11_Direct_Indirect_Effects.R`. 
+Proveďte následující kroky:
+
+- Sestavte matici sousednosti **C** a matici prostorových vah **W** podle zadání (kNN).  
+- Proveďte diagnostický test (SAR nebo SER model)  
+- Odhadněte prostorový model  
+- Vygemerujte tabulku mezních efektů a popište výsledky  
+- Otestujte reziduální složku modelu na prostorovou nezávislost (popište výsledek testu)  
+- Nezapomeňte kód překlopit do `Rmd` formátu a odevzdat ve *zkompilované podobě*   
+
+
+
 ---  
 
 [Homepage](https://formanektomas.github.io/4EK417/)
