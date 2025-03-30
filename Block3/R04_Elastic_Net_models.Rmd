@@ -161,7 +161,7 @@ For lower lambda values, at some point, the *MSE* kind of levels off. The plot s
 
 There's a coefficient function extractor that works on a cross validation object and picks the coefficient vector corresponding to the best model:
 
- + Note: beta coefficients from ridge regression are not marginal effects (as in OLS)  
+ + Note: beta coefficients from ridge regression are not unbiased estimates of marginal effects (as in OLS)  
 
 ```{r}
 coef(cv.ridge, s="lambda.min") # alternatively, use "lambda.1se"
