@@ -25,7 +25,7 @@ layout: default
 
 # Seminární práce (harmonogram odevzdání)
 
-* **Odsouhlasení tématu** seminární práce s vyučujícím: prostřednictvím e-mailu, během 8. týdne: **do 6. 4.**.
+* **Odsouhlasení tématu** seminární práce s vyučujícím: prostřednictvím e-mailu, během 8. týdne: **do 13. 4.**.
 
 * Studenti zpracují a odevzdají seminární práci individuálně, během 11. týdne: **do 2. 5.**.  
  
