@@ -104,7 +104,19 @@ Proveďte následující kroky:
 - Otestujte reziduální složku modelu na prostorovou nezávislost (popište výsledek testu)  
 - Nezapomeňte kód překlopit do `Rmd` formátu a odevzdat ve *zkompilované podobě*   
 
+--- 
 
+## Týden 7 (odevzdání do 6. 4.)
+
+*  Každý si vyberte vhodný dataset, například ze seznamu zde:  
+    + https://vincentarelbundock.github.io/Rdatasets/datasets.html  
+    + Vyberete-li jiný dataset, srozumitelně popište data.  
+    + Závislou proměnnou pro svůj model pečlivě vybírejte, v kontextu datasetu Váš výběr odhadovaného musí dávat smysl -- výběr zdůvodněte.  
+    + Vybírejte takový dataset, abyste kromě závislé proměnné měli alespoň dalších 10+ potenciálních regresorů -- aby použití penalizované regrese dávalo smysl.  
+
+* Odhadněte modely pomocí penalizované regrese, např. podle skriptu: `R04_Elastic_Net_models.Rmd`  
+    * Proveďte alespoň dvě varianty odhadu (ridge, LASSO, elastic net)  
+    * Popište/vyhodnoťte predikční vlastnosti.  
 
 ---  
 
