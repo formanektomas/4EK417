@@ -118,6 +118,20 @@ Proveďte následující kroky:
     * Proveďte alespoň dvě varianty odhadu (ridge, LASSO, elastic net)  
     * Popište/vyhodnoťte predikční vlastnosti.  
 
+--- 
+
+## Týden 8 (odevzdání do 27. 4.)
+
+* Pro tento úkol můžete vyjít z dat, která jste použili v předchozím úkolu   
+*  Každý si vyberte vhodný dataset, například ze seznamu zde:  
+    + https://vincentarelbundock.github.io/Rdatasets/datasets.html
+    + Vyberete-li jiný dataset, srozumitelně popište data.
+      
+* S využitím svého datasetu odhadněte GAM model - specifikace modelu podle vlastního uvážení.  
+* Použijte alespoň 3 různé specifikace (kombinace smoothning splines, local regression).  
+* Proveďte diagnostické testy GAM modelu podle vzoru z cvičení, testy interpretujte a model podle potřeby upravte.  
+
+
 ---  
 
 [Homepage](https://formanektomas.github.io/4EK417/)
