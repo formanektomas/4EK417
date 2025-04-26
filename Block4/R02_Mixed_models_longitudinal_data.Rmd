@@ -163,7 +163,9 @@ summary(child.mod2a)
 ```{r}
 child.mod2a<-lme(weight~age+I(age^2),random = list(id=pdDiag(~age)),data=child)
 summary(child.mod2a) # Estimated fixed effects do not differ much from "mod2"
-anova(child.mod2a, child.mod2) # Compare the two models using F-test
+m2 <- update(child.mod2a,method="ML") # restricted
+m1 <- update(child.mod2,method="ML") # unrestri
+anova(m1, m2) # Compare the two models using F-test
 ```
 
 The $p$-value shows that we do not reject the null hypothesis, i.e. correlation is assumed zero. 
