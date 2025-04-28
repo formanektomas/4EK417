@@ -131,6 +131,15 @@ Proveďte následující kroky:
 * Použijte alespoň 3 různé specifikace (kombinace smoothning splines, local regression).  
 * Proveďte diagnostické testy GAM modelu podle vzoru z cvičení, testy interpretujte a model podle potřeby upravte.  
 
+---
+
+## Týden 9 (odevzdání do 4. 5.)
+
+* Doplňte (vyřešte zadání) ze skriptu `R06_LME_wagepanel_hierarchical_data.R`
+* Uvažujte náhodné efekty na úrovni federálních států USA
+* Nezapomeňte kód překlopit do `Rmd` formátu a odevzdat ve *zkompilované podobě*   
+
+
 
 ---  
 
