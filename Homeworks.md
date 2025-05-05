@@ -143,7 +143,7 @@ Proveďte následující kroky:
 
 ## Týden 10 (odevzdání do 11. 5.)
 
-* Podle instrukcí ze cvičení dokončete skript `R08_Interaction_Terms_Logit.R` z bloku 4 - sekci "Assignment 1".  
+* Podle instrukcí ze cvičení dokončete skript `R08_Interaction_Terms_Logit.R` z bloku 5 - sekci "Assignment 1".  
 * Podle postupu ze cvičení použijte interakční členy vyššího řádu, nejen párové interakční členy.  
 * Nezapomeňte kód překlopit do `Rmd` formátu a odevzdat ve *zkompilované podobě*   
 
