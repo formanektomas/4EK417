@@ -28,7 +28,7 @@ Obecná doporučení pro práci s R (domácí úkoly)
 
 ---
 
-## Týden 1 (odevzdání do 23.2.)
+## Týden 1 (odevzdání do 21.9.)
 
 Vypracujte zadání ve skriptu `R03_data_handling_exercise.Rmd`.  
 Zkompilovaný html/pdf/docx soubor odevzdejte prostřednictvím odevzdávárny v insisu.  
