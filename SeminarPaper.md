@@ -25,15 +25,15 @@ layout: default
 
 # Seminární práce (harmonogram odevzdání)
 
-* **Odsouhlasení tématu** seminární práce s vyučujícím: prostřednictvím e-mailu, během 8. týdne: **do 13. 4.**.
+* **Odsouhlasení tématu** seminární práce s vyučujícím: prostřednictvím e-mailu, nejpozději během 8. týdne: **do pátku 7. 11.**.
 
-* Studenti zpracují a odevzdají seminární práci individuálně, během 11. týdne: **do 2. 5.**.  
+* Studenti zpracují a odevzdají seminární práci individuálně, během 11. týdne: **do pátku 28. 11.**.  
  
 * Každý student provede peer review (vzájemné hodnocení): dvou dalších seminárních prací
-  - přidělení seminárek k hodnocení: **do 4. 5.**  
-  - odevzdání vyplněných recenzních formulářů: **do 9. 5.**  
+  - přidělení seminárek k hodnocení: **do 1. 12.**  
+  - odevzdání vyplněných recenzních formulářů: **do 7. 12.**  
 
-* Zapracování připomínek z peer review a odevzdání závěrečné verze seminární práce - termín **31.5.2025.**  
+* Zapracování připomínek z peer review a odevzdání závěrečné verze seminární práce - termín **31.12.2025.**  
 
 ---  
 
