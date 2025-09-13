@@ -381,4 +381,4 @@ Unem %>% # in the pipe, Unem becomes the first argument to left_join()
 
 This worksheet draws from 
 
-* [Manipulating, analyzing and exporting data with tidyverse](https://github.com/datacarpentry/R-ecology-lesson/blob/master/03-dplyr.Rmd) 
+* [Manipulating, analyzing and exporting data with tidyverse](https://datacarpentry.github.io/R-ecology-lesson/working-with-data.html) 
