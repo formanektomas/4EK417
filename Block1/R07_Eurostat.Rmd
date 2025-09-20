@@ -174,7 +174,7 @@ Using the `Un.DF`, perform the following data handling (mostly filtering):
 Un.DF %>% 
   filter(age == "Y15-74", 
          TIME_PERIOD >= 2010, 
-         sex == "T", 
+         # sex == "T", 
          isced11 == "TOTAL",
          geo %in% c("AT","CZ","DE","HU","PL","SK")) %>% 
   ggplot(aes(x = TIME_PERIOD, y = values, colour = geo))+ # plot filtered data
@@ -301,7 +301,7 @@ head(Unempl.zoo)
 
 First, we download a new dataset that contains quarterly data: `lfsq_urgan`
 
-[Unemployment rates by sex, age and citizenship (%)](http://appsso.eurostat.ec.europa.eu/nui/show.do?dataset=lfsq_urgan)
+[Unemployment rates by sex, age and citizenship (%)](https://ec.europa.eu/eurostat/databrowser/view/lfsq_urgan/default/table?lang=en)
 
 ```{r}
 Un.Q <- get_eurostat("lfsq_urgan", time_format = "num") # note the simplified time format
