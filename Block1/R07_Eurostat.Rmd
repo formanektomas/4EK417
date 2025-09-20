@@ -174,7 +174,7 @@ Using the `Un.DF`, perform the following data handling (mostly filtering):
 Un.DF %>% 
   filter(age == "Y15-74", 
          TIME_PERIOD >= 2010, 
-         # sex == "T", 
+         sex == "T", 
          isced11 == "TOTAL",
          geo %in% c("AT","CZ","DE","HU","PL","SK")) %>% 
   ggplot(aes(x = TIME_PERIOD, y = values, colour = geo))+ # plot filtered data
