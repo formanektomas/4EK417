@@ -72,7 +72,8 @@ University of Economics, Prague
 
 #### Supporting materials for Block 2
 
-- [Rowe and Arribas-Bel, Spatial Modelling for Data Scientists - a textbook](https://gdsl-ul.github.io/san/)  
+- [Rowe and Arribas-Bel, Spatial Modelling for Data Scientists - a textbook](https://gdsl-ul.github.io/san/)
+- <a href="https://gdsl-ul.github.io/san/" target="_, Spatial Modelling for Data Scientists - a textbook</a> 
 - [Simple Features for R](https://r-spatial.github.io/sf/)  
 - [GADM maps and data](https://gadm.org/)  
 - [uber hexagons in R](https://cran.r-project.org/web/packages/h3jsr/vignettes/intro-to-h3jsr.html)  
