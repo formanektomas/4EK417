@@ -149,49 +149,57 @@ plot(m1) # note how values in overlapping areas are averaged
 #
 # Step 1 
 # Download a pre-processed image from Copernicus
-# - our example is for buil-up area but can be used for air pollution, etc.
 #
-# website: https://lcviewer.vito.be/download 
-# select Built-up , 2019 , Discrete classification
-# & save file as "2019.tif" in your working directory
+# https://human-settlement.emergency.copernicus.eu/download.php
 #
-#-----------------
+# https://jeodpp.jrc.ec.europa.eu/ftp/jrc-opendata/GHSL/GHS_BUILT_S_GLOBE_R2023A/GHS_BUILT_S_E2020_GLOBE_R2023A_54009_100/V1-0/tiles/GHS_BUILT_S_E2020_GLOBE_R2023A_54009_100_V1_0_R4_C19.zip
+# https://jeodpp.jrc.ec.europa.eu/ftp/jrc-opendata/GHSL/GHS_BUILT_S_GLOBE_R2023A/GHS_BUILT_S_E2020_GLOBE_R2023A_54009_100/V1-0/tiles/GHS_BUILT_S_E2020_GLOBE_R2023A_54009_100_V1_0_R4_C20.zip
 #
-year_2019 <- terra::rast("2019.tif")
-# base plot
-plot(year_2019)
+# Save the first file as "CE_north.tif", save second file as "CE_south.tif"
+# GHS_BUILT_S_E2020_GLOBE_R2023A_54009_100_V1_0_R4_C20
 #
-#-----------------
+#----------------
+CE_east <- terra::rast("GHS_BUILT_S_E2020_GLOBE_R2023A_54009_100_V1_0_R4_C20.tif")
+CE_west <- terra::rast("GHS_BUILT_S_E2020_GLOBE_R2023A_54009_100_V1_0_R4_C19.tif")
+CE <- mosaic(CE_east, CE_west, fun="mean")
+CE # EPSG 6326,
+# 
+plot(CE)
+#----------------
+# for simpler calculation (100x100 meter grid), transform CZbound and CZcounties
+# to Mollweide 
+plot(CZbound)
+CZbound <- st_transform(CZbound, crs = "ESRI:54009")
+plot(CZbound)
+CZcounties <- st_transform(CZcounties, crs = "ESRI:54009")
 #
-# CZ: highest res adm. units, 
-counties <- RCzechia::okresy()
-plot(counties[,1])
+# 
 #
-# Visualization example 1
-#
-cropped <- terra::crop(year_2019, counties) # crop
-CZrast <- terra::mask(cropped, counties) # mask to a defined polygon boundary
+cropped <- terra::crop(CE, CZbound) # crop
+CZrast <- terra::mask(cropped, CZbound) # mask to a defined polygon boundary
 terra::plot(CZrast, main = "Built-up raster data")
-plot(counties$geometry, add = T, border=2)
+plot(CZcounties$geometry, add = T, border=0)
 #-----------------
 #
 # calculate average buitup area (proportion) at county level
 # can be done similarly for LAU-units, NUTS regions, etc.
 #
-counties$builtup <- exactextractr::exact_extract(
-  x = year_2019, # source
-  y = counties, # target
+CZcounties$builtup <- exactextractr::exact_extract(
+  x = CE, # source
+  y = CZcounties, # target
   fun = "mean", # calculation of average built-up 
   weights = "area",
   coverage_area = T
 ) 
 #
+# built-up is in m2 in a given 10.000 m2 element.
+CZcounties$builtup <- CZcounties$builtup/100 # on a scale 0-100
 #-----------------
 #
-ggplot(data = counties, aes(fill = builtup, label = round(builtup))) +
+ggplot(data = CZcounties, aes(fill = builtup, label = round(builtup))) +
   geom_sf(lwd = 1/3) +
   scale_fill_viridis_c(name = "Build-up area\n(as % of total)\n ") +
-  labs(title = "Build-up relative area as of 2019 (latest data)",
+  labs(title = "Build-up relative area as of 2020",
        caption = " (c) Copernicus Service Information 2019") +
   theme(axis.title = element_blank(),
         plot.caption = element_text(face = "italic"))
@@ -199,110 +207,54 @@ ggplot(data = counties, aes(fill = builtup, label = round(builtup))) +
 #-----------------
 #
 # save data with spatial information preserved
-st_write(counties,"counties.gpkg")
+st_write(counties,"CZcounties.gpkg")
 #
-savedDF <- st_read("counties.gpkg")
+savedDF <- st_read("CZcounties.gpkg")
 savedDF # compare to using write.csv() or similar functions
 #
 #
 #
-#
-#
-#
-#---------------------------------------------------------  
-#
-# Self-study example 2: Same built-up data, multiple countries, 
-# NUTS2 regions vs hexagonal raster
-#
-#--------------------------------------------------------- 
-#
-rm(list = ls())
-year_2019 <- terra::rast("2019.tif")
-map <- giscoR::gisco_get_nuts()
-#
-EU <- map %>%   # country level
-  dplyr::filter(LEVL_CODE == 0 & CNTR_CODE %in% c("CZ","DE","AT")) %>% 
-  dplyr::select(NUTS_ID)
-#
-plot(EU) # you can use ggplot - see Block 2 in the 4EK417 repository
-#
-EU_joint <- EU %>% # Whole area of analysis in one map
-  summarize()
-#
-plot(EU_joint) # can be used for cropping, masking and geting NUTS2 values throug exactextract
-#
-EU_NUTS2 <- map %>%   # NUTS2
-  dplyr::filter(LEVL_CODE == 2 & CNTR_CODE %in% c("CZ","DE","AT")) %>% 
-  dplyr::select(NUTS_ID)
-# 
-plot(EU_NUTS2)
-#
-cropped <- terra::crop(year_2019, EU_NUTS2) # crop
-EU_NUTS2_rast <- terra::mask(cropped, EU_NUTS2) # mask to a defined polygon boundary
-terra::plot(EU_NUTS2_rast, main = "Built-up raster data")
-plot(EU_NUTS2$geometry, add = T, border=2)
-#
-EU_NUTS2$builtup <- exactextractr::exact_extract(
-  x = year_2019, # source
-  y = EU_NUTS2, # target
-  fun = "mean", # calculation of average built-up
-  weights = "area",
-  coverage_area = T
-) 
-#
-#-----------------
-#
-ggplot(data = EU_NUTS2, aes(fill = builtup, label = round(builtup))) +
-  geom_sf(lwd = 1/3) +
-  scale_fill_viridis_c(name = "Build-up area\n(as % of total)\n ") +
-  labs(title = "Build-up relative area as of 2019 (latest data)",
-       caption = " (c) Copernicus Service Information 2019") +
-  theme(axis.title = element_blank(),
-        plot.caption = element_text(face = "italic"))
-#
-# Repeat the above using hexagonal raster, rather than NUTS2 regions
-#
 # The number of hexagons (80x100 is ad-hoc)
 # you need to evaluate and change for each region you work with
-grid1 <- st_make_grid(EU_NUTS2, square = F, n = c(80,100)) # n=c(columns, rows)
+grid1 <- st_make_grid(CZbound, square = F, n = c(80,100)) # n=c(columns, rows)
 plot(grid1)
-EUgrid <- st_intersection(grid1,EU_joint)
-plot(EUgrid)
-EUpolygons <- st_as_sf(EUgrid)
+CZgrid <- st_intersection(grid1,CZbound)
+plot(CZgrid)
+CZgrid <- st_as_sf(CZgrid)
 # data cleaning (necesary for exactextract to work)
 # choose polygons and multipolygons only, drop the rest (lines, points, etc.).
-EUpolygons <- EUpolygons[st_is(EUpolygons,c("POLYGON", "MULTIPOLYGON")),] 
-EUpolygons$PolID <- 1:nrow(EUpolygons)
-EUpolygons
-st_geometry(EUpolygons) <- "geometry"
-EUpolygons
-plot(EUpolygons)
+CZgrid <- CZgrid[st_is(CZgrid,c("POLYGON", "MULTIPOLYGON")),] 
+CZgrid$PolID <- 1:nrow(CZgrid)
+CZgrid
+st_geometry(CZgrid) <- "geometry"
+CZgrid
+plot(CZgrid)
 # can be used for exactextract - calculate values from satellite image to each hexagon
 #
 #
-EUpolygons$builtup <- exactextractr::exact_extract(
-  x = year_2019, # source
-  y = EUpolygons, # target
+CZgrid$builtup <- exactextractr::exact_extract(
+  x = CE, # source
+  y = CZgrid, # target
   fun = "mean", # calculation of average built-up - can be used for air pollution, etc.
   weights = "area",
   coverage_area = T
 ) 
-EUpolygons
-
+CZgrid$builtup <- CZgrid$builtup/100
+CZgrid <- st_transform(CZgrid, crs = "EPSG:4326")
 #
 #-----------------
 #
-ggplot(data = EUpolygons, aes(fill = builtup, label = round(builtup))) +
+ggplot(data = CZgrid, aes(fill = builtup, label = round(builtup))) +
   geom_sf(lwd = 1/3) +
   scale_fill_viridis_c(name = "Build-up area\n(as % of total)\n ") +
-  labs(title = "Build-up relative area as of 2019 (latest data)",
+  labs(title = "Build-up relative area as of 2020",
        caption = " (c) Copernicus Service Information 2019") +
-  geom_sf(data=EU_NUTS2, fill=NA, color = "white") +
+  geom_sf(data=CZcounties, fill=NA, color = "white") +
   theme(axis.title = element_blank(),
         plot.caption = element_text(face = "italic"))
 #
 #
-st_write(EUpolygons, "EUpolygons.gpkg",delete_dsn = T) 
+st_write(CZgrid, "EUpolygons.gpkg",delete_dsn = T) 
 #
 #
 #
@@ -367,3 +319,10 @@ ggplot(data = NUTS3) +
        caption = " (c) Copernicus Service Information") +
   geom_sf(data=NUTS0, color="white", fill=NA, linewidth=1)+
   theme_dark()
+#
+# Note:
+# as.data.frame(raster_object, na.rm = TRUE)
+# .. works as well, 
+# .. can be used for rastered datasets (multi-layered) that have
+# .. same spatial extent, the same resolution, and are aligned 
+# .. However, the above shown approach tends to be more general and useful.
