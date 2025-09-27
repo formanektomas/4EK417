@@ -241,6 +241,7 @@ CZgrid$builtup <- exactextractr::exact_extract(
 ) 
 CZgrid$builtup <- CZgrid$builtup/100
 CZgrid <- st_transform(CZgrid, crs = "EPSG:4326")
+CZcounties <- st_transform(CZcounties, crs = "EPSG:4326")
 #
 #-----------------
 #
