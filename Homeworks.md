@@ -46,6 +46,24 @@ Zkompilovaný html/pdf/docx soubor odevzdejte prostřednictvím odevzdávárny v
     - Úkol může být založen na postupech ze skriptu `R07_Eurostat.Rmd` (ale nepoužívejte přímo datasety z tohoto skriptu).  
     - Doprovoďte Váš výstup stručným slovním komentářem (popište zvolené proměnné).  
 
+---
+
+## Týden 3 (odevzdání do 6. 10.)
+
+Práce s rastrovými daty v R
+
+* Podle vlastního uvážení vyberte vhodný rastr:
+    * znečištění ovzduší z webu [https://maps.s5p-pal.com/no2-tropospheric/](https://maps.s5p-pal.com/no2-tropospheric/) ,
+    * GHSL - Global Human Settlement Layer data z webu [https://human-settlement.emergency.copernicus.eu/download.php](https://human-settlement.emergency.copernicus.eu/download.php)  
+
+* Zopakujte postup ze skriptu: `R03_raster_data.R` : pro Vámi vybraný stát nebo skupinu států (EU nebo mimo EU) ukažte práci s rastrovými daty: funkce `crop()`, `mask()`, `exact_extract()` a `ggplot()`.  
+* Převeďte data z rastru na vhodně zvolené polygony (státy, administrativní regiony, vlastní definovanou síť) a zobrazte výsledek pomocí funkce `ggplot()`.  
+* **Upozornění:** rastrové obrázky bývají veliké soubory, často i po oříznutí na úroveň státu (oblast analýzy). Pokud by vložení rastrového obrázku do odevzdávaného úkolu (html/docx/pdf soubor) vedlo k překročení maximální povolené velikosti souboru v odevzdávárně, tak rastr nevkládejte (nebo jen velmi malý kousek rastru na ukázku) a do výstupu vložte pouze skript s postupem zpracování (a třeba základní summary tabulku k rastru) a jako grafický výstup použijte až infomapu z  `ggplot()`.  
+* *Pro úkol použijte jiný stát než ČR a zkuste si vybrat jiný dataset/raster, než jaký je ve vzorovém skriptu (oba weby obsahují informace ohledně obsahu jednotlivých rasterů).*  
+
+
+
+
 
 --- 
 
