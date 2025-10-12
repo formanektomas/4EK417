@@ -73,10 +73,10 @@ summary(W.matrix)
 OLS.1 <- lm(U_pc_2012 ~ I(EUR_HAB_EU_2011-EUR_HAB_EU_2010) + TechEmp_2012, data=CE_data)
 summary(OLS.1)
 #
-?lm.LMtests
-lm.LMtests(OLS.1, W.matrix, test=c("LMlag", "LMerr", "RLMlag", "RLMerr"))
-# Both LMlag and RLMlag reject H0 of no spatial dependence
-# LMerr test rejects H0, but its robust version RLMerr does not.
+?lm.RLMtests
+lm.RStests(OLS.1, W.matrix, test=c("RSlag", "RSerr", "adjRSlag", "adjRSerr"))
+# Both RSlag and adjRSlag reject H0 of no spatial dependence
+# RSerr test rejects H0, but its robust version adjRSerr does not.
 # Hence, we prefer & use the spatial lag model specificaton.
 #
 #
