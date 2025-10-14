@@ -77,7 +77,7 @@ Interpolace prostorových dat
 
 Testování prostorové (ne)závislosti a shluková analýza    
 
-* Pro tento úkol lze použít data (tj. regiony), která jste stáhli v rámci úkolu v předchozích týdnech, pokud má výběr **alespoň 40 pozorování  (regionů) **. V opačném případě (malý výbět) najděte jiný dataset (ideálně na úrovni NUTS2 nebo NUTS3), nebo upravte filtrování jednotek, abyste měli dostatek pozorování pro analýzu.  
+* Pro tento úkol lze použít data (tj. regiony), která jste stáhli v rámci úkolu v předchozích týdnech, pokud má výběr **alespoň 40 pozorování  (regionů)**. V opačném případě (malý výbět) najděte jiný dataset (ideálně na úrovni NUTS2 nebo NUTS3), nebo upravte filtrování jednotek, abyste měli dostatek pozorování pro analýzu.  
 
 + Zvolte alespoň jednu proměnnou (a jedno období pozorování - co nejblíže roku 2025) a proveďte **Moranův test** na prostorovou nezávislost.  
 
@@ -87,7 +87,7 @@ Testování prostorové (ne)závislosti a shluková analýza
 
 + Slovně okomentujte výsledky.  
 
-+ Upozorňuji, že nutnou podmínkou pro získání nenulového počtu bodů z úkolu je velikost výběru přesahující 40 pozorování a odevzdání úkolu ve zkompilovaném Rmd formátu.
++ (Nutnou podmínkou pro získání nenulového počtu bodů z úkolu je velikost výběru přesahující 40 pozorování a odevzdání úkolu ve zkompilovaném Rmd formátu.)
 
 
 
