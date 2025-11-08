@@ -14,6 +14,6 @@ install.packages(c("Ecdat", "ISLR"), dependencies = T)
 #
 install.packages(c("quantreg", "rqPen"), dependencies = T)
 #
-install.packages(c("pls", "psych", "MASS", "glmpath","brglm2","detectseparation"), dependencies = T)
+install.packages(c("pls", "psych", "MASS", "glmpath","brglm2"), dependencies = T)
 #
 install.packages(c("locfit","gam","mgcv","akima"), dependencies = T)

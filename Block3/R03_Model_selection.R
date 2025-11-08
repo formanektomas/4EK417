@@ -111,10 +111,10 @@ name.info <- (best.info$which[ii, ])
 VariableSet <- names(name.info[name.info==TRUE])
 VariableSet # show output
 VariableSet <- VariableSet[-1] # remove Intercept
-cat(VariableSet, sep="+")
+formula1 <- as.formula(paste0("wage~",paste0(VariableSet,collapse = "+")))
+formula1
 # and copy-paste into a new LRM
-best.LRM <- (lm(wage~educ+exper+tenure+female+smsa
-                +west+trade+services+profocc+expersq, 
+best.LRM <- (lm(formula1, 
                 data = wages))
 summary(best.LRM)
 # Compare with the "original" model from Wooldridge
@@ -152,9 +152,10 @@ iifwd <- which.min(fwd.info$bic)
 name.info <- (fwd.info$which[iifwd, ])
 VariableSet <- names(name.info[name.info==TRUE])
 VariableSet <- VariableSet[-1]
-cat(VariableSet, sep="+")
+formula2 <- as.formula(paste0("wage~",paste0(VariableSet,collapse = "+")))
+formula2
 #
-FSS <- lm(wage~educ+tenure+female+smsa+west+trade+services+profocc, data=wages)
+FSS <- lm(formula2, data=wages)
 summary(FSS)
 #
 #
@@ -187,9 +188,10 @@ iib <- which.min(back.info$bic)
 name.info <- (back.info$which[iib, ])
 VariableSet <- names(name.info[name.info==TRUE])
 VariableSet <- VariableSet[-1]
-cat(VariableSet, sep="+")
+formula3 <- as.formula(paste0("wage~",paste0(VariableSet,collapse = "+")))
+formula3
 #
-BSS <- lm(wage~educ+exper+tenure+female+smsa+trade+services+profocc+expersq, data=wages)
+BSS <- lm(formula3, data=wages)
 summary(BSS)
 #
 #

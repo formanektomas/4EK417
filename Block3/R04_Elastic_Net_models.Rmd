@@ -103,7 +103,7 @@ dim(coef(ridge.mod))
 `ridge.mod` is a dataframe object that stores model coefficients (20 coefficients) for each of the 100 models estimated (for each lambda from the `grid` object, a model is estimated)
 
 ```{r}
-plot(ridge.mod, xvar="lambda", label=TRUE)
+plot(ridge.mod, xvar="lambda", label=FALSE, sign.lambda=1)
 ```
 
 Coefficient value plot as a function of log of lambda. `glmnet()` estimates multiple models on a grid of values of lambda.
@@ -141,7 +141,7 @@ coef(ridge.mod)[,80]
 
 ```{r}
 cv.ridge <- cv.glmnet(x,y,lambda=grid,alpha=0)
-plot(cv.ridge)
+plot(cv.ridge, sign.lambda = 1)
 ```
 
 With high lambda (right hand side of the plot), the mean squared error (*MSE*) is very high and the coefficients are restricted to be small. 
@@ -206,7 +206,7 @@ dim(coef(lasso.mod))
 Again, `lasso.mod` is a 100 x 20 dataframe.
 
 ```{r}
-plot(lasso.mod, xvar="lambda", label=TRUE)
+plot(lasso.mod, xvar="lambda", label=FALSE, sign.lambda=1)
 ```
 
 As lambda values increase, different coefficients are shrunken or turned off.
@@ -219,7 +219,7 @@ As lambda values increase, different coefficients are shrunken or turned off.
 cv.lasso <- cv.glmnet(x,y,lambda=grid,alpha=1)
 # you can remove the `lambda=grid` argument and cv.glment() selects a restricted (reasonalbe) 
 # lambda range
-plot(cv.lasso)
+plot(cv.lasso, sign.lambda = 1)
 ```
 
 
@@ -262,7 +262,7 @@ EN.mod <- glmnet(x, y ,alpha=0.5, lambda=grid)
 Again, `EN.mod` is a 100 x 20 dataframe.
 
 ```{r}
-plot(EN.mod, xvar="lambda", label=TRUE)
+plot(EN.mod, xvar="lambda", label=FALSE, sign.lambda=1)
 ```
 
 
@@ -270,7 +270,7 @@ plot(EN.mod, xvar="lambda", label=TRUE)
 
 ```{r}
 cv.EN <- cv.glmnet(x,y,lambda=grid,alpha=0.5)
-plot(cv.EN)
+plot(cv.EN, sign.lambda = 1)
 ```
 
 

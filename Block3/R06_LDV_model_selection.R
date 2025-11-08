@@ -47,6 +47,7 @@ fit.lasso <- glmpath(X.mat, y, family=binomial)
 #
 # Coefficient "selection" by lasso penalty
 plot(fit.lasso, xvar="step", mar = c(5,4,4,7)) # for each step, a regressor is excluded
+# .. mar: margin relative to the current font size
 plot(fit.lasso, xvar="step", xlimit=6, mar = c(5,4,4,7)) # `last few` regressors
 #
 # Coefficient penalization (restriction) at different lambda values

@@ -164,7 +164,7 @@ ggplotly(
 # Principal Component Regression
 
 We may simply do OLS on the PCA-generated principal components:
-````{r}
+```{r}
 summary(lm(Hitters$Salary ~ pca$x[,1:4]))
 ```
 

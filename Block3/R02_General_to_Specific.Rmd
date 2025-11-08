@@ -111,7 +111,7 @@ bptest(eq1244, studentize = F)
 
 * LRM: $y_t^{\ast} = \alpha + \beta x_t + u_t~~$  where $y_t^{\ast}$ is unobservable (equlibrium variable)
 
-* and $y_t$ behaviour assumption: $y_t = \theta y_t^{\ast} + (1-\theta) y_{t-1}$  
+* and $y_t$ behaviour assumption: $y_t = \theta y_t^{\ast} + (1-\theta) y_{t-1}$, for $0<\theta<1$,  
 
 * can be combined into $y_t = (\alpha\theta) + (\beta\theta)x_t + (1-\theta)y_{t-1}+\theta u_t~$. 
 
@@ -327,7 +327,7 @@ anova(eq1341, eq1339)
 
 * In the estimated equation $(6)$, we may see that the coefficients for $x_{t-1}$ and $g_{t-1}$ are of roughly equal size yet opposite signs.
 
-* Again this might imply homogeneity of food demand (as food is a basic need). 
+* Again this might imply homogeneity of order zero for food demand. 
 
 * In model $(6)$, we might impose additional restriction: $\beta_4 + \beta_5 = 0 \Rightarrow \beta_4 = - \beta_5$.
 
