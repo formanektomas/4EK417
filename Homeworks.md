@@ -86,6 +86,28 @@ Testování prostorové (ne)závislosti a shluková analýza
 
 
 
+---
+
+## Týden 9 (odevzdání do 17.11.)
+
+
+* Stepwise a penalizovaná regrese
+
+*  Každý si vyberte vhodný dataset, například ze seznamu zde:  
+    + https://vincentarelbundock.github.io/Rdatasets/datasets.html
+    + Vyberete-li jiný dataset, srozumitelně popište data.
+    + Závislou proměnnou pro svůj model pečlivě vybírejte, v kontextu datasetu Váš výběr musí dávat smysl -- výběr zdůvodněte.
+    + Vybírejte takový dataset, abyste kromě závislé proměnné měli alespoň dalších 15+ potenciálních regresorů.
+
+* Proveďte stepwise regresi, použijte alespoň dvě varianty výběru (best subset, forward, backwards)
+ 
+* Proveďte tzv. penalizovanou regresi (alespoň jednu z variant: ridge, LASSO, elastic net).
+
+* Popište/vyhodnoťte predikční vlastnosti.
+
+
+
+
 --- 
 
 
