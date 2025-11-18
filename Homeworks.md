@@ -115,6 +115,7 @@ Testování prostorové (ne)závislosti a shluková analýza
     + https://vincentarelbundock.github.io/Rdatasets/datasets.html
     + Vyberete-li jiný dataset, srozumitelně popište data.
     + Závislou proměnnou pro svůj model pečlivě vybírejte, v kontextu datasetu Váš výběr musí dávat smysl -- výběr zdůvodněte.
+    + **Nepoužívejte datasety ze skriptů ze cvičení (Hitters, atd.).**
 
 * S využitím svého datasetu odhadněte GAM model - specifikace modelu podle vlastního uvážení.  
 * Použijte alespoň 2 různé specifikace (kombinace smoothning splines, local regression).  
