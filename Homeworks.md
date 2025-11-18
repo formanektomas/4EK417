@@ -105,6 +105,25 @@ Testování prostorové (ne)závislosti a shluková analýza
 
 * Popište/vyhodnoťte predikční vlastnosti.
 
+--- 
+
+## Týden 10 (odevzdání do 24.11.)
+
+* GAM
+
+*  Každý si vyberte vhodný dataset, například ze seznamu zde:  
+    + https://vincentarelbundock.github.io/Rdatasets/datasets.html
+    + Vyberete-li jiný dataset, srozumitelně popište data.
+    + Závislou proměnnou pro svůj model pečlivě vybírejte, v kontextu datasetu Váš výběr musí dávat smysl -- výběr zdůvodněte.
+
+* S využitím svého datasetu odhadněte GAM model - specifikace modelu podle vlastního uvážení.  
+* Použijte alespoň 2 různé specifikace (kombinace smoothning splines, local regression).  
+* Proveďte diagnostické testy GAM modelu podle vzoru z cvičení, výsledky testů interpretujte a model podle potřeby upravte.  
+
+
+
+
+
 
 
 
