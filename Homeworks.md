@@ -121,6 +121,11 @@ Testování prostorové (ne)závislosti a shluková analýza
 * Použijte alespoň 2 různé specifikace (kombinace smoothning splines, local regression).  
 * Proveďte diagnostické testy GAM modelu podle vzoru z cvičení, výsledky testů interpretujte a model podle potřeby upravte.  
 
+---
+
+## Týden 11 (odevzdání do 1.12.)  
+
+* Zpracujte úkol ze skriptu `R06_LME_wagepanel_hierarchical_data.R` z Bloku 4, komentujte výsledky (odevzdejte ve zkompilované markdown podobě (pdf, html, Word).  
 
 
 
