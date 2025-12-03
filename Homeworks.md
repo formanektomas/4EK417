@@ -128,6 +128,12 @@ Testování prostorové (ne)závislosti a shluková analýza
 * Zpracujte úkol ze skriptu `R06_LME_wagepanel_hierarchical_data.R` z Bloku 4, komentujte výsledky (odevzdejte ve zkompilované markdown podobě (pdf, html, Word).  
 
 
+## Týden 12 (odevzdání do 14. 12.)
+
+* Dokončete skript `R08_Interaction_Terms_Logit.R` z bloku 5 - sekci "Assignment 1".  
+* Podle postupu ze cvičení použijte interakční členy vyššího řádu, nejen párové interakční členy.  
+* Nezapomeňte kód domácího úkolu překlopit do `Rmd` formátu a odevzdat ve *zkompilované podobě*   
+
 
 
 
