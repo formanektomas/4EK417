@@ -127,6 +127,8 @@ Testování prostorové (ne)závislosti a shluková analýza
 
 * Zpracujte úkol ze skriptu `R06_LME_wagepanel_hierarchical_data.R` z Bloku 4, komentujte výsledky (odevzdejte ve zkompilované markdown podobě (pdf, html, Word).  
 
+---- 
+
 
 ## Týden 12 (odevzdání do 14. 12.)
 
