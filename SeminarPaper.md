@@ -25,15 +25,15 @@ layout: default
 
 # Seminární práce (harmonogram odevzdání)
 
-* **Odsouhlasení tématu** seminární práce s vyučujícím: prostřednictvím e-mailu, nejpozději během 8. týdne: **do pátku 7. 11.**.
+* **Odsouhlasení tématu** seminární práce s vyučujícím: prostřednictvím e-mailu, nejpozději během 8. týdne: **do pátku 10. 4.**.
 
-* Studenti zpracují a odevzdají seminární práci individuálně, během 11. týdne: **do pátku 28. 11.**.  
+* Studenti zpracují a odevzdají seminární práci individuálně, během 11. týdne: **do čtvrtka 30.4.**.  
  
 * Každý student provede peer review (vzájemné hodnocení): dvou dalších seminárních prací
-  - přidělení seminárek k hodnocení: **do 1. 12.**  
-  - odevzdání vyplněných recenzních formulářů: **do 7. 12.**  
+  - přidělení seminárek k hodnocení: **do 3. 5.**  
+  - odevzdání vyplněných recenzních formulářů: **do 15. 5.**  
 
-* Zapracování připomínek z peer review a odevzdání závěrečné verze seminární práce - termín **31.12.2025.**  
+* Zapracování připomínek z peer review a odevzdání závěrečné verze seminární práce - termín **12.6.**  
 
 ---  
 
@@ -41,14 +41,12 @@ layout: default
 
 1. Ekonometrická analýza makroekonomických či mikroekonomických dat pomocí metod, probíraných na kurzu (stepwise regrese není vhodné téma SP).  
 2. Zpracování existující (již publikované) vědecké studie (Journal article, Working paper) nebo její části.  
-   - aplikace (a zjednodušení) postupu na ekonomiku vybranou ekonomiku (ČR, SR, atd.).  
-3. Aplikační část DP, případně jiný typ seminární práce, vycházející z analýzy v prostředí R.    
-4. Odhad modelů vycházejících z učebnice APLIKOVANÁ EKONOMETRIE (Hušek, 2009), mimo kapitoly 8 (VAR, VECM) a 9 (ARCH, GARCH a odvozené modely).   
+   - aplikace (a zjednodušení) postupu na ekonomiku vybranou ekonomiku (EU na úrovni NUTS 2, okresy ČR, atd.).  
+3. Aplikační část DP, případně jiný typ seminární práce, vycházející z analýzy v prostředí R.
 
 --- 
 
 **Obsahové požadavky na seminární práci:**
-
 
 1. **Použití metod a postupů probíraných na kurzu.**  
 2. Korektní ekonometrická verifikace použitých regresních modelů: významnost odhadu, diagnostické testy pro průřezová a panelová data, testy vhodné pro modely na časových řadách, testy vhodné pro modely na prostorových datech.  
