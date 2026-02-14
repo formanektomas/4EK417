@@ -339,8 +339,6 @@ Alternative / additional control over reshaping data may be obtained through the
 
 For information on `{reshape2}`, see:
 
-+ [Tutorial by Timothy Carsel](https://ademos.people.uic.edu/Chapter8.html) 
-+ [Tutorial by Sean C. Anderson](https://seananderson.ca/2013/10/19/reshape/) 
 + [reshape2 pdf](https://cran.r-project.org/web/packages/reshape2/reshape2.pdf) 
 + `R08_Eurostat_in_depth_data_handling.R` (in your `R` working directory for Block 1)  
 
