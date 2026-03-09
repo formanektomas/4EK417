@@ -64,7 +64,7 @@ Vizualizace prostorových dat v R - kartogram (infomapa)
 
 ---  
 
-## Týden  (odevzdání do 15. 3.)
+## Týden 4 (odevzdání do 15. 3.)
 
 
 Interpolace prostorových dat
