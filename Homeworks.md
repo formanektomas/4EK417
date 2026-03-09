@@ -62,8 +62,19 @@ Vizualizace prostorových dat v R - kartogram (infomapa)
     + Použití dat z Eurostatu není podmínkou, jinou databázi, případně rastrová data (satelitní snímkování). 
 
 
+---  
+
+## Týden  (odevzdání do 15. 3.)
 
 
+Interpolace prostorových dat
+
+* Vyřešte úlohu ze skriptu `R06b_Complex_spatial_interpolation_example.Rmd` (Blok 2) a odevzdejte ve zkompilovaném formátu (html/docx/pdf).
+* Kromě IDW použijte i krigging.
+* Před zpracováním dat je vhodné podrobně si přečíst doprovodné informace a návod ze skriptu.
+
+
+--- 
 
 
 
