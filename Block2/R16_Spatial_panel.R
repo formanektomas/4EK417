@@ -111,7 +111,8 @@ time <- length(unique(Pdata$time))
 #
 # ?impacts
 set.seed(1128)
-imp1 <- impacts(Lag_mod, listw = CE_data.listw, time = time, R = 1000)
+attr(Lag_mod, "have_factor_preds") <- FALSE
+imp1 <- impacts(Lag_mod, listw = CE_data.listw, time = time)
 imp2 <- summary(imp1, zstats = T, short = T)
 imp2
 # plot(impacts) can be used to assess the mcmc simulation used for inference
@@ -142,6 +143,7 @@ for(j in 16:100) {
                   LeeYu = T, Hess = F)
   sumLagmod <- summary(Lag_mod)
   #
+  attr(Lag_mod, "have_factor_preds") <- FALSE
   imp1 <- impacts(Lag_mod, listw = CE.listw, time = 6, R = 1000)
   imp2 <- summary(imp1, zstats = T, short = T)
   #
