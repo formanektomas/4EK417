@@ -107,7 +107,7 @@ Vizualizace dat, odhad prostorového regresního modelu, interpretace výsledků
 **Upozronění k Inovačnímu týdnu**  
 
 - KEKO a Energetický regulační úřad pořádají ve středu 8.4. od 9:15 na SB304 (Žižkov) seminář na téma *Energetika v ČR a v Evropě - datová základna pro regulaci energetiky a ochranu spotřebitele*.  
-- tento úkol (nebo libovolný jiný úkol za 5 bodů) lze nahradit účastí na semináři - podmínkou je registrace + osobní účast  
+- Úkol z 6. týdne (nebo libovolný jiný úkol za 5 bodů) lze nahradit účastí na semináři - podmínkou je registrace + osobní účast  
 - registrační formulář zde: [Registrace seminář ERÚ](https://forms.office.com/e/AfGT2DVuBZ)  
 
 
