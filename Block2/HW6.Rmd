@@ -1,0 +1,76 @@
+---
+title: "HW6"
+output: html_document
+---
+
+```{r setup, include=F}
+knitr::opts_chunk$set(echo = TRUE)
+library(sf)
+library(dplyr)
+library(spatialreg)
+library(mapview)
+library(spdep)
+```
+
+
+
+```{r}
+London <- st_read("London.gpkg")
+str(London)
+```
+
+## Data description
+
+* `"MSOA11CD"          ID`
+* `"MSOA11NM"          name`
+* `"med_house_price"   median house prices per local spatial unit`
+* `"no2"               NO2 air pollution (local)`
+* `"POPDEN"            population density (local)`
+* `"per_mixed"         percentage of the demographic group on total pop.`
+* `"per_asian"         ..`
+* `"per_black"         ..`
+* `"per_other"         ..`
+* `"dist_pubs"         average distance to pubs`
+* `"geometry"          geometry of the sf object (polygon)`
+
+
+--- 
+
+## Location: illustrative example
+
+```{r}
+sub.London <- London[c(172, 175, 178, 179, 181, 182), ]
+mapview(sub.London)
+```
+
+--- 
+
+## Homework 6
+
+Use this specification of the model (expand by spatial dependency)  
+
+**Model specification:**  
+`log(med_house_price) ~ log(no2) + log(POPDEN) + `
+`   per_mixed + per_asian + per_black + per_other`
+`   + log(dist_pubs)`
+
+
+
+1. Visualize house prices on a map (infomap)  
+2. Use contiguity (common borders) to generate the **C** and **W** matrices  
+3. Test house prices for spatial dependency  
+4. Estimate spatial lag model (spatial dependency on endogenous variable)  
+5. Estimate spatial Durbin model (spatial dependency on endogenous variable and on **X**)  
+6. Decide which model fits the data better (LR test)  
+7. Calculate marginal effects for the model you choose
+8. Proide short interpretation for each of the steps above
+
+
+
+
+```{r}
+# Homework 6
+```
+
+
+
