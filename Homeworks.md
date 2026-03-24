@@ -99,8 +99,7 @@ Testování prostorové (ne)závislosti a shluková analýza
 
 Vizualizace dat, odhad prostorového regresního modelu, interpretace výsledků
 
-+ [Zadání úkolu 6](https://raw.githubusercontent.com/formanektomas/4EK417/master/Block2/HW6.Rmd)   
-+ [Dataset k úkolu 6](https://github.com/formanektomas/4EK417/raw/master/Block2/London.gpkg)  
++ [Dataset k úkolu 6](https://github.com/formanektomas/4EK417/raw/master/Block2/London.zip)  
 
 
 
