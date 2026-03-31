@@ -109,10 +109,14 @@ Vizualizace dat, odhad prostorového regresního modelu, interpretace výsledků
 - Úkol z 6. týdne (nebo libovolný jiný úkol za 5 bodů) lze nahradit účastí na semináři - podmínkou je registrace + osobní účast  
 - registrační formulář zde: [Registrace seminář ERÚ](https://forms.office.com/e/AfGT2DVuBZ)  
 
-
-
 --- 
 
+## Týden 7 (odevzdání do 12. 4.)
 
+* Doplňte (vyřešte zadání) ze skriptu `R06_LME_wagepanel_hierarchical_data.R`
+* Uvažujte náhodné efekty na úrovni federálních států USA
+* Nezapomeňte kód překlopit do `Rmd` formátu a odevzdat ve *zkompilované podobě*   
+
+--- 
 
 [Homepage](https://formanektomas.github.io/4EK417/)
