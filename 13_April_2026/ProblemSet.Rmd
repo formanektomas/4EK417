@@ -1,0 +1,67 @@
+---
+title: "Problem Set"
+date: "`r format(Sys.time(), '%B %d, %Y')`"
+output:
+  pdf_document
+---
+
+**Praktikum z ekonometrie**
+
+**Prague University of Economics and Business**
+
+
+
+## Exercise 4
+
+Use the data from **CPS91.RAW** (the **`cps91`** dataset in the **wooldridge** package) for this exercise. **CPS91.RAW / `cps91`** is one of the datasets used in Wooldridge, J. M. (2025). *Introductory econometrics: A modern approach* (8th ed.). Cengage. A convenient downloadable CSV version is available at:
+
+<https://vincentarelbundock.github.io/Rdatasets/csv/wooldridge/cps91.csv>
+
+The dataset contains information on married women from the May 1991 Current Population Survey, including labor-force participation, earnings, education, demographic characteristics, children, and information on husbands.
+
+### Dataset description
+
+```text
+# Contains data from CPS91.RAW                                              #
+# obs:          5634                          Married women from the May 1991 CPS #
+# vars:            24                         Wooldridge dataset: cps91          #
+# ----------------------------------------------------------------------------- #
+# variable name   description                                                  #
+# ----------------------------------------------------------------------------- #                               #
+# black           Wife is black: 1=yes 0=no                                    #
+# educ            Wife's years of schooling                                    #
+# hispanic        Wife is Hispanic: 1=yes 0=no                                 #
+# exper           Wife's potential experience                                  #
+# expersq         Wife's potential experience squared                          #
+# kidlt6          Has child younger than 6: 1=yes 0=no                         #
+# nwifeinc        Non-wife income, in $1,000s                                  #
+# inlf            Wife in labor force: 1=yes 0=no                              #
+# ----------------------------------------------------------------------------- #
+```
+
+A simple way to load the data in R is:
+
+```{r load-data, eval=TRUE}
+# Directly from the CSV link
+cps91 <- read.csv("https://vincentarelbundock.github.io/Rdatasets/csv/wooldridge/cps91.csv")
+cps91 <- subset(cps91, select = -1)   # drops the first index column added by Rdatasets
+
+# Optional quick check: summarize only variables used in the homework
+homework_vars <- cps91[c("inlf", "educ", "exper", "expersq", "black", "hispanic", "nwifeinc", "kidlt6")]
+
+cat("Number of observations:", nrow(homework_vars), "\n")
+
+summary(homework_vars)
+```
+
+
+
+i) Estimate a logit model
+\begin{eqnarray}
+Pr (inlf) = \Lambda(\beta_0 + \beta_1 educ + \beta_2 exper + \beta_3 exper^2 + \beta_4 black + \beta_5 hispanic + \beta_6 nwifeinc + \beta_7 kidlt6)
+\end{eqnarray}
+Interpret the results. 
+
+ii) Draw a graph of probability to work for a woman with and without children under six for *educ=1,2,...,18* assuming she is non-Hispanic and white. The values of other variables (*exper*, *nwifeinc*) should be set at their median values.
+
+iii) Compute the marginal effects of the explanatory variables for a non-Hispanic and white woman without children under six with the variables (*educ*, *exper*, *nwifeinc*) set at their median values. Given these marginal effects, what would be the expected change in the probability to work for a 5-year increase in education? Is this result different from what the graphs in (ii) indicate?
