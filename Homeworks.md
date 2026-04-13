@@ -82,7 +82,7 @@ Interpolace prostorových dat
 Testování prostorové (ne)závislosti a shluková analýza    
 
 + Pro tento úkol lze použít data (tj. regiony), která jste stáhli v rámci úkolu v předchozích týdnech, **pokud má dataset alespoň 50 pozorování**. V opačném případě (malý výbět) najděte jiný dataset (ideálně na úrovni NUTS2 nebo NUTS3), abyste měli dostatek pozorování pro testy.  
-
+ 
 + Zvolte jednu proměnnou (a jedno období pozorování co nejblíže roku 2026) a proveďte **Moranův test** na prostorovou nezávislost (interpretujte výsledek testu).  
 
 + Použijte alespoň dva různé způsoby definice prostorové struktury (vzdálenost, vzdálenost + kNN, společná hranice) k ověření robustnosti výsledků vůči změnám prostorové struktury.  
@@ -118,5 +118,13 @@ Vizualizace dat, odhad prostorového regresního modelu, interpretace výsledků
 * Nezapomeňte kód překlopit do `Rmd` formátu a odevzdat ve *zkompilované podobě*   
 
 --- 
+
+## Týden 9 / úkol 8 (odevzdání do 19.4.)  
+
+* Vypracujte úkol podle zadání ze cvičení dne 13.4., viz [https://github.com/formanektomas/4EK417/blob/master/13_April_2026/ProblemSet.Rmd](https://github.com/formanektomas/4EK417/blob/master/13_April_2026/ProblemSet.Rmd)
+
+
+
+---  
 
 [Homepage](https://formanektomas.github.io/4EK417/)
