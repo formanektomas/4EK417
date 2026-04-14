@@ -27,7 +27,7 @@ layout: default
 
 * **Odsouhlasení tématu** seminární práce s vyučujícím: prostřednictvím e-mailu, nejpozději během 8. týdne: **do pátku 10. 4.**.
 
-* Studenti zpracují a odevzdají seminární práci individuálně, během 11. týdne: **do čtvrtka 30.4.**.  
+* Studenti zpracují a odevzdají seminární práci individuálně, během 11. týdne: **do čtvrtku 30.4.**.  
  
 * Každý student provede peer review (vzájemné hodnocení): dvou dalších seminárních prací
   - přidělení seminárek k hodnocení: **do 3. 5.**  
