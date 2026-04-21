@@ -124,6 +124,23 @@ Vizualizace dat, odhad prostorového regresního modelu, interpretace výsledků
 * Vypracujte úkol podle zadání ze cvičení dne 13.4., viz [https://github.com/formanektomas/4EK417/blob/master/13_April_2026/ProblemSet.Rmd](https://github.com/formanektomas/4EK417/blob/master/13_April_2026/ProblemSet.Rmd)
 
 
+--- 
+
+## Týden 10 / úkol 9 (odevzdání do 26.4.)  
+
+
+##### Penalizovaná regrese
+
+*  Každý si vyberte vhodný dataset, například ze seznamu zde:  
+    + https://vincentarelbundock.github.io/Rdatasets/datasets.html  
+    + Vyberete-li jiný dataset, srozumitelně popište data.  
+    + Závislou proměnnou pro svůj model pečlivě vybírejte a výběr zdůvodněte.  
+    + Vybírejte takový dataset, abyste kromě závislé proměnné měli alespoň dalších 10+ potenciálních regresorů -- aby použití penalizované regrese dávalo smysl.  
+
+* Odhadněte modely pomocí penalizované regrese, např. podle skriptu: `R04_Elastic_Net_models.Rmd`  
+    * Proveďte alespoň dvě varianty odhadu (ridge, LASSO, elastic net)  
+    * Popište/vyhodnoťte predikční vlastnosti.  
+
 
 ---  
 
