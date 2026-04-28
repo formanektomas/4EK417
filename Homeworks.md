@@ -142,6 +142,22 @@ Vizualizace dat, odhad prostorového regresního modelu, interpretace výsledků
     * Popište/vyhodnoťte predikční vlastnosti.  
 
 
+---
+
+## Týden 11 / úkol 10 (odevzdání do 10.5.)  
+
+
+##### GAM
+
+* Pro tento úkol můžete vyjít z dat, která jste použili v předchozím úkolu   
+*  Každý si vyberte vhodný dataset, například ze seznamu zde:  
+    + https://vincentarelbundock.github.io/Rdatasets/datasets.html
+    + Vyberete-li jiný dataset, srozumitelně popište data.
+      
+* S využitím svého datasetu odhadněte GAM (zobecněný aditivní model) - specifikace modelu podle vlastního uvážení.  
+* Použijte alespoň 3 různé specifikace (kombinace smoothning splines, local regression).  
+* Proveďte diagnostické testy GAM modelu podle vzoru z cvičení, testy interpretujte a model podle potřeby upravte do finální podoby podle výsledku diagnostiky.  
+
 ---  
 
 [Homepage](https://formanektomas.github.io/4EK417/)
